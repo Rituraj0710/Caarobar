@@ -1,0 +1,35 @@
+openapi: 3.0.3
+info:
+  title: Caarobar API
+  version: 0.1.0
+servers:
+  - url: http://localhost:5000
+paths:
+  /auth/request-otp:
+    post:
+      summary: Request OTP for login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                identifier:
+                  type: string
+                  description: Phone number or email
+      responses:
+        '200':
+          description: OTP sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  destination:
+                    type: string
+                  ttlSeconds:
+                    type: integer
+
