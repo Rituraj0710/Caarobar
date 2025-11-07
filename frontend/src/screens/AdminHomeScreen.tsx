@@ -11,6 +11,7 @@ type RootStackParamList = {
   Register: undefined;
   Home: undefined;
   AdminHome: undefined;
+  WorkHistory: undefined;
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, 'AdminHome'>;
@@ -48,9 +49,9 @@ export default function AdminHomeScreen({ navigation }: Props) {
     { name: 'Calender', icon: require('../../assets/calender.png'), bgColor: '#FFF3E0', hasNotification: true },
     { name: 'Resignation', icon: require('../../assets/resignation-icon.png'), bgColor: '#E0F7FA', hasNotification: true },
     { name: 'Certificate', icon: require('../../assets/certificate.png'), bgColor: '#616161', hasNotification: false },
-    { name: 'ID Card', icon: require('../../assets/Logo.png'), bgColor: '#F5F5F5', hasNotification: false },
-    { name: 'PF', icon: require('../../assets/PF.png'), bgColor: '#F5F5F5', hasNotification: false },
-    { name: 'ESI', icon: require('../../assets/ESI.png'), bgColor: '#F5F5F5', hasNotification: false },
+    { name: 'ID Card', icon: require('../../assets/id card.png'), bgColor: '#FAF8F3', hasNotification: false },
+    { name: 'PF', icon: require('../../assets/PF.png'), bgColor: '#FAF8F3', hasNotification: false },
+    { name: 'ESI', icon: require('../../assets/ESI.png'), bgColor: '#FAF8F3', hasNotification: false },
   ];
 
   const formatTime = (date: Date) => {
@@ -69,10 +70,9 @@ export default function AdminHomeScreen({ navigation }: Props) {
         {/* Header */}
         <View style={{ backgroundColor: 'white', paddingHorizontal: 20, paddingBottom: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-            <Image source={require('../../assets/Group 1686559207.png')} style={{ width: 28, height: 28, resizeMode: 'contain', marginRight: 12 }} />
+            <Image source={require('../../assets/creative designers.png')} style={{ width: 120, height: 35, resizeMode: 'contain', marginRight: 12 }} />
             <View style={{ flex: 1 }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={{ fontSize: 16, fontWeight: '700', color: '#12110D', fontFamily: 'Poppins-Bold' }}>Creative Designers</Text>
                 <Text style={{ fontSize: 14, marginLeft: 6, color: '#12110D' }}>▼</Text>
               </View>
               <Text style={{ fontSize: 11, color: '#666', fontFamily: 'Poppins', marginTop: 2 }}>Radhakishanpura ,Sikar +919460638554</Text>
@@ -160,13 +160,13 @@ export default function AdminHomeScreen({ navigation }: Props) {
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 16 }}>
             {[
-              { name: 'Contacts', icon: require('../../assets/contacts.png') },
-              { name: 'Tasks', icon: require('../../assets/tasks.png') },
-              { name: 'History', icon: require('../../assets/history.png') },
-              { name: 'Payment', icon: require('../../assets/payment.png') },
+              { name: 'Contacts', icon: require('../../assets/contacts.png'), bgColor: '#FFFFFF' },
+              { name: 'Tasks', icon: require('../../assets/tasks.png'), bgColor: '#00897B' },
+              { name: 'History', icon: require('../../assets/history.png'), bgColor: '#FFFFFF', onPress: () => navigation.navigate('WorkHistory') },
+              { name: 'Payment', icon: require('../../assets/payment.png'), bgColor: '#F5E6D3' },
             ].map((item, idx) => (
               <View key={`top-${idx}`} style={{ width: '23%' }}>
-                <TouchableOpacity style={{ backgroundColor: '#FFFFFF', borderRadius: 16, alignItems: 'center', justifyContent: 'center', aspectRatio: 1, position: 'relative', padding: 12, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.08, shadowRadius: 8, elevation: 3 }}>
+                <TouchableOpacity onPress={(item as any).onPress} style={{ backgroundColor: item.bgColor, borderRadius: 16, alignItems: 'center', justifyContent: 'center', aspectRatio: 1, position: 'relative', padding: 12, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.08, shadowRadius: 8, elevation: 3 }}>
                   <Image source={item.icon} style={{ width: 44, height: 44, resizeMode: 'contain', marginBottom: 8 }} />
                 </TouchableOpacity>
                 <Text style={{ fontSize: 11, color: '#12110D', fontFamily: 'Poppins', textAlign: 'center', marginTop: 6, lineHeight: 14 }} numberOfLines={2}>{item.name}</Text>
@@ -181,7 +181,13 @@ export default function AdminHomeScreen({ navigation }: Props) {
                   {action.hasNotification && (
                     <View style={{ position: 'absolute', top: 8, right: 8, width: 10, height: 10, borderRadius: 5, backgroundColor: '#4CAF50' }} />
                   )}
-                  <Image source={action.icon} style={{ width: 52, height: 52, resizeMode: 'contain', marginBottom: 8 }} />
+                  {action.name === 'PF' ? (
+                    <View style={{ width: 52, height: 52, borderRadius: 26, backgroundColor: action.bgColor, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                      <Image source={action.icon} style={{ width: 52, height: 52, resizeMode: 'contain' }} />
+                    </View>
+                  ) : (
+                    <Image source={action.icon} style={{ width: 52, height: 52, resizeMode: 'contain', marginBottom: 8 }} />
+                  )}
                 </TouchableOpacity>
                 <Text style={{ fontSize: 11, color: '#12110D', fontFamily: 'Poppins', textAlign: 'center', marginTop: 6, lineHeight: 14 }} numberOfLines={2}>{action.name}</Text>
               </View>
