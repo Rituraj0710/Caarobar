@@ -88,11 +88,11 @@ export default function IDCardScreen({ navigation }: Props) {
 
       <ScrollView 
         style={{ flex: 1 }}
-        contentContainerStyle={{ paddingBottom: 100, paddingHorizontal: 16, alignItems: 'center' }}
+        contentContainerStyle={{ paddingTop: 8, paddingBottom: 120, paddingHorizontal: 16, alignItems: 'center' }}
         showsVerticalScrollIndicator={false}
       >
         {/* Page Title */}
-        <View style={{ marginTop: 12, marginBottom: 24, width: '100%', alignItems: 'flex-start' }}>
+        <View style={{ marginTop: 6, marginBottom: 18, width: '100%', alignItems: 'flex-start' }}>
           <Text style={{ 
             fontSize: 20, 
             fontWeight: '700', 
@@ -111,7 +111,7 @@ export default function IDCardScreen({ navigation }: Props) {
             backgroundColor: '#FFFFFF',
             borderRadius: 12,
             padding: 24,
-            marginBottom: 24,
+            marginBottom: 18,
             shadowColor: '#000',
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.1,
@@ -203,7 +203,7 @@ export default function IDCardScreen({ navigation }: Props) {
             backgroundColor: '#FFFFFF',
             borderRadius: 12,
             padding: 20,
-            marginBottom: 24,
+            marginBottom: 18,
             shadowColor: '#000',
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.1,
