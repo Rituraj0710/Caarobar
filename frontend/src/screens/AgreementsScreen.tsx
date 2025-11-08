@@ -142,14 +142,18 @@ export default function AgreementsScreen({ navigation }: Props) {
           shadowRadius: 2,
           elevation: 2
         }}>
-          {/* Top Row: Logo, Profile, Company Info */}
-          <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 12 }}>
+          {/* Top Section: Company Logo (Left) and Company Info (Right) */}
+          <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 20 }}>
             {/* Company Logo on Left */}
-            <View style={{ flex: 1, alignItems: 'flex-start' }}>
+            <View style={{ flex: 1 }}>
               <Image 
                 source={require('../../assets/creative designers.png')} 
-                style={{ width: 140, height: 40, resizeMode: 'contain', marginBottom: 8 }} 
+                style={{ width: 140, height: 40, resizeMode: 'contain' }} 
               />
+            </View>
+
+            {/* Company Info on Right */}
+            <View style={{ alignItems: 'flex-end' }}>
               <Text style={{ fontSize: 14, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: 4 }}>
                 Creative Designers
               </Text>
@@ -160,40 +164,40 @@ export default function AgreementsScreen({ navigation }: Props) {
                 +919460638554
               </Text>
             </View>
+          </View>
 
-            {/* Profile Picture in Center/Right */}
-            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginHorizontal: 8 }}>
-              <View style={{ alignItems: 'center' }}>
-                <Image 
-                  source={require('../../assets/Profile picture.png')} 
-                  style={{ width: 80, height: 80, borderRadius: 40, marginBottom: 8 }}
-                />
-                <Text style={{ fontSize: 16, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: 4, textAlign: 'center' }}>
-                  Kamal Jangid
-                </Text>
-                <Text style={{ fontSize: 14, color: '#666666', fontFamily: 'Poppins', textAlign: 'center' }}>
-                  Carpenter
-                </Text>
-              </View>
-              {/* Ellipsis icon to the right of profile */}
-              <TouchableOpacity style={{ marginLeft: 8, marginTop: 4 }}>
+          {/* Middle Section: Profile Picture (Center) with Name/Role and Ellipsis (Right) */}
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 20, position: 'relative' }}>
+            {/* Profile Picture and Info in Center */}
+            <View style={{ alignItems: 'center', flex: 1 }}>
+              <Image 
+                source={require('../../assets/Profile picture.png')} 
+                style={{ width: 80, height: 80, borderRadius: 40, marginBottom: 8 }} 
+              />
+              <Text style={{ fontSize: 16, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: 4, textAlign: 'center' }}>
+                Kamal Jangid
+              </Text>
+              <Text style={{ fontSize: 14, color: '#666666', fontFamily: 'Poppins', textAlign: 'center' }}>
+                Carpenter
+              </Text>
+            </View>
+
+            {/* Ellipsis icon on Far Right */}
+            <View style={{ position: 'absolute', right: 0 }}>
+              <TouchableOpacity>
                 <Text style={{ fontSize: 18, color: '#000000' }}>⋮</Text>
               </TouchableOpacity>
             </View>
-
-            {/* Emp id on Right */}
-            <View style={{ alignItems: 'flex-end', justifyContent: 'flex-start', paddingTop: 0, marginLeft: 8 }}>
-              <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>
-                Emp id - 001
-              </Text>
-            </View>
           </View>
 
-          {/* Joining Date and Agreement Row */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 8, paddingTop: 12, borderTopWidth: 1, borderTopColor: '#E0E0E0' }}>
+          {/* Bottom Section: Joining Date (Left), AGREEMENT (Center), Emp id (Right) */}
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingTop: 12, borderTopWidth: 1, borderTopColor: '#E0E0E0' }}>
+            {/* Joining Date on Left */}
             <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>
               Joining 01/11/23
             </Text>
+
+            {/* AGREEMENT in Center */}
             <View style={{ flex: 1, alignItems: 'center' }}>
               <TouchableOpacity>
                 <Text style={{ fontSize: 16, fontWeight: '700', color: '#E91E63', fontFamily: 'Poppins-Bold', textDecorationLine: 'underline' }}>
@@ -201,7 +205,11 @@ export default function AgreementsScreen({ navigation }: Props) {
                 </Text>
               </TouchableOpacity>
             </View>
-            <View style={{ width: 100 }} />
+
+            {/* Emp id on Right */}
+            <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>
+              Emp id - 001
+            </Text>
           </View>
         </View>
 
@@ -210,10 +218,10 @@ export default function AgreementsScreen({ navigation }: Props) {
           {agreementTerms.map((term, index) => (
             <View key={index} style={{ marginBottom: 20 }}>
               <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
-                <Text style={{ fontSize: 14, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginRight: 12, minWidth: 35 }}>
+                <Text style={{ fontSize: 14, fontWeight: '500', color: '#000000', fontFamily: 'Inter', marginRight: 12, minWidth: 35, lineHeight: 28 }}>
                   {term.number}.
                 </Text>
-                <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins', flex: 1, lineHeight: 24 }}>
+                <Text style={{ fontSize: 14, fontWeight: '500', color: '#000000', fontFamily: 'Inter', flex: 1, lineHeight: 28, letterSpacing: 0 }}>
                   {term.text}
                 </Text>
               </View>
@@ -230,38 +238,43 @@ export default function AgreementsScreen({ navigation }: Props) {
         right: 0, 
         backgroundColor: '#FFFFFF',
         paddingHorizontal: 16,
-        paddingVertical: 16,
+        paddingTop: 16,
+        paddingBottom: 16,
         borderTopWidth: 1,
-        borderTopColor: '#E0E0E0',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between'
+        borderTopColor: '#E0E0E0'
       }}>
-        {/* Add Typing Button */}
-        <TouchableOpacity 
-          onPress={() => setShowSuccessModal(true)}
-          style={{
-            backgroundColor: '#2196F3',
-            paddingVertical: 12,
-            paddingHorizontal: 24,
-            borderRadius: 8,
-            flex: 1,
-            marginRight: 12,
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <Text style={{ fontSize: 14, fontWeight: '600', color: '#FFFFFF', fontFamily: 'Poppins-SemiBold' }}>
-            Add Typing
-          </Text>
-        </TouchableOpacity>
+        {/* Signature - Top Right */}
+        <View style={{ alignItems: 'flex-end', marginBottom: 16 }}>
+          <TouchableOpacity>
+            <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins', textDecorationLine: 'underline' }}>
+              Signature
+            </Text>
+          </TouchableOpacity>
+        </View>
 
-        {/* Signature */}
-        <TouchableOpacity style={{ flex: 1, alignItems: 'center' }}>
-          <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins', textDecorationLine: 'underline' }}>
-            Signature
-          </Text>
-        </TouchableOpacity>
+        {/* Add Typing Button - Centered Below, Smaller Size */}
+        <View style={{ alignItems: 'center' }}>
+          <TouchableOpacity 
+            onPress={() => setShowSuccessModal(true)}
+            style={{
+              backgroundColor: '#2196F3',
+              paddingVertical: 12,
+              paddingHorizontal: 32,
+              borderRadius: 24,
+              alignItems: 'center',
+              justifyContent: 'center',
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 4,
+              elevation: 3
+            }}
+          >
+            <Text style={{ fontSize: 14, fontWeight: '600', color: '#FFFFFF', fontFamily: 'Poppins-SemiBold' }}>
+              Add Typing
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Success Modal */}

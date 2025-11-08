@@ -502,7 +502,7 @@ export default function TasksScreen({ navigation }: Props) {
       {/* Bottom Navigation Bar */}
       <View style={{
         position: 'absolute',
-        bottom: 20,
+        bottom: 40,
         left: 16,
         right: 16,
         backgroundColor: '#FFFFFF',

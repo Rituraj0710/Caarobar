@@ -146,7 +146,8 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
         paddingHorizontal: 16,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        minHeight: 60
       }}>
         {/* Back Arrow */}
         <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 8 }}>
@@ -154,18 +155,26 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
         </TouchableOpacity>
 
         {/* Title */}
-        <Text style={{
-          fontSize: 18,
-          fontWeight: '700',
-          color: '#FFFFFF',
-          fontFamily: 'Poppins-Bold',
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          textAlign: 'center'
+        <View style={{ 
+          position: 'absolute', 
+          left: 0, 
+          right: 0, 
+          top: 0,
+          bottom: 0,
+          alignItems: 'center', 
+          justifyContent: 'center',
+          paddingTop: 44,
+          paddingBottom: 16
         }}>
-          Add Maintenance
-        </Text>
+          <Text style={{
+            fontSize: 18,
+            fontWeight: '700',
+            color: '#FFFFFF',
+            fontFamily: 'Poppins-Bold'
+          }}>
+            Add Maintenance
+          </Text>
+        </View>
       </View>
 
       <ScrollView 
@@ -552,10 +561,11 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
       {/* Red Save Button - Fixed at Bottom */}
       <View style={{
         position: 'absolute',
-        bottom: 0,
+        bottom: 20,
         left: 0,
         right: 0,
         padding: 16,
+        paddingBottom: 0,
         backgroundColor: '#FFFFFF',
         borderTopWidth: 1,
         borderTopColor: '#E0E0E0'
