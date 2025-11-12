@@ -22,6 +22,8 @@ type RootStackParamList = {
   Agreements: undefined;
   Resignation: undefined;
   IDCard: undefined;
+  AddEmployeeAccount: undefined;
+  EmployeeManagement: undefined;
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, 'AdminHome'>;
@@ -84,8 +86,8 @@ export default function AdminHomeScreen({ navigation }: Props) {
     { name: 'ID Card', icon: require('../../assets/id card.png'), bgColor: '#FAF8F3', hasNotification: false, onPress: () => navigation.navigate('IDCard') },
     { name: 'PF', icon: require('../../assets/PF.png'), bgColor: '#FAF8F3', hasNotification: false },
     { name: 'ESI', icon: require('../../assets/ESI.png'), bgColor: '#FAF8F3', hasNotification: false },
-    { name: 'Add Employee', icon: require('../../assets/Profile picture.png'), bgColor: '#E3F2FD', hasNotification: false, onPress: () => {} },
-    { name: 'Admin', icon: require('../../assets/Profile picture.png'), bgColor: '#F3E5F5', hasNotification: false, onPress: () => {} },
+    { name: 'Add Employee', icon: require('../../assets/Profile picture.png'), bgColor: '#E3F2FD', hasNotification: false, onPress: () => navigation.navigate('AddEmployeeAccount') },
+    { name: 'Admin', icon: require('../../assets/Profile picture.png'), bgColor: '#F3E5F5', hasNotification: false, onPress: () => navigation.navigate('EmployeeManagement') },
   ];
 
   const formatDate = (date: Date) => {

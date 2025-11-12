@@ -1,14 +1,16 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { View, Text, KeyboardAvoidingView, Platform, Pressable, TouchableOpacity, StatusBar, TextInput, Image } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '@/lib/api';
 import Logo from '@/components/Logo';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 
 type RootStackParamList = {
+  RoleSelection: undefined;
   Language: undefined;
-  SignIn: undefined;
+  SignIn: { role?: 'Admin' | 'Employee' };
   OTPVerification: { identifier: string; role?: 'Admin' | 'Employee' };
   Register: undefined;
   Home: undefined;
@@ -16,11 +18,23 @@ type RootStackParamList = {
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
 
-export default function SignInScreen({ navigation }: Props) {
+export default function SignInScreen({ navigation, route }: Props) {
   const [identifier, setIdentifier] = useState('');
-  const [role, setRole] = useState<'Admin' | 'Employee'>('Admin');
+  const [role, setRole] = useState<'Admin' | 'Employee'>(route.params?.role || 'Admin');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Load stored role from AsyncStorage
+    (async () => {
+      const storedRole = await AsyncStorage.getItem('@selectedRole');
+      if (storedRole && (storedRole === 'Admin' || storedRole === 'Employee')) {
+        setRole(storedRole as 'Admin' | 'Employee');
+      } else if (route.params?.role) {
+        setRole(route.params.role);
+      }
+    })();
+  }, [route.params?.role]);
 
   const onSendOtp = async () => {
     setError(null);

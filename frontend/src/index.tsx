@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import RoleSelectionScreen from './screens/RoleSelectionScreen';
 import LanguageScreen from './screens/LanguageScreen';
 import SignInScreen from './screens/SignInScreen';
 import OTPVerificationScreen from './screens/OTPVerificationScreen';
@@ -33,10 +34,16 @@ import AssetsReportScreen from './screens/AssetsReportScreen';
 import AgreementsScreen from './screens/AgreementsScreen';
 import ResignationScreen from './screens/ResignationScreen';
 import IDCardScreen from './screens/IDCardScreen';
+import AddEmployeeAccountScreen from './screens/AddEmployeeAccountScreen';
+import EmployeeManagementScreen from './screens/EmployeeManagementScreen';
+import EmployeeDetailScreen from './screens/EmployeeDetailScreen';
+import AdminLeaveRequestDetailScreen from './screens/AdminLeaveRequestDetailScreen';
+import AdminPaymentRequestDetailScreen from './screens/AdminPaymentRequestDetailScreen';
 
 type RootStackParamList = {
+  RoleSelection: undefined;
   Language: undefined;
-  SignIn: undefined;
+  SignIn: { role?: 'Admin' | 'Employee' };
   OTPVerification: { identifier: string; role?: 'Admin' | 'Employee' };
   Register: undefined;
   Home: undefined;
@@ -44,7 +51,12 @@ type RootStackParamList = {
   LeaveReport: undefined;
   LeaveRequestDetail: undefined;
   ApplyForLeave: undefined;
-  PaymentReport: undefined;
+  PaymentReport: {
+    employeeId?: string;
+    name?: string;
+    role?: string;
+    empId?: string;
+  } | undefined;
   Calendar: undefined;
   Contacts: undefined;
   Tasks: undefined;
@@ -64,6 +76,44 @@ type RootStackParamList = {
   Agreements: undefined;
   Resignation: undefined;
   IDCard: undefined;
+  AddEmployeeAccount: undefined;
+  EmployeeManagement: undefined;
+  EmployeeDetail: {
+    employeeId: string;
+    name: string;
+    role: string;
+    empId: string;
+    salary?: string;
+    company?: string;
+    location?: string;
+    phone?: string;
+    joiningDate?: string;
+    endDate?: string;
+    progress?: number;
+    progressDays?: number;
+  };
+  AdminLeaveRequestDetail: {
+    employeeId: string;
+    employeeName: string;
+    leaveType?: string;
+    requestDate?: string;
+    startOffDate?: string;
+    day?: string;
+    approvedBy?: string;
+    status?: string;
+    reason?: string;
+  };
+  AdminPaymentRequestDetail: {
+    employeeId: string;
+    employeeName: string;
+    paymentType?: string;
+    requestDate?: string;
+    requestedDate?: string;
+    amount?: string;
+    approvedBy?: string;
+    status?: string;
+    reason?: string;
+  };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -80,8 +130,9 @@ export default function App() {
       <SafeAreaView style={{ flex: 1 }}>
         <Stack.Navigator
           screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#FFFFFF' } }}
-          initialRouteName="Language"
+          initialRouteName="RoleSelection"
         >
+          <Stack.Screen name="RoleSelection" component={RoleSelectionScreen} />
           <Stack.Screen name="Language" component={LanguageScreen} />
           <Stack.Screen name="SignIn" component={SignInScreen} />
           <Stack.Screen name="OTPVerification" component={OTPVerificationScreen} />
@@ -111,6 +162,11 @@ export default function App() {
           <Stack.Screen name="Agreements" component={AgreementsScreen} />
           <Stack.Screen name="Resignation" component={ResignationScreen} />
           <Stack.Screen name="IDCard" component={IDCardScreen} />
+          <Stack.Screen name="AddEmployeeAccount" component={AddEmployeeAccountScreen} />
+          <Stack.Screen name="EmployeeManagement" component={EmployeeManagementScreen} />
+          <Stack.Screen name="EmployeeDetail" component={EmployeeDetailScreen} />
+          <Stack.Screen name="AdminLeaveRequestDetail" component={AdminLeaveRequestDetailScreen} />
+          <Stack.Screen name="AdminPaymentRequestDetail" component={AdminPaymentRequestDetailScreen} />
         </Stack.Navigator>
       </SafeAreaView>
     </NavigationContainer>
