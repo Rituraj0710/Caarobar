@@ -103,7 +103,7 @@ export default function EmployeeDetailScreen({ navigation, route }: Props) {
     },
     { 
       name: 'ID Card', 
-      icon: require('../../assets/id card.png'), 
+      icon: require('../../assets/id card (2).png'), 
       bgColor: '#E8F5E9', 
       hasNotification: false,
       onPress: () => navigation.navigate('IDCard' as any) 

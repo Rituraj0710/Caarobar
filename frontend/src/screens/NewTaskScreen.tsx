@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, TextInput, ScrollView, Modal, Pressable } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import BackButton from '../components/BackButton';
 
 type RootStackParamList = {
   Language: undefined;
@@ -138,9 +139,9 @@ export default function NewTaskScreen({ navigation }: Props) {
       }}>
         {/* Left: Back Arrow and Logo */}
         <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 8, marginRight: 8 }}>
-            <Text style={{ fontSize: 20, color: '#000000' }}>←</Text>
-          </TouchableOpacity>
+          <View style={{ marginRight: 8 }}>
+            <BackButton />
+          </View>
           <Image 
             source={require('../../assets/header carobar.png')} 
             style={{ width: 96, height: 22, resizeMode: 'contain' }} 

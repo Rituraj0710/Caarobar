@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { wp, hp, fontSize, spacing, SCREEN_WIDTH } from '../utils/responsive';
+import BackButton from '../components/BackButton';
 
 type RootStackParamList = {
   Language: undefined;
@@ -32,18 +34,16 @@ export default function AddCustomerScreen({ navigation }: Props) {
       {/* Blue Header Bar */}
       <View style={{
         backgroundColor: '#4285F4',
-        paddingTop: 44,
-        paddingBottom: 16,
-        paddingHorizontal: 16,
+        paddingTop: hp(44),
+        paddingBottom: spacing(16),
+        paddingHorizontal: spacing(16),
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        minHeight: 60
+        minHeight: hp(60)
       }}>
         {/* Back Arrow */}
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 8 }}>
-          <Text style={{ fontSize: 20, color: '#FFFFFF' }}>←</Text>
-        </TouchableOpacity>
+        <BackButton color="#FFFFFF" />
 
         {/* Title */}
         <View style={{ 
@@ -54,11 +54,11 @@ export default function AddCustomerScreen({ navigation }: Props) {
           bottom: 0,
           alignItems: 'center', 
           justifyContent: 'center',
-          paddingTop: 44,
-          paddingBottom: 16
+          paddingTop: hp(44),
+          paddingBottom: spacing(16)
         }}>
           <Text style={{
-            fontSize: 18,
+            fontSize: fontSize(18),
             fontWeight: '700',
             color: '#FFFFFF',
             fontFamily: 'Poppins-Bold'
@@ -69,17 +69,17 @@ export default function AddCustomerScreen({ navigation }: Props) {
       </View>
 
       <ScrollView 
-        contentContainerStyle={{ padding: 16, paddingBottom: 100 }}
+        contentContainerStyle={{ padding: spacing(16), paddingBottom: hp(100) }}
         showsVerticalScrollIndicator={false}
       >
         {/* Firm Name */}
-        <View style={{ marginBottom: 20 }}>
+        <View style={{ marginBottom: spacing(20) }}>
           <Text style={{
-            fontSize: 14,
+            fontSize: fontSize(14),
             color: '#4285F4',
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
-            marginBottom: 8
+            marginBottom: spacing(8)
           }}>
             Firm Name
           </Text>
@@ -89,9 +89,9 @@ export default function AddCustomerScreen({ navigation }: Props) {
               borderWidth: 1,
               borderColor: '#E0E0E0',
               borderRadius: 8,
-              paddingHorizontal: 16,
-              paddingVertical: 14,
-              fontSize: 14,
+              paddingHorizontal: spacing(16),
+              paddingVertical: spacing(14),
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
             }}
@@ -103,13 +103,13 @@ export default function AddCustomerScreen({ navigation }: Props) {
         </View>
 
         {/* Customer Name */}
-        <View style={{ marginBottom: 20 }}>
+        <View style={{ marginBottom: spacing(20) }}>
           <Text style={{
-            fontSize: 14,
+            fontSize: fontSize(14),
             color: '#4285F4',
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
-            marginBottom: 8
+            marginBottom: spacing(8)
           }}>
             Customer Name
           </Text>
@@ -119,9 +119,9 @@ export default function AddCustomerScreen({ navigation }: Props) {
               borderWidth: 1,
               borderColor: '#E0E0E0',
               borderRadius: 8,
-              paddingHorizontal: 16,
-              paddingVertical: 14,
-              fontSize: 14,
+              paddingHorizontal: spacing(16),
+              paddingVertical: spacing(14),
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
             }}
@@ -133,13 +133,13 @@ export default function AddCustomerScreen({ navigation }: Props) {
         </View>
 
         {/* Contact */}
-        <View style={{ marginBottom: 20 }}>
+        <View style={{ marginBottom: spacing(20) }}>
           <Text style={{
-            fontSize: 14,
+            fontSize: fontSize(14),
             color: '#4285F4',
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
-            marginBottom: 8
+            marginBottom: spacing(8)
           }}>
             Contact
           </Text>
@@ -149,9 +149,9 @@ export default function AddCustomerScreen({ navigation }: Props) {
               borderWidth: 1,
               borderColor: '#E0E0E0',
               borderRadius: 8,
-              paddingHorizontal: 16,
-              paddingVertical: 14,
-              fontSize: 14,
+              paddingHorizontal: spacing(16),
+              paddingVertical: spacing(14),
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
             }}
@@ -164,13 +164,13 @@ export default function AddCustomerScreen({ navigation }: Props) {
         </View>
 
         {/* Location */}
-        <View style={{ marginBottom: 20 }}>
+        <View style={{ marginBottom: spacing(20) }}>
           <Text style={{
-            fontSize: 14,
+            fontSize: fontSize(14),
             color: '#4285F4',
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
-            marginBottom: 8
+            marginBottom: spacing(8)
           }}>
             Location
           </Text>
@@ -181,10 +181,10 @@ export default function AddCustomerScreen({ navigation }: Props) {
                 borderWidth: 1,
                 borderColor: '#E0E0E0',
                 borderRadius: 8,
-                paddingHorizontal: 16,
-                paddingVertical: 14,
-                paddingRight: 40,
-                fontSize: 14,
+                paddingHorizontal: spacing(16),
+                paddingVertical: spacing(14),
+                paddingRight: spacing(40),
+                fontSize: fontSize(14),
                 color: '#000000',
                 fontFamily: 'Poppins'
               }}
@@ -195,12 +195,12 @@ export default function AddCustomerScreen({ navigation }: Props) {
             />
             <View style={{
               position: 'absolute',
-              right: 12,
-              top: 14,
+              right: spacing(12),
+              top: spacing(14),
               alignItems: 'center',
               justifyContent: 'center'
             }}>
-              <Text style={{ fontSize: 16, color: '#9E9E9E' }}>📍</Text>
+              <Text style={{ fontSize: fontSize(16), color: '#9E9E9E' }}>📍</Text>
             </View>
           </View>
         </View>
@@ -209,10 +209,10 @@ export default function AddCustomerScreen({ navigation }: Props) {
       {/* Save Button - Fixed at Bottom */}
       <View style={{
         position: 'absolute',
-        bottom: 20,
+        bottom: spacing(20),
         left: 0,
         right: 0,
-        padding: 16,
+        padding: spacing(16),
         paddingBottom: 0,
         backgroundColor: '#FFFFFF',
         borderTopWidth: 1,
@@ -222,7 +222,7 @@ export default function AddCustomerScreen({ navigation }: Props) {
           style={{
             backgroundColor: '#4285F4',
             borderRadius: 8,
-            paddingVertical: 16,
+            paddingVertical: spacing(16),
             alignItems: 'center',
             justifyContent: 'center',
             shadowColor: '#000',
@@ -238,7 +238,7 @@ export default function AddCustomerScreen({ navigation }: Props) {
         >
           <Text style={{
             color: '#FFFFFF',
-            fontSize: 16,
+            fontSize: fontSize(16),
             fontFamily: 'Poppins-Bold',
             fontWeight: '700'
           }}>

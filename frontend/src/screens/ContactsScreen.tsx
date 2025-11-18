@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView, Linking, Modal, Pressable } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { wp, hp, fontSize, spacing } from '../utils/responsive';
+import BackButton from '../components/BackButton';
 
 type RootStackParamList = {
   Language: undefined;
@@ -110,9 +112,9 @@ export default function ContactsScreen({ navigation }: Props) {
       }}>
         {/* Left: Back Arrow and Logo */}
         <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 8, marginRight: 8 }}>
-            <Text style={{ fontSize: 20, color: '#000000' }}>←</Text>
-          </TouchableOpacity>
+          <View style={{ marginRight: 8 }}>
+            <BackButton />
+          </View>
           <Image 
             source={require('../../assets/header carobar.png')} 
             style={{ width: 96, height: 22, resizeMode: 'contain' }} 
@@ -162,13 +164,13 @@ export default function ContactsScreen({ navigation }: Props) {
         showsVerticalScrollIndicator={false}
       >
         {/* Page Title */}
-        <View style={{ paddingHorizontal: 16, paddingTop: 20, paddingBottom: 12 }}>
+        <View style={{ paddingHorizontal: spacing(16), paddingTop: spacing(20), paddingBottom: spacing(12) }}>
           <Text style={{ 
-            fontSize: 24, 
+            fontSize: fontSize(24), 
             fontWeight: '700', 
             color: '#000000', 
             fontFamily: 'Poppins-Bold',
-            marginBottom: 4
+            marginBottom: spacing(4)
           }}>
             Contacts
           </Text>
@@ -176,56 +178,59 @@ export default function ContactsScreen({ navigation }: Props) {
             height: 1, 
             backgroundColor: '#000000', 
             width: '100%',
-            marginTop: 4
+            marginTop: spacing(4)
           }} />
         </View>
 
         {/* Table Header */}
         <View style={{ 
           backgroundColor: '#F5F5F5', 
-          paddingHorizontal: 16,
-          paddingVertical: 12,
+          paddingHorizontal: spacing(16),
+          paddingVertical: spacing(12),
           flexDirection: 'row',
           alignItems: 'center',
-          marginTop: 8
+          marginTop: spacing(8)
         }}>
-          <Text style={{ 
-            fontSize: 14, 
-            fontWeight: '600', 
-            color: '#333333', 
-            fontFamily: 'Poppins-SemiBold',
-            width: '20%'
-          }}>
-            Photo
-          </Text>
-          <Text style={{ 
-            fontSize: 14, 
-            fontWeight: '600', 
-            color: '#333333', 
-            fontFamily: 'Poppins-SemiBold',
-            width: '35%'
-          }}>
-            Name
-          </Text>
-          <Text style={{ 
-            fontSize: 14, 
-            fontWeight: '600', 
-            color: '#333333', 
-            fontFamily: 'Poppins-SemiBold',
-            width: '30%'
-          }}>
-            Number
-          </Text>
-          <Text style={{ 
-            fontSize: 14, 
-            fontWeight: '600', 
-            color: '#333333', 
-            fontFamily: 'Poppins-SemiBold',
-            width: '15%',
-            textAlign: 'right'
-          }}>
-            Call
-          </Text>
+          <View style={{ flex: 2, alignItems: 'flex-start' }}>
+            <Text style={{ 
+              fontSize: fontSize(14), 
+              fontWeight: '600', 
+              color: '#333333', 
+              fontFamily: 'Poppins-SemiBold'
+            }}>
+              Photo
+            </Text>
+          </View>
+          <View style={{ flex: 3.5, paddingLeft: spacing(8) }}>
+            <Text style={{ 
+              fontSize: fontSize(14), 
+              fontWeight: '600', 
+              color: '#333333', 
+              fontFamily: 'Poppins-SemiBold'
+            }}>
+              Name
+            </Text>
+          </View>
+          <View style={{ flex: 3, paddingLeft: spacing(4) }}>
+            <Text style={{ 
+              fontSize: fontSize(14), 
+              fontWeight: '600', 
+              color: '#333333', 
+              fontFamily: 'Poppins-SemiBold'
+            }}>
+              Number
+            </Text>
+          </View>
+          <View style={{ flex: 1.5, alignItems: 'flex-end' }}>
+            <Text style={{ 
+              fontSize: fontSize(14), 
+              fontWeight: '600', 
+              color: '#333333', 
+              fontFamily: 'Poppins-SemiBold'
+            }}>
+              Call
+            </Text>
+          </View>
         </View>
 
         {/* Contact List */}
@@ -237,20 +242,20 @@ export default function ContactsScreen({ navigation }: Props) {
           >
             <View style={{ 
               backgroundColor: '#FFFFFF',
-              paddingHorizontal: 16,
-              paddingVertical: 12,
+              paddingHorizontal: spacing(16),
+              paddingVertical: spacing(12),
               flexDirection: 'row',
               alignItems: 'center',
               borderBottomWidth: 1,
               borderBottomColor: '#E5E5E5'
             }}>
               {/* Photo */}
-              <View style={{ width: '20%' }}>
+              <View style={{ flex: 2, alignItems: 'flex-start' }}>
                 <Image 
                   source={require('../../assets/Profile picture.png')} 
                   style={{ 
-                    width: 48, 
-                    height: 48, 
+                    width: wp(48), 
+                    height: hp(48), 
                     borderRadius: 24,
                     resizeMode: 'cover'
                   }} 
@@ -258,18 +263,18 @@ export default function ContactsScreen({ navigation }: Props) {
               </View>
 
               {/* Name and Role */}
-              <View style={{ width: '35%', paddingLeft: 8 }}>
+              <View style={{ flex: 3.5, paddingLeft: spacing(8) }}>
                 <Text style={{ 
-                  fontSize: 14, 
+                  fontSize: fontSize(14), 
                   fontWeight: '500', 
                   color: '#333333', 
                   fontFamily: 'Poppins-Medium',
-                  marginBottom: 2
+                  marginBottom: spacing(2)
                 }}>
                   {contact.name}
                 </Text>
                 <Text style={{ 
-                  fontSize: 12, 
+                  fontSize: fontSize(12), 
                   fontWeight: '400', 
                   color: '#888888', 
                   fontFamily: 'Poppins'
@@ -279,9 +284,9 @@ export default function ContactsScreen({ navigation }: Props) {
               </View>
 
               {/* Number */}
-              <View style={{ width: '30%', paddingLeft: 4 }}>
+              <View style={{ flex: 3, paddingLeft: spacing(4) }}>
                 <Text style={{ 
-                  fontSize: 13, 
+                  fontSize: fontSize(13), 
                   fontWeight: '400', 
                   color: '#333333', 
                   fontFamily: 'Poppins'
@@ -291,16 +296,16 @@ export default function ContactsScreen({ navigation }: Props) {
               </View>
 
               {/* Call Icon */}
-              <View style={{ width: '15%', alignItems: 'flex-end' }}>
+              <View style={{ flex: 1.5, alignItems: 'flex-end' }}>
                 <TouchableOpacity 
                   onPress={(e) => {
                     e.stopPropagation();
                     handleCall(contact.number);
                   }}
-                  style={{ padding: 8 }}
+                  style={{ padding: spacing(8) }}
                   activeOpacity={0.7}
                 >
-                  <Text style={{ fontSize: 18, color: '#333333' }}>📞</Text>
+                  <Text style={{ fontSize: fontSize(18), color: '#333333' }}>📞</Text>
                 </TouchableOpacity>
               </View>
             </View>

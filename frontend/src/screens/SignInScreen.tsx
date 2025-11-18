@@ -6,6 +6,7 @@ import api from '@/lib/api';
 import Logo from '@/components/Logo';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
+import { wp, hp, fontSize, spacing, SCREEN_WIDTH } from '../utils/responsive';
 
 type RootStackParamList = {
   RoleSelection: undefined;
@@ -57,41 +58,41 @@ export default function SignInScreen({ navigation, route }: Props) {
       {/* Back Button */}
       <TouchableOpacity
         onPress={() => navigation.navigate('Language')}
-        style={{ position: 'absolute', top: 24, left: 16, zIndex: 10, width: 40, height: 40, alignItems: 'center', justifyContent: 'center' }}
+        style={{ position: 'absolute', top: hp(24), left: spacing(16), zIndex: 10, width: wp(40), height: hp(40), alignItems: 'center', justifyContent: 'center' }}
         hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
       >
-        <Text style={{ fontSize: 28, color: '#12110D' }}>←</Text>
+        <Text style={{ fontSize: fontSize(28), color: '#12110D' }}>←</Text>
       </TouchableOpacity>
       <View style={{ flex: 1, alignItems: 'center', width: '100%' }}>
         {/* Logo + Tagline block */}
-        <View style={{ alignItems: 'center', marginTop: 66, marginBottom: 18, width: 400, alignSelf: 'center' }}>
+        <View style={{ alignItems: 'center', marginTop: hp(66), marginBottom: spacing(18), width: Math.min(wp(400), SCREEN_WIDTH - spacing(32)), alignSelf: 'center' }}>
           <Image
             source={require('../../assets/caarobar (2) 1.png')}
-            style={{ width: 130.81, height: 62, resizeMode: 'contain' }}
+            style={{ width: wp(130.81), height: hp(62), resizeMode: 'contain' }}
           />
-          <Text style={{ width: 285, marginTop: 8, fontFamily: 'Inter', fontWeight: '400', fontSize: 13, color: '#12110D', lineHeight: 19.5, textAlign: 'center' }}>
+          <Text style={{ width: wp(285), marginTop: spacing(8), fontFamily: 'Inter', fontWeight: '400', fontSize: fontSize(13), color: '#12110D', lineHeight: 19.5, textAlign: 'center' }}>
             Get Control of your staff management with us.
           </Text>
         </View>
         {/* Welcome Section (Lexend Deca 24/36) */}
-        <View style={{ alignSelf: 'center', marginBottom: 10, width: 400 }}>
-          <Text style={{ fontFamily: 'LexendDeca-Bold', fontWeight: '700', fontSize: 24, color: '#12110D', textAlign: 'left', lineHeight: 36 }}>
-            Welcome Back <Text style={{ fontSize: 24 }}>👋</Text>
+        <View style={{ alignSelf: 'center', marginBottom: spacing(10), width: Math.min(wp(400), SCREEN_WIDTH - spacing(32)) }}>
+          <Text style={{ fontFamily: 'LexendDeca-Bold', fontWeight: '700', fontSize: fontSize(24), color: '#12110D', textAlign: 'left', lineHeight: 36 }}>
+            Welcome Back <Text style={{ fontSize: fontSize(24) }}>👋</Text>
           </Text>
-          <Text style={{ fontFamily: 'LexendDeca-Bold', fontWeight: '700', fontSize: 24, color: '#12110D', textAlign: 'left', lineHeight: 36, marginBottom: 2 }}>
+          <Text style={{ fontFamily: 'LexendDeca-Bold', fontWeight: '700', fontSize: fontSize(24), color: '#12110D', textAlign: 'left', lineHeight: 36, marginBottom: spacing(2) }}>
             to <Text style={{ color: '#248CFF' }}>CAAROBAR</Text>
           </Text>
-          <Text style={{ color: '#787878', fontFamily: 'Poppins', fontSize: 13, marginVertical: 6, lineHeight: 20, textAlign: 'left' }}>Hello there, login to continue</Text>
+          <Text style={{ color: '#787878', fontFamily: 'Poppins', fontSize: fontSize(13), marginVertical: spacing(6), lineHeight: 20, textAlign: 'left' }}>Hello there, login to continue</Text>
         </View>
         {/* Country row */}
-        <View style={{ width: 400, alignSelf: 'center', marginBottom: 14, flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={{ fontSize: 20.5, marginRight: 8 }}>🇮🇳</Text>
-          <Text style={{ fontFamily: 'Inter', fontWeight: '400', fontSize: 14, lineHeight: 21, color: 'rgba(0,0,0,1)', marginRight: 6 }}>INDIA</Text>
-          <Text style={{ fontSize: 12, color: '#000' }}>▼</Text>
+        <View style={{ width: Math.min(wp(400), SCREEN_WIDTH - spacing(32)), alignSelf: 'center', marginBottom: spacing(14), flexDirection: 'row', alignItems: 'center' }}>
+          <Text style={{ fontSize: fontSize(20.5), marginRight: spacing(8) }}>🇮🇳</Text>
+          <Text style={{ fontFamily: 'Inter', fontWeight: '400', fontSize: fontSize(14), lineHeight: 21, color: 'rgba(0,0,0,1)', marginRight: spacing(6) }}>INDIA</Text>
+          <Text style={{ fontSize: fontSize(12), color: '#000' }}>▼</Text>
         </View>
         {/* Email/Phone field card */}
-        <View style={{ width: 392, height: 50, alignSelf: 'center', marginBottom: 16, backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 6, borderWidth: 1, borderColor: 'rgb(130,130,130)', justifyContent: 'center' }}>
-          <Text style={{ position: 'absolute', top: -10, left: 16, backgroundColor: '#fff', paddingHorizontal: 4, fontFamily: 'Inter', fontWeight: '500', fontSize: 14, lineHeight: 21, color: 'rgba(52,122,255,1)' }}>Email/Phone</Text>
+        <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), height: hp(50), alignSelf: 'center', marginBottom: spacing(16), backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 6, borderWidth: 1, borderColor: 'rgb(130,130,130)', justifyContent: 'center' }}>
+          <Text style={{ position: 'absolute', top: -10, left: spacing(16), backgroundColor: '#fff', paddingHorizontal: spacing(4), fontFamily: 'Inter', fontWeight: '500', fontSize: fontSize(14), lineHeight: 21, color: 'rgba(52,122,255,1)' }}>Email/Phone</Text>
           <TextInput
             placeholder=""
             placeholderTextColor="#12110D"
@@ -101,8 +102,8 @@ export default function SignInScreen({ navigation, route }: Props) {
             autoComplete="tel"
             style={{
               flex: 1,
-              paddingHorizontal: 12,
-              fontSize: 14,
+              paddingHorizontal: spacing(12),
+              fontSize: fontSize(14),
               color: '#12110D',
             }}
           />
@@ -116,21 +117,21 @@ export default function SignInScreen({ navigation, route }: Props) {
             }
           }}
           style={{
-            width: 392,
-            height: 55,
+            width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)),
+            height: hp(55),
             alignSelf: 'center',
             borderRadius: 30,
             backgroundColor: 'rgba(45,110,255,1)',
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
-            marginBottom: 14,
+            marginBottom: spacing(14),
             borderWidth: 1,
             borderColor: 'rgba(255,255,255,0.3)'
           }}
         >
-          <Text style={{ color: '#fff', fontSize: 18, marginRight: 8 }}>🧑‍💼</Text>
-          <Text style={{ color: '#fff', fontSize: 15, fontWeight: '700' }}>Admin</Text>
+          <Text style={{ color: '#fff', fontSize: fontSize(18), marginRight: spacing(8) }}>🧑‍💼</Text>
+          <Text style={{ color: '#fff', fontSize: fontSize(15), fontWeight: '700' }}>Admin</Text>
         </TouchableOpacity>
         {/* Employee button */}
         <TouchableOpacity
@@ -141,41 +142,41 @@ export default function SignInScreen({ navigation, route }: Props) {
             }
           }}
           style={{
-            width: 392,
-            height: 55,
+            width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)),
+            height: hp(55),
             alignSelf: 'center',
             borderRadius: 30,
             backgroundColor: 'rgba(45,110,255,1)',
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
-            marginBottom: 18,
+            marginBottom: spacing(18),
             borderWidth: 1,
             borderColor: 'rgba(255,255,255,0.3)'
           }}
         >
-          <Text style={{ color: '#fff', fontSize: 18, marginRight: 8 }}>👥</Text>
-          <Text style={{ color: '#fff', fontSize: 15, fontWeight: '700' }}>Employee</Text>
+          <Text style={{ color: '#fff', fontSize: fontSize(18), marginRight: spacing(8) }}>👥</Text>
+          <Text style={{ color: '#fff', fontSize: fontSize(15), fontWeight: '700' }}>Employee</Text>
         </TouchableOpacity>
         {/* Separator */}
-        <View style={{ width: 392, alignSelf: 'center', marginBottom: 12, flexDirection: 'row', alignItems: 'center' }}>
+        <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), alignSelf: 'center', marginBottom: spacing(12), flexDirection: 'row', alignItems: 'center' }}>
           <View style={{ flex: 1, height: 1, backgroundColor: '#E5E5E5' }} />
-          <Text style={{ marginHorizontal: 10, color: '#B3B3B3', fontSize: 12 }}>or</Text>
+          <Text style={{ marginHorizontal: spacing(10), color: '#B3B3B3', fontSize: fontSize(12) }}>or</Text>
           <View style={{ flex: 1, height: 1, backgroundColor: '#E5E5E5' }} />
         </View>
         {/* Google button */}
-        <TouchableOpacity style={{ width: 360, height: 48, borderRadius: 12, backgroundColor: '#F2F3F5', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', alignSelf: 'center', borderWidth: 1, borderColor: '#E3E2E2', marginBottom: 34 }}>
-          <Image source={require('../../assets/Google.png')} style={{ width: 18, height: 18, marginRight: 10, resizeMode: 'contain' }} />
-          <Text style={{ fontSize: 15, color: '#12110D', fontWeight: '600' }}>Continue with Google</Text>
+        <TouchableOpacity style={{ width: Math.min(wp(360), SCREEN_WIDTH - spacing(32)), height: hp(48), borderRadius: 12, backgroundColor: '#F2F3F5', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', alignSelf: 'center', borderWidth: 1, borderColor: '#E3E2E2', marginBottom: hp(34) }}>
+          <Image source={require('../../assets/Google.png')} style={{ width: wp(18), height: hp(18), marginRight: spacing(10), resizeMode: 'contain' }} />
+          <Text style={{ fontSize: fontSize(15), color: '#12110D', fontWeight: '600' }}>Continue with Google</Text>
         </TouchableOpacity>
         {/* Spacer to push footer to bottom */}
         <View style={{ flex: 1 }} />
         {/* Register link */}
-        <View style={{ width: 247, height: 21, alignSelf: 'center', marginBottom: 45 }}>
+        <View style={{ width: wp(247), height: hp(21), alignSelf: 'center', marginBottom: hp(45) }}>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ fontFamily: 'Inter', fontWeight: '400', fontSize: 14, lineHeight: 21, color: '#12110D' }}>Didn't have a account ? </Text>
+            <Text style={{ fontFamily: 'Inter', fontWeight: '400', fontSize: fontSize(14), lineHeight: 21, color: '#12110D' }}>Didn't have a account ? </Text>
             <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-              <Text style={{ fontFamily: 'Inter', fontWeight: '500', fontSize: 14, lineHeight: 21, color: '#248CFF' }}>Register here</Text>
+              <Text style={{ fontFamily: 'Inter', fontWeight: '500', fontSize: fontSize(14), lineHeight: 21, color: '#248CFF' }}>Register here</Text>
             </TouchableOpacity>
           </View>
         </View>

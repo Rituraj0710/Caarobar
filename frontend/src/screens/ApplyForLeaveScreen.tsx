@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput, ScrollView, Image, Modal, Pressable, Alert } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import BackButton from '../components/BackButton';
 
 type RootStackParamList = {
   Language: undefined;
@@ -175,9 +176,7 @@ export default function ApplyForLeaveScreen({ navigation }: Props) {
         justifyContent: 'space-between'
       }}>
         {/* Back Arrow */}
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 8 }}>
-          <Text style={{ fontSize: 20, color: '#FFFFFF' }}>←</Text>
-        </TouchableOpacity>
+        <BackButton color="#FFFFFF" />
 
         {/* Title */}
         <Text style={{

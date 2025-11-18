@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Image, Modal, ScrollView, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import BackButton from '../components/BackButton';
 
 type RootStackParamList = {
   Language: undefined;
@@ -71,9 +72,9 @@ export default function CalendarScreen({ navigation }: Props) {
       {/* Header */}
       <View style={{ height: 56, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12, justifyContent: 'space-between' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 8, marginRight: 6 }}>
-            <Text style={{ fontSize: 20 }}>←</Text>
-          </TouchableOpacity>
+          <View style={{ marginRight: 6 }}>
+            <BackButton />
+          </View>
           <Image source={require('../../assets/header carobar.png')} style={{ width: 96, height: 22, resizeMode: 'contain' }} />
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>

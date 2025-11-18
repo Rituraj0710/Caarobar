@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import BackButton from '../components/BackButton';
 
 type RootStackParamList = {
   AdminPaymentRequestDetail: {
@@ -63,9 +64,7 @@ export default function AdminPaymentRequestDetailScreen({ navigation, route }: P
         justifyContent: 'space-between'
       }}>
         {/* Back Arrow */}
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 8 }}>
-          <Text style={{ fontSize: 20, color: '#FFFFFF' }}>←</Text>
-        </TouchableOpacity>
+        <BackButton color="#FFFFFF" />
 
         {/* Title */}
         <Text style={{

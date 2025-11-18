@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '@/lib/api';
 import Button from '@/components/ui/Button';
 import OTPInput from '@/components/ui/OTPInput';
+import { wp, hp, fontSize, spacing, SCREEN_WIDTH } from '../utils/responsive';
 
 type RootStackParamList = {
   Language: undefined;
@@ -95,17 +96,17 @@ export default function OTPVerificationScreen({ route, navigation }: Props) {
       <StatusBar barStyle="dark-content" backgroundColor="white" />
       <View style={{ flex: 1, alignItems: 'center', width: '100%' }}>
         {/* Header with Back Button */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 60, width: '90%', paddingHorizontal: 16, position: 'relative' }}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', left: 16 }}>
-            <Text style={{ fontSize: 24 }}>←</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp(60), width: '90%', paddingHorizontal: spacing(16), position: 'relative' }}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', left: spacing(16) }}>
+            <Text style={{ fontSize: fontSize(24) }}>←</Text>
           </TouchableOpacity>
-          <Text style={{ fontFamily: 'Poppins-Bold', fontWeight: '700', fontSize: 22, color: '#12110D', textAlign: 'center', width: '100%' }}>
+          <Text style={{ fontFamily: 'Poppins-Bold', fontWeight: '700', fontSize: fontSize(22), color: '#12110D', textAlign: 'center', width: '100%' }}>
             Enter Verification Code
           </Text>
         </View>
 
         {/* Subtitle */}
-        <Text style={{ fontFamily: 'Poppins', fontSize: 13, color: '#888', textAlign: 'center', marginTop: 10, marginBottom: 28, width: '90%' }}>
+        <Text style={{ fontFamily: 'Poppins', fontSize: fontSize(13), color: '#888', textAlign: 'center', marginTop: spacing(10), marginBottom: spacing(28), width: '90%' }}>
           We have sent the code verification to your Gmail
         </Text>
 
@@ -114,24 +115,24 @@ export default function OTPVerificationScreen({ route, navigation }: Props) {
           <Image
             accessibilityLabel="OTP verification illustration"
             source={Illustration}
-            style={{ width: 480, height: 480, resizeMode: 'contain' }}
+            style={{ width: Math.min(wp(480), SCREEN_WIDTH - spacing(40)), height: Math.min(hp(480), SCREEN_WIDTH - spacing(40)), resizeMode: 'contain' }}
           />
         </View>
 
         {/* OTP Input */}
-        <View style={{ width: '90%', marginBottom: 16, alignItems: 'center', justifyContent: 'center', marginTop: 8 }}>
+        <View style={{ width: '90%', marginBottom: spacing(16), alignItems: 'center', justifyContent: 'center', marginTop: spacing(8) }}>
           <OTPInput value={otp} onChange={setOtp} autoFocus accessibilityLabel="OTP input" />
         </View>
 
         {/* Timer and Resend */}
-        <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', marginBottom: 24 }}>
-          <Text style={{ fontFamily: 'Poppins', fontSize: 14, color: '#888', marginRight: 8, marginBottom: 2 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', marginBottom: spacing(24) }}>
+          <Text style={{ fontFamily: 'Poppins', fontSize: fontSize(14), color: '#888', marginRight: spacing(8), marginBottom: spacing(2) }}>
             00:{String(countdown).padStart(2, '30')}
           </Text>
           <TouchableOpacity onPress={onResend} disabled={countdown > 0}>
             <Text style={{ 
               fontFamily: 'Poppins', 
-              fontSize: 14, 
+              fontSize: fontSize(14), 
               color: countdown > 0 ? '#888' : '#248CFF',
               fontWeight: countdown > 0 ? '400' : '600'
             }}>
@@ -141,7 +142,7 @@ export default function OTPVerificationScreen({ route, navigation }: Props) {
         </View>
 
         {error ? (
-          <Text style={{ color: '#FE0032', fontFamily: 'Poppins', fontSize: 13, textAlign: 'center', marginBottom: 16 }}>
+          <Text style={{ color: '#FE0032', fontFamily: 'Poppins', fontSize: fontSize(13), textAlign: 'center', marginBottom: spacing(16) }}>
             {error}
           </Text>
         ) : null}
@@ -151,20 +152,20 @@ export default function OTPVerificationScreen({ route, navigation }: Props) {
           onPress={onVerify} 
           disabled={loading}
           style={{
-            width: 392,
-            height: 55,
+            width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)),
+            height: hp(55),
             borderRadius: 30,
             backgroundColor: '#248CFF',
             alignItems: 'center',
             justifyContent: 'center',
-            marginBottom: 32,
+            marginBottom: hp(32),
             alignSelf: 'center'
           }}
         >
           {loading ? (
             <ActivityIndicator color="white" />
           ) : (
-            <Text style={{ color: '#fff', fontSize: 16, fontFamily: 'Poppins', fontWeight: '600' }}>Verify</Text>
+            <Text style={{ color: '#fff', fontSize: fontSize(16), fontFamily: 'Poppins', fontWeight: '600' }}>Verify</Text>
           )}
         </TouchableOpacity>
 
@@ -172,12 +173,12 @@ export default function OTPVerificationScreen({ route, navigation }: Props) {
         <View style={{ flex: 1 }} />
 
         {/* Register Link */}
-        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: 32, width: '90%' }}>
-          <Text style={{ fontFamily: 'Inter', fontWeight: '400', fontSize: 14, lineHeight: 21, color: '#12110D' }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: hp(32), width: '90%' }}>
+          <Text style={{ fontFamily: 'Inter', fontWeight: '400', fontSize: fontSize(14), lineHeight: 21, color: '#12110D' }}>
             Didn't have a account ?{' '}
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text style={{ fontFamily: 'Inter', fontWeight: '500', fontSize: 14, lineHeight: 21, color: '#248CFF' }}>
+            <Text style={{ fontFamily: 'Inter', fontWeight: '500', fontSize: fontSize(14), lineHeight: 21, color: '#248CFF' }}>
               Register here
             </Text>
           </TouchableOpacity>

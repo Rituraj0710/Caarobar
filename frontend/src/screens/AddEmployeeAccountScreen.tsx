@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, TextInput, ScrollView, Image, Modal, Pressable, Switch } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import BackButton from '../components/BackButton';
 
 type RootStackParamList = {
   Language: undefined;
@@ -288,9 +289,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
         minHeight: 60
       }}>
         {/* Back Arrow */}
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 8 }}>
-          <Text style={{ fontSize: 20, color: '#FFFFFF' }}>←</Text>
-        </TouchableOpacity>
+        <BackButton color="#FFFFFF" />
 
         {/* Title */}
         <View style={{ 

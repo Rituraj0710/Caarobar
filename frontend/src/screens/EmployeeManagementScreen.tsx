@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView, StatusBar, Switch, Modal, TextInput, Pressable } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { wp, hp, fontSize, spacing, tableCellWidth } from '../utils/responsive';
+import BackButton from '../components/BackButton';
 
 type RootStackParamList = {
   Language: undefined;
@@ -310,9 +312,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
         borderBottomColor: '#E0E0E0'
       }}>
         {/* Back Arrow */}
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 8 }}>
-          <Text style={{ fontSize: 20, color: '#000000' }}>←</Text>
-        </TouchableOpacity>
+        <BackButton />
 
         {/* Logo */}
         <View style={{ flex: 1, alignItems: 'center' }}>
@@ -1129,23 +1129,23 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
               <View style={{
                 flexDirection: 'row',
                 backgroundColor: '#F5F5F5',
-                paddingVertical: 12,
-                paddingHorizontal: 8,
+                paddingVertical: spacing(12),
+                paddingHorizontal: spacing(8),
                 borderTopWidth: 1,
                 borderBottomWidth: 1,
                 borderColor: '#E0E0E0'
               }}>
-                <View style={{ width: 50, alignItems: 'center' }}>
-                  <Text style={{ fontSize: 14, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>S.No</Text>
+                <View style={{ width: tableCellWidth(50), alignItems: 'center' }}>
+                  <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>S.No</Text>
                 </View>
-                <View style={{ flex: 2, paddingLeft: 8 }}>
-                  <Text style={{ fontSize: 14, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Site</Text>
+                <View style={{ flex: 2, paddingLeft: spacing(8) }}>
+                  <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Site</Text>
                 </View>
-                <View style={{ width: 60, alignItems: 'center' }}>
-                  <Text style={{ fontSize: 14, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Emp+</Text>
+                <View style={{ width: tableCellWidth(60), alignItems: 'center' }}>
+                  <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Emp+</Text>
                 </View>
-                <View style={{ flex: 1.5, alignItems: 'flex-end', paddingRight: 8 }}>
-                  <Text style={{ fontSize: 14, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Payment</Text>
+                <View style={{ flex: 1.5, alignItems: 'flex-end', paddingRight: spacing(8) }}>
+                  <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Payment</Text>
                 </View>
               </View>
 
@@ -1155,34 +1155,34 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                   key={index}
                   style={{
                     flexDirection: 'row',
-                    paddingVertical: 12,
-                    paddingHorizontal: 8,
+                    paddingVertical: spacing(12),
+                    paddingHorizontal: spacing(8),
                     borderBottomWidth: 1,
                     borderBottomColor: '#E0E0E0',
                     backgroundColor: '#FFFFFF'
                   }}
                 >
-                  <View style={{ width: 50, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>{branch.sno}</Text>
+                  <View style={{ width: tableCellWidth(50), alignItems: 'center', justifyContent: 'center' }}>
+                    <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }}>{branch.sno}</Text>
                   </View>
-                  <View style={{ flex: 2, paddingLeft: 8, justifyContent: 'center' }}>
-                    <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>{branch.site}</Text>
+                  <View style={{ flex: 2, paddingLeft: spacing(8), justifyContent: 'center' }}>
+                    <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }}>{branch.site}</Text>
                   </View>
-                  <View style={{ width: 60, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>{branch.empPlus}</Text>
+                  <View style={{ width: tableCellWidth(60), alignItems: 'center', justifyContent: 'center' }}>
+                    <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }}>{branch.empPlus}</Text>
                   </View>
-                  <View style={{ flex: 1.5, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 4 }}>
-                    <Text style={{ fontSize: 14, color: '#4CAF50', fontFamily: 'Poppins' }}>{branch.payment}</Text>
+                  <View style={{ flex: 1.5, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: spacing(4) }}>
+                    <Text style={{ fontSize: fontSize(14), color: '#4CAF50', fontFamily: 'Poppins' }}>{branch.payment}</Text>
                     <TouchableOpacity>
                       <View style={{
-                        width: 16,
-                        height: 16,
+                        width: wp(16),
+                        height: hp(16),
                         backgroundColor: '#E0E0E0',
                         alignItems: 'center',
                         justifyContent: 'center',
                         borderRadius: 2
                       }}>
-                        <Text style={{ fontSize: 10, color: '#000000' }}>↗</Text>
+                        <Text style={{ fontSize: fontSize(10), color: '#000000' }}>↗</Text>
                       </View>
                     </TouchableOpacity>
                   </View>
@@ -1193,26 +1193,26 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
               <View style={{
                 flexDirection: 'row',
                 backgroundColor: '#F5F5F5',
-                paddingVertical: 12,
-                paddingHorizontal: 8,
+                paddingVertical: spacing(12),
+                paddingHorizontal: spacing(8),
                 borderTopWidth: 2,
                 borderBottomWidth: 1,
                 borderColor: '#E0E0E0',
-                marginTop: 4
+                marginTop: spacing(4)
               }}>
-                <View style={{ width: 50, alignItems: 'center', justifyContent: 'center' }}>
-                  <Text style={{ fontSize: 14, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}></Text>
+                <View style={{ width: tableCellWidth(50), alignItems: 'center', justifyContent: 'center' }}>
+                  <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}></Text>
                 </View>
-                <View style={{ flex: 2, paddingLeft: 8, justifyContent: 'center' }}>
-                  <Text style={{ fontSize: 14, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Grand Total</Text>
+                <View style={{ flex: 2, paddingLeft: spacing(8), justifyContent: 'center' }}>
+                  <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Grand Total</Text>
                 </View>
-                <View style={{ width: 60, alignItems: 'center', justifyContent: 'center' }}>
-                  <Text style={{ fontSize: 14, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>
+                <View style={{ width: tableCellWidth(60), alignItems: 'center', justifyContent: 'center' }}>
+                  <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>
                     {branchData.reduce((sum, branch) => sum + parseInt(branch.empPlus), 0)}
                   </Text>
                 </View>
-                <View style={{ flex: 1.5, alignItems: 'flex-end', paddingRight: 8, justifyContent: 'center' }}>
-                  <Text style={{ fontSize: 14, fontWeight: '600', color: '#4CAF50', fontFamily: 'Poppins-SemiBold' }}>
+                <View style={{ flex: 1.5, alignItems: 'flex-end', paddingRight: spacing(8), justifyContent: 'center' }}>
+                  <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#4CAF50', fontFamily: 'Poppins-SemiBold' }}>
                     {branchData.reduce((sum, branch) => {
                       const paymentValue = parseInt(branch.payment.replace(/[^0-9]/g, ''));
                       return sum + paymentValue;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput, Image } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import BackButton from '../components/BackButton';
 
 type RootStackParamList = {
   AdminLeaveRequestDetail: {
@@ -60,9 +61,7 @@ export default function AdminLeaveRequestDetailScreen({ navigation, route }: Pro
         justifyContent: 'space-between'
       }}>
         {/* Back Arrow */}
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 8 }}>
-          <Text style={{ fontSize: 20, color: '#FFFFFF' }}>←</Text>
-        </TouchableOpacity>
+        <BackButton color="#FFFFFF" />
 
         {/* Title */}
         <Text style={{

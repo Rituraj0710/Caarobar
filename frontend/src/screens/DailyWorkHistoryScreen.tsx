@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { wp, hp, fontSize, spacing } from '../utils/responsive';
+import BackButton from '../components/BackButton';
 
 type RootStackParamList = {
   Language: undefined;
@@ -86,9 +88,9 @@ export default function DailyWorkHistoryScreen({ navigation, route }: Props) {
       }}>
         {/* Left: Back Arrow and Logo */}
         <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 8, marginRight: 8 }}>
-            <Text style={{ fontSize: 20, color: '#000000' }}>←</Text>
-          </TouchableOpacity>
+          <View style={{ marginRight: 8 }}>
+            <BackButton />
+          </View>
           <Image 
             source={require('../../assets/header carobar.png')} 
             style={{ width: 96, height: 22, resizeMode: 'contain' }} 
@@ -216,23 +218,23 @@ export default function DailyWorkHistoryScreen({ navigation, route }: Props) {
           <View style={{ borderWidth: 1, borderColor: '#CCCCCC', backgroundColor: '#FFFFFF' }}>
             {/* Table Header */}
             <View style={{ flexDirection: 'row', backgroundColor: '#F5F5F5' }}>
-              <View style={{ flex: 2, paddingVertical: 12, paddingHorizontal: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: 12, color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '700' }}>{year}</Text>
+              <View style={{ flex: 2, paddingVertical: spacing(12), paddingHorizontal: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
+                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '700' }}>{year}</Text>
               </View>
-              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: 12, color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '700' }}>In</Text>
+              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
+                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '700' }}>In</Text>
               </View>
-              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: 12, color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '700' }}>Out</Text>
+              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
+                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '700' }}>Out</Text>
               </View>
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: 12, color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '700' }}>T.Hr</Text>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
+                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '700' }}>T.Hr</Text>
               </View>
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: 12, color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '700' }}>OT</Text>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
+                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '700' }}>OT</Text>
               </View>
-              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: 12, color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '700' }}>KM</Text>
+              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
+                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '700' }}>KM</Text>
               </View>
             </View>
 
@@ -242,33 +244,33 @@ export default function DailyWorkHistoryScreen({ navigation, route }: Props) {
                 key={index}
                 style={{ flexDirection: 'row', backgroundColor: '#FFFFFF' }}
               >
-                <View style={{ flex: 2, paddingVertical: 12, paddingHorizontal: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                  <Text style={{ fontSize: 13, color: '#000000', fontFamily: 'Poppins' }}>
+                <View style={{ flex: 2, paddingVertical: spacing(12), paddingHorizontal: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
                     {entry.date} <Text style={{ color: '#666666' }}>{entry.dayShort}</Text>
                   </Text>
                 </View>
-                <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                  <Text style={{ fontSize: 13, color: '#4CAF50', fontFamily: 'Poppins' }}>
+                <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#4CAF50', fontFamily: 'Poppins' }}>
                     {entry.inTime}
                   </Text>
                 </View>
-                <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                  <Text style={{ fontSize: 13, color: '#E53935', fontFamily: 'Poppins' }}>
+                <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#E53935', fontFamily: 'Poppins' }}>
                     {entry.outTime}
                   </Text>
                 </View>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                  <Text style={{ fontSize: 13, color: '#000000', fontFamily: 'Poppins' }}>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
                     {entry.totalHours}
                   </Text>
                 </View>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                  <Text style={{ fontSize: 13, color: '#E53935', fontFamily: 'Poppins-SemiBold' }}>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#E53935', fontFamily: 'Poppins-SemiBold' }}>
                     {entry.overtime}
                   </Text>
                 </View>
-                <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                  <Text style={{ fontSize: 13, color: '#000000', fontFamily: 'Poppins' }}>
+                <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
                     {entry.kilometers}
                   </Text>
                 </View>
@@ -277,25 +279,25 @@ export default function DailyWorkHistoryScreen({ navigation, route }: Props) {
 
             {/* Grand Total Row */}
             <View style={{ flexDirection: 'row', backgroundColor: '#F5F5F5' }}>
-              <View style={{ flex: 2, paddingVertical: 12, paddingHorizontal: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: 14, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }}>
+              <View style={{ flex: 2, paddingVertical: spacing(12), paddingHorizontal: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC' }}>
+                <Text style={{ fontSize: fontSize(14), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }}>
                   Grand Total
                 </Text>
               </View>
-              <View style={{ flex: 1.2, paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC' }} />
-              <View style={{ flex: 1.2, paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC' }} />
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: 13, color: '#000000', fontFamily: 'Poppins' }}>
+              <View style={{ flex: 1.2, paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC' }} />
+              <View style={{ flex: 1.2, paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC' }} />
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC' }}>
+                <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
                   {grandTotal.totalHours}
                 </Text>
               </View>
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: 13, color: '#000000', fontFamily: 'Poppins' }}>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC' }}>
+                <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
                   {String(grandTotal.overtime).padStart(2, '0')}
                 </Text>
               </View>
-              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: 12 }}>
-                <Text style={{ fontSize: 13, color: '#000000', fontFamily: 'Poppins' }}>
+              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12) }}>
+                <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
                   {grandTotal.kilometers}
                 </Text>
               </View>

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { wp, hp, fontSize, spacing } from '../utils/responsive';
+import BackButton from '../components/BackButton';
 
 type RootStackParamList = {
   Language: undefined;
@@ -89,9 +91,9 @@ export default function ExpenseRequestDetailScreen({ navigation, route }: Props)
       }}>
         {/* Left: Back Arrow and Logo */}
         <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 8, marginRight: 8 }}>
-            <Text style={{ fontSize: 20, color: '#000000' }}>←</Text>
-          </TouchableOpacity>
+          <View style={{ marginRight: 8 }}>
+            <BackButton />
+          </View>
           <Image 
             source={require('../../assets/header carobar.png')} 
             style={{ width: 96, height: 22, resizeMode: 'contain' }} 
@@ -199,7 +201,7 @@ export default function ExpenseRequestDetailScreen({ navigation, route }: Props)
         </View>
 
         {/* Expense Request Table */}
-        <View style={{ marginBottom: 24 }}>
+        <View style={{ marginBottom: spacing(24) }}>
           {/* Table Container */}
           <View style={{ 
             backgroundColor: '#FFFFFF',
@@ -214,20 +216,20 @@ export default function ExpenseRequestDetailScreen({ navigation, route }: Props)
               backgroundColor: '#F5F5F5',
               borderBottomWidth: 1,
               borderBottomColor: '#E0E0E0',
-              paddingVertical: 12,
-              paddingHorizontal: 12
+              paddingVertical: spacing(12),
+              paddingHorizontal: spacing(12)
             }}>
               <View style={{ flex: 1.5 }}>
-                <Text style={{ fontSize: 12, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Request</Text>
+                <Text style={{ fontSize: fontSize(12), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Request</Text>
               </View>
               <View style={{ flex: 1.5 }}>
-                <Text style={{ fontSize: 12, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Type</Text>
+                <Text style={{ fontSize: fontSize(12), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Type</Text>
               </View>
               <View style={{ flex: 1.5 }}>
-                <Text style={{ fontSize: 12, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Payment</Text>
+                <Text style={{ fontSize: fontSize(12), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Payment</Text>
               </View>
               <View style={{ flex: 2 }}>
-                <Text style={{ fontSize: 12, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Approved</Text>
+                <Text style={{ fontSize: fontSize(12), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Approved</Text>
               </View>
             </View>
 
@@ -239,28 +241,28 @@ export default function ExpenseRequestDetailScreen({ navigation, route }: Props)
                   flexDirection: 'row',
                   borderBottomWidth: index < expenseRequests.length - 1 ? 1 : 0,
                   borderBottomColor: '#E0E0E0',
-                  paddingVertical: 12,
-                  paddingHorizontal: 12,
+                  paddingVertical: spacing(12),
+                  paddingHorizontal: spacing(12),
                   backgroundColor: '#FFFFFF'
                 }}
               >
                 {/* Request Date */}
                 <View style={{ flex: 1.5 }}>
-                  <Text style={{ fontSize: 13, color: '#000000', fontFamily: 'Poppins' }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
                     {request.date}
                   </Text>
                 </View>
                 
                 {/* Type */}
                 <View style={{ flex: 1.5 }}>
-                  <Text style={{ fontSize: 13, color: '#000000', fontFamily: 'Poppins' }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
                     {request.type}
                   </Text>
                 </View>
                 
                 {/* Payment */}
                 <View style={{ flex: 1.5 }}>
-                  <Text style={{ fontSize: 13, color: '#000000', fontFamily: 'Poppins' }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
                     {request.payment}
                   </Text>
                 </View>
@@ -268,7 +270,7 @@ export default function ExpenseRequestDetailScreen({ navigation, route }: Props)
                 {/* Approved */}
                 <View style={{ flex: 2, flexDirection: 'row', alignItems: 'center' }}>
                   {getApprovalIcon(request.approved)}
-                  <Text style={{ fontSize: 13, color: '#000000', fontFamily: 'Poppins' }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
                     {request.approver}
                   </Text>
                 </View>
@@ -285,23 +287,23 @@ export default function ExpenseRequestDetailScreen({ navigation, route }: Props)
         left: 0, 
         right: 0, 
         backgroundColor: '#FFFFFF',
-        paddingHorizontal: 16,
-        paddingVertical: 12,
+        paddingHorizontal: spacing(16),
+        paddingVertical: spacing(12),
         borderTopWidth: 1,
         borderTopColor: '#E0E0E0'
       }}>
         {/* Create Request Button */}
-        <View style={{ alignItems: 'flex-end', marginBottom: 12 }}>
+        <View style={{ alignItems: 'flex-end', marginBottom: spacing(12) }}>
           <TouchableOpacity 
             onPress={() => navigation.navigate('ApplyForExpense')}
             style={{ 
               backgroundColor: '#2196F3', 
-              paddingVertical: 12, 
-              paddingHorizontal: 24, 
+              paddingVertical: spacing(12), 
+              paddingHorizontal: spacing(24), 
               borderRadius: 8 
             }}
           >
-            <Text style={{ fontSize: 14, fontWeight: '600', color: '#FFFFFF', fontFamily: 'Poppins-SemiBold' }}>
+            <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#FFFFFF', fontFamily: 'Poppins-SemiBold' }}>
               Create Request
             </Text>
           </TouchableOpacity>
@@ -309,8 +311,8 @@ export default function ExpenseRequestDetailScreen({ navigation, route }: Props)
 
         {/* Expense Total */}
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>Expense</Text>
-          <Text style={{ fontSize: 14, fontWeight: '700', color: '#FF5252', fontFamily: 'Poppins-Bold' }}>
+          <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }}>Expense</Text>
+          <Text style={{ fontSize: fontSize(14), fontWeight: '700', color: '#FF5252', fontFamily: 'Poppins-Bold' }}>
             {totalExpense}
           </Text>
         </View>

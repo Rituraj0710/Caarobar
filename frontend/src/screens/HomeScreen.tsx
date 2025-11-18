@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Image, StatusBar, ScrollView, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StatusBar, ScrollView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '@/lib/api';
+import { wp, hp, fontSize, spacing, SCREEN_WIDTH } from '../utils/responsive';
 
 type RootStackParamList = {
   Language: undefined;
@@ -30,9 +31,9 @@ export default function HomeScreen({ navigation }: Props) {
   const [loading, setLoading] = useState(false);
   const [isOnline, setIsOnline] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
-  const tileGap = 12;
-  const horizontalMargin = 16 * 2; // container has marginHorizontal: 16
-  const tileWidth = (Dimensions.get('window').width - horizontalMargin - tileGap * 3) / 4;
+  const tileGap = spacing(12);
+  const horizontalMargin = spacing(16) * 2; // container has marginHorizontal: 16
+  const tileWidth = (SCREEN_WIDTH - horizontalMargin - tileGap * 3) / 4;
 
   useEffect(() => {
     (async () => {
@@ -80,9 +81,9 @@ export default function HomeScreen({ navigation }: Props) {
     { name: 'Calender', icon: require('../../assets/calender.png'), bgColor: '#FFF3E0', hasNotification: true, onPress: () => navigation.navigate('Calendar') },
     { name: 'Resignation', icon: require('../../assets/resignation-icon.png'), bgColor: '#E0F7FA', hasNotification: true, onPress: () => navigation.navigate('Resignation') },
     { name: 'Certificate', icon: require('../../assets/certificate.png'), bgColor: '#616161', hasNotification: false },
-    { name: 'ID Card', icon: require('../../assets/id card.png'), bgColor: '#FAF8F3', hasNotification: false, onPress: () => navigation.navigate('IDCard') },
-    { name: 'PF', icon: require('../../assets/PF.png'), bgColor: '#FAF8F3', hasNotification: false },
-    { name: 'ESI', icon: require('../../assets/ESI.png'), bgColor: '#FAF8F3', hasNotification: false },
+    { name: 'ID Card', icon: require('../../assets/id card (2).png'), bgColor: '#FFF9C4', hasNotification: false, onPress: () => navigation.navigate('IDCard') },
+    { name: 'PF', icon: require('../../assets/PF.png'), bgColor: '#FFF9C4', hasNotification: false },
+    { name: 'ESI', icon: require('../../assets/ESI.png'), bgColor: '#FFF9C4', hasNotification: false },
   ];
 
   const formatDate = (date: Date) => {
@@ -107,186 +108,178 @@ export default function HomeScreen({ navigation }: Props) {
     <View style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
       <StatusBar barStyle="dark-content" backgroundColor="white" />
       
+      {/* Fixed Header */}
+      <View style={{ backgroundColor: 'white', paddingHorizontal: spacing(20), paddingTop: hp(30), paddingBottom: spacing(16), flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'flex-start', flex: 1 }}>
+          {/* Company Icon */}
+          <Image 
+            source={require('../../assets/Group 1686559207.png')} 
+            style={{ width: wp(40), height: hp(40), borderRadius: 20, marginRight: spacing(12), resizeMode: 'cover' }} 
+          />
+          
+          <View style={{ flex: 1 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: spacing(4) }}>
+              <Text style={{ fontSize: fontSize(17), fontWeight: '700', color: '#12110D', fontFamily: 'Poppins-Bold' }}>Creative Designers</Text>
+              <Text style={{ fontSize: fontSize(12), color: '#12110D', marginLeft: spacing(6) }}>▼</Text>
+            </View>
+            <Text style={{ fontSize: fontSize(11), color: '#666', fontFamily: 'Poppins', lineHeight: 16 }}>Radhakishanpura ,Sikar +919460638554</Text>
+          </View>
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing(16) }}>
+          {/* Bell with notification dot */}
+          <TouchableOpacity style={{ position: 'relative' }}>
+            <Image source={require('../../assets/Frame.png')} style={{ width: wp(22), height: hp(22), resizeMode: 'contain' }} />
+            <View style={{ position: 'absolute', top: -2, right: -2, width: wp(8), height: hp(8), borderRadius: 4, backgroundColor: '#FF5252', borderWidth: 1.5, borderColor: 'white' }} />
+          </TouchableOpacity>
+          {/* Speaker/Sound icon */}
+          <TouchableOpacity>
+            <Image source={require('../../assets/Frame (1).png')} style={{ width: wp(22), height: hp(22), resizeMode: 'contain' }} />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Fixed User Profile and Time Tracking Card */}
+      <View style={{ marginHorizontal: spacing(16), marginTop: spacing(12), backgroundColor: 'white', borderRadius: 20, padding: spacing(18), shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.08, shadowRadius: 8, elevation: 3, borderWidth: 1, borderColor: '#E6E6E6' }}>
+        {/* User Profile Section */}
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: spacing(18), paddingBottom: spacing(18), borderBottomWidth: 1, borderBottomColor: '#E6E6E6' }}>
+          <Image 
+            source={require('../../assets/Profile picture.png')} 
+            style={{ width: wp(64), height: hp(64), borderRadius: 32, marginRight: spacing(14) }}
+          />
+          <View style={{ flex: 1 }}>
+            <Text style={{ fontSize: fontSize(17), fontWeight: '700', color: '#12110D', fontFamily: 'Poppins-Bold' }}>{name}</Text>
+            <Text style={{ fontSize: fontSize(13), color: '#666', fontFamily: 'Poppins', marginTop: spacing(3) }}>Sec 24, chandigarh</Text>
+          </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ width: wp(10), height: hp(10), borderRadius: 5, backgroundColor: '#FF5252', marginRight: spacing(8) }} />
+            <Text style={{ fontSize: fontSize(14), color: '#FF5252', fontFamily: 'Poppins-SemiBold' }}>Offline</Text>
+          </View>
+        </View>
+        {/* Date Row */}
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing(16), backgroundColor: '#EEF2FF', padding: 0, borderRadius: 12, overflow: 'hidden', marginHorizontal: -spacing(4) }}>
+          {/* Left date label with icon */}
+          <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: spacing(10), paddingHorizontal: spacing(12) }}>
+            <Image source={require('../../assets/calender.png')} style={{ width: wp(18), height: hp(18), marginRight: spacing(8), resizeMode: 'contain' }} />
+            <Text style={{ fontSize: fontSize(14), color: '#555', fontFamily: 'Poppins-Medium' }}>Date</Text>
+          </View>
+          {/* Right date value */}
+          <View style={{ paddingVertical: spacing(10), paddingHorizontal: spacing(12) }}>
+            <Text style={{ fontSize: fontSize(13), color: '#12110D', fontFamily: 'Poppins-SemiBold' }}>{formatDate(currentTime)}</Text>
+          </View>
+        </View>
+
+        {/* Branch Info */}
+        <View style={{ marginBottom: spacing(16), alignItems: 'center' }}>
+          <Text style={{ fontSize: fontSize(13), color: '#888', fontFamily: 'Poppins' }}>
+            Branch - <Text style={{ color: '#FF5252', fontWeight: '600' }}>Vinod handlooms</Text>
+          </Text>
+        </View>
+
+        {/* Working Hours */}
+        <View style={{ marginBottom: spacing(16), alignItems: 'center' }}>
+          <Text style={{ fontSize: fontSize(13), color: '#888', fontFamily: 'Poppins', marginBottom: spacing(8) }}>Total Working Hours</Text>
+          <Text style={{ fontSize: fontSize(32), fontWeight: '700', color: '#248CFF', fontFamily: 'Poppins-Bold', letterSpacing: 2 }}>00 : 00 : 00</Text>
+        </View>
+
+        <View style={{ height: 1, backgroundColor: '#E6E6E6', marginVertical: spacing(8), marginHorizontal: -spacing(6) }} />
+
+        {/* Punch Times */}
+        <View style={{ marginBottom: spacing(20) }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing(8) }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              {/* Clock icon */}
+              <View style={{ width: wp(14), height: hp(14), marginRight: spacing(8), alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ width: wp(12), height: hp(12), borderRadius: 6, borderWidth: 1.5, borderColor: '#888', position: 'relative' }}>
+                  <View style={{ position: 'absolute', top: 2, left: 5, width: 1, height: 3, backgroundColor: '#888' }} />
+                  <View style={{ position: 'absolute', top: 4, left: 5, width: 3, height: 1, backgroundColor: '#888' }} />
+                </View>
+              </View>
+              <Text style={{ fontSize: fontSize(12), color: '#888', fontFamily: 'Poppins' }}>Punch in time: 09:00 am</Text>
+            </View>
+            <Text style={{ fontSize: fontSize(13), color: '#12110D', fontFamily: 'Poppins-SemiBold' }}>{formatTime(currentTime)}</Text>
+          </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              {/* Clock icon */}
+              <View style={{ width: wp(14), height: hp(14), marginRight: spacing(8), alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ width: wp(12), height: hp(12), borderRadius: 6, borderWidth: 1.5, borderColor: '#888', position: 'relative' }}>
+                  <View style={{ position: 'absolute', top: 2, left: 5, width: 1, height: 3, backgroundColor: '#888' }} />
+                  <View style={{ position: 'absolute', top: 4, left: 5, width: 3, height: 1, backgroundColor: '#888' }} />
+                </View>
+              </View>
+              <Text style={{ fontSize: fontSize(12), color: '#888', fontFamily: 'Poppins' }}>Punch out time: 08:00 pm</Text>
+            </View>
+            <Text style={{ fontSize: fontSize(13), color: '#888', fontFamily: 'Poppins-SemiBold' }}>-- --</Text>
+          </View>
+        </View>
+
+        {/* Action Buttons */}
+        <View style={{ flexDirection: 'row', gap: spacing(14) }}>
+          <TouchableOpacity style={{ flex: 1, backgroundColor: '#4CAF50', height: hp(52), borderRadius: 28, alignItems: 'center', justifyContent: 'center', shadowColor: '#4CAF50', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8, elevation: 4 }}>
+            <Text style={{ color: '#fff', fontSize: fontSize(16), fontFamily: 'Poppins-Bold' }}>Punch In</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ flex: 1, backgroundColor: '#FF3B3B', height: hp(52), borderRadius: 28, alignItems: 'center', justifyContent: 'center', shadowColor: '#FF3B3B', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8, elevation: 4 }}>
+            <Text style={{ color: '#fff', fontSize: fontSize(16), fontFamily: 'Poppins-Bold' }}>Punch Out</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Scrollable Quick Actions Section */}
       <ScrollView
         style={{ flex: 1 }}
-        contentContainerStyle={{ paddingTop: 25, paddingBottom: 100 }}
-        nestedScrollEnabled
-        overScrollMode="always"
-        scrollEventThrottle={16}
-        keyboardDismissMode="on-drag"
+        contentContainerStyle={{ paddingHorizontal: spacing(16), paddingTop: spacing(20), paddingBottom: spacing(24) }}
         showsVerticalScrollIndicator={false}
       >
-        {/* Header */}
-        <View style={{ backgroundColor: 'white', paddingHorizontal: 20, paddingTop: 30, paddingBottom: 16, flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-          <View style={{ flexDirection: 'row', alignItems: 'flex-start', flex: 1 }}>
-            {/* Company Icon */}
-            <Image 
-              source={require('../../assets/Group 1686559207.png')} 
-              style={{ width: 40, height: 40, borderRadius: 20, marginRight: 12, resizeMode: 'cover' }} 
-            />
-            
-            <View style={{ flex: 1 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
-                <Text style={{ fontSize: 17, fontWeight: '700', color: '#12110D', fontFamily: 'Poppins-Bold' }}>Creative Designers</Text>
-                <Text style={{ fontSize: 12, color: '#12110D', marginLeft: 6 }}>▼</Text>
-              </View>
-              <Text style={{ fontSize: 11, color: '#666', fontFamily: 'Poppins', lineHeight: 16 }}>Radhakishanpura ,Sikar +919460638554</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
-            {/* Bell with notification dot */}
-            <TouchableOpacity style={{ position: 'relative' }}>
-              <Image source={require('../../assets/Frame.png')} style={{ width: 22, height: 22, resizeMode: 'contain' }} />
-              <View style={{ position: 'absolute', top: -2, right: -2, width: 8, height: 8, borderRadius: 4, backgroundColor: '#FF5252', borderWidth: 1.5, borderColor: 'white' }} />
-            </TouchableOpacity>
-            {/* Speaker/Sound icon */}
-            <TouchableOpacity>
-              <Image source={require('../../assets/Frame (1).png')} style={{ width: 22, height: 22, resizeMode: 'contain' }} />
-            </TouchableOpacity>
-          </View>
-        </View>
+        <Text style={{ fontSize: fontSize(17), fontWeight: '700', color: '#12110D', fontFamily: 'Poppins-Bold', marginBottom: spacing(16) }}>Quick Actions</Text>
 
-        {/* User Profile and Time Tracking Card - Single Container */}
-        <View style={{ marginHorizontal: 16, marginTop: 12, backgroundColor: 'white', borderRadius: 20, padding: 18, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.08, shadowRadius: 8, elevation: 3, borderWidth: 1, borderColor: '#E6E6E6' }}>
-          {/* User Profile Section */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 18, paddingBottom: 18, borderBottomWidth: 1, borderBottomColor: '#E6E6E6' }}>
-            <Image 
-              source={require('../../assets/Profile picture.png')} 
-              style={{ width: 64, height: 64, borderRadius: 32, marginRight: 14 }}
-            />
-            <View style={{ flex: 1 }}>
-              <Text style={{ fontSize: 17, fontWeight: '700', color: '#12110D', fontFamily: 'Poppins-Bold' }}>{name}</Text>
-              <Text style={{ fontSize: 13, color: '#666', fontFamily: 'Poppins', marginTop: 3 }}>Sec 24, chandigarh</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: '#FF5252', marginRight: 8 }} />
-              <Text style={{ fontSize: 14, color: '#FF5252', fontFamily: 'Poppins-SemiBold' }}>Offline</Text>
-            </View>
-          </View>
-          {/* Date Row */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, backgroundColor: '#EEF2FF', padding: 0, borderRadius: 12, overflow: 'hidden', marginHorizontal: -4 }}>
-            {/* Left date label with icon */}
-            <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: 12 }}>
-              <Image source={require('../../assets/calender.png')} style={{ width: 18, height: 18, marginRight: 8, resizeMode: 'contain' }} />
-              <Text style={{ fontSize: 14, color: '#555', fontFamily: 'Poppins-Medium' }}>Date</Text>
-            </View>
-            {/* Right date value */}
-            <View style={{ paddingVertical: 10, paddingHorizontal: 12 }}>
-              <Text style={{ fontSize: 13, color: '#12110D', fontFamily: 'Poppins-SemiBold' }}>{formatDate(currentTime)}</Text>
-            </View>
-          </View>
-
-          {/* Branch Info */}
-          <View style={{ marginBottom: 16, alignItems: 'center' }}>
-            <Text style={{ fontSize: 13, color: '#888', fontFamily: 'Poppins' }}>
-              Branch - <Text style={{ color: '#FF5252', fontWeight: '600' }}>Vinod handlooms</Text>
-            </Text>
-          </View>
-
-          {/* Working Hours */}
-          <View style={{ marginBottom: 16, alignItems: 'center' }}>
-            <Text style={{ fontSize: 13, color: '#888', fontFamily: 'Poppins', marginBottom: 8 }}>Total Working Hours</Text>
-            <Text style={{ fontSize: 32, fontWeight: '700', color: '#248CFF', fontFamily: 'Poppins-Bold', letterSpacing: 2 }}>00 : 00 : 00</Text>
-          </View>
-
-          <View style={{ height: 1, backgroundColor: '#E6E6E6', marginVertical: 8, marginHorizontal: -6 }} />
-
-          {/* Punch Times */}
-          <View style={{ marginBottom: 20 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                {/* Clock icon */}
-                <View style={{ width: 14, height: 14, marginRight: 8, alignItems: 'center', justifyContent: 'center' }}>
-                  <View style={{ width: 12, height: 12, borderRadius: 6, borderWidth: 1.5, borderColor: '#888', position: 'relative' }}>
-                    <View style={{ position: 'absolute', top: 2, left: 5, width: 1, height: 3, backgroundColor: '#888' }} />
-                    <View style={{ position: 'absolute', top: 4, left: 5, width: 3, height: 1, backgroundColor: '#888' }} />
-                  </View>
-                </View>
-                <Text style={{ fontSize: 12, color: '#888', fontFamily: 'Poppins' }}>Punch in time: 09:00 am</Text>
-              </View>
-              <Text style={{ fontSize: 13, color: '#12110D', fontFamily: 'Poppins-SemiBold' }}>{formatTime(currentTime)}</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                {/* Clock icon */}
-                <View style={{ width: 14, height: 14, marginRight: 8, alignItems: 'center', justifyContent: 'center' }}>
-                  <View style={{ width: 12, height: 12, borderRadius: 6, borderWidth: 1.5, borderColor: '#888', position: 'relative' }}>
-                    <View style={{ position: 'absolute', top: 2, left: 5, width: 1, height: 3, backgroundColor: '#888' }} />
-                    <View style={{ position: 'absolute', top: 4, left: 5, width: 3, height: 1, backgroundColor: '#888' }} />
-                  </View>
-                </View>
-                <Text style={{ fontSize: 12, color: '#888', fontFamily: 'Poppins' }}>Punch out time: 08:00 pm</Text>
-              </View>
-              <Text style={{ fontSize: 13, color: '#888', fontFamily: 'Poppins-SemiBold' }}>-- --</Text>
-            </View>
-          </View>
-
-          {/* Action Buttons */}
-          <View style={{ flexDirection: 'row', gap: 14 }}>
-            <TouchableOpacity style={{ flex: 1, backgroundColor: '#4CAF50', height: 52, borderRadius: 28, alignItems: 'center', justifyContent: 'center', shadowColor: '#4CAF50', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8, elevation: 4 }}>
-              <Text style={{ color: '#fff', fontSize: 16, fontFamily: 'Poppins-Bold' }}>Punch In</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={{ flex: 1, backgroundColor: '#FF3B3B', height: 52, borderRadius: 28, alignItems: 'center', justifyContent: 'center', shadowColor: '#FF3B3B', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8, elevation: 4 }}>
-              <Text style={{ color: '#fff', fontSize: 16, fontFamily: 'Poppins-Bold' }}>Punch Out</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Quick Actions */}
-        <View style={{ marginHorizontal: 16, marginTop: 20, marginBottom: 24 }}>
-          <Text style={{ fontSize: 17, fontWeight: '700', color: '#12110D', fontFamily: 'Poppins-Bold', marginBottom: 16 }}>Quick Actions</Text>
-
-          {/* Grid layout - 4 columns with proper spacing */}
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-            {quickActions.map((action, index) => {
-              const isLastInRow = (index + 1) % 4 === 0;
-              return (
-                <View 
-                  key={index} 
+        {/* Grid layout - 4 columns with proper spacing */}
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+          {quickActions.map((action, index) => {
+            const isLastInRow = (index + 1) % 4 === 0;
+            return (
+              <View 
+                key={index} 
+                style={{ 
+                  width: tileWidth, 
+                  marginBottom: spacing(16),
+                  marginRight: isLastInRow ? 0 : tileGap
+                }}
+              >
+                <TouchableOpacity 
+                  onPress={(action as any).onPress} 
                   style={{ 
-                    width: tileWidth, 
-                    marginBottom: 16,
-                    marginRight: isLastInRow ? 0 : tileGap
+                    borderRadius: 16, 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    width: tileWidth,
+                    height: tileWidth,
+                    position: 'relative', 
+                    padding: spacing(12), 
                   }}
                 >
-                  <TouchableOpacity 
-                    onPress={(action as any).onPress} 
-                    style={{ 
-                      backgroundColor: action.bgColor, 
-                      borderRadius: 16, 
-                      alignItems: 'center', 
-                      justifyContent: 'center', 
-                      aspectRatio: 1, 
-                      position: 'relative', 
-                      padding: 12, 
-                      shadowColor: '#000', 
-                      shadowOffset: { width: 0, height: 2 }, 
-                      shadowOpacity: 0.08, 
-                      shadowRadius: 8, 
-                      elevation: 3 
-                    }}
-                  >
-                    {action.hasNotification && (
-                      <View style={{ position: 'absolute', top: 8, right: 8, width: 10, height: 10, borderRadius: 5, backgroundColor: '#4CAF50' }} />
-                    )}
-                    {action.name === 'PF' ? (
-                      <View style={{ width: 52, height: 52, borderRadius: 26, backgroundColor: action.bgColor, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                        <Image source={action.icon} style={{ width: 52, height: 52, resizeMode: 'contain' }} />
-                      </View>
-                    ) : (
-                      <Image source={action.icon} style={{ width: 52, height: 52, resizeMode: 'contain', marginBottom: 8 }} />
-                    )}
-                  </TouchableOpacity>
-                  <Text style={{ fontSize: 11, color: '#12110D', fontFamily: 'Poppins', textAlign: 'center', marginTop: 6, lineHeight: 14 }} numberOfLines={2}>{action.name}</Text>
-                </View>
-              );
-            })}
-          </View>
+                  {action.hasNotification && (
+                    <View style={{ position: 'absolute', top: spacing(8), right: spacing(8), width: wp(10), height: hp(10), borderRadius: 5, backgroundColor: '#4CAF50' }} />
+                  )}
+                  <View style={{
+                    width: wp(48),
+                    height: wp(48),
+                    borderRadius: 12,
+                    backgroundColor: ['Expense', 'Asset', 'Calender', 'Agreements'].includes(action.name) ? action.bgColor : 'transparent',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <Image source={action.icon} style={{ width: wp(48), height: wp(48), resizeMode: 'contain' }} />
+                  </View>
+                </TouchableOpacity>
+                <Text style={{ fontSize: fontSize(11), color: '#12110D', fontFamily: 'Poppins', textAlign: 'center', marginTop: spacing(6), lineHeight: 14 }} numberOfLines={2}>{action.name}</Text>
+              </View>
+            );
+          })}
         </View>
 
         {/* Footer */}
-        <View style={{ alignItems: 'center', paddingBottom: 24, marginTop: 8 }}>
-          <Text style={{ fontSize: 13, color: '#666', fontFamily: 'Poppins' }}>
+        <View style={{ alignItems: 'center', paddingTop: spacing(24), marginTop: spacing(8) }}>
+          <Text style={{ fontSize: fontSize(13), color: '#666', fontFamily: 'Poppins' }}>
             Powered by - <Text style={{ fontWeight: '600', color: '#000' }}>Caar</Text><Text style={{ fontWeight: '600', color: '#FF6B6B' }}>o</Text><Text style={{ fontWeight: '600', color: '#000' }}>bar</Text>
           </Text>
         </View>

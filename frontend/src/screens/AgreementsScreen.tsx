@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, Modal, SafeAreaView, StatusBar, Platform } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { wp, hp, fontSize, spacing, SCREEN_WIDTH } from '../utils/responsive';
+import BackButton from '../components/BackButton';
 
 type RootStackParamList = {
   Language: undefined;
@@ -74,68 +76,70 @@ export default function AgreementsScreen({ navigation }: Props) {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      {/* Top Header */}
-      <View style={{ 
-        flexDirection: 'row', 
-        alignItems: 'center', 
-        justifyContent: 'space-between',
-        paddingHorizontal: 16,
-        paddingTop: 44,
-        paddingBottom: 12,
-        backgroundColor: '#FFFFFF'
-      }}>
-        {/* Left: Back Arrow and Logo */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 8, marginRight: 8 }}>
-            <Text style={{ fontSize: 20, color: '#000000' }}>←</Text>
-          </TouchableOpacity>
-          <Image 
-            source={require('../../assets/header carobar.png')} 
-            style={{ width: 96, height: 22, resizeMode: 'contain' }} 
-          />
-        </View>
-
-        {/* Right: Icons */}
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          {/* Bell with notification dot */}
-          <View style={{ position: 'relative', marginRight: 16 }}>
-            <TouchableOpacity style={{ padding: 4 }}>
-              <Image 
-                source={require('../../assets/Frame.png')} 
-                style={{ width: 22, height: 22, resizeMode: 'contain' }} 
-              />
-            </TouchableOpacity>
-            <View style={{ 
-              position: 'absolute', 
-              right: 2, 
-              top: 4, 
-              width: 8, 
-              height: 8, 
-              borderRadius: 4, 
-              backgroundColor: '#4CAF50' 
-            }} />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+        {/* Top Header */}
+        <View style={{ 
+          flexDirection: 'row', 
+          alignItems: 'center', 
+          justifyContent: 'space-between',
+          paddingHorizontal: spacing(16),
+          paddingTop: Platform.OS === 'ios' ? spacing(8) : spacing(12),
+          paddingBottom: spacing(12),
+          backgroundColor: '#FFFFFF'
+        }}>
+          {/* Left: Back Arrow and Logo */}
+          <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+            <View style={{ marginRight: spacing(8) }}>
+              <BackButton />
+            </View>
+            <Image 
+              source={require('../../assets/header carobar.png')} 
+              style={{ width: wp(96), height: hp(22), resizeMode: 'contain' }} 
+            />
           </View>
-          <TouchableOpacity style={{ padding: 4, marginRight: 16 }}>
-            <Text style={{ fontSize: 18, color: '#000000' }}>🔍</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{ padding: 4 }}>
-            <Text style={{ fontSize: 18, color: '#000000' }}>⋮</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
 
-      <ScrollView 
-        style={{ flex: 1 }}
-        contentContainerStyle={{ paddingBottom: 100, paddingHorizontal: 16 }}
-        showsVerticalScrollIndicator={false}
-      >
+          {/* Right: Icons */}
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            {/* Bell with notification dot */}
+            <View style={{ position: 'relative', marginRight: spacing(16) }}>
+              <TouchableOpacity style={{ padding: spacing(4) }}>
+                <Image 
+                  source={require('../../assets/Frame.png')} 
+                  style={{ width: wp(22), height: hp(22), resizeMode: 'contain' }} 
+                />
+              </TouchableOpacity>
+              <View style={{ 
+                position: 'absolute', 
+                right: spacing(2), 
+                top: spacing(4), 
+                width: wp(8), 
+                height: hp(8), 
+                borderRadius: 4, 
+                backgroundColor: '#4CAF50' 
+              }} />
+            </View>
+            <TouchableOpacity style={{ padding: spacing(4), marginRight: spacing(16) }}>
+              <Text style={{ fontSize: fontSize(18), color: '#000000' }}>🔍</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{ padding: spacing(4) }}>
+              <Text style={{ fontSize: fontSize(18), color: '#000000' }}>⋮</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <ScrollView 
+          style={{ flex: 1 }}
+          contentContainerStyle={{ paddingBottom: hp(120), paddingHorizontal: spacing(16), flexGrow: 1 }}
+          showsVerticalScrollIndicator={false}
+        >
         {/* Employee and Company Information Section - Card */}
         <View style={{ 
-          marginTop: 12, 
-          marginBottom: 24,
+          marginTop: spacing(12), 
+          marginBottom: spacing(24),
           backgroundColor: '#F5F5F5',
           borderRadius: 12,
-          padding: 16,
+          padding: spacing(16),
           shadowColor: '#000',
           shadowOffset: { width: 0, height: 1 },
           shadowOpacity: 0.1,
@@ -143,41 +147,41 @@ export default function AgreementsScreen({ navigation }: Props) {
           elevation: 2
         }}>
           {/* Top Section: Company Logo (Left) and Company Info (Right) */}
-          <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 20 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: spacing(20) }}>
             {/* Company Logo on Left */}
             <View style={{ flex: 1 }}>
               <Image 
                 source={require('../../assets/creative designers.png')} 
-                style={{ width: 140, height: 40, resizeMode: 'contain' }} 
+                style={{ width: wp(140), height: hp(40), resizeMode: 'contain' }} 
               />
             </View>
 
             {/* Company Info on Right */}
             <View style={{ alignItems: 'flex-end' }}>
-              <Text style={{ fontSize: 14, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: 4 }}>
+              <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(4) }}>
                 Creative Designers
               </Text>
-              <Text style={{ fontSize: 12, color: '#666666', fontFamily: 'Poppins', marginBottom: 2 }}>
+              <Text style={{ fontSize: fontSize(12), color: '#666666', fontFamily: 'Poppins', marginBottom: spacing(2) }}>
                 Radhakishanpura, Sikar
               </Text>
-              <Text style={{ fontSize: 12, color: '#666666', fontFamily: 'Poppins' }}>
+              <Text style={{ fontSize: fontSize(12), color: '#666666', fontFamily: 'Poppins' }}>
                 +919460638554
               </Text>
             </View>
           </View>
 
           {/* Middle Section: Profile Picture (Center) with Name/Role and Ellipsis (Right) */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 20, position: 'relative' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: spacing(20), position: 'relative' }}>
             {/* Profile Picture and Info in Center */}
             <View style={{ alignItems: 'center', flex: 1 }}>
               <Image 
                 source={require('../../assets/Profile picture.png')} 
-                style={{ width: 80, height: 80, borderRadius: 40, marginBottom: 8 }} 
+                style={{ width: wp(80), height: hp(80), borderRadius: 40, marginBottom: spacing(8) }} 
               />
-              <Text style={{ fontSize: 16, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: 4, textAlign: 'center' }}>
+              <Text style={{ fontSize: fontSize(16), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: spacing(4), textAlign: 'center' }}>
                 Kamal Jangid
               </Text>
-              <Text style={{ fontSize: 14, color: '#666666', fontFamily: 'Poppins', textAlign: 'center' }}>
+              <Text style={{ fontSize: fontSize(14), color: '#666666', fontFamily: 'Poppins', textAlign: 'center' }}>
                 Carpenter
               </Text>
             </View>
@@ -185,43 +189,43 @@ export default function AgreementsScreen({ navigation }: Props) {
             {/* Ellipsis icon on Far Right */}
             <View style={{ position: 'absolute', right: 0 }}>
               <TouchableOpacity>
-                <Text style={{ fontSize: 18, color: '#000000' }}>⋮</Text>
+                <Text style={{ fontSize: fontSize(18), color: '#000000' }}>⋮</Text>
               </TouchableOpacity>
             </View>
           </View>
 
           {/* Bottom Section: Joining Date (Left), AGREEMENT (Center), Emp id (Right) */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingTop: 12, borderTopWidth: 1, borderTopColor: '#E0E0E0' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingTop: spacing(12), borderTopWidth: 1, borderTopColor: '#E0E0E0' }}>
             {/* Joining Date on Left */}
-            <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>
+            <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }}>
               Joining 01/11/23
             </Text>
 
             {/* AGREEMENT in Center */}
             <View style={{ flex: 1, alignItems: 'center' }}>
               <TouchableOpacity>
-                <Text style={{ fontSize: 16, fontWeight: '700', color: '#E91E63', fontFamily: 'Poppins-Bold', textDecorationLine: 'underline' }}>
+                <Text style={{ fontSize: fontSize(16), fontWeight: '700', color: '#E91E63', fontFamily: 'Poppins-Bold', textDecorationLine: 'underline' }}>
                   AGREEMENT
                 </Text>
               </TouchableOpacity>
             </View>
 
             {/* Emp id on Right */}
-            <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>
+            <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }}>
               Emp id - 001
             </Text>
           </View>
         </View>
 
         {/* Terms and Conditions Section */}
-        <View style={{ marginBottom: 24 }}>
+        <View style={{ marginBottom: spacing(24) }}>
           {agreementTerms.map((term, index) => (
-            <View key={index} style={{ marginBottom: 20 }}>
+            <View key={index} style={{ marginBottom: spacing(20) }}>
               <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
-                <Text style={{ fontSize: 14, fontWeight: '500', color: '#000000', fontFamily: 'Inter', marginRight: 12, minWidth: 35, lineHeight: 28 }}>
+                <Text style={{ fontSize: fontSize(14), fontWeight: '500', color: '#000000', fontFamily: 'Inter', marginRight: spacing(12), minWidth: wp(35), lineHeight: 28 }}>
                   {term.number}.
                 </Text>
-                <Text style={{ fontSize: 14, fontWeight: '500', color: '#000000', fontFamily: 'Inter', flex: 1, lineHeight: 28, letterSpacing: 0 }}>
+                <Text style={{ fontSize: fontSize(14), fontWeight: '500', color: '#000000', fontFamily: 'Inter', flex: 1, lineHeight: 28, letterSpacing: 0 }}>
                   {term.text}
                 </Text>
               </View>
@@ -231,51 +235,50 @@ export default function AgreementsScreen({ navigation }: Props) {
       </ScrollView>
 
       {/* Footer Actions */}
-      <View style={{ 
-        position: 'absolute', 
-        bottom: 0, 
-        left: 0, 
-        right: 0, 
-        backgroundColor: '#FFFFFF',
-        paddingHorizontal: 16,
-        paddingTop: 16,
-        paddingBottom: 16,
-        borderTopWidth: 1,
-        borderTopColor: '#E0E0E0'
-      }}>
-        {/* Signature - Top Right */}
-        <View style={{ alignItems: 'flex-end', marginBottom: 16 }}>
-          <TouchableOpacity>
-            <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins', textDecorationLine: 'underline' }}>
-              Signature
-            </Text>
-          </TouchableOpacity>
-        </View>
+      <SafeAreaView style={{ backgroundColor: '#FFFFFF' }}>
+          <View style={{ 
+            backgroundColor: '#FFFFFF',
+            paddingHorizontal: spacing(16),
+            paddingTop: spacing(16),
+            paddingBottom: Platform.OS === 'ios' ? spacing(8) : spacing(16),
+            borderTopWidth: 1,
+            borderTopColor: '#E0E0E0'
+          }}>
+            {/* Signature - Top Right */}
+            <View style={{ alignItems: 'flex-end', marginBottom: spacing(16) }}>
+              <TouchableOpacity>
+                <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins', textDecorationLine: 'underline' }}>
+                  Signature
+                </Text>
+              </TouchableOpacity>
+            </View>
 
-        {/* Add Typing Button - Centered Below, Smaller Size */}
-        <View style={{ alignItems: 'center' }}>
-          <TouchableOpacity 
-            onPress={() => setShowSuccessModal(true)}
-            style={{
-              backgroundColor: '#2196F3',
-              paddingVertical: 12,
-              paddingHorizontal: 32,
-              borderRadius: 24,
-              alignItems: 'center',
-              justifyContent: 'center',
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.1,
-              shadowRadius: 4,
-              elevation: 3
-            }}
-          >
-            <Text style={{ fontSize: 14, fontWeight: '600', color: '#FFFFFF', fontFamily: 'Poppins-SemiBold' }}>
-              Add Typing
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+            {/* Add Typing Button - Centered Below, Smaller Size */}
+            <View style={{ alignItems: 'center' }}>
+              <TouchableOpacity 
+                onPress={() => setShowSuccessModal(true)}
+                style={{
+                  backgroundColor: '#2196F3',
+                  paddingVertical: spacing(12),
+                  paddingHorizontal: spacing(32),
+                  borderRadius: 24,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.1,
+                  shadowRadius: 4,
+                  elevation: 3
+                }}
+              >
+                <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#FFFFFF', fontFamily: 'Poppins-SemiBold' }}>
+                  Add Typing
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+      </SafeAreaView>
+      </SafeAreaView>
 
       {/* Success Modal */}
       <Modal

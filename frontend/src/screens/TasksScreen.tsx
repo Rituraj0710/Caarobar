@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView, Modal, Pressable } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, Modal, Pressable, SafeAreaView, StatusBar, Platform } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { wp, hp, fontSize, spacing, SCREEN_WIDTH, tableCellWidth } from '../utils/responsive';
+import BackButton from '../components/BackButton';
 
 type RootStackParamList = {
   Language: undefined;
@@ -119,8 +121,10 @@ export default function TasksScreen({ navigation }: Props) {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      {/* Top Header */}
-      <View style={{ 
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+        {/* Top Header */}
+        <View style={{ 
         flexDirection: 'row', 
         alignItems: 'center', 
         justifyContent: 'space-between',
@@ -131,9 +135,9 @@ export default function TasksScreen({ navigation }: Props) {
       }}>
         {/* Left: Back Arrow and Logo */}
         <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 8, marginRight: 8 }}>
-            <Text style={{ fontSize: 20, color: '#000000' }}>←</Text>
-          </TouchableOpacity>
+          <View style={{ marginRight: 8 }}>
+            <BackButton />
+          </View>
           <Image 
             source={require('../../assets/header carobar.png')} 
             style={{ width: 96, height: 22, resizeMode: 'contain' }} 
@@ -472,10 +476,10 @@ export default function TasksScreen({ navigation }: Props) {
       <TouchableOpacity
         style={{
           position: 'absolute',
-          bottom: 100,
-          right: 16,
-          width: 56,
-          height: 56,
+          bottom: hp(100),
+          right: spacing(16),
+          width: wp(56),
+          height: hp(56),
           borderRadius: 28,
           backgroundColor: activeTab === 'Tasks' ? '#4CAF50' : activeTab === 'Order Book' ? '#4285F4' : '#E53935',
           alignItems: 'center',
@@ -496,55 +500,56 @@ export default function TasksScreen({ navigation }: Props) {
           }
         }}
       >
-        <Text style={{ fontSize: 28, color: '#FFFFFF', lineHeight: 28 }}>+</Text>
+        <Text style={{ fontSize: fontSize(28), color: '#FFFFFF', lineHeight: 28 }}>+</Text>
       </TouchableOpacity>
 
       {/* Bottom Navigation Bar */}
-      <View style={{
-        position: 'absolute',
-        bottom: 40,
-        left: 16,
-        right: 16,
-        backgroundColor: '#FFFFFF',
-        borderTopWidth: 1,
-        borderTopColor: '#E0E0E0',
-        borderRadius: 12,
-        flexDirection: 'row',
-        paddingVertical: 12,
-        paddingHorizontal: 16,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: -2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 5
-      }}>
-        {(['Order Book', 'Tasks', 'Maintenance'] as TabType[]).map((tab) => (
-          <TouchableOpacity
-            key={tab}
-            onPress={() => setActiveTab(tab)}
-            style={{ flex: 1, alignItems: 'center' }}
-          >
-            <Text style={{
-              fontSize: 14,
-              color: activeTab === tab ? '#000000' : '#9E9E9E',
-              fontFamily: activeTab === tab ? 'Poppins-Bold' : 'Poppins',
-              fontWeight: activeTab === tab ? '700' : '400',
-              marginBottom: 4
-            }}>
-              {tab}
-            </Text>
-            {activeTab === tab && (
-              <View style={{
-                width: '100%',
-                height: 3,
-                backgroundColor: tab === 'Order Book' ? '#4285F4' : tab === 'Tasks' ? '#4CAF50' : '#E53935',
-                borderRadius: 2,
-                marginTop: 2
-              }} />
-            )}
-          </TouchableOpacity>
-        ))}
-      </View>
+      <SafeAreaView style={{ backgroundColor: '#FFFFFF' }}>
+        <View style={{
+          backgroundColor: '#FFFFFF',
+          marginHorizontal: spacing(16),
+          marginBottom: Platform.OS === 'ios' ? spacing(8) : spacing(16),
+          borderTopWidth: 1,
+          borderTopColor: '#E0E0E0',
+          borderRadius: 12,
+          flexDirection: 'row',
+          paddingVertical: spacing(12),
+          paddingHorizontal: spacing(16),
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: -2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 5
+        }}>
+          {(['Order Book', 'Tasks', 'Maintenance'] as TabType[]).map((tab) => (
+            <TouchableOpacity
+              key={tab}
+              onPress={() => setActiveTab(tab)}
+              style={{ flex: 1, alignItems: 'center' }}
+            >
+              <Text style={{
+                fontSize: fontSize(14),
+                color: activeTab === tab ? '#000000' : '#9E9E9E',
+                fontFamily: activeTab === tab ? 'Poppins-Bold' : 'Poppins',
+                fontWeight: activeTab === tab ? '700' : '400',
+                marginBottom: spacing(4)
+              }}>
+                {tab}
+              </Text>
+              {activeTab === tab && (
+                <View style={{
+                  width: '100%',
+                  height: 3,
+                  backgroundColor: tab === 'Order Book' ? '#4285F4' : tab === 'Tasks' ? '#4CAF50' : '#E53935',
+                  borderRadius: 2,
+                  marginTop: spacing(2)
+                }} />
+              )}
+            </TouchableOpacity>
+          ))}
+        </View>
+      </SafeAreaView>
+      </SafeAreaView>
 
       {/* Search Modal - Dropdown from Search Icon */}
       <Modal

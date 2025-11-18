@@ -1,14 +1,12 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, StatusBar, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StatusBar, StyleSheet } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialIcons } from '@expo/vector-icons';
-
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+import { wp, hp, fontSize, spacing, SCREEN_WIDTH } from '../utils/responsive';
 
 type RootStackParamList = {
   RoleSelection: undefined;
-  Language: undefined;
   SignIn: { role?: 'Admin' | 'Employee' };
   Register: undefined;
 };
@@ -19,8 +17,8 @@ export default function RoleSelectionScreen({ navigation }: Props) {
   const handleRoleSelection = async (role: 'Admin' | 'Employee') => {
     // Store the selected role
     await AsyncStorage.setItem('@selectedRole', role);
-    // Navigate to Language screen
-    navigation.navigate('Language');
+    // Navigate directly to SignIn
+    navigation.navigate('SignIn', { role });
   };
 
   return (
@@ -32,7 +30,7 @@ export default function RoleSelectionScreen({ navigation }: Props) {
         {/* Logo Section */}
         <View style={styles.logoContainer}>
           <Image
-            source={require('../../assets/Logo.png')}
+            source={require('../../assets/caarobar (2) 1.png')}
             style={styles.logo}
             resizeMode="contain"
           />
@@ -87,16 +85,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: spacing(20),
   },
   centeredContent: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    maxWidth: 400,
+    maxWidth: wp(400),
     alignSelf: 'center',
-    gap: 32, // Equal spacing between logo and both buttons
+    gap: spacing(32), // Equal spacing between logo and both buttons
   },
   logoContainer: {
     alignItems: 'center',
@@ -104,31 +102,29 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   logo: {
-    width: SCREEN_WIDTH * 1.0, // Full width of screen (minus padding)
-    height: SCREEN_WIDTH * 0.5, // Maintain aspect ratio
-    maxWidth: 650,
-    maxHeight: 350,
-    borderWidth: 0, // Remove any border
+    width: wp(280), // Adjusted width for better proportions
+    height: hp(150), // Adjusted height for better proportions
+    resizeMode: 'contain',
   },
   adminButton: {
     width: '100%',
-    height: 55,
+    height: hp(55),
     backgroundColor: '#FFFFFF',
     borderWidth: 1,
     borderColor: '#6BA3FF', // Light blue border as shown in screenshot
-    borderRadius: 12, // Rounded corners
+    borderRadius: hp(55) / 2, // Fully rounded corners (half of height for perfect circle/rounded)
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: spacing(16),
   },
   employeeButton: {
     width: '100%',
-    height: 55,
+    height: hp(55),
     backgroundColor: '#2979FF', // Solid blue background
-    borderRadius: 12, // Rounded corners
+    borderRadius: hp(55) / 2, // Fully rounded corners (half of height for perfect circle/rounded)
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: spacing(16),
   },
   buttonContent: {
     flexDirection: 'row',
@@ -137,12 +133,12 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   iconWrapper: {
-    marginRight: 12, // Space between icon and text
+    marginRight: spacing(12), // Space between icon and text
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
-    width: 28,
-    height: 28,
+    width: wp(28),
+    height: hp(28),
   },
   badgeIcon: {
     position: 'absolute',
@@ -150,32 +146,34 @@ const styles = StyleSheet.create({
     right: -4,
   },
   adminButtonText: {
-    fontSize: 16,
+    fontSize: fontSize(16),
     fontWeight: '500',
     color: '#6BA3FF', // Light blue text to match border
     fontFamily: 'Poppins-Medium',
   },
   employeeButtonText: {
-    fontSize: 16,
+    fontSize: fontSize(16),
     fontWeight: '500',
     color: '#FFFFFF', // White text
     fontFamily: 'Poppins-Medium',
   },
   registerContainer: {
     position: 'absolute',
-    bottom: 40,
+    bottom: hp(40),
     alignSelf: 'center',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: spacing(20),
+    flexWrap: 'wrap',
   },
   registerText: {
-    fontSize: 14,
+    fontSize: fontSize(14),
     color: '#666666', // Dark grey text as shown in screenshot
     fontFamily: 'Poppins',
   },
   registerLink: {
-    fontSize: 14,
+    fontSize: fontSize(14),
     color: '#2979FF', // Blue color for clickable link
     fontWeight: '500',
     fontFamily: 'Poppins-Medium',

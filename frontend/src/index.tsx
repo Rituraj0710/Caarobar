@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RoleSelectionScreen from './screens/RoleSelectionScreen';
-import LanguageScreen from './screens/LanguageScreen';
 import SignInScreen from './screens/SignInScreen';
 import OTPVerificationScreen from './screens/OTPVerificationScreen';
 import RegisterScreen from './screens/RegisterScreen';
@@ -39,10 +38,10 @@ import EmployeeManagementScreen from './screens/EmployeeManagementScreen';
 import EmployeeDetailScreen from './screens/EmployeeDetailScreen';
 import AdminLeaveRequestDetailScreen from './screens/AdminLeaveRequestDetailScreen';
 import AdminPaymentRequestDetailScreen from './screens/AdminPaymentRequestDetailScreen';
+import BusinessProfileScreen from './screens/BusinessProfileScreen';
 
 type RootStackParamList = {
   RoleSelection: undefined;
-  Language: undefined;
   SignIn: { role?: 'Admin' | 'Employee' };
   OTPVerification: { identifier: string; role?: 'Admin' | 'Employee' };
   Register: undefined;
@@ -114,6 +113,7 @@ type RootStackParamList = {
     status?: string;
     reason?: string;
   };
+  BusinessProfile: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -133,7 +133,6 @@ export default function App() {
           initialRouteName="RoleSelection"
         >
           <Stack.Screen name="RoleSelection" component={RoleSelectionScreen} />
-          <Stack.Screen name="Language" component={LanguageScreen} />
           <Stack.Screen name="SignIn" component={SignInScreen} />
           <Stack.Screen name="OTPVerification" component={OTPVerificationScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
@@ -167,6 +166,7 @@ export default function App() {
           <Stack.Screen name="EmployeeDetail" component={EmployeeDetailScreen} />
           <Stack.Screen name="AdminLeaveRequestDetail" component={AdminLeaveRequestDetailScreen} />
           <Stack.Screen name="AdminPaymentRequestDetail" component={AdminPaymentRequestDetailScreen} />
+          <Stack.Screen name="BusinessProfile" component={BusinessProfileScreen} />
         </Stack.Navigator>
       </SafeAreaView>
     </NavigationContainer>

@@ -3,6 +3,7 @@ import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '@/lib/api';
+import BackButton from '../components/BackButton';
 
 type RootStackParamList = {
   Language: undefined;
@@ -86,9 +87,7 @@ export default function LeaveRequestDetailScreen({ navigation }: Props) {
         backgroundColor: '#FFFFFF'
       }}>
         {/* Left: Back Arrow */}
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 8 }}>
-          <Text style={{ fontSize: 20, color: '#000000' }}>←</Text>
-        </TouchableOpacity>
+        <BackButton />
 
         {/* Center: Logo */}
         <View style={{ flex: 1, alignItems: 'center' }}>
