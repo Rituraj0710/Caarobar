@@ -2,7 +2,7 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RoleSelectionScreen from './screens/RoleSelectionScreen';
 import SignInScreen from './screens/SignInScreen';
@@ -24,8 +24,10 @@ import AddTaskScreen from './screens/AddTaskScreen';
 import AddMaintenanceScreen from './screens/AddMaintenanceScreen';
 import WorkHistoryScreen from './screens/WorkHistoryScreen';
 import DailyWorkHistoryScreen from './screens/DailyWorkHistoryScreen';
+import DailyWorkHistoryInDetailScreen from './screens/DailyWorkHistoryInDetailScreen';
 import ExpenseRequestReportScreen from './screens/ExpenseRequestReportScreen';
 import ExpenseRequestDetailScreen from './screens/ExpenseRequestDetailScreen';
+import PaymentRequestReportScreen from './screens/PaymentRequestReportScreen';
 import PaymentRequestDetailScreen from './screens/PaymentRequestDetailScreen';
 import ApplyForPaymentScreen from './screens/ApplyForPaymentScreen';
 import ApplyForExpenseScreen from './screens/ApplyForExpenseScreen';
@@ -66,8 +68,10 @@ type RootStackParamList = {
   AddMaintenance: undefined;
   WorkHistory: undefined;
   DailyWorkHistory: { month: string; monthNumber: string; year: string };
+  DailyWorkHistoryInDetail: { month: string; monthNumber: string; year: string };
   ExpenseRequestReport: undefined;
   ExpenseRequestDetail: { month: string; monthNumber: string; year: string };
+  PaymentRequestReport: undefined;
   PaymentRequestDetail: { month: string; monthNumber: string; year: string };
   ApplyForPayment: undefined;
   ApplyForExpense: undefined;
@@ -125,9 +129,9 @@ const theme = {
 
 export default function App() {
   return (
-    <NavigationContainer theme={theme}>
-      <StatusBar style="dark" />
-      <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaProvider>
+      <NavigationContainer theme={theme}>
+        <StatusBar style="dark" />
         <Stack.Navigator
           screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#FFFFFF' } }}
           initialRouteName="RoleSelection"
@@ -152,8 +156,10 @@ export default function App() {
           <Stack.Screen name="AddMaintenance" component={AddMaintenanceScreen} />
           <Stack.Screen name="WorkHistory" component={WorkHistoryScreen} />
           <Stack.Screen name="DailyWorkHistory" component={DailyWorkHistoryScreen} />
+          <Stack.Screen name="DailyWorkHistoryInDetail" component={DailyWorkHistoryInDetailScreen} />
           <Stack.Screen name="ExpenseRequestReport" component={ExpenseRequestReportScreen} />
           <Stack.Screen name="ExpenseRequestDetail" component={ExpenseRequestDetailScreen} />
+          <Stack.Screen name="PaymentRequestReport" component={PaymentRequestReportScreen} />
           <Stack.Screen name="PaymentRequestDetail" component={PaymentRequestDetailScreen} />
           <Stack.Screen name="ApplyForPayment" component={ApplyForPaymentScreen} />
           <Stack.Screen name="ApplyForExpense" component={ApplyForExpenseScreen} />
@@ -168,8 +174,8 @@ export default function App() {
           <Stack.Screen name="AdminPaymentRequestDetail" component={AdminPaymentRequestDetailScreen} />
           <Stack.Screen name="BusinessProfile" component={BusinessProfileScreen} />
         </Stack.Navigator>
-      </SafeAreaView>
-    </NavigationContainer>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
 

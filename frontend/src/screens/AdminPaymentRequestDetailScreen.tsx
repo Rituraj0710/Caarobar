@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import BackButton from '../components/BackButton';
+import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
+import SafeAreaView from '../components/SafeAreaView';
 
 type RootStackParamList = {
   AdminPaymentRequestDetail: {
@@ -31,6 +33,7 @@ export default function AdminPaymentRequestDetailScreen({ navigation, route }: P
     status = 'Pending',
     reason = 'I am feeling unwell & need to see a doctor'
   } = route.params || {};
+  const insets = useSafeArea();
 
   const handlePaymentTransfer = () => {
     // TODO: Implement payment transfer functionality
@@ -54,61 +57,63 @@ export default function AdminPaymentRequestDetailScreen({ navigation, route }: P
       <StatusBar barStyle="light-content" backgroundColor="#4285F4" />
       
       {/* Blue Header */}
-      <View style={{
-        backgroundColor: '#4285F4',
-        paddingTop: 44,
-        paddingBottom: 12,
-        paddingHorizontal: 16,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between'
-      }}>
-        {/* Back Arrow */}
-        <BackButton color="#FFFFFF" />
-
-        {/* Title */}
-        <Text style={{
-          fontSize: 18,
-          fontWeight: '700',
-          color: '#FFFFFF',
-          fontFamily: 'Poppins-Bold',
-          flex: 1,
-          textAlign: 'center',
-          marginRight: 40
+      <SafeAreaView edges={['top']} style={{ backgroundColor: '#4285F4' }}>
+        <View style={{
+          backgroundColor: '#4285F4',
+          paddingTop: hp(10),
+          paddingBottom: spacing(12),
+          paddingHorizontal: spacing(16),
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between'
         }}>
-          Payment Request Details
-        </Text>
-      </View>
+          {/* Back Arrow */}
+          <BackButton color="#FFFFFF" />
+
+          {/* Title */}
+          <Text style={{
+            fontSize: fontSize(18),
+            fontWeight: '700',
+            color: '#FFFFFF',
+            fontFamily: 'Poppins-Bold',
+            flex: 1,
+            textAlign: 'center',
+            marginRight: wp(40)
+          }} allowFontScaling={false}>
+            Payment Request Details
+          </Text>
+        </View>
+      </SafeAreaView>
 
       <ScrollView
         style={{ flex: 1 }}
-        contentContainerStyle={{ paddingBottom: 160 }}
+        contentContainerStyle={{ paddingBottom: hp(160) + insets.bottom }}
         showsVerticalScrollIndicator={false}
       >
         {/* Payment Request Information Section */}
-        <View style={{ paddingHorizontal: 16, paddingTop: 20 }}>
+        <View style={{ paddingHorizontal: spacing(16), paddingTop: spacing(20) }}>
           {/* Payment Type */}
           <View style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            paddingVertical: 16,
+            paddingVertical: spacing(16),
             borderBottomWidth: 1,
             borderBottomColor: '#E0E0E0'
           }}>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               Payment Type
             </Text>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins',
               fontWeight: '600'
-            }}>
+            }} allowFontScaling={false}>
               {paymentType}
             </Text>
           </View>
@@ -118,23 +123,23 @@ export default function AdminPaymentRequestDetailScreen({ navigation, route }: P
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            paddingVertical: 16,
+            paddingVertical: spacing(16),
             borderBottomWidth: 1,
             borderBottomColor: '#E0E0E0'
           }}>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               Request Date
             </Text>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins',
               fontWeight: '600'
-            }}>
+            }} allowFontScaling={false}>
               {requestDate}
             </Text>
           </View>
@@ -144,23 +149,23 @@ export default function AdminPaymentRequestDetailScreen({ navigation, route }: P
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            paddingVertical: 16,
+            paddingVertical: spacing(16),
             borderBottomWidth: 1,
             borderBottomColor: '#E0E0E0'
           }}>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               Requested Date
             </Text>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins',
               fontWeight: '600'
-            }}>
+            }} allowFontScaling={false}>
               {requestedDate}
             </Text>
           </View>
@@ -170,23 +175,23 @@ export default function AdminPaymentRequestDetailScreen({ navigation, route }: P
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            paddingVertical: 16,
+            paddingVertical: spacing(16),
             borderBottomWidth: 1,
             borderBottomColor: '#E0E0E0'
           }}>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               Amount
             </Text>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins',
               fontWeight: '600'
-            }}>
+            }} allowFontScaling={false}>
               {amount}
             </Text>
           </View>
@@ -196,23 +201,23 @@ export default function AdminPaymentRequestDetailScreen({ navigation, route }: P
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            paddingVertical: 16,
+            paddingVertical: spacing(16),
             borderBottomWidth: 1,
             borderBottomColor: '#E0E0E0'
           }}>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               Approved By
             </Text>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins',
               fontWeight: '600'
-            }}>
+            }} allowFontScaling={false}>
               {approvedBy}
             </Text>
           </View>
@@ -222,81 +227,81 @@ export default function AdminPaymentRequestDetailScreen({ navigation, route }: P
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            paddingVertical: 16,
+            paddingVertical: spacing(16),
             borderBottomWidth: 1,
             borderBottomColor: '#E0E0E0'
           }}>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               Status
             </Text>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: status === 'Pending' ? '#F59E0B' : status === 'Approved' ? '#4CAF50' : '#E53935',
               fontFamily: 'Poppins',
               fontWeight: '600'
-            }}>
+            }} allowFontScaling={false}>
               {status}
             </Text>
           </View>
         </View>
 
         {/* Reason for Leave Section */}
-        <View style={{ paddingHorizontal: 16, paddingTop: 20 }}>
+        <View style={{ paddingHorizontal: spacing(16), paddingTop: spacing(20) }}>
           <Text style={{
-            fontSize: 14,
+            fontSize: fontSize(14),
             color: '#000000',
             fontFamily: 'Poppins',
-            marginBottom: 8
-          }}>
-            Reason for Leave :-
+            marginBottom: spacing(8)
+          }} allowFontScaling={false}>
+            Reason for Leave :- 
           </Text>
           <View style={{
             borderWidth: 1,
             borderColor: '#E0E0E0',
-            borderRadius: 8,
-            padding: 12,
-            minHeight: 100,
+            borderRadius: hp(8),
+            padding: spacing(12),
+            minHeight: hp(100),
             backgroundColor: '#FAFAFA'
           }}>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins',
-              lineHeight: 20
-            }}>
+              lineHeight: hp(20)
+            }} allowFontScaling={false}>
               • {reason}
             </Text>
           </View>
         </View>
 
         {/* Add Image Section */}
-        <View style={{ paddingHorizontal: 16, paddingTop: 20 }}>
+        <View style={{ paddingHorizontal: spacing(16), paddingTop: spacing(20) }}>
           <Text style={{
-            fontSize: 14,
+            fontSize: fontSize(14),
             color: '#4285F4',
             fontFamily: 'Poppins',
             fontWeight: '600',
-            marginBottom: 12
-          }}>
+            marginBottom: spacing(12)
+          }} allowFontScaling={false}>
             Add Image
           </Text>
           <View style={{
             flexDirection: 'row',
             alignItems: 'center',
-            gap: 12
+            gap: spacing(12)
           }}>
             {/* Dashed Border Box with Upload Icon */}
             <View style={{
-              width: 120,
-              height: 120,
+              width: wp(120),
+              height: hp(120),
               borderWidth: 2,
               borderColor: '#E0E0E0',
               borderStyle: 'dashed',
-              borderRadius: 8,
+              borderRadius: hp(8),
               alignItems: 'center',
               justifyContent: 'center',
               backgroundColor: '#FAFAFA',
@@ -305,16 +310,16 @@ export default function AdminPaymentRequestDetailScreen({ navigation, route }: P
               {/* Cloud/Upload Icon - Large Black Cloud with Up Arrow */}
               <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                 {/* Large Cloud Shape */}
-                <Text style={{ fontSize: 60, color: '#000000', marginBottom: 8 }}>☁</Text>
+                <Text style={{ fontSize: fontSize(60), color: '#000000', marginBottom: spacing(8) }} allowFontScaling={false}>☁</Text>
                 {/* Up Arrow inside cloud */}
                 <View style={{
                   position: 'absolute',
-                  bottom: 25,
+                  bottom: hp(25),
                   width: 0,
                   height: 0,
-                  borderLeftWidth: 10,
-                  borderRightWidth: 10,
-                  borderBottomWidth: 14,
+                  borderLeftWidth: wp(10),
+                  borderRightWidth: wp(10),
+                  borderBottomWidth: hp(14),
                   borderLeftColor: 'transparent',
                   borderRightColor: 'transparent',
                   borderBottomColor: '#000000'
@@ -325,9 +330,9 @@ export default function AdminPaymentRequestDetailScreen({ navigation, route }: P
             {/* Circular Plus Button */}
             <TouchableOpacity
               style={{
-                width: 50,
-                height: 50,
-                borderRadius: 25,
+                width: wp(50),
+                height: hp(50),
+                borderRadius: hp(25),
                 backgroundColor: '#000000',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -339,108 +344,106 @@ export default function AdminPaymentRequestDetailScreen({ navigation, route }: P
                 console.log('Add image');
               }}
             >
-              <Text style={{ fontSize: 24, color: '#FFFFFF', fontWeight: 'bold' }}>+</Text>
+              <Text style={{ fontSize: fontSize(24), color: '#FFFFFF', fontWeight: 'bold' }} allowFontScaling={false}>+</Text>
             </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
 
       {/* Action Buttons Footer */}
-      <View style={{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        backgroundColor: '#FFFFFF',
-        paddingHorizontal: 16,
-        paddingTop: 12,
-        paddingBottom: 34,
-        borderTopWidth: 1,
-        borderTopColor: '#E0E0E0',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: -2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 5
-      }}>
-        {/* Payment Transfer To Salary A/C Button */}
-        <TouchableOpacity
-          onPress={handlePaymentTransfer}
-          style={{
-            backgroundColor: '#FF9800',
-            borderRadius: 8,
-            paddingVertical: 14,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 12
-          }}
-        >
-          <Text style={{
-            fontSize: 16,
-            color: '#000000',
-            fontFamily: 'Poppins-Bold',
-            fontWeight: '700'
-          }}>
-            Payment Transfer To Salary A/C
-          </Text>
-        </TouchableOpacity>
-
-        {/* Reject and Approve Buttons */}
+      <SafeAreaView edges={['bottom']} style={{ backgroundColor: '#FFFFFF' }}>
         <View style={{
-          flexDirection: 'row',
-          gap: 12
+          backgroundColor: '#FFFFFF',
+          paddingHorizontal: spacing(16),
+          paddingTop: spacing(12),
+          paddingBottom: spacing(24),
+          borderTopWidth: 1,
+          borderTopColor: '#E0E0E0',
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: hp(-2) },
+          shadowOpacity: 0.1,
+          shadowRadius: hp(4),
+          elevation: 5
         }}>
-          {/* Reject Button */}
+          {/* Payment Transfer To Salary A/C Button */}
           <TouchableOpacity
-            onPress={handleReject}
+            onPress={handlePaymentTransfer}
             style={{
-              flex: 1,
-              backgroundColor: '#E53935',
-              borderRadius: 8,
-              paddingVertical: 14,
+              backgroundColor: '#FF9800',
+              borderRadius: hp(8),
+              paddingVertical: spacing(14),
               alignItems: 'center',
               justifyContent: 'center',
-              flexDirection: 'row',
-              gap: 8
+              marginBottom: spacing(12)
             }}
           >
-            <Text style={{ fontSize: 20, color: '#FFFFFF', fontWeight: 'bold' }}>×</Text>
             <Text style={{
-              fontSize: 16,
-              color: '#FFFFFF',
+              fontSize: fontSize(16),
+              color: '#000000',
               fontFamily: 'Poppins-Bold',
               fontWeight: '700'
-            }}>
-              Reject
+            }} allowFontScaling={false}>
+              Payment Transfer To Salary A/C
             </Text>
           </TouchableOpacity>
 
-          {/* Approve Button */}
-          <TouchableOpacity
-            onPress={handleApprove}
-            style={{
-              flex: 1,
-              backgroundColor: '#4CAF50',
-              borderRadius: 8,
-              paddingVertical: 14,
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'row',
-              gap: 8
-            }}
-          >
-            <Text style={{ fontSize: 20, color: '#FFFFFF', fontWeight: 'bold' }}>✓</Text>
-            <Text style={{
-              fontSize: 16,
-              color: '#FFFFFF',
-              fontFamily: 'Poppins-Bold',
-              fontWeight: '700'
-            }}>
-              Approve
-            </Text>
-          </TouchableOpacity>
+          {/* Reject and Approve Buttons */}
+          <View style={{
+            flexDirection: 'row',
+            gap: spacing(12)
+          }}>
+            {/* Reject Button */}
+            <TouchableOpacity
+              onPress={handleReject}
+              style={{
+                flex: 1,
+                backgroundColor: '#E53935',
+                borderRadius: hp(8),
+                paddingVertical: spacing(14),
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'row',
+                gap: spacing(8)
+              }}
+            >
+              <Text style={{ fontSize: fontSize(20), color: '#FFFFFF', fontWeight: 'bold' }} allowFontScaling={false}>×</Text>
+              <Text style={{
+                fontSize: fontSize(16),
+                color: '#FFFFFF',
+                fontFamily: 'Poppins-Bold',
+                fontWeight: '700'
+              }} allowFontScaling={false}>
+                Reject
+              </Text>
+            </TouchableOpacity>
+
+            {/* Approve Button */}
+            <TouchableOpacity
+              onPress={handleApprove}
+              style={{
+                flex: 1,
+                backgroundColor: '#4CAF50',
+                borderRadius: hp(8),
+                paddingVertical: spacing(14),
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'row',
+                gap: spacing(8)
+              }}
+            >
+              <Text style={{ fontSize: fontSize(20), color: '#FFFFFF', fontWeight: 'bold' }} allowFontScaling={false}>✓</Text>
+              <Text style={{
+                fontSize: fontSize(16),
+                color: '#FFFFFF',
+                fontFamily: 'Poppins-Bold',
+                fontWeight: '700'
+              }} allowFontScaling={false}>
+                Approve
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </SafeAreaView>
     </View>
   );
 }

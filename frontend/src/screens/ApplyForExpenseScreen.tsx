@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, TextInput, Modal, TouchableWithoutFeedback } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
+import SafeAreaView from '../components/SafeAreaView';
 
 type RootStackParamList = {
   Language: undefined;
@@ -78,34 +80,36 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
     navigation.goBack();
   };
 
+  const insets = useSafeArea();
+
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       {/* Header */}
       <View style={{ 
         backgroundColor: '#2196F3', 
-        paddingTop: 44, 
-        paddingBottom: 16, 
-        paddingHorizontal: 16,
+        paddingTop: spacing(12), 
+        paddingBottom: spacing(16), 
+        paddingHorizontal: spacing(16),
         flexDirection: 'row',
         alignItems: 'center'
       }}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginRight: 16 }}>
-          <Text style={{ fontSize: 24, color: '#FFFFFF' }}>←</Text>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginRight: spacing(16) }}>
+          <Text style={{ fontSize: fontSize(24), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
         </TouchableOpacity>
-        <Text style={{ fontSize: 18, fontWeight: '600', color: '#FFFFFF', fontFamily: 'Poppins-SemiBold', flex: 1, textAlign: 'center' }}>
+        <Text style={{ fontSize: fontSize(18), fontWeight: '600', color: '#FFFFFF', fontFamily: 'Poppins-SemiBold', flex: 1, textAlign: 'center' }} allowFontScaling={false}>
           Apply for Expense
         </Text>
-        <View style={{ width: 40 }} />
+        <View style={{ width: wp(40) }} />
       </View>
 
       <ScrollView 
         style={{ flex: 1 }}
-        contentContainerStyle={{ padding: 16, paddingBottom: 100 }}
+        contentContainerStyle={{ padding: spacing(16), paddingBottom: spacing(100) + insets.bottom }}
         showsVerticalScrollIndicator={false}
       >
         {/* Expense Type */}
-        <View style={{ marginBottom: 20 }}>
-          <Text style={{ fontSize: 14, fontWeight: '600', color: '#2196F3', fontFamily: 'Poppins-SemiBold', marginBottom: 8 }}>
+        <View style={{ marginBottom: spacing(20) }}>
+          <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#2196F3', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
             Expense Type
           </Text>
           <TouchableOpacity 
@@ -113,25 +117,25 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
             style={{
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: 8,
-              paddingVertical: 12,
-              paddingHorizontal: 16,
+              borderRadius: spacing(8),
+              paddingVertical: spacing(12),
+              paddingHorizontal: spacing(16),
               backgroundColor: '#FFFFFF',
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between'
             }}
           >
-            <Text style={{ fontSize: 14, color: expenseType ? '#000000' : '#999999', fontFamily: 'Poppins' }}>
+            <Text style={{ fontSize: fontSize(14), color: expenseType ? '#000000' : '#999999', fontFamily: 'Poppins' }} allowFontScaling={false}>
               {expenseType || 'Select'}
             </Text>
-            <Text style={{ fontSize: 12, color: '#000000' }}>▼</Text>
+            <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>▼</Text>
           </TouchableOpacity>
         </View>
 
         {/* Select Date */}
-        <View style={{ marginBottom: 20 }}>
-          <Text style={{ fontSize: 14, fontWeight: '600', color: '#2196F3', fontFamily: 'Poppins-SemiBold', marginBottom: 8 }}>
+        <View style={{ marginBottom: spacing(20) }}>
+          <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#2196F3', fontFamily: 'Poppins-SemiBold', marginBottom: 8 }}>
             Select Date
           </Text>
           <TouchableOpacity 
@@ -139,25 +143,25 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
             style={{
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: 8,
-              paddingVertical: 12,
-              paddingHorizontal: 16,
+              borderRadius: spacing(8),
+              paddingVertical: spacing(12),
+              paddingHorizontal: spacing(16),
               backgroundColor: '#FFFFFF',
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between'
             }}
           >
-            <Text style={{ fontSize: 14, color: selectedDate ? '#000000' : '#999999', fontFamily: 'Poppins' }}>
+            <Text style={{ fontSize: fontSize(14), color: selectedDate ? '#000000' : '#999999', fontFamily: 'Poppins' }}>
               {selectedDate || 'Enter Date'}
             </Text>
-            <Text style={{ fontSize: 16, color: '#000000' }}>📅</Text>
+            <Text style={{ fontSize: fontSize(16), color: '#000000' }}>📅</Text>
           </TouchableOpacity>
         </View>
 
         {/* Amount */}
-        <View style={{ marginBottom: 20 }}>
-          <Text style={{ fontSize: 14, fontWeight: '600', color: '#2196F3', fontFamily: 'Poppins-SemiBold', marginBottom: 8 }}>
+        <View style={{ marginBottom: spacing(20) }}>
+          <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#2196F3', fontFamily: 'Poppins-SemiBold', marginBottom: 8 }}>
             Amount
           </Text>
           <TextInput
@@ -169,11 +173,11 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
             style={{
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: 8,
-              paddingVertical: 12,
-              paddingHorizontal: 16,
+              borderRadius: spacing(8),
+              paddingVertical: spacing(12),
+              paddingHorizontal: spacing(16),
               backgroundColor: '#FFFFFF',
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
             }}
@@ -181,8 +185,8 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
         </View>
 
         {/* Payment Mode */}
-        <View style={{ marginBottom: 20 }}>
-          <Text style={{ fontSize: 14, fontWeight: '600', color: '#2196F3', fontFamily: 'Poppins-SemiBold', marginBottom: 8 }}>
+        <View style={{ marginBottom: spacing(20) }}>
+          <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#2196F3', fontFamily: 'Poppins-SemiBold', marginBottom: 8 }}>
             Payment Mode
           </Text>
           <TouchableOpacity 
@@ -190,25 +194,25 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
             style={{
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: 8,
-              paddingVertical: 12,
-              paddingHorizontal: 16,
+              borderRadius: spacing(8),
+              paddingVertical: spacing(12),
+              paddingHorizontal: spacing(16),
               backgroundColor: '#FFFFFF',
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between'
             }}
           >
-            <Text style={{ fontSize: 14, color: paymentMode ? '#000000' : '#999999', fontFamily: 'Poppins' }}>
+            <Text style={{ fontSize: fontSize(14), color: paymentMode ? '#000000' : '#999999', fontFamily: 'Poppins' }}>
               {paymentMode || 'Select'}
             </Text>
-            <Text style={{ fontSize: 12, color: '#000000' }}>▼</Text>
+            <Text style={{ fontSize: fontSize(12), color: '#000000' }}>▼</Text>
           </TouchableOpacity>
         </View>
 
         {/* Reason for Payment */}
-        <View style={{ marginBottom: 20 }}>
-          <Text style={{ fontSize: 14, fontWeight: '600', color: '#2196F3', fontFamily: 'Poppins-SemiBold', marginBottom: 8 }}>
+        <View style={{ marginBottom: spacing(20) }}>
+          <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#2196F3', fontFamily: 'Poppins-SemiBold', marginBottom: 8 }}>
             Reason for Payment
           </Text>
           <TextInput
@@ -222,11 +226,11 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
             style={{
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: 8,
-              paddingVertical: 12,
-              paddingHorizontal: 16,
+              borderRadius: spacing(8),
+              paddingVertical: spacing(12),
+              paddingHorizontal: spacing(16),
               backgroundColor: '#FFFFFF',
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins',
               minHeight: 100
@@ -235,8 +239,8 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
         </View>
 
         {/* Add Image */}
-        <View style={{ marginBottom: 20 }}>
-          <Text style={{ fontSize: 14, fontWeight: '600', color: '#2196F3', fontFamily: 'Poppins-SemiBold', marginBottom: 8 }}>
+        <View style={{ marginBottom: spacing(20) }}>
+          <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#2196F3', fontFamily: 'Poppins-SemiBold', marginBottom: 8 }}>
             Add Image
           </Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
@@ -247,7 +251,7 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
                 height: 120,
                 borderWidth: 1,
                 borderColor: '#E0E0E0',
-                borderRadius: 8,
+                borderRadius: spacing(8),
                 backgroundColor: '#FFFFFF',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -295,12 +299,12 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
           style={{
             backgroundColor: '#2196F3',
             paddingVertical: 14,
-            borderRadius: 8,
+            borderRadius: spacing(8),
             alignItems: 'center',
             justifyContent: 'center'
           }}
         >
-          <Text style={{ fontSize: 16, fontWeight: '600', color: '#FFFFFF', fontFamily: 'Poppins-SemiBold' }}>
+          <Text style={{ fontSize: fontSize(16), fontWeight: '600', color: '#FFFFFF', fontFamily: 'Poppins-SemiBold' }}>
             Apply
           </Text>
         </TouchableOpacity>
@@ -317,7 +321,7 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
           <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' }}>
             <TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
               <View style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 20, borderTopRightRadius: 20, padding: 20 }}>
-                <Text style={{ fontSize: 18, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: 16 }}>
+                <Text style={{ fontSize: fontSize(18), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: 16 }}>
                   Select Expense Type
                 </Text>
                 {expenseTypes.map((type, index) => (
@@ -328,12 +332,12 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
                       setShowExpenseTypeModal(false);
                     }}
                     style={{
-                      paddingVertical: 12,
+                      paddingVertical: spacing(12),
                       borderBottomWidth: index < expenseTypes.length - 1 ? 1 : 0,
                       borderBottomColor: '#E0E0E0'
                     }}
                   >
-                    <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins' }}>{index + 1}. {type}</Text>
+                    <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins' }}>{index + 1}. {type}</Text>
                   </TouchableOpacity>
                 ))}
               </View>
@@ -353,7 +357,7 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
           <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' }}>
             <TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
               <View style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 20, borderTopRightRadius: 20, padding: 20 }}>
-                <Text style={{ fontSize: 18, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: 16 }}>
+                <Text style={{ fontSize: fontSize(18), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: 16 }}>
                   Select Payment Mode
                 </Text>
                 {paymentModes.map((mode, index) => (
@@ -364,12 +368,12 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
                       setShowPaymentModeModal(false);
                     }}
                     style={{
-                      paddingVertical: 12,
+                      paddingVertical: spacing(12),
                       borderBottomWidth: index < paymentModes.length - 1 ? 1 : 0,
                       borderBottomColor: '#E0E0E0'
                     }}
                   >
-                    <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins' }}>{index + 1}. {mode}</Text>
+                    <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins' }}>{index + 1}. {mode}</Text>
                   </TouchableOpacity>
                 ))}
               </View>
@@ -401,7 +405,7 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
                 elevation: 8
               }}>
                 {/* Calendar Header */}
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, position: 'relative' }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing(20), position: 'relative' }}>
                   <TouchableOpacity onPress={() => {
                     if (currentMonth === 1) {
                       setCurrentMonth(12);
@@ -412,11 +416,11 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
                   }}>
                     <Text style={{ fontSize: 20, color: '#000000' }}>←</Text>
                   </TouchableOpacity>
-                  <Text style={{ fontSize: 18, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }}>
+                  <Text style={{ fontSize: fontSize(18), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }}>
                     {new Date(currentYear, currentMonth - 1).toLocaleString('default', { month: 'long', year: 'numeric' })}
                   </Text>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                    <Text style={{ fontSize: 16, color: '#000000' }}>📅</Text>
+                    <Text style={{ fontSize: fontSize(16), color: '#000000' }}>📅</Text>
                     <TouchableOpacity onPress={() => {
                       if (currentMonth === 12) {
                         setCurrentMonth(1);
@@ -434,7 +438,7 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
                 <View style={{ flexDirection: 'row', marginBottom: 12 }}>
                   {['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'].map((day) => (
                     <View key={day} style={{ flex: 1, alignItems: 'center' }}>
-                      <Text style={{ fontSize: 12, fontWeight: '600', color: '#666666', fontFamily: 'Poppins-SemiBold' }}>{day}</Text>
+                      <Text style={{ fontSize: fontSize(12), fontWeight: '600', color: '#666666', fontFamily: 'Poppins-SemiBold' }}>{day}</Text>
                     </View>
                   ))}
                 </View>
@@ -464,7 +468,7 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
                         justifyContent: 'center'
                       }}>
                         <Text style={{
-                          fontSize: 14,
+                          fontSize: fontSize(14),
                           color: selectedDay === day ? '#FFFFFF' : '#000000',
                           fontFamily: 'Poppins',
                           fontWeight: selectedDay === day ? '600' : '400'
@@ -552,7 +556,7 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
 
                 {/* Confirmation Text */}
                 <Text style={{ 
-                  fontSize: 14, 
+                  fontSize: fontSize(14), 
                   color: '#666666', 
                   fontFamily: 'Poppins',
                   marginBottom: 32,
@@ -568,18 +572,18 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
                     backgroundColor: '#2196F3',
                     paddingVertical: 14,
                     paddingHorizontal: 48,
-                    borderRadius: 8,
+                    borderRadius: spacing(8),
                     width: '100%',
                     alignItems: 'center',
                     justifyContent: 'center'
                   }}
                 >
                   <Text style={{ 
-                    fontSize: 16, 
+                    fontSize: fontSize(16), 
                     fontWeight: '600', 
                     color: '#FFFFFF', 
                     fontFamily: 'Poppins-SemiBold' 
-                  }}>
+                  }} allowFontScaling={false}>
                     Done
                   </Text>
                 </TouchableOpacity>
@@ -588,7 +592,7 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
           </View>
         </TouchableWithoutFeedback>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }
 

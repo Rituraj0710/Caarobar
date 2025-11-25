@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView, TextInput, Modal, TouchableWithoutFeedback, Pressable } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
+import SafeAreaView from '../components/SafeAreaView';
 
 type RootStackParamList = {
   Language: undefined;
@@ -108,40 +110,42 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
     navigation.goBack();
   };
 
+  const insets = useSafeArea();
+
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       {/* Blue Header Bar */}
       <View style={{
         backgroundColor: '#2196F3',
-        paddingTop: 44,
-        paddingBottom: 16,
-        paddingHorizontal: 16,
+        paddingTop: spacing(12),
+        paddingBottom: spacing(16),
+        paddingHorizontal: spacing(16),
         flexDirection: 'row',
         alignItems: 'center'
       }}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 8, marginRight: 16 }}>
-          <Text style={{ fontSize: 20, color: '#FFFFFF' }}>←</Text>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: spacing(8), marginRight: spacing(16) }}>
+          <Text style={{ fontSize: fontSize(20), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
         </TouchableOpacity>
         <Text style={{
-          fontSize: 18,
+          fontSize: fontSize(18),
           fontWeight: '700',
           color: '#FFFFFF',
           fontFamily: 'Poppins-Bold',
           flex: 1
-        }}>
+        }} allowFontScaling={false}>
           Apply for Payment
         </Text>
       </View>
 
       <ScrollView
         style={{ flex: 1 }}
-        contentContainerStyle={{ padding: 16, paddingBottom: 100 }}
+        contentContainerStyle={{ padding: spacing(16), paddingBottom: spacing(100) + insets.bottom }}
         showsVerticalScrollIndicator={false}
       >
         {/* Payment Type Field */}
-        <View style={{ marginBottom: 20, zIndex: showPaymentTypeModal ? 1000 : 1 }}>
+        <View style={{ marginBottom: spacing(20), zIndex: showPaymentTypeModal ? 1000 : 1 }}>
           <Text style={{
-            fontSize: 14,
+            fontSize: fontSize(14),
             fontWeight: '600',
             color: '#2196F3',
             fontFamily: 'Poppins-SemiBold',
@@ -158,22 +162,22 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: 8,
+              borderRadius: spacing(8),
               paddingVertical: 14,
-              paddingHorizontal: 16,
+              paddingHorizontal: spacing(16),
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between'
             }}
           >
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: paymentType ? '#000000' : '#9E9E9E',
               fontFamily: 'Poppins'
             }}>
               {paymentType || 'Select'}
             </Text>
-            <Text style={{ fontSize: 16, color: '#000000', transform: [{ rotate: showPaymentTypeModal ? '180deg' : '0deg' }] }}>▼</Text>
+            <Text style={{ fontSize: fontSize(16), color: '#000000', transform: [{ rotate: showPaymentTypeModal ? '180deg' : '0deg' }] }}>▼</Text>
           </TouchableOpacity>
           
           {/* Inline Dropdown Options */}
@@ -183,7 +187,7 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
                 backgroundColor: '#FFFFFF',
                 borderWidth: 1,
                 borderColor: '#E0E0E0',
-                borderRadius: 8,
+                borderRadius: spacing(8),
                 marginTop: 4,
                 maxHeight: 300,
                 shadowColor: '#000',
@@ -201,13 +205,13 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
                     }}
                     style={{
                       paddingVertical: 14,
-                      paddingHorizontal: 16,
+                      paddingHorizontal: spacing(16),
                       borderBottomWidth: index < paymentTypes.length - 1 ? 1 : 0,
                       borderBottomColor: '#E0E0E0'
                     }}
                   >
                     <Text style={{
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       color: '#000000',
                       fontFamily: 'Poppins'
                     }}>
@@ -221,9 +225,9 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
         </View>
 
         {/* Select Date Field */}
-        <View style={{ marginBottom: 20 }}>
+        <View style={{ marginBottom: spacing(20) }}>
           <Text style={{
-            fontSize: 14,
+            fontSize: fontSize(14),
             fontWeight: '600',
             color: '#2196F3',
             fontFamily: 'Poppins-SemiBold',
@@ -237,16 +241,16 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: 8,
+              borderRadius: spacing(8),
               paddingVertical: 14,
-              paddingHorizontal: 16,
+              paddingHorizontal: spacing(16),
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between'
             }}
           >
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: selectedDate ? '#000000' : '#9E9E9E',
               fontFamily: 'Poppins'
             }}>
@@ -260,9 +264,9 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
         </View>
 
         {/* Amount Field */}
-        <View style={{ marginBottom: 20, zIndex: showAmountModal ? 1000 : 1 }}>
+        <View style={{ marginBottom: spacing(20), zIndex: showAmountModal ? 1000 : 1 }}>
           <Text style={{
-            fontSize: 14,
+            fontSize: fontSize(14),
             fontWeight: '600',
             color: '#2196F3',
             fontFamily: 'Poppins-SemiBold',
@@ -279,22 +283,22 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: 8,
+              borderRadius: spacing(8),
               paddingVertical: 14,
-              paddingHorizontal: 16,
+              paddingHorizontal: spacing(16),
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between'
             }}
           >
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: amount ? '#000000' : '#9E9E9E',
               fontFamily: 'Poppins'
             }}>
               {amount || 'Select'}
             </Text>
-            <Text style={{ fontSize: 16, color: '#000000', transform: [{ rotate: showAmountModal ? '180deg' : '0deg' }] }}>▼</Text>
+            <Text style={{ fontSize: fontSize(16), color: '#000000', transform: [{ rotate: showAmountModal ? '180deg' : '0deg' }] }}>▼</Text>
           </TouchableOpacity>
           
           {/* Inline Dropdown Options */}
@@ -304,7 +308,7 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
                 backgroundColor: '#FFFFFF',
                 borderWidth: 1,
                 borderColor: '#E0E0E0',
-                borderRadius: 8,
+                borderRadius: spacing(8),
                 marginTop: 4,
                 maxHeight: 300,
                 shadowColor: '#000',
@@ -322,13 +326,13 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
                     }}
                     style={{
                       paddingVertical: 14,
-                      paddingHorizontal: 16,
+                      paddingHorizontal: spacing(16),
                       borderBottomWidth: index < amountOptions.length - 1 ? 1 : 0,
                       borderBottomColor: '#E0E0E0'
                     }}
                   >
                     <Text style={{
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       color: '#000000',
                       fontFamily: 'Poppins'
                     }}>
@@ -342,9 +346,9 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
         </View>
 
         {/* Reason for Payment Text Area */}
-        <View style={{ marginBottom: 20 }}>
+        <View style={{ marginBottom: spacing(20) }}>
           <Text style={{
-            fontSize: 14,
+            fontSize: fontSize(14),
             fontWeight: '600',
             color: '#2196F3',
             fontFamily: 'Poppins-SemiBold',
@@ -363,10 +367,10 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: 8,
+              borderRadius: spacing(8),
               paddingVertical: 14,
-              paddingHorizontal: 16,
-              fontSize: 14,
+              paddingHorizontal: spacing(16),
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins',
               textAlignVertical: 'top',
@@ -378,7 +382,7 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
         {/* Add Image Section */}
         <View style={{ marginBottom: 40 }}>
           <Text style={{
-            fontSize: 14,
+            fontSize: fontSize(14),
             fontWeight: '600',
             color: '#2196F3',
             fontFamily: 'Poppins-SemiBold',
@@ -392,7 +396,7 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
                 backgroundColor: '#FFFFFF',
                 borderWidth: 1,
                 borderColor: '#E0E0E0',
-                borderRadius: 8,
+                borderRadius: spacing(8),
                 width: 120,
                 height: 120,
                 alignItems: 'center',
@@ -401,7 +405,7 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
             >
               <Text style={{ fontSize: 32, color: '#000000', marginBottom: 8 }}>☁</Text>
               <Text style={{
-                fontSize: 12,
+                fontSize: fontSize(12),
                 color: '#2196F3',
                 fontFamily: 'Poppins-SemiBold'
               }}>
@@ -453,7 +457,7 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
           }}
         >
           <Text style={{
-            fontSize: 16,
+            fontSize: fontSize(16),
             fontWeight: '700',
             color: '#FFFFFF',
             fontFamily: 'Poppins-Bold'
@@ -495,7 +499,7 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
               flexDirection: 'row', 
               justifyContent: 'space-between', 
               alignItems: 'center', 
-              marginBottom: 20
+              marginBottom: spacing(20)
             }}>
               <TouchableOpacity 
                 onPress={() => {
@@ -508,11 +512,11 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
                 }}
                 style={{ padding: 8, marginLeft: -8 }}
               >
-                <Text style={{ fontSize: 18, color: '#000000', fontWeight: '600' }}>&lt;</Text>
+                <Text style={{ fontSize: fontSize(18), color: '#000000', fontWeight: '600' }}>&lt;</Text>
               </TouchableOpacity>
               
               <Text style={{
-                fontSize: 16,
+                fontSize: fontSize(16),
                 fontWeight: '700',
                 color: '#000000',
                 fontFamily: 'Poppins-Bold'
@@ -532,7 +536,7 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
                   }}
                   style={{ padding: 8, marginRight: -8 }}
                 >
-                  <Text style={{ fontSize: 18, color: '#000000', fontWeight: '600' }}>&gt;</Text>
+                  <Text style={{ fontSize: fontSize(18), color: '#000000', fontWeight: '600' }}>&gt;</Text>
                 </TouchableOpacity>
                 
                 <TouchableOpacity onPress={() => setShowDatePicker(false)} style={{ padding: 4 }}>
@@ -554,7 +558,7 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
               {weekDays.map((day, index) => (
                 <View key={index} style={{ flex: 1, alignItems: 'center' }}>
                   <Text style={{ 
-                    fontSize: 12,
+                    fontSize: fontSize(12),
                     color: '#9E9E9E', 
                     fontFamily: 'Poppins', 
                     fontWeight: '500'
@@ -600,7 +604,7 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
                           justifyContent: 'center'
                         }}>
                           <Text style={{
-                            fontSize: 14,
+                            fontSize: fontSize(14),
                             color: isSelected ? '#FFFFFF' : '#000000',
                             fontFamily: 'Poppins',
                             fontWeight: isSelected ? '600' : '400'
@@ -682,7 +686,7 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
 
             {/* Confirmation Text */}
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#9E9E9E',
               fontFamily: 'Poppins',
               marginBottom: 32,
@@ -710,18 +714,18 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
               }}
             >
               <Text style={{
-                fontSize: 16,
+                fontSize: fontSize(16),
                 fontWeight: '700',
                 color: '#FFFFFF',
                 fontFamily: 'Poppins-Bold'
-              }}>
+              }} allowFontScaling={false}>
                 Done
               </Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -27,6 +27,12 @@
     "plugins": [
       "expo-asset",
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "880d081c-c49a-4a91-8ab5-30bfdf456c25"
+      }
+    },
+    "owner": "rituraj07"
   }
 }

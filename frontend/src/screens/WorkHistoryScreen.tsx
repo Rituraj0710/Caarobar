@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, StatusBar } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import BackButton from '../components/BackButton';
+import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
+import SafeAreaView from '../components/SafeAreaView';
 
 type RootStackParamList = {
   Language: undefined;
@@ -35,7 +36,7 @@ interface WorkHistoryData {
 
 const workHistoryData: WorkHistoryData[] = [
   { month: 'January', monthNumber: '01' },
-  { month: 'February', monthNumber: '02', absent: 27, present: 4, totalHours: 40, overtime: '08', salary: 6202 },
+  { month: 'February', monthNumber: '02', absent: 27, present: 4, totalHours: 40, overtime: '08', salary: 9202 },
   { month: 'March', monthNumber: '03' },
   { month: 'April', monthNumber: '04' },
   { month: 'May', monthNumber: '05' },
@@ -49,6 +50,7 @@ const workHistoryData: WorkHistoryData[] = [
 ];
 
 export default function WorkHistoryScreen({ navigation }: Props) {
+  const insets = useSafeArea();
   const [selectedYear] = useState('2025');
 
   // Calculate grand total
@@ -62,157 +64,149 @@ export default function WorkHistoryScreen({ navigation }: Props) {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      {/* Top Header */}
-      <View style={{ 
-        flexDirection: 'row', 
-        alignItems: 'center', 
-        justifyContent: 'space-between',
-        paddingHorizontal: 16,
-        paddingTop: 44,
-        paddingBottom: 12,
-        backgroundColor: '#FFFFFF'
-      }}>
-        {/* Left: Back Arrow and Logo */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-          <View style={{ marginRight: 8 }}>
-            <BackButton />
-          </View>
-          <Image 
-            source={require('../../assets/header carobar.png')} 
-            style={{ width: 96, height: 22, resizeMode: 'contain' }} 
-          />
-        </View>
-
-        {/* Right: Icons */}
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          {/* Bell with notification dot */}
-          <View style={{ position: 'relative', marginRight: 16 }}>
-            <TouchableOpacity style={{ padding: 4 }}>
-              <Image 
-                source={require('../../assets/Frame.png')} 
-                style={{ width: 22, height: 22, resizeMode: 'contain' }} 
-              />
-            </TouchableOpacity>
-            <View style={{ 
-              position: 'absolute', 
-              right: 2, 
-              top: 4, 
-              width: 8, 
-              height: 8, 
-              borderRadius: 4, 
-              backgroundColor: '#4CAF50' 
-            }} />
-          </View>
-          <TouchableOpacity style={{ padding: 4, marginRight: 16 }}>
-            <Text style={{ fontSize: 18, color: '#000000' }}>🔍</Text>
+      <StatusBar barStyle="light-content" backgroundColor="#248CFF" />
+      <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+        {/* Blue Header Bar */}
+        <View style={{ 
+          flexDirection: 'row', 
+          alignItems: 'center', 
+          paddingHorizontal: spacing(16),
+          paddingTop: spacing(12),
+          paddingBottom: spacing(12),
+          backgroundColor: '#248CFF'
+        }}>
+          {/* Left: Back Arrow */}
+          <TouchableOpacity 
+            onPress={() => navigation.goBack()}
+            style={{ marginRight: spacing(12) }}
+            hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}
+          >
+            <Text style={{ fontSize: fontSize(24), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{ padding: 4 }}>
-            <Text style={{ fontSize: 18, color: '#000000' }}>⋮</Text>
-          </TouchableOpacity>
+          
+          {/* Center: Title */}
+          <Text style={{ 
+            fontSize: fontSize(20), 
+            fontWeight: '700', 
+            color: '#FFFFFF', 
+            fontFamily: 'Poppins-Bold',
+            flex: 1
+          }} allowFontScaling={false}>
+            Work History Report
+          </Text>
         </View>
-      </View>
 
       <ScrollView 
         style={{ flex: 1 }}
-        contentContainerStyle={{ paddingBottom: 40, paddingHorizontal: 16 }}
+        contentContainerStyle={{ paddingBottom: spacing(40) + insets.bottom, paddingHorizontal: spacing(16) }}
         showsVerticalScrollIndicator={false}
       >
-        {/* Employee and Company Information Section */}
-        <View style={{ marginTop: 12, marginBottom: 24 }}>
-          {/* Single Row: Logo, Profile Picture, Company Text */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
-            {/* Company Logo on Left */}
+        {/* Employee Information Card */}
+        <View style={{ 
+          marginTop: spacing(16), 
+          marginBottom: spacing(20),
+          backgroundColor: '#FFFFFF',
+          borderRadius: hp(12),
+          padding: spacing(16),
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: hp(2) },
+          shadowOpacity: 0.1,
+          shadowRadius: hp(4),
+          elevation: 2,
+          borderWidth: wp(1),
+          borderColor: '#E0E0E0'
+        }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            {/* Profile Picture on Left */}
+            <Image 
+              source={require('../../assets/Profile picture.png')} 
+              style={{ 
+                width: wp(64), 
+                height: hp(64), 
+                borderRadius: hp(32), 
+                resizeMode: 'cover',
+                marginRight: spacing(12)
+              }}
+            />
+
+            {/* Name and Role in Middle */}
             <View style={{ flex: 1 }}>
-              <Image 
-                source={require('../../assets/creative designers.png')} 
-                style={{ width: 140, height: 40, resizeMode: 'contain' }} 
-              />
-            </View>
-
-            {/* Profile Picture in Center */}
-            <View style={{ alignItems: 'center', marginHorizontal: 12 }}>
-              <Image 
-                source={require('../../assets/Profile picture.png')} 
-                style={{ width: 80, height: 80, borderRadius: 40 }}
-              />
-            </View>
-
-            {/* Company Info on Right */}
-            <View style={{ flex: 1, alignItems: 'flex-end' }}>
-              <Text style={{ fontSize: 14, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: 4, textAlign: 'right' }}>
-                Creative Designers
-              </Text>
-              <Text style={{ fontSize: 12, color: '#000000', fontFamily: 'Poppins', marginBottom: 2, textAlign: 'right' }}>
-                Radhakishanpura, Sikar
-              </Text>
-              <Text style={{ fontSize: 12, color: '#000000', fontFamily: 'Poppins', textAlign: 'right' }}>
-                +919460638554
-              </Text>
-            </View>
-          </View>
-
-          {/* Name and Role Row - Below Profile Picture */}
-          <View style={{ alignItems: 'center', marginBottom: 16 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontSize: 16, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: 4 }}>
+              <Text style={{ 
+                fontSize: fontSize(16), 
+                fontWeight: '700', 
+                color: '#000000', 
+                fontFamily: 'Poppins-Bold',
+                marginBottom: spacing(4)
+              }} allowFontScaling={false}>
                 Kamal Jangid
               </Text>
-              <TouchableOpacity style={{ marginLeft: 8, marginTop: -4 }}>
-                <Text style={{ fontSize: 16, color: '#000000' }}>⋮</Text>
-              </TouchableOpacity>
-            </View>
-            <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>
-              Carpenter
-            </Text>
-          </View>
-
-          {/* Bottom Row: WORK HISTORY and Emp ID */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-            <TouchableOpacity>
-              <Text style={{ fontSize: 16, fontWeight: '700', color: '#E91E63', fontFamily: 'Poppins-Bold', textDecorationLine: 'underline' }}>
-                WORK HISTORY
+              <Text style={{ 
+                fontSize: fontSize(14), 
+                color: '#666666', 
+                fontFamily: 'Poppins'
+              }} allowFontScaling={false}>
+                Carpenter
               </Text>
-            </TouchableOpacity>
-            <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins', position: 'absolute', right: 0 }}>
-              Emp id - 001
-            </Text>
+            </View>
+
+            {/* Emp ID and Phone on Right */}
+            <View style={{ alignItems: 'flex-end' }}>
+              <Text style={{ 
+                fontSize: fontSize(13), 
+                color: '#000000', 
+                fontFamily: 'Poppins',
+                marginBottom: spacing(6)
+              }} allowFontScaling={false}>
+                Emp ID - 001
+              </Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ fontSize: fontSize(14), color: '#666666', marginRight: spacing(4) }} allowFontScaling={false}>📞</Text>
+                <Text style={{ 
+                  fontSize: fontSize(13), 
+                  color: '#000000', 
+                  fontFamily: 'Poppins'
+                }} allowFontScaling={false}>
+                  9460638554
+                </Text>
+              </View>
+            </View>
           </View>
         </View>
 
         {/* Work History Table */}
-        <View style={{ marginBottom: 24 }}>
+        <View style={{ marginBottom: spacing(24) }}>
           <View style={{ borderWidth: 1, borderColor: '#CCCCCC', backgroundColor: '#FFFFFF' }}>
             {/* Table Header */}
-            <View style={{ flexDirection: 'row', backgroundColor: '#F5F5F5' }}>
-              <View style={{ flex: 2, flexDirection: 'row', alignItems: 'center', paddingVertical: 12, paddingHorizontal: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
+            <View style={{ flexDirection: 'row', backgroundColor: '#F5F5F5', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC' }}>
+              <View style={{ flex: 2, flexDirection: 'row', alignItems: 'center', paddingVertical: spacing(12), paddingHorizontal: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC' }}>
                 <Image 
-                  source={require('../../assets/calender.png')} 
-                  style={{ width: 16, height: 16, marginRight: 6, resizeMode: 'contain' }} 
+                  source={require('../../assets/task_calender_icon.png')} 
+                  style={{ width: wp(18), height: hp(18), marginRight: spacing(8), resizeMode: 'contain' }} 
                 />
-                <Text style={{ fontSize: 13, color: '#000000', fontFamily: 'Poppins-SemiBold' }}>
+                <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>
                   {selectedYear}
                 </Text>
               </View>
-              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
+              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC' }}>
                 <Image 
                   source={require('../../assets/Workhistory01.png')} 
-                  style={{ width: 24, height: 24, resizeMode: 'contain' }} 
+                  style={{ width: wp(24), height: hp(24), resizeMode: 'contain' }} 
                 />
               </View>
-              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
+              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC' }}>
                 <Image 
                   source={require('../../assets/Workhistory02.png')} 
-                  style={{ width: 24, height: 24, resizeMode: 'contain' }} 
+                  style={{ width: wp(24), height: hp(24), resizeMode: 'contain' }} 
                 />
               </View>
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: 12, color: '#000000', fontFamily: 'Poppins-SemiBold' }}>T.Hr</Text>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC' }}>
+                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>T.Hr</Text>
               </View>
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: 12, color: '#000000', fontFamily: 'Poppins-SemiBold' }}>O.T</Text>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC' }}>
+                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>O.T</Text>
               </View>
-              <View style={{ flex: 1.5, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: 12, color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Salary</Text>
+              <View style={{ flex: 1.5, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12) }}>
+                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>Salary</Text>
               </View>
             </View>
 
@@ -230,88 +224,88 @@ export default function WorkHistoryScreen({ navigation }: Props) {
                 activeOpacity={0.7}
                 style={{ flexDirection: 'row', backgroundColor: '#FFFFFF' }}
               >
-                <View style={{ flex: 2, paddingVertical: 12, paddingHorizontal: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                  <Text style={{ fontSize: 13, color: '#000000', fontFamily: 'Poppins' }}>
+                <View style={{ flex: 2, paddingVertical: spacing(12), paddingHorizontal: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC' }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
                     {monthData.monthNumber}-{monthData.month}
                   </Text>
                 </View>
-                <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
+                <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC' }}>
                   {monthData.absent !== undefined ? (
-                    <Text style={{ fontSize: 13, color: '#E53935', fontFamily: 'Poppins-SemiBold' }}>
+                    <Text style={{ fontSize: fontSize(13), color: '#E53935', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>
                       {monthData.absent}
                     </Text>
                   ) : (
-                    <Text style={{ fontSize: 13, color: '#9E9E9E', fontFamily: 'Poppins' }}>-</Text>
+                    <Text style={{ fontSize: fontSize(13), color: '#9E9E9E', fontFamily: 'Poppins' }} allowFontScaling={false}>-</Text>
                   )}
                 </View>
-                <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
+                <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC' }}>
                   {monthData.present !== undefined ? (
-                    <Text style={{ fontSize: 13, color: '#4CAF50', fontFamily: 'Poppins-SemiBold' }}>
+                    <Text style={{ fontSize: fontSize(13), color: '#4CAF50', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>
                       {monthData.present}
                     </Text>
                   ) : (
-                    <Text style={{ fontSize: 13, color: '#9E9E9E', fontFamily: 'Poppins' }}>-</Text>
+                    <Text style={{ fontSize: fontSize(13), color: '#9E9E9E', fontFamily: 'Poppins' }} allowFontScaling={false}>-</Text>
                   )}
                 </View>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC' }}>
                   {monthData.totalHours !== undefined ? (
-                    <Text style={{ fontSize: 13, color: '#000000', fontFamily: 'Poppins' }}>
+                    <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
                       {monthData.totalHours}
                     </Text>
                   ) : (
-                    <Text style={{ fontSize: 13, color: '#9E9E9E', fontFamily: 'Poppins' }}>-</Text>
+                    <Text style={{ fontSize: fontSize(13), color: '#9E9E9E', fontFamily: 'Poppins' }} allowFontScaling={false}>-</Text>
                   )}
                 </View>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC' }}>
                   {monthData.overtime !== undefined ? (
-                    <Text style={{ fontSize: 13, color: '#000000', fontFamily: 'Poppins' }}>
+                    <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
                       {monthData.overtime}
                     </Text>
                   ) : (
-                    <Text style={{ fontSize: 13, color: '#9E9E9E', fontFamily: 'Poppins' }}>-</Text>
+                    <Text style={{ fontSize: fontSize(13), color: '#9E9E9E', fontFamily: 'Poppins' }} allowFontScaling={false}>-</Text>
                   )}
                 </View>
-                <View style={{ flex: 1.5, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
+                <View style={{ flex: 1.5, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC' }}>
                   {monthData.salary !== undefined ? (
-                    <Text style={{ fontSize: 13, color: '#000000', fontFamily: 'Poppins' }}>
+                    <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
                       {monthData.salary}
                     </Text>
                   ) : (
-                    <Text style={{ fontSize: 13, color: '#9E9E9E', fontFamily: 'Poppins' }}>-</Text>
+                    <Text style={{ fontSize: fontSize(13), color: '#9E9E9E', fontFamily: 'Poppins' }} allowFontScaling={false}>-</Text>
                   )}
                 </View>
               </TouchableOpacity>
             ))}
 
             {/* Grand Total Row */}
-            <View style={{ flexDirection: 'row', backgroundColor: '#F5F5F5' }}>
-              <View style={{ flex: 2, paddingVertical: 12, paddingHorizontal: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: 14, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }}>
+            <View style={{ flexDirection: 'row', backgroundColor: '#F0F0F0' }}>
+              <View style={{ flex: 2, paddingVertical: spacing(12), paddingHorizontal: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC' }}>
+                <Text style={{ fontSize: fontSize(14), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>
                   Grand Total
                 </Text>
               </View>
-              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: 13, fontWeight: '700', color: '#E53935', fontFamily: 'Poppins-Bold' }}>
+              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC' }}>
+                <Text style={{ fontSize: fontSize(13), fontWeight: '700', color: '#E53935', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>
                   {grandTotal.absent}
                 </Text>
               </View>
-              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: 13, fontWeight: '700', color: '#4CAF50', fontFamily: 'Poppins-Bold' }}>
+              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC' }}>
+                <Text style={{ fontSize: fontSize(13), fontWeight: '700', color: '#4CAF50', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>
                   {grandTotal.present}
                 </Text>
               </View>
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: 13, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }}>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC' }}>
+                <Text style={{ fontSize: fontSize(13), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>
                   {grandTotal.totalHours}
                 </Text>
               </View>
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, borderRightWidth: 1, borderRightColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: 13, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }}>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC' }}>
+                <Text style={{ fontSize: fontSize(13), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>
                   {grandTotal.overtime}
                 </Text>
               </View>
-              <View style={{ flex: 1.5, alignItems: 'center', justifyContent: 'center', paddingVertical: 12 }}>
-                <Text style={{ fontSize: 13, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }}>
+              <View style={{ flex: 1.5, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12) }}>
+                <Text style={{ fontSize: fontSize(13), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>
                   {grandTotal.salary}
                 </Text>
               </View>
@@ -319,6 +313,7 @@ export default function WorkHistoryScreen({ navigation }: Props) {
           </View>
         </View>
       </ScrollView>
+      </SafeAreaView>
     </View>
   );
 }

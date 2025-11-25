@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView, StatusBar, Switch, Modal, TextInput, Pressable } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { wp, hp, fontSize, spacing, tableCellWidth } from '../utils/responsive';
+import { wp, hp, fontSize, spacing, tableCellWidth, useSafeArea } from '../utils/responsive';
 import BackButton from '../components/BackButton';
+import SafeAreaView from '../components/SafeAreaView';
 
 type RootStackParamList = {
   Language: undefined;
@@ -210,6 +211,7 @@ const locationSpeedometerEmployees: LocationEmployee[] = [
 ];
 
 export default function EmployeeManagementScreen({ navigation }: Props) {
+  const insets = useSafeArea();
   const [activeFilter, setActiveFilter] = useState('Live');
   const [activeBottomTab, setActiveBottomTab] = useState('Home');
   const [activeLocationFilter, setActiveLocationFilter] = useState('Driver');
@@ -296,15 +298,15 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <StatusBar barStyle="dark-content" backgroundColor="white" />
       
       {/* Header */}
       <View style={{
         backgroundColor: '#FFFFFF',
-        paddingTop: 44,
-        paddingBottom: 12,
-        paddingHorizontal: 16,
+        paddingTop: spacing(12),
+        paddingBottom: spacing(12),
+        paddingHorizontal: spacing(16),
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -318,24 +320,24 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
         <View style={{ flex: 1, alignItems: 'center' }}>
           <Image
             source={require('../../assets/caarobar (2) 1.png')}
-            style={{ width: 120, height: 40, resizeMode: 'contain' }}
+            style={{ width: wp(120), height: hp(40), resizeMode: 'contain' }}
           />
         </View>
 
         {/* Right Icons */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing(16) }}>
           {/* Bell with notification */}
-          <TouchableOpacity style={{ position: 'relative', padding: 4 }}>
-            <Image source={require('../../assets/Frame.png')} style={{ width: 22, height: 22, resizeMode: 'contain' }} />
-            <View style={{ position: 'absolute', top: 2, right: 2, width: 8, height: 8, borderRadius: 4, backgroundColor: '#4CAF50', borderWidth: 1.5, borderColor: 'white' }} />
+          <TouchableOpacity style={{ position: 'relative', padding: spacing(4) }}>
+            <Image source={require('../../assets/Frame.png')} style={{ width: wp(22), height: hp(22), resizeMode: 'contain' }} />
+            <View style={{ position: 'absolute', top: spacing(2), right: spacing(2), width: wp(8), height: hp(8), borderRadius: hp(4), backgroundColor: '#4CAF50', borderWidth: 1.5, borderColor: 'white' }} />
           </TouchableOpacity>
           {/* Search */}
-          <TouchableOpacity style={{ padding: 4 }}>
-            <Text style={{ fontSize: 20, color: '#000000' }}>🔍</Text>
+          <TouchableOpacity style={{ padding: spacing(4) }}>
+            <Text style={{ fontSize: fontSize(20), color: '#000000' }} allowFontScaling={false}>🔍</Text>
           </TouchableOpacity>
           {/* More options */}
-          <TouchableOpacity style={{ padding: 4 }}>
-            <Text style={{ fontSize: 20, color: '#000000' }}>⋮</Text>
+          <TouchableOpacity style={{ padding: spacing(4) }}>
+            <Text style={{ fontSize: fontSize(20), color: '#000000' }} allowFontScaling={false}>⋮</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -352,14 +354,14 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
-              paddingHorizontal: 16,
+              paddingHorizontal: spacing(16),
               paddingTop: 20,
               paddingBottom: 16,
               borderBottomWidth: 1,
               borderBottomColor: '#E0E0E0'
             }}>
               <Text style={{
-                fontSize: 20,
+                fontSize: fontSize(20),
                 fontWeight: '700',
                 color: '#000000',
                 fontFamily: 'Poppins-Bold',
@@ -368,14 +370,14 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 Salary
               </Text>
               <Text style={{
-                fontSize: 14,
+                fontSize: fontSize(14),
                 color: '#000000',
                 fontFamily: 'Poppins'
               }}>
                 20 Emp
               </Text>
               <Text style={{
-                fontSize: 14,
+                fontSize: fontSize(14),
                 color: '#4CAF50',
                 fontFamily: 'Poppins'
               }}>
@@ -386,7 +388,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
             {/* Table Headers */}
             <View style={{
               flexDirection: 'row',
-              paddingHorizontal: 16,
+              paddingHorizontal: spacing(16),
               paddingVertical: 12,
               backgroundColor: '#FFFFFF',
               borderBottomWidth: 1,
@@ -394,7 +396,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
             }}>
               <View style={{ flex: 2 }}>
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   fontWeight: '600',
                   color: '#000000',
                   fontFamily: 'Poppins-SemiBold'
@@ -404,7 +406,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
               </View>
               <View style={{ flex: 1, alignItems: 'center' }}>
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   fontWeight: '600',
                   color: '#000000',
                   fontFamily: 'Poppins-SemiBold'
@@ -414,7 +416,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
               </View>
               <View style={{ flex: 1, alignItems: 'flex-end' }}>
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   fontWeight: '600',
                   color: '#000000',
                   fontFamily: 'Poppins-SemiBold'
@@ -437,7 +439,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
-                  paddingHorizontal: 16,
+                  paddingHorizontal: spacing(16),
                   paddingVertical: 12,
                   borderBottomWidth: 1,
                   borderBottomColor: '#E0E0E0',
@@ -459,7 +461,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                   />
                   <View>
                     <Text style={{
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       fontWeight: '500',
                       color: '#000000',
                       fontFamily: 'Poppins-Medium'
@@ -467,7 +469,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                       {employee.name}
                     </Text>
                     <Text style={{
-                      fontSize: 12,
+                      fontSize: fontSize(12),
                       color: '#9E9E9E',
                       fontFamily: 'Poppins'
                     }}>
@@ -477,7 +479,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 </View>
                 <View style={{ flex: 1, alignItems: 'center' }}>
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#000000',
                     fontFamily: 'Poppins'
                   }}>
@@ -486,7 +488,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 </View>
                 <View style={{ flex: 1, alignItems: 'flex-end' }}>
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#4CAF50',
                     fontFamily: 'Poppins'
                   }}>
@@ -508,7 +510,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
             <View style={{
               flexDirection: 'row',
               flexWrap: 'wrap',
-              paddingHorizontal: 16,
+              paddingHorizontal: spacing(16),
               paddingVertical: 12,
               gap: 8,
               justifyContent: 'space-between'
@@ -530,9 +532,9 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                   gap: 6
                 }}
               >
-                <Text style={{ fontSize: 16 }}>🔍</Text>
+                <Text style={{ fontSize: fontSize(16) }} allowFontScaling={false}>🔍</Text>
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: activeLocationFilter === 'Branch' ? '#FFFFFF' : '#000000',
                   fontFamily: 'Poppins-SemiBold'
                 }}>
@@ -555,7 +557,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 }}
               >
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: activeLocationFilter === 'Driver' ? '#FFFFFF' : '#000000',
                   fontFamily: 'Poppins-SemiBold'
                 }}>
@@ -578,7 +580,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 }}
               >
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: activeLocationFilter === 'Salesman' ? '#FFFFFF' : '#000000',
                   fontFamily: 'Poppins-SemiBold'
                 }}>
@@ -602,7 +604,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 }}
               >
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: activeLocationFilter === 'Live' ? '#FFFFFF' : '#000000',
                   fontFamily: 'Poppins-SemiBold'
                 }}>
@@ -625,7 +627,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 }}
               >
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: activeLocationFilter === 'Kilometer' ? '#FFFFFF' : '#000000',
                   fontFamily: 'Poppins-SemiBold'
                 }}>
@@ -648,7 +650,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 }}
               >
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: activeLocationFilter === 'Speedometer' ? '#FFFFFF' : '#000000',
                   fontFamily: 'Poppins-SemiBold'
                 }}>
@@ -662,19 +664,19 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
-              paddingHorizontal: 16,
+              paddingHorizontal: spacing(16),
               paddingVertical: 12,
               backgroundColor: '#F5F5F5',
               borderBottomWidth: 1,
               borderBottomColor: '#E0E0E0'
             }}>
-              <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }}>
+              <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>
                 P {activeLocationFilter === 'Speedometer' ? locationSpeedometerEmployees.length : activeLocationFilter === 'Kilometer' ? locationKilometerEmployees.length : activeLocationFilter === 'Live' ? locationLiveEmployees.length : activeLocationFilter === 'Salesman' ? locationSalesmen.length : locationEmployees.length}
               </Text>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                 {activeLocationFilter === 'Live' || activeLocationFilter === 'Kilometer' || activeLocationFilter === 'Speedometer' ? (
                   <>
-                    <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins-Bold', fontWeight: '700' }}>1. Creative Designers</Text>
+                    <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins-Bold', fontWeight: '700' }} allowFontScaling={false}>1. Creative Designers</Text>
                     {activeLocationFilter !== 'Kilometer' && activeLocationFilter !== 'Speedometer' && (
                       /* Location Pin Icon */
                       <View style={{ width: 20, height: 20, alignItems: 'center', justifyContent: 'flex-start' }}>
@@ -702,7 +704,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                   </>
                 ) : (
                   <>
-                    <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins-Bold', fontWeight: '700' }}>
+                    <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins-Bold', fontWeight: '700' }} allowFontScaling={false}>
                       {activeLocationFilter === 'Salesman' ? 'Salesman' : 'Driver'}
                     </Text>
                     {/* Location Pin Icon */}
@@ -731,14 +733,14 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 )}
               </View>
               {activeLocationFilter === 'Kilometer' ? (
-                <View style={{ flexDirection: 'row', gap: 16 }}>
-                  <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }}>KM</Text>
-                  <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }}>Timeline</Text>
+                <View style={{ flexDirection: 'row', gap: spacing(16) }}>
+                  <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>KM</Text>
+                  <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>Timeline</Text>
                 </View>
               ) : activeLocationFilter === 'Speedometer' ? (
-                <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }}>Speed</Text>
+                <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>Speed</Text>
               ) : (
-                <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }}>Location</Text>
+                <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>Location</Text>
               )}
             </View>
 
@@ -763,7 +765,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
-                  paddingHorizontal: 16,
+                  paddingHorizontal: spacing(16),
                   paddingVertical: 12,
                   borderBottomWidth: 1,
                   borderBottomColor: '#E0E0E0',
@@ -787,7 +789,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 <View style={{ flex: 1 }}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                     <Text style={{
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       fontWeight: '500',
                       color: '#000000',
                       fontFamily: 'Poppins-Medium'
@@ -796,7 +798,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                     </Text>
                     {employee.hasAlert && (
                       <View style={{ position: 'relative' }}>
-                        <Text style={{ fontSize: 16, color: '#FF5252' }}>🔊</Text>
+                        <Text style={{ fontSize: fontSize(16), color: '#FF5252' }}>🔊</Text>
                         {/* Sound waves */}
                         <View style={{
                           position: 'absolute',
@@ -813,7 +815,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                     )}
                   </View>
                   <Text style={{
-                    fontSize: 12,
+                    fontSize: fontSize(12),
                     color: '#9E9E9E',
                     fontFamily: 'Poppins'
                   }}>
@@ -825,7 +827,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 {activeLocationFilter === 'Speedometer' ? (
                   <View style={{ width: 60, alignItems: 'flex-end' }}>
                     <Text style={{
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       color: employee.speedColor || '#000000',
                       fontFamily: 'Poppins'
                     }}>
@@ -836,7 +838,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                   <>
                     <View style={{ width: 50, alignItems: 'center' }}>
                       <Text style={{
-                        fontSize: 14,
+                        fontSize: fontSize(14),
                         color: employee.kmColor || '#000000',
                         fontFamily: 'Poppins'
                       }}>
@@ -847,12 +849,12 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                       <View style={{
                         width: 24,
                         height: 24,
-                        borderRadius: 4,
+                        borderRadius: hp(4),
                         backgroundColor: '#E0E0E0',
                         alignItems: 'center',
                         justifyContent: 'center'
                       }}>
-                        <Text style={{ fontSize: 12, color: '#9E9E9E' }}>📄</Text>
+                        <Text style={{ fontSize: fontSize(12), color: '#9E9E9E' }}>📄</Text>
                       </View>
                     </TouchableOpacity>
                   </>
@@ -893,9 +895,9 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
             showsVerticalScrollIndicator={false}
           >
             {/* Title */}
-            <View style={{ paddingHorizontal: 16, paddingTop: 20, paddingBottom: 16 }}>
+            <View style={{ paddingHorizontal: spacing(16), paddingTop: 20, paddingBottom: 16 }}>
               <Text style={{
-                fontSize: 20,
+                fontSize: fontSize(20),
                 fontWeight: '700',
                 color: '#000000',
                 fontFamily: 'Poppins-Bold',
@@ -909,7 +911,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
             <View style={{
               flexDirection: 'row',
               flexWrap: 'wrap',
-              paddingHorizontal: 16,
+              paddingHorizontal: spacing(16),
               paddingVertical: 12,
               gap: 8,
               justifyContent: 'space-between'
@@ -930,7 +932,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 }}
               >
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: activeRole === 'Admin' ? '#FFFFFF' : '#000000',
                   fontFamily: 'Poppins-SemiBold'
                 }}>
@@ -953,7 +955,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 }}
               >
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: activeRole === 'Manager' ? '#FFFFFF' : '#000000',
                   fontFamily: 'Poppins-SemiBold'
                 }}>
@@ -976,7 +978,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 }}
               >
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: activeRole === 'HR' ? '#FFFFFF' : '#000000',
                   fontFamily: 'Poppins-SemiBold'
                 }}>
@@ -1000,7 +1002,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 }}
               >
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: activeRole === 'Accountant' ? '#FFFFFF' : '#000000',
                   fontFamily: 'Poppins-SemiBold'
                 }}>
@@ -1023,7 +1025,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 }}
               >
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: activeRole === 'Team Supervisor' ? '#FFFFFF' : '#000000',
                   fontFamily: 'Poppins-SemiBold'
                 }}>
@@ -1046,7 +1048,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 }}
               >
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: activeRole === 'Security Guard' ? '#FFFFFF' : '#000000',
                   fontFamily: 'Poppins-SemiBold'
                 }}>
@@ -1056,7 +1058,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
             </View>
 
             {/* Feature List with Toggles */}
-            <View style={{ paddingHorizontal: 16, paddingTop: 20 }}>
+            <View style={{ paddingHorizontal: spacing(16), paddingTop: 20 }}>
               {getFeaturesForRole(activeRole).map((feature, index, array) => (
                 <View
                   key={feature.key}
@@ -1070,7 +1072,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                   }}
                 >
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#000000',
                     fontFamily: 'Poppins'
                   }}>
@@ -1078,7 +1080,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                   </Text>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
                     <Text style={{
-                      fontSize: 12,
+                      fontSize: fontSize(12),
                       color: powerOfTeamSettings[feature.key as keyof typeof powerOfTeamSettings] ? '#4CAF50' : '#9E9E9E',
                       fontFamily: 'Poppins',
                       marginRight: 4
@@ -1111,9 +1113,9 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
             showsVerticalScrollIndicator={false}
           >
             {/* Title */}
-            <View style={{ paddingHorizontal: 16, paddingTop: 20, paddingBottom: 16 }}>
+            <View style={{ paddingHorizontal: spacing(16), paddingTop: 20, paddingBottom: 16 }}>
               <Text style={{
-                fontSize: 20,
+                fontSize: fontSize(20),
                 fontWeight: '700',
                 color: '#000000',
                 fontFamily: 'Poppins-Bold',
@@ -1124,7 +1126,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
             </View>
 
             {/* Table */}
-            <View style={{ paddingHorizontal: 16 }}>
+            <View style={{ paddingHorizontal: spacing(16) }}>
               {/* Table Header */}
               <View style={{
                 flexDirection: 'row',
@@ -1246,8 +1248,8 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
               setShowAddBranchModal(true);
             }}
           >
-            <Text style={{ fontSize: 20, color: '#FFFFFF', fontWeight: 'bold' }}>+</Text>
-            <Text style={{ fontSize: 16, color: '#FFFFFF', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }}>Add Branch</Text>
+            <Text style={{ fontSize: fontSize(20), color: '#FFFFFF', fontWeight: 'bold' }}>+</Text>
+            <Text style={{ fontSize: fontSize(16), color: '#FFFFFF', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }}>Add Branch</Text>
           </TouchableOpacity>
 
           {/* Add Branch Modal */}
@@ -1284,7 +1286,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 }}>
                   <View style={{
                     width: 40,
-                    height: 40,
+                    height: hp(40),
                     borderRadius: 20,
                     borderWidth: 2,
                     borderColor: '#000000',
@@ -1299,7 +1301,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                     }}>+</Text>
                   </View>
                   <Text style={{
-                    fontSize: 20,
+                    fontSize: fontSize(20),
                     fontWeight: '700',
                     color: '#000000',
                     fontFamily: 'Poppins-Bold'
@@ -1311,7 +1313,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 {/* Input Field */}
                 <View style={{ marginBottom: 24 }}>
                   <Text style={{
-                    fontSize: 12,
+                    fontSize: fontSize(12),
                     color: '#4285F4',
                     fontFamily: 'Poppins',
                     marginBottom: 8
@@ -1325,7 +1327,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                       borderRadius: 8,
                       paddingHorizontal: 12,
                       paddingVertical: 12,
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       color: '#000000',
                       fontFamily: 'Poppins',
                       backgroundColor: '#FFFFFF'
@@ -1358,7 +1360,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                     }}
                   >
                     <Text style={{
-                      fontSize: 16,
+                      fontSize: fontSize(16),
                       color: '#FFFFFF',
                       fontFamily: 'Poppins-Bold',
                       fontWeight: '700'
@@ -1393,7 +1395,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                     }}
                   >
                     <Text style={{
-                      fontSize: 16,
+                      fontSize: fontSize(16),
                       color: '#FFFFFF',
                       fontFamily: 'Poppins-Bold',
                       fontWeight: '700'
@@ -1459,9 +1461,9 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                   }} />
                   {/* Dark blue inner circle */}
                   <View style={{
-                    width: 80,
-                    height: 80,
-                    borderRadius: 40,
+                    width: wp(80),
+                    height: hp(80),
+                    borderRadius: hp(40),
                     backgroundColor: '#4285F4',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -1479,7 +1481,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
 
                 {/* Title */}
                 <Text style={{
-                  fontSize: 20,
+                  fontSize: fontSize(20),
                   fontWeight: '700',
                   color: '#000000',
                   fontFamily: 'Poppins-Bold',
@@ -1492,7 +1494,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
 
                 {/* Message */}
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: '#9E9E9E',
                   fontFamily: 'Poppins',
                   marginBottom: 24,
@@ -1517,7 +1519,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                   }}
                 >
                   <Text style={{
-                    fontSize: 16,
+                    fontSize: fontSize(16),
                     color: '#FFFFFF',
                     fontFamily: 'Poppins-Bold',
                     fontWeight: '700'
@@ -1534,26 +1536,26 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
           {/* Summary Statistics */}
           <View style={{
             flexDirection: 'row',
-            paddingHorizontal: 16,
+            paddingHorizontal: spacing(16),
             paddingVertical: 16,
             borderBottomWidth: 1,
             borderBottomColor: '#E0E0E0'
           }}>
             <View style={{ flex: 1, alignItems: 'center' }}>
               <Text style={{ fontSize: 24, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }}>6</Text>
-              <Text style={{ fontSize: 12, color: '#4CAF50', fontFamily: 'Poppins-SemiBold', marginTop: 4 }}>Present</Text>
+              <Text style={{ fontSize: fontSize(12), color: '#4CAF50', fontFamily: 'Poppins-SemiBold', marginTop: 4 }}>Present</Text>
             </View>
             <View style={{ flex: 1, alignItems: 'center' }}>
               <Text style={{ fontSize: 24, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }}>4</Text>
-              <Text style={{ fontSize: 12, color: '#FF5252', fontFamily: 'Poppins-SemiBold', marginTop: 4 }}>Absent</Text>
+              <Text style={{ fontSize: fontSize(12), color: '#FF5252', fontFamily: 'Poppins-SemiBold', marginTop: 4 }}>Absent</Text>
             </View>
             <View style={{ flex: 1, alignItems: 'center' }}>
               <Text style={{ fontSize: 24, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }}>1</Text>
-              <Text style={{ fontSize: 12, color: '#FFC107', fontFamily: 'Poppins-SemiBold', marginTop: 4 }}>Leave</Text>
+              <Text style={{ fontSize: fontSize(12), color: '#FFC107', fontFamily: 'Poppins-SemiBold', marginTop: 4 }}>Leave</Text>
             </View>
             <View style={{ flex: 1, alignItems: 'center' }}>
               <Text style={{ fontSize: 24, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }}>11</Text>
-              <Text style={{ fontSize: 12, color: '#000000', fontFamily: 'Poppins-SemiBold', marginTop: 4 }}>T.Staff</Text>
+              <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', marginTop: 4 }}>T.Staff</Text>
             </View>
           </View>
 
@@ -1561,7 +1563,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
           <View style={{
             flexDirection: 'row',
             flexWrap: 'wrap',
-            paddingHorizontal: 16,
+            paddingHorizontal: spacing(16),
             paddingVertical: 12,
             gap: 8,
             justifyContent: 'space-between'
@@ -1582,7 +1584,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
               }}
             >
               <Text style={{
-                fontSize: 14,
+                fontSize: fontSize(14),
                 color: activeFilter === 'Live' ? '#FFFFFF' : '#000000',
                 fontFamily: 'Poppins-SemiBold'
               }}>
@@ -1606,7 +1608,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 gap: 6
               }}
             >
-              <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Unread</Text>
+              <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Unread</Text>
               <View style={{ width: 18, height: 18, borderRadius: 9, backgroundColor: '#4CAF50', alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ fontSize: 9, color: '#FFFFFF', fontFamily: 'Poppins-Bold', fontWeight: '700' }}>10</Text>
               </View>
@@ -1628,8 +1630,8 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 gap: 6
               }}
             >
-              <Text style={{ fontSize: 16 }}>🔍</Text>
-              <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Branch</Text>
+              <Text style={{ fontSize: fontSize(16) }}>🔍</Text>
+              <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Branch</Text>
             </TouchableOpacity>
 
             {/* Row 2 */}
@@ -1649,7 +1651,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 gap: 6
               }}
             >
-              <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Leave</Text>
+              <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Leave</Text>
               <View style={{ width: 18, height: 18, borderRadius: 9, backgroundColor: '#4CAF50', alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ fontSize: 9, color: '#FFFFFF', fontFamily: 'Poppins-Bold', fontWeight: '700' }}>5</Text>
               </View>
@@ -1671,7 +1673,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 gap: 6
               }}
             >
-              <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Payment</Text>
+              <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Payment</Text>
               <View style={{ width: 18, height: 18, borderRadius: 9, backgroundColor: '#4CAF50', alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ fontSize: 9, color: '#FFFFFF', fontFamily: 'Poppins-Bold', fontWeight: '700' }}>5</Text>
               </View>
@@ -1693,7 +1695,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 gap: 6
               }}
             >
-              <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Expense</Text>
+              <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Expense</Text>
               <View style={{ width: 18, height: 18, borderRadius: 9, backgroundColor: '#4CAF50', alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ fontSize: 9, color: '#FFFFFF', fontFamily: 'Poppins-Bold', fontWeight: '700' }}>2</Text>
               </View>
@@ -1711,15 +1713,15 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
-              paddingHorizontal: 16,
+              paddingHorizontal: spacing(16),
               paddingVertical: 12,
               backgroundColor: '#FFFFFF',
               borderBottomWidth: 1,
               borderBottomColor: '#E0E0E0'
             }}>
-              <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }}>P 5</Text>
+              <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>P 5</Text>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins-Bold', fontWeight: '700' }}>1. Creative Designers</Text>
+                <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins-Bold', fontWeight: '700' }}>1. Creative Designers</Text>
                 <TouchableOpacity>
                   <Image source={require('../../assets/Frame.png')} style={{ width: 18, height: 18, resizeMode: 'contain' }} />
                 </TouchableOpacity>
@@ -1779,7 +1781,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
-                  paddingHorizontal: 16,
+                  paddingHorizontal: spacing(16),
                   paddingVertical: 12,
                   borderBottomWidth: 1,
                   borderBottomColor: '#E0E0E0',
@@ -1802,7 +1804,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 {/* Employee Info */}
                 <View style={{ flex: 1 }}>
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     fontWeight: '500',
                     color: '#000000',
                     fontFamily: 'Poppins-Medium'
@@ -1815,7 +1817,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 {activeFilter === 'Leave' ? (
                   <View style={{ alignItems: 'flex-end' }}>
                     <Text style={{
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       color: '#000000',
                       fontFamily: 'Poppins',
                       marginBottom: 4
@@ -1823,7 +1825,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                       {employee.leaveTime}
                     </Text>
                     <Text style={{
-                      fontSize: 12,
+                      fontSize: fontSize(12),
                       color: employee.leaveDurationColor || '#9E9E9E',
                       fontFamily: 'Poppins'
                     }}>
@@ -1833,7 +1835,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 ) : activeFilter === 'Payment' ? (
                   <View style={{ alignItems: 'flex-end' }}>
                     <Text style={{
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       color: '#9E9E9E',
                       fontFamily: 'Poppins',
                       marginBottom: 4
@@ -1842,7 +1844,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                     </Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
                       <Text style={{
-                        fontSize: 12,
+                        fontSize: fontSize(12),
                         color: employee.paymentAmountColor || '#9E9E9E',
                         fontFamily: 'Poppins'
                       }}>
@@ -1857,7 +1859,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                           alignItems: 'center',
                           justifyContent: 'center'
                         }}>
-                          <Text style={{ fontSize: 10, color: '#FFFFFF', fontWeight: 'bold' }}>×</Text>
+                          <Text style={{ fontSize: fontSize(10), color: '#FFFFFF', fontWeight: 'bold' }}>×</Text>
                         </View>
                       )}
                     </View>
@@ -1865,7 +1867,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 ) : activeFilter === 'Expense' ? (
                   <View style={{ alignItems: 'flex-end' }}>
                     <Text style={{
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       color: employee.expenseDateColor || '#000000',
                       fontFamily: 'Poppins',
                       marginBottom: 4
@@ -1874,7 +1876,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                     </Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
                       <Text style={{
-                        fontSize: 12,
+                        fontSize: fontSize(12),
                         color: employee.expenseAmountColor || '#9E9E9E',
                         fontFamily: 'Poppins'
                       }}>
@@ -1889,7 +1891,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                           alignItems: 'center',
                           justifyContent: 'center'
                         }}>
-                          <Text style={{ fontSize: 10, color: '#FFFFFF', fontWeight: 'bold' }}>✓</Text>
+                          <Text style={{ fontSize: fontSize(10), color: '#FFFFFF', fontWeight: 'bold' }}>✓</Text>
                         </View>
                       )}
                       {employee.expenseStatusIcon === 'minus' && (
@@ -1901,7 +1903,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                           alignItems: 'center',
                           justifyContent: 'center'
                         }}>
-                          <Text style={{ fontSize: 10, color: '#FFFFFF', fontWeight: 'bold' }}>−</Text>
+                          <Text style={{ fontSize: fontSize(10), color: '#FFFFFF', fontWeight: 'bold' }}>−</Text>
                         </View>
                       )}
                       {employee.expenseStatusIcon === 'x' && (
@@ -1913,7 +1915,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                           alignItems: 'center',
                           justifyContent: 'center'
                         }}>
-                          <Text style={{ fontSize: 10, color: '#FFFFFF', fontWeight: 'bold' }}>×</Text>
+                          <Text style={{ fontSize: fontSize(10), color: '#FFFFFF', fontWeight: 'bold' }}>×</Text>
                         </View>
                       )}
                     </View>
@@ -1921,14 +1923,14 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
                 ) : (
                   <View style={{ alignItems: 'flex-end' }}>
                     <Text style={{
-                      fontSize: 12,
+                      fontSize: fontSize(12),
                       color: '#000000',
                       fontFamily: 'Poppins'
                     }}>
                       {employee.startTime}
                     </Text>
                     <Text style={{
-                      fontSize: 12,
+                      fontSize: fontSize(12),
                       color: '#FF5252',
                       fontFamily: 'Poppins'
                     }}>
@@ -1953,7 +1955,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
         borderTopColor: '#E0E0E0',
         flexDirection: 'row',
         paddingVertical: 8,
-        paddingHorizontal: 16,
+        paddingHorizontal: spacing(16),
         justifyContent: 'space-around',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: -2 },
@@ -1967,7 +1969,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
         >
           <View style={{
             width: 40,
-            height: 40,
+            height: hp(40),
             borderRadius: 20,
             backgroundColor: activeBottomTab === 'Home' ? '#4285F4' : 'transparent',
             alignItems: 'center',
@@ -1989,7 +1991,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
               }} />
               <View style={{
                 width: 12,
-                height: 8,
+                height: hp(8),
                 borderWidth: 1.5,
                 borderColor: activeBottomTab === 'Home' ? '#FFFFFF' : '#000000',
                 borderRadius: 1
@@ -1997,7 +1999,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
             </View>
           </View>
           <Text style={{
-            fontSize: 10,
+            fontSize: fontSize(10),
             color: activeBottomTab === 'Home' ? '#4285F4' : '#000000',
             fontFamily: 'Poppins'
           }}>
@@ -2011,7 +2013,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
         >
           <View style={{
             width: 40,
-            height: 40,
+            height: hp(40),
             borderRadius: 20,
             backgroundColor: activeBottomTab === 'Branch' ? '#4285F4' : 'transparent',
             alignItems: 'center',
@@ -2041,7 +2043,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
             </View>
           </View>
           <Text style={{
-            fontSize: 10,
+            fontSize: fontSize(10),
             color: activeBottomTab === 'Branch' ? '#4285F4' : '#000000',
             fontFamily: 'Poppins'
           }}>
@@ -2055,7 +2057,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
         >
           <View style={{
             width: 40,
-            height: 40,
+            height: hp(40),
             borderRadius: 20,
             backgroundColor: activeBottomTab === 'Salary' ? '#4285F4' : 'transparent',
             alignItems: 'center',
@@ -2063,7 +2065,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
             marginBottom: 4
           }}>
             <Text style={{ 
-              fontSize: 18, 
+              fontSize: fontSize(18), 
               color: activeBottomTab === 'Salary' ? '#FFFFFF' : '#000000',
               fontFamily: 'Poppins-Bold'
             }}>
@@ -2071,7 +2073,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
             </Text>
           </View>
           <Text style={{
-            fontSize: 10,
+            fontSize: fontSize(10),
             color: activeBottomTab === 'Salary' ? '#4285F4' : '#000000',
             fontFamily: 'Poppins'
           }}>
@@ -2085,7 +2087,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
         >
           <View style={{
             width: 40,
-            height: 40,
+            height: hp(40),
             borderRadius: 20,
             backgroundColor: activeBottomTab === 'Location' ? '#4285F4' : 'transparent',
             alignItems: 'center',
@@ -2116,7 +2118,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
             </View>
           </View>
           <Text style={{
-            fontSize: 10,
+            fontSize: fontSize(10),
             color: activeBottomTab === 'Location' ? '#4285F4' : '#000000',
             fontFamily: 'Poppins'
           }}>
@@ -2130,7 +2132,7 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
         >
           <View style={{
             width: 40,
-            height: 40,
+            height: hp(40),
             borderRadius: 20,
             backgroundColor: activeBottomTab === 'Tools' ? '#4285F4' : 'transparent',
             alignItems: 'center',
@@ -2148,15 +2150,15 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
             />
           </View>
           <Text style={{
-            fontSize: 10,
+            fontSize: fontSize(10),
             color: activeBottomTab === 'Tools' ? '#4285F4' : '#000000',
             fontFamily: 'Poppins'
-          }}>
+          }} allowFontScaling={false}>
             Tools
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

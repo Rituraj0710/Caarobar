@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Image, ScrollView, Text, TouchableOpacity, View, Modal, Pressable, TextInput, SafeAreaView, StatusBar, Platform } from 'react-native';
+import { Image, ScrollView, Text, TouchableOpacity, View, Modal, Pressable, TextInput, StatusBar, Platform } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '@/lib/api';
-import { wp, hp, fontSize, spacing, tableCellWidth, SCREEN_WIDTH, SCREEN_HEIGHT } from '../utils/responsive';
+import { wp, hp, fontSize, spacing, tableCellWidth, SCREEN_WIDTH, SCREEN_HEIGHT, useSafeArea } from '../utils/responsive';
 import BackButton from '../components/BackButton';
+import SafeAreaView from '../components/SafeAreaView';
 
 type RootStackParamList = {
   Language: undefined;
@@ -38,8 +39,8 @@ const transactions: Transaction[] = [
   { date: '07/08/24', description: 'PhonePe', credit: '', debit: '15000', balance: 'Nill' },
   { date: '31/08/24', description: '08 - Salary', credit: '14000', debit: '', balance: '14000 Cr' },
   { date: '07/09/24', description: 'Gpay', credit: '', debit: '13000', balance: '1000 Cr' },
-  { date: '31/09/24', description: '09 - Salary', credit: '14500', debit: '', balance: '15000 Cr' },
-  { date: '07/10/24', description: 'Cash', credit: '', debit: '17000', balance: '1500 Dr' },
+  { date: '31/08/24', description: '08 - Expense', credit: '1500', debit: '', balance: '2500 Cr' },
+  { date: '07/10/24', description: 'Cash', credit: '', debit: '1000', balance: '1500 Cr' },
 ];
 
 // Generate calendar grid
@@ -77,6 +78,7 @@ const generateCalendarGrid = (year: number, month: number) => {
 };
 
 export default function PaymentReportScreen({ navigation, route }: Props) {
+  const insets = useSafeArea();
   const routeParams = route.params;
   const [name, setName] = useState<string>(routeParams?.name || 'Kamal Jangid');
   const [empId, setEmpId] = useState<string>(routeParams?.empId || '001');
@@ -261,183 +263,151 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
 
   const finalBalance = totals.credit - totals.debit;
   
-  // Update totals to match screenshot: Cr: 43500, Dr: 45000, Balance: 1500 Dr
+  // Update totals to match screenshot: Cr: 30500, Dr: 29000, Balance: 1500 Cr
   const displayTotals = {
-    credit: 43500,
-    debit: 45000,
-    balance: -1500 // Negative for Dr
+    credit: 30500,
+    debit: 29000,
+    balance: 1500 // Positive for Cr
   };
 
   return (
     <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-        {/* Top Navigation Bar */}
+      <StatusBar barStyle="light-content" backgroundColor="#248CFF" />
+      <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+        {/* Blue Header Bar */}
         <View style={{ 
           flexDirection: 'row', 
           alignItems: 'center', 
-          justifyContent: 'space-between',
           paddingHorizontal: spacing(16),
-          paddingTop: Platform.OS === 'ios' ? spacing(8) : spacing(12),
-          paddingBottom: spacing(12),
-          backgroundColor: '#FFFFFF'
+          paddingTop: hp(10),
+          paddingBottom: hp(10),
+          backgroundColor: '#248CFF'
         }}>
-        {/* Left: Back Arrow and Logo */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-          <View style={{ marginRight: spacing(8) }}>
-            <BackButton />
-          </View>
-          <Image 
-            source={require('../../assets/caarobar (2) 1.png')} 
-            style={{ width: wp(120), height: hp(40), resizeMode: 'contain' }} 
-          />
-        </View>
-
-        {/* Right: Icons */}
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          {/* Bell with notification dot */}
-          <View style={{ position: 'relative', marginRight: spacing(12) }}>
-            <TouchableOpacity style={{ padding: spacing(4) }}>
-              <Image 
-                source={require('../../assets/Frame.png')} 
-                style={{ width: wp(22), height: hp(22), resizeMode: 'contain' }} 
-              />
-            </TouchableOpacity>
-            <View style={{ 
-              position: 'absolute', 
-              right: spacing(2), 
-              top: spacing(4), 
-              width: wp(8), 
-              height: hp(8), 
-              borderRadius: 4, 
-              backgroundColor: '#4CAF50' 
-            }} />
-          </View>
-
-          {/* Search Icon */}
-          <TouchableOpacity style={{ padding: spacing(4), marginRight: spacing(12) }}>
-            <View style={{ width: wp(20), height: hp(20), justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={{ fontSize: fontSize(16), color: '#000000' }}>🔍</Text>
-            </View>
+          {/* Left: Back Arrow */}
+          <TouchableOpacity 
+            onPress={() => navigation.goBack()}
+            style={{ marginRight: spacing(12) }}
+            hitSlop={{ top: hp(10), left: wp(10), bottom: hp(10), right: wp(10) }}
+          >
+            <Text style={{ fontSize: fontSize(24), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
           </TouchableOpacity>
-
-          {/* Menu (three dots) */}
-          <TouchableOpacity style={{ padding: spacing(4) }}>
-            <View style={{ width: wp(20), height: hp(20), justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={{ fontSize: fontSize(16), color: '#000000', lineHeight: 16 }}>⋮</Text>
-            </View>
-          </TouchableOpacity>
+          
+          {/* Center: Title */}
+          <Text style={{ 
+            fontSize: fontSize(18), 
+            fontWeight: '700', 
+            color: '#FFFFFF', 
+            fontFamily: 'Poppins-Bold',
+            flex: 1
+          }} allowFontScaling={false}>
+            Salary Report
+          </Text>
         </View>
-      </View>
 
       <ScrollView 
         contentContainerStyle={{ 
-          paddingBottom: hp(120), 
-          paddingHorizontal: spacing(12),
+          paddingBottom: spacing(16) + insets.bottom, 
+          paddingHorizontal: spacing(16),
           flexGrow: 1
         }}
         showsVerticalScrollIndicator={false}
         style={{ flex: 1 }}
       >
-        {/* User and Company Information Section */}
+        {/* Employee Information Card */}
         <View style={{ 
-          backgroundColor: '#FFFFFF', 
-          borderRadius: 12, 
-          padding: spacing(16), 
-          marginTop: spacing(12),
-          shadowColor: '#000', 
-          shadowOffset: { width: 0, height: 2 }, 
-          shadowOpacity: 0.05, 
-          shadowRadius: 6, 
-          elevation: 2 
+          marginTop: spacing(12), 
+          marginBottom: spacing(12),
+          backgroundColor: '#FFFFFF',
+          borderRadius: hp(8),
+          padding: spacing(12),
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: hp(1) },
+          shadowOpacity: 0.1,
+          shadowRadius: hp(3),
+          elevation: 2,
+          borderWidth: wp(1),
+          borderColor: '#E0E0E0'
         }}>
-          {/* Three Column Layout: Logo | Profile | Company Details */}
-          <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: spacing(16) }}>
-            {/* Left: Company Logo */}
-            <View style={{ flex: 1, alignItems: 'flex-start' }}>
-              <Image 
-                source={require('../../assets/creative designers.png')} 
-                style={{ width: wp(120), height: hp(30), resizeMode: 'contain' }} 
-              />
-            </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            {/* Profile Picture on Left */}
+            <Image 
+              source={require('../../assets/Profile picture.png')} 
+              style={{ 
+                width: wp(56), 
+                height: hp(56), 
+                borderRadius: hp(28), 
+                resizeMode: 'cover',
+                marginRight: spacing(10)
+              }}
+            />
 
-            {/* Center: Employee Profile */}
-            <View style={{ flex: 1, alignItems: 'center', paddingHorizontal: spacing(8) }}>
-              {/* Profile Picture */}
-              <Image 
-                source={require('../../assets/Profile picture.png')} 
-                style={{ width: wp(70), height: hp(70), borderRadius: 35, marginBottom: spacing(8) }} 
-              />
-              
-              {/* Name with menu icon to the right */}
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: spacing(4) }}>
-                <Text style={{ fontSize: fontSize(16), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginRight: spacing(6) }}>
-                  {name}
-                </Text>
-                <TouchableOpacity>
-                  <Text style={{ fontSize: fontSize(16), color: '#000000' }}>⋮</Text>
-                </TouchableOpacity>
-              </View>
-
-              {/* Role */}
-              <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins', textAlign: 'center' }}>
+            {/* Name and Role in Middle */}
+            <View style={{ flex: 1 }}>
+              <Text style={{ 
+                fontSize: fontSize(15), 
+                fontWeight: '700', 
+                color: '#000000', 
+                fontFamily: 'Poppins-Bold',
+                marginBottom: spacing(2)
+              }} allowFontScaling={false}>
+                {name}
+              </Text>
+              <Text style={{ 
+                fontSize: fontSize(13), 
+                color: '#666666', 
+                fontFamily: 'Poppins'
+              }} allowFontScaling={false}>
                 {role}
               </Text>
             </View>
 
-            {/* Right: Company Details (left-aligned within right column) */}
-            <View style={{ flex: 1, alignItems: 'flex-end' }}>
-              <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: spacing(8) }}>
-                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins', textAlign: 'left', lineHeight: 18 }}>
-                  Creative Designers{'\n'}Radhakishanpura, Sikar{'\n'}+919460638554
+            {/* Emp ID and Phone on Right */}
+            <View style={{ alignItems: 'flex-end' }}>
+              <Text style={{ 
+                fontSize: fontSize(12), 
+                color: '#000000', 
+                fontFamily: 'Poppins',
+                marginBottom: spacing(4)
+              }} allowFontScaling={false}>
+                Emp ID - {empId}
+              </Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ fontSize: fontSize(13), color: '#248CFF', marginRight: spacing(3) }} allowFontScaling={false}>📞</Text>
+                <Text style={{ 
+                  fontSize: fontSize(12), 
+                  color: '#248CFF', 
+                  fontFamily: 'Poppins'
+                }} allowFontScaling={false}>
+                  9460638554
                 </Text>
-                <TouchableOpacity>
-                  <Text style={{ fontSize: fontSize(16), color: '#000000' }}>⋮</Text>
-                </TouchableOpacity>
               </View>
             </View>
           </View>
-
-          {/* Joining Date and Report Title Row */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: spacing(8), marginBottom: spacing(8) }}>
-            {/* Joining Date - Left */}
-            <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins' }}>
-              Joining 01/11/23
-            </Text>
-
-            {/* PAYMENT REPORT - Centered */}
-            <View style={{ flex: 1, alignItems: 'center' }}>
-              <Text style={{ 
-                fontSize: fontSize(14), 
-                fontWeight: '700', 
-                color: '#E53935', 
-                fontFamily: 'Poppins-Bold',
-                textDecorationLine: 'underline'
-              }}>
-                PAYMENT REPORT
-              </Text>
-            </View>
-
-            {/* Emp ID - Right aligned */}
-            <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins' }}>
-              Emp id - {empId}
-            </Text>
-          </View>
         </View>
 
-        {/* Date Range Header */}
+        {/* Date Range Card */}
         <View style={{ 
           flexDirection: 'row', 
           alignItems: 'center', 
           justifyContent: 'space-between',
-          marginTop: spacing(16),
+          marginTop: spacing(8),
           marginBottom: spacing(12),
-          paddingHorizontal: spacing(4)
+          backgroundColor: '#FFFFFF',
+          borderRadius: hp(8),
+          paddingVertical: spacing(10),
+          paddingHorizontal: spacing(12),
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: hp(1) },
+          shadowOpacity: 0.1,
+          shadowRadius: hp(3),
+          elevation: 2,
+          borderWidth: wp(1),
+          borderColor: '#E0E0E0'
         }}>
-          <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
+          <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
             From Date 01/04/2024
           </Text>
-          <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
+          <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
             To Date 31/07/2024
           </Text>
         </View>
@@ -447,30 +417,32 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
           horizontal 
           showsHorizontalScrollIndicator={true}
           contentContainerStyle={{ flexGrow: 1 }}
-          style={{ marginTop: spacing(8) }}
+          style={{ marginTop: spacing(4) }}
         >
         <View style={{ 
-          borderWidth: 1, 
+          borderWidth: wp(1), 
           borderColor: '#CCCCCC', 
           backgroundColor: '#FFFFFF',
-          minWidth: SCREEN_WIDTH - spacing(24)
+          minWidth: SCREEN_WIDTH - spacing(32),
+          borderRadius: hp(8),
+          overflow: 'hidden'
         }}>
           {/* Header Row */}
-          <View style={{ flexDirection: 'row', backgroundColor: '#F5F5F5' }}>
-            <View style={{ width: wp(70), minWidth: wp(60), paddingVertical: spacing(12), paddingHorizontal: spacing(8), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC', justifyContent: 'center' }}>
-              <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }}>Date</Text>
+          <View style={{ flexDirection: 'row', backgroundColor: '#F5F5F5', minHeight: hp(32), flexShrink: 0 }}>
+            <View style={{ width: wp(70), minWidth: wp(60), paddingVertical: hp(6), paddingHorizontal: spacing(6), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC', justifyContent: 'center' }}>
+              <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>Date</Text>
             </View>
-            <View style={{ flex: 2, minWidth: wp(100), paddingVertical: spacing(12), paddingHorizontal: spacing(10), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC', justifyContent: 'center' }}>
-              <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }}>Description</Text>
+            <View style={{ flex: 2, minWidth: wp(100), paddingVertical: hp(6), paddingHorizontal: spacing(8), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC', justifyContent: 'center' }}>
+              <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>Description</Text>
             </View>
-            <View style={{ width: wp(65), minWidth: wp(55), paddingVertical: spacing(12), paddingHorizontal: spacing(6), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC', alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontSize: fontSize(12), color: '#E53935', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }}>Cr</Text>
+            <View style={{ width: wp(65), minWidth: wp(55), paddingVertical: hp(6), paddingHorizontal: spacing(4), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC', alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ fontSize: fontSize(11), color: '#E53935', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>Cr</Text>
             </View>
-            <View style={{ width: wp(65), minWidth: wp(55), paddingVertical: spacing(12), paddingHorizontal: spacing(6), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC', alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontSize: fontSize(12), color: '#4CAF50', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }}>Dr</Text>
+            <View style={{ width: wp(65), minWidth: wp(55), paddingVertical: hp(6), paddingHorizontal: spacing(4), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC', alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ fontSize: fontSize(11), color: '#4CAF50', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>Dr</Text>
             </View>
-            <View style={{ width: wp(75), minWidth: wp(65), paddingVertical: spacing(12), paddingHorizontal: spacing(6), borderBottomWidth: 1, borderBottomColor: '#CCCCCC', alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }}>Balance</Text>
+            <View style={{ width: wp(75), minWidth: wp(65), paddingVertical: hp(6), paddingHorizontal: spacing(4), borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC', alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>Balance</Text>
             </View>
           </View>
 
@@ -478,27 +450,27 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
           {transactions.map((txn, idx) => (
             <View 
               key={idx}
-              style={{ flexDirection: 'row', backgroundColor: '#FFFFFF', minHeight: hp(50) }}
+              style={{ flexDirection: 'row', backgroundColor: '#FFFFFF', minHeight: hp(32), flexShrink: 0 }}
             >
-              <View style={{ width: wp(70), minWidth: wp(60), paddingVertical: spacing(10), paddingHorizontal: spacing(8), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: idx === transactions.length - 1 ? 0 : 1, borderBottomColor: '#CCCCCC', justifyContent: 'center' }}>
-                <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }}>{txn.date}</Text>
+              <View style={{ width: wp(70), minWidth: wp(60), paddingVertical: hp(6), paddingHorizontal: spacing(6), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: idx === transactions.length - 1 ? 0 : wp(1), borderBottomColor: '#CCCCCC', justifyContent: 'center' }}>
+                <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{txn.date}</Text>
               </View>
-              <View style={{ flex: 2, minWidth: wp(100), paddingVertical: spacing(10), paddingHorizontal: spacing(10), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: idx === transactions.length - 1 ? 0 : 1, borderBottomColor: '#CCCCCC', justifyContent: 'center' }}>
-                <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins', flexWrap: 'wrap' }} numberOfLines={2}>{txn.description}</Text>
+              <View style={{ flex: 2, minWidth: wp(100), paddingVertical: hp(6), paddingHorizontal: spacing(8), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: idx === transactions.length - 1 ? 0 : wp(1), borderBottomColor: '#CCCCCC', justifyContent: 'center' }}>
+                <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins', flexWrap: 'wrap' }} numberOfLines={1} allowFontScaling={false}>{txn.description}</Text>
               </View>
-              <View style={{ width: wp(65), minWidth: wp(55), paddingVertical: spacing(10), paddingHorizontal: spacing(6), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: idx === transactions.length - 1 ? 0 : 1, borderBottomColor: '#CCCCCC', alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={{ fontSize: fontSize(11), color: txn.credit ? '#E53935' : '#000000', fontFamily: 'Poppins' }}>{txn.credit || ''}</Text>
+              <View style={{ width: wp(65), minWidth: wp(55), paddingVertical: hp(6), paddingHorizontal: spacing(4), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: idx === transactions.length - 1 ? 0 : wp(1), borderBottomColor: '#CCCCCC', alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={{ fontSize: fontSize(11), color: txn.credit ? '#E53935' : '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{txn.credit || ''}</Text>
               </View>
-              <View style={{ width: wp(65), minWidth: wp(55), paddingVertical: spacing(10), paddingHorizontal: spacing(6), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: idx === transactions.length - 1 ? 0 : 1, borderBottomColor: '#CCCCCC', alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={{ fontSize: fontSize(11), color: txn.debit ? '#4CAF50' : '#000000', fontFamily: 'Poppins' }}>{txn.debit || ''}</Text>
+              <View style={{ width: wp(65), minWidth: wp(55), paddingVertical: hp(6), paddingHorizontal: spacing(4), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: idx === transactions.length - 1 ? 0 : wp(1), borderBottomColor: '#CCCCCC', alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={{ fontSize: fontSize(11), color: txn.debit ? '#4CAF50' : '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{txn.debit || ''}</Text>
               </View>
-              <View style={{ width: wp(75), minWidth: wp(65), paddingVertical: spacing(10), paddingHorizontal: spacing(6), borderBottomWidth: idx === transactions.length - 1 ? 0 : 1, borderBottomColor: '#CCCCCC', alignItems: 'center', justifyContent: 'center' }}>
+              <View style={{ width: wp(75), minWidth: wp(65), paddingVertical: hp(6), paddingHorizontal: spacing(4), borderBottomWidth: idx === transactions.length - 1 ? 0 : wp(1), borderBottomColor: '#CCCCCC', alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ 
                   fontSize: fontSize(11), 
                   color: txn.balance.includes('Dr') ? '#4CAF50' : txn.balance.includes('Cr') ? '#E53935' : '#000000', 
                   fontFamily: 'Poppins',
                   textAlign: 'center'
-                }}>
+                }} allowFontScaling={false}>
                   {txn.balance}
                 </Text>
               </View>
@@ -506,92 +478,28 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
           ))}
 
           {/* Collected Payment Summary Row */}
-          <View style={{ flexDirection: 'row', backgroundColor: '#F5F5F5', minHeight: hp(50) }}>
-            <View style={{ width: wp(70), minWidth: wp(60), paddingVertical: spacing(12), paddingHorizontal: spacing(8), borderRightWidth: 1, borderRightColor: '#CCCCCC', justifyContent: 'center' }}>
-              <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins-Bold' }}></Text>
+          <View style={{ flexDirection: 'row', backgroundColor: '#F5F5F5', minHeight: hp(32), flexShrink: 0 }}>
+            <View style={{ width: wp(70), minWidth: wp(60), paddingVertical: hp(6), paddingHorizontal: spacing(6), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', justifyContent: 'center' }}>
+              <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}></Text>
             </View>
-            <View style={{ flex: 2, minWidth: wp(100), paddingVertical: spacing(12), paddingHorizontal: spacing(10), borderRightWidth: 1, borderRightColor: '#CCCCCC', justifyContent: 'center' }}>
-              <Text style={{ fontSize: fontSize(11), color: '#E53935', fontFamily: 'Poppins-Bold', fontWeight: '700' }}>Collected Payment</Text>
+            <View style={{ flex: 2, minWidth: wp(100), paddingVertical: hp(6), paddingHorizontal: spacing(8), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', justifyContent: 'center' }}>
+              <Text style={{ fontSize: fontSize(11), color: '#E53935', fontFamily: 'Poppins-Bold', fontWeight: '700' }} allowFontScaling={false}>Collected Payment</Text>
             </View>
-            <View style={{ width: wp(65), minWidth: wp(55), paddingVertical: spacing(12), paddingHorizontal: spacing(6), borderRightWidth: 1, borderRightColor: '#CCCCCC', alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins-Bold', fontWeight: '700' }}>{displayTotals.credit}</Text>
+            <View style={{ width: wp(65), minWidth: wp(55), paddingVertical: hp(6), paddingHorizontal: spacing(4), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins-Bold', fontWeight: '700' }} allowFontScaling={false}>{displayTotals.credit}</Text>
             </View>
-            <View style={{ width: wp(65), minWidth: wp(55), paddingVertical: spacing(12), paddingHorizontal: spacing(6), borderRightWidth: 1, borderRightColor: '#CCCCCC', alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins-Bold', fontWeight: '700' }}>{displayTotals.debit}</Text>
+            <View style={{ width: wp(65), minWidth: wp(55), paddingVertical: hp(6), paddingHorizontal: spacing(4), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins-Bold', fontWeight: '700' }} allowFontScaling={false}>{displayTotals.debit}</Text>
             </View>
-            <View style={{ width: wp(75), minWidth: wp(65), paddingVertical: spacing(12), paddingHorizontal: spacing(6), alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontSize: fontSize(11), color: displayTotals.balance < 0 ? '#4CAF50' : '#E53935', fontFamily: 'Poppins-Bold', fontWeight: '700', textAlign: 'center' }}>
-                {displayTotals.balance > 0 ? `${displayTotals.balance} Cr` : displayTotals.balance < 0 ? `${Math.abs(displayTotals.balance)} Dr` : 'Nill'}
+            <View style={{ width: wp(75), minWidth: wp(65), paddingVertical: hp(6), paddingHorizontal: spacing(4), alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ fontSize: fontSize(11), color: '#E53935', fontFamily: 'Poppins-Bold', fontWeight: '700', textAlign: 'center' }} allowFontScaling={false}>
+                {displayTotals.balance} Cr
               </Text>
             </View>
           </View>
         </View>
         </ScrollView>
       </ScrollView>
-
-      {/* Action Buttons - Fixed at Bottom */}
-      <SafeAreaView style={{ backgroundColor: '#FFFFFF' }}>
-        <View style={{
-          backgroundColor: '#FFFFFF',
-          flexDirection: 'row',
-          paddingHorizontal: spacing(16),
-          paddingVertical: spacing(16),
-          paddingBottom: Platform.OS === 'ios' ? spacing(8) : spacing(16),
-          borderTopWidth: 1,
-          borderTopColor: '#E0E0E0',
-          gap: spacing(12),
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: -2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
-          elevation: 5
-        }}>
-        {/* Payment In Button */}
-        <TouchableOpacity
-          onPress={() => setShowPaymentInModal(true)}
-          style={{
-            flex: 1,
-            backgroundColor: '#4CAF50',
-            borderRadius: 8,
-            paddingVertical: spacing(14),
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <Text style={{
-            fontSize: fontSize(16),
-            color: '#FFFFFF',
-            fontFamily: 'Poppins-Bold',
-            fontWeight: '700'
-          }}>
-            Payment In
-          </Text>
-        </TouchableOpacity>
-
-        {/* Payment Out Button */}
-        <TouchableOpacity
-          onPress={() => setShowPaymentOutModal(true)}
-          style={{
-            flex: 1,
-            backgroundColor: '#E53935',
-            borderRadius: 8,
-            paddingVertical: spacing(14),
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <Text style={{
-            fontSize: fontSize(16),
-            color: '#FFFFFF',
-            fontFamily: 'Poppins-Bold',
-            fontWeight: '700'
-          }}>
-            Payment Out
-          </Text>
-        </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-      </SafeAreaView>
 
       {/* Payment In Modal */}
       <Modal
@@ -613,15 +521,15 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
           <Pressable 
             style={{ 
               backgroundColor: '#FFFFFF', 
-              borderRadius: 16, 
+              borderRadius: hp(16), 
               padding: spacing(20),
               width: '100%',
               maxWidth: wp(400),
               maxHeight: '80%',
               shadowColor: '#000',
-              shadowOffset: { width: 0, height: 4 },
+              shadowOffset: { width: 0, height: hp(4) },
               shadowOpacity: 0.3,
-              shadowRadius: 8,
+              shadowRadius: spacing(8),
               elevation: 8
             }}
             onPress={(e) => e.stopPropagation()}
@@ -634,7 +542,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                 marginBottom: spacing(24), 
                 fontFamily: 'Poppins-Bold',
                 color: '#000000'
-              }}>
+              }} allowFontScaling={false}>
                 Enter Payment In Details
               </Text>
 
@@ -656,9 +564,9 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                   }}
                   style={{
                     backgroundColor: '#FFFFFF',
-                    borderWidth: 1,
+                    borderWidth: wp(1),
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
+                    borderRadius: spacing(8),
                     paddingHorizontal: spacing(16),
                     paddingVertical: spacing(14),
                     flexDirection: 'row',
@@ -670,10 +578,10 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                     fontSize: fontSize(14),
                     color: amount ? '#000000' : '#9E9E9E',
                     fontFamily: 'Poppins'
-                  }}>
+                  }} allowFontScaling={false}>
                     {amount || 'Select Amount'}
                   </Text>
-                  <Text style={{ fontSize: fontSize(12), color: '#000000' }}>
+                  <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>
                     {isAmountDropdownOpen ? '▲' : '▼'}
                   </Text>
                 </TouchableOpacity>
@@ -682,15 +590,15 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                 {isAmountDropdownOpen && (
                   <View style={{
                     backgroundColor: '#FFFFFF',
-                    borderWidth: 1,
+                    borderWidth: wp(1),
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
+                    borderRadius: spacing(8),
                     marginTop: spacing(4),
                     maxHeight: hp(200),
                     shadowColor: '#000',
-                    shadowOffset: { width: 0, height: 2 },
+                    shadowOffset: { width: 0, height: hp(2) },
                     shadowOpacity: 0.1,
-                    shadowRadius: 4,
+                    shadowRadius: spacing(4),
                     elevation: 3
                   }}>
                     <ScrollView nestedScrollEnabled={true}>
@@ -704,7 +612,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                           style={{
                             paddingHorizontal: spacing(16),
                             paddingVertical: spacing(14),
-                            borderBottomWidth: index < amountOptions.length - 1 ? 1 : 0,
+                            borderBottomWidth: index < amountOptions.length - 1 ? wp(1) : 0,
                             borderBottomColor: '#E0E0E0'
                           }}
                         >
@@ -712,7 +620,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                             fontSize: fontSize(14),
                             color: '#000000',
                             fontFamily: 'Poppins'
-                          }}>
+                          }} allowFontScaling={false}>
                             {option}
                           </Text>
                         </TouchableOpacity>
@@ -741,9 +649,9 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                   }}
                   style={{
                     backgroundColor: '#FFFFFF',
-                    borderWidth: 1,
+                    borderWidth: wp(1),
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
+                    borderRadius: spacing(8),
                     paddingHorizontal: spacing(16),
                     paddingVertical: spacing(14),
                     flexDirection: 'row',
@@ -752,25 +660,25 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                   }}
                 >
                   <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-                    <Text style={{ fontSize: fontSize(16), color: '#000000', marginRight: spacing(8) }}>📅</Text>
+                    <Text style={{ fontSize: fontSize(16), color: '#000000', marginRight: spacing(8) }} allowFontScaling={false}>📅</Text>
                     <Text style={{
                       fontSize: fontSize(14),
                       color: selectedDate ? '#000000' : '#9E9E9E',
                       fontFamily: 'Poppins'
-                    }}>
+                    }} allowFontScaling={false}>
                       {selectedDate || 'Select Date'}
                     </Text>
                   </View>
-                  <Text style={{ fontSize: fontSize(12), color: '#000000' }}>▼</Text>
+                  <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>▼</Text>
                 </TouchableOpacity>
 
                 {/* Inline Calendar */}
                 {showCalendar && (
                   <View style={{
                     backgroundColor: '#FFFFFF',
-                    borderWidth: 1,
+                    borderWidth: wp(1),
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
+                    borderRadius: spacing(8),
                     marginTop: spacing(8),
                     padding: spacing(16)
                   }}>
@@ -783,18 +691,18 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                       paddingHorizontal: spacing(4)
                     }}>
                       <TouchableOpacity onPress={() => navigateMonth('prev')} style={{ padding: spacing(4) }}>
-                        <Text style={{ fontSize: fontSize(16), color: '#000000' }}>←</Text>
+                        <Text style={{ fontSize: fontSize(16), color: '#000000' }} allowFontScaling={false}>←</Text>
                       </TouchableOpacity>
                       <Text style={{ 
                         fontSize: fontSize(15), 
                         fontWeight: '600', 
                         fontFamily: 'Poppins-SemiBold',
                         color: '#000000'
-                      }}>
+                      }} allowFontScaling={false}>
                         {monthNames[currentMonth - 1]} {currentYear}
                       </Text>
                       <TouchableOpacity onPress={() => navigateMonth('next')} style={{ padding: spacing(4) }}>
-                        <Text style={{ fontSize: fontSize(16), color: '#000000' }}>→</Text>
+                        <Text style={{ fontSize: fontSize(16), color: '#000000' }} allowFontScaling={false}>→</Text>
                       </TouchableOpacity>
                     </View>
 
@@ -849,7 +757,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                               <View style={{
                                 width: wp(36),
                                 height: hp(36),
-                                borderRadius: 18,
+                                borderRadius: hp(18),
                                 backgroundColor: isSelected ? '#00BCD4' : 'transparent',
                                 alignItems: 'center',
                                 justifyContent: 'center'
@@ -890,9 +798,9 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                   }}
                   style={{
                     backgroundColor: '#FFFFFF',
-                    borderWidth: 1,
+                    borderWidth: wp(1),
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
+                    borderRadius: spacing(8),
                     paddingHorizontal: spacing(16),
                     paddingVertical: spacing(14),
                     flexDirection: 'row',
@@ -904,10 +812,10 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                     fontSize: fontSize(14),
                     color: paymentMethod ? '#000000' : '#9E9E9E',
                     fontFamily: 'Poppins'
-                  }}>
+                  }} allowFontScaling={false}>
                     {paymentMethod || 'Select Payment Method'}
                   </Text>
-                  <Text style={{ fontSize: fontSize(12), color: '#000000' }}>
+                  <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>
                     {isPaymentMethodDropdownOpen ? '▲' : '▼'}
                   </Text>
                 </TouchableOpacity>
@@ -916,15 +824,15 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                 {isPaymentMethodDropdownOpen && (
                   <View style={{
                     backgroundColor: '#FFFFFF',
-                    borderWidth: 1,
+                    borderWidth: wp(1),
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
+                    borderRadius: spacing(8),
                     marginTop: spacing(4),
                     maxHeight: hp(200),
                     shadowColor: '#000',
-                    shadowOffset: { width: 0, height: 2 },
+                    shadowOffset: { width: 0, height: hp(2) },
                     shadowOpacity: 0.1,
-                    shadowRadius: 4,
+                    shadowRadius: spacing(4),
                     elevation: 3
                   }}>
                     <ScrollView nestedScrollEnabled={true}>
@@ -938,7 +846,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                           style={{
                             paddingHorizontal: spacing(16),
                             paddingVertical: spacing(14),
-                            borderBottomWidth: index < paymentMethodOptions.length - 1 ? 1 : 0,
+                            borderBottomWidth: index < paymentMethodOptions.length - 1 ? wp(1) : 0,
                             borderBottomColor: '#E0E0E0'
                           }}
                         >
@@ -946,7 +854,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                             fontSize: fontSize(14),
                             color: '#000000',
                             fontFamily: 'Poppins'
-                          }}>
+                          }} allowFontScaling={false}>
                             {option}
                           </Text>
                         </TouchableOpacity>
@@ -974,11 +882,12 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                   placeholderTextColor="#9E9E9E"
                   multiline
                   numberOfLines={4}
+                  allowFontScaling={false}
                   style={{
                     backgroundColor: '#FFFFFF',
-                    borderWidth: 1,
+                    borderWidth: wp(1),
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
+                    borderRadius: spacing(8),
                     paddingHorizontal: spacing(16),
                     paddingVertical: spacing(14),
                     fontSize: fontSize(14),
@@ -997,7 +906,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                   style={{
                     flex: 1,
                     backgroundColor: '#E53935',
-                    borderRadius: 8,
+                    borderRadius: spacing(8),
                     paddingVertical: spacing(14),
                     alignItems: 'center',
                     justifyContent: 'center'
@@ -1008,7 +917,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                     color: '#FFFFFF',
                     fontFamily: 'Poppins-SemiBold',
                     fontWeight: '600'
-                  }}>
+                  }} allowFontScaling={false}>
                     Cancel
                   </Text>
                 </TouchableOpacity>
@@ -1018,7 +927,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                   style={{
                     flex: 1,
                     backgroundColor: '#4CAF50',
-                    borderRadius: 8,
+                    borderRadius: spacing(8),
                     paddingVertical: spacing(14),
                     alignItems: 'center',
                     justifyContent: 'center'
@@ -1029,7 +938,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                     color: '#FFFFFF',
                     fontFamily: 'Poppins-Bold',
                     fontWeight: '700'
-                  }}>
+                  }} allowFontScaling={false}>
                     Done
                   </Text>
                 </TouchableOpacity>
@@ -1059,15 +968,15 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
           <Pressable 
             style={{ 
               backgroundColor: '#FFFFFF', 
-              borderRadius: 16, 
+              borderRadius: hp(16), 
               padding: spacing(20),
               width: '100%',
               maxWidth: wp(400),
               maxHeight: '80%',
               shadowColor: '#000',
-              shadowOffset: { width: 0, height: 4 },
+              shadowOffset: { width: 0, height: hp(4) },
               shadowOpacity: 0.3,
-              shadowRadius: 8,
+              shadowRadius: spacing(8),
               elevation: 8
             }}
             onPress={(e) => e.stopPropagation()}
@@ -1080,7 +989,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                 marginBottom: spacing(24), 
                 fontFamily: 'Poppins-Bold',
                 color: '#000000'
-              }}>
+              }} allowFontScaling={false}>
                 Enter Payment Out Details
               </Text>
 
@@ -1102,9 +1011,9 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                   }}
                   style={{
                     backgroundColor: '#FFFFFF',
-                    borderWidth: 1,
+                    borderWidth: wp(1),
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
+                    borderRadius: spacing(8),
                     paddingHorizontal: spacing(16),
                     paddingVertical: spacing(14),
                     flexDirection: 'row',
@@ -1116,10 +1025,10 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                     fontSize: fontSize(14),
                     color: amountOut ? '#000000' : '#9E9E9E',
                     fontFamily: 'Poppins'
-                  }}>
+                  }} allowFontScaling={false}>
                     {amountOut || 'Select Amount'}
                   </Text>
-                  <Text style={{ fontSize: fontSize(12), color: '#000000' }}>
+                  <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>
                     {isAmountOutDropdownOpen ? '▲' : '▼'}
                   </Text>
                 </TouchableOpacity>
@@ -1128,15 +1037,15 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                 {isAmountOutDropdownOpen && (
                   <View style={{
                     backgroundColor: '#FFFFFF',
-                    borderWidth: 1,
+                    borderWidth: wp(1),
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
+                    borderRadius: spacing(8),
                     marginTop: spacing(4),
                     maxHeight: hp(200),
                     shadowColor: '#000',
-                    shadowOffset: { width: 0, height: 2 },
+                    shadowOffset: { width: 0, height: hp(2) },
                     shadowOpacity: 0.1,
-                    shadowRadius: 4,
+                    shadowRadius: spacing(4),
                     elevation: 3
                   }}>
                     <ScrollView nestedScrollEnabled={true}>
@@ -1150,7 +1059,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                           style={{
                             paddingHorizontal: spacing(16),
                             paddingVertical: spacing(14),
-                            borderBottomWidth: index < amountOptions.length - 1 ? 1 : 0,
+                            borderBottomWidth: index < amountOptions.length - 1 ? wp(1) : 0,
                             borderBottomColor: '#E0E0E0'
                           }}
                         >
@@ -1158,7 +1067,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                             fontSize: fontSize(14),
                             color: '#000000',
                             fontFamily: 'Poppins'
-                          }}>
+                          }} allowFontScaling={false}>
                             {option}
                           </Text>
                         </TouchableOpacity>
@@ -1187,9 +1096,9 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                   }}
                   style={{
                     backgroundColor: '#FFFFFF',
-                    borderWidth: 1,
+                    borderWidth: wp(1),
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
+                    borderRadius: spacing(8),
                     paddingHorizontal: spacing(16),
                     paddingVertical: spacing(14),
                     flexDirection: 'row',
@@ -1198,25 +1107,25 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                   }}
                 >
                   <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-                    <Text style={{ fontSize: fontSize(16), color: '#000000', marginRight: spacing(8) }}>📅</Text>
+                    <Text style={{ fontSize: fontSize(16), color: '#000000', marginRight: spacing(8) }} allowFontScaling={false}>📅</Text>
                     <Text style={{
                       fontSize: fontSize(14),
                       color: selectedDateOut ? '#000000' : '#9E9E9E',
                       fontFamily: 'Poppins'
-                    }}>
+                    }} allowFontScaling={false}>
                       {selectedDateOut || 'Select Date'}
                     </Text>
                   </View>
-                  <Text style={{ fontSize: fontSize(12), color: '#000000' }}>▼</Text>
+                  <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>▼</Text>
                 </TouchableOpacity>
 
                 {/* Inline Calendar */}
                 {showCalendarOut && (
                   <View style={{
                     backgroundColor: '#FFFFFF',
-                    borderWidth: 1,
+                    borderWidth: wp(1),
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
+                    borderRadius: spacing(8),
                     marginTop: spacing(8),
                     padding: spacing(16)
                   }}>
@@ -1229,18 +1138,18 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                       paddingHorizontal: spacing(4)
                     }}>
                       <TouchableOpacity onPress={() => navigateMonthOut('prev')} style={{ padding: spacing(4) }}>
-                        <Text style={{ fontSize: fontSize(16), color: '#000000' }}>←</Text>
+                        <Text style={{ fontSize: fontSize(16), color: '#000000' }} allowFontScaling={false}>←</Text>
                       </TouchableOpacity>
                       <Text style={{ 
                         fontSize: fontSize(15), 
                         fontWeight: '600', 
                         fontFamily: 'Poppins-SemiBold',
                         color: '#000000'
-                      }}>
+                      }} allowFontScaling={false}>
                         {monthNames[currentMonthOut - 1]} {currentYearOut}
                       </Text>
                       <TouchableOpacity onPress={() => navigateMonthOut('next')} style={{ padding: spacing(4) }}>
-                        <Text style={{ fontSize: fontSize(16), color: '#000000' }}>→</Text>
+                        <Text style={{ fontSize: fontSize(16), color: '#000000' }} allowFontScaling={false}>→</Text>
                       </TouchableOpacity>
                     </View>
 
@@ -1295,7 +1204,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                               <View style={{
                                 width: wp(36),
                                 height: hp(36),
-                                borderRadius: 18,
+                                borderRadius: hp(18),
                                 backgroundColor: isSelected ? '#00BCD4' : 'transparent',
                                 alignItems: 'center',
                                 justifyContent: 'center'
@@ -1336,9 +1245,9 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                   }}
                   style={{
                     backgroundColor: '#FFFFFF',
-                    borderWidth: 1,
+                    borderWidth: wp(1),
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
+                    borderRadius: spacing(8),
                     paddingHorizontal: spacing(16),
                     paddingVertical: spacing(14),
                     flexDirection: 'row',
@@ -1350,10 +1259,10 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                     fontSize: fontSize(14),
                     color: paymentMethodOut ? '#000000' : '#9E9E9E',
                     fontFamily: 'Poppins'
-                  }}>
+                  }} allowFontScaling={false}>
                     {paymentMethodOut || 'Select Payment Method'}
                   </Text>
-                  <Text style={{ fontSize: fontSize(12), color: '#000000' }}>
+                  <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>
                     {isPaymentMethodOutDropdownOpen ? '▲' : '▼'}
                   </Text>
                 </TouchableOpacity>
@@ -1362,15 +1271,15 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                 {isPaymentMethodOutDropdownOpen && (
                   <View style={{
                     backgroundColor: '#FFFFFF',
-                    borderWidth: 1,
+                    borderWidth: wp(1),
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
+                    borderRadius: spacing(8),
                     marginTop: spacing(4),
                     maxHeight: hp(200),
                     shadowColor: '#000',
-                    shadowOffset: { width: 0, height: 2 },
+                    shadowOffset: { width: 0, height: hp(2) },
                     shadowOpacity: 0.1,
-                    shadowRadius: 4,
+                    shadowRadius: spacing(4),
                     elevation: 3
                   }}>
                     <ScrollView nestedScrollEnabled={true}>
@@ -1384,7 +1293,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                           style={{
                             paddingHorizontal: spacing(16),
                             paddingVertical: spacing(14),
-                            borderBottomWidth: index < paymentMethodOptions.length - 1 ? 1 : 0,
+                            borderBottomWidth: index < paymentMethodOptions.length - 1 ? wp(1) : 0,
                             borderBottomColor: '#E0E0E0'
                           }}
                         >
@@ -1392,7 +1301,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                             fontSize: fontSize(14),
                             color: '#000000',
                             fontFamily: 'Poppins'
-                          }}>
+                          }} allowFontScaling={false}>
                             {option}
                           </Text>
                         </TouchableOpacity>
@@ -1420,11 +1329,12 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                   placeholderTextColor="#9E9E9E"
                   multiline
                   numberOfLines={4}
+                  allowFontScaling={false}
                   style={{
                     backgroundColor: '#FFFFFF',
-                    borderWidth: 1,
+                    borderWidth: wp(1),
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
+                    borderRadius: spacing(8),
                     paddingHorizontal: spacing(16),
                     paddingVertical: spacing(14),
                     fontSize: fontSize(14),
@@ -1443,7 +1353,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                   style={{
                     flex: 1,
                     backgroundColor: '#E53935',
-                    borderRadius: 8,
+                    borderRadius: spacing(8),
                     paddingVertical: spacing(14),
                     alignItems: 'center',
                     justifyContent: 'center'
@@ -1454,7 +1364,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                     color: '#FFFFFF',
                     fontFamily: 'Poppins-SemiBold',
                     fontWeight: '600'
-                  }}>
+                  }} allowFontScaling={false}>
                     Cancel
                   </Text>
                 </TouchableOpacity>
@@ -1464,7 +1374,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                   style={{
                     flex: 1,
                     backgroundColor: '#4CAF50',
-                    borderRadius: 8,
+                    borderRadius: spacing(8),
                     paddingVertical: spacing(14),
                     alignItems: 'center',
                     justifyContent: 'center'
@@ -1475,7 +1385,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
                     color: '#FFFFFF',
                     fontFamily: 'Poppins-Bold',
                     fontWeight: '700'
-                  }}>
+                  }} allowFontScaling={false}>
                     Done
                   </Text>
                 </TouchableOpacity>
@@ -1485,6 +1395,7 @@ export default function PaymentReportScreen({ navigation, route }: Props) {
         </Pressable>
       </Modal>
 
+      </SafeAreaView>
     </View>
   );
 }

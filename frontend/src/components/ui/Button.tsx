@@ -1,5 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, GestureResponderEvent, Pressable, Text, ViewStyle } from 'react-native';
+import { hp } from '@/utils/responsive';
 
 type ButtonVariant = 'primary' | 'secondary';
 
@@ -25,7 +26,7 @@ export default function Button({
   style,
 }: ButtonProps) {
   const isPrimary = variant === 'primary';
-  const baseClasses = 'h-[50px] rounded-button items-center justify-center shadow-card';
+  const baseClasses = 'rounded-button items-center justify-center shadow-card';
   const primaryClasses = 'bg-brand';
   const secondaryClasses = 'bg-background-light border border-border-gray';
 
@@ -37,14 +38,20 @@ export default function Button({
       disabled={disabled || loading}
       className={`${baseClasses} ${isPrimary ? primaryClasses : secondaryClasses} ${className || ''}`}
       style={({ pressed }) => [
-        { transform: [{ scale: pressed ? 0.98 : 1 }] },
+        { height: hp(50) },
         Array.isArray(style) ? style : style ? [style] : [],
+        { transform: [{ scale: pressed ? 0.98 : 1 }] },
       ]}
     >
       {loading ? (
         <ActivityIndicator color={isPrimary ? '#FFFFFF' : '#101317'} />
       ) : (
-        <Text className={`text-[16px] font-medium ${isPrimary ? 'text-white' : 'text-text-black'}`}>{title}</Text>
+        <Text 
+          className={`text-base font-medium ${isPrimary ? 'text-white' : 'text-text-black'}`}
+          allowFontScaling={false}
+        >
+          {title}
+        </Text>
       )}
     </Pressable>
   );

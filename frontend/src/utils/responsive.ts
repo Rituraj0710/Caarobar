@@ -1,4 +1,5 @@
 import { Dimensions, PixelRatio, Platform } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -92,20 +93,31 @@ export const tableCellWidth = (baseWidth: number): number => {
 };
 
 /**
+ * Hook to get safe area insets
+ * Use this hook in components to get safe area values
+ * @returns SafeAreaInsets object with top, bottom, left, right
+ */
+export const useSafeArea = () => {
+  return useSafeAreaInsets();
+};
+
+/**
  * Get safe area bottom padding for devices with notches/home indicators
- * @returns Safe bottom padding
+ * @deprecated Use useSafeArea() hook instead for better accuracy
+ * @returns Safe bottom padding (fallback value)
  */
 export const getSafeBottomPadding = (): number => {
-  // For devices with home indicators (iPhone X and later), add extra padding
-  // This is a simple approximation - for production, use react-native-safe-area-context
+  // Fallback value - use useSafeArea() hook in components for accurate values
   return Platform.OS === 'ios' ? hp(20) : hp(10);
 };
 
 /**
  * Get safe area top padding for status bar
- * @returns Safe top padding
+ * @deprecated Use useSafeArea() hook instead for better accuracy
+ * @returns Safe top padding (fallback value)
  */
 export const getSafeTopPadding = (): number => {
+  // Fallback value - use useSafeArea() hook in components for accurate values
   return Platform.OS === 'ios' ? hp(44) : hp(24);
 };
 

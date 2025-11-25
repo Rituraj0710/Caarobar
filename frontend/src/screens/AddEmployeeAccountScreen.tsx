@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, TextInput, ScrollView, Image, Modal, Pressable, Switch } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import BackButton from '../components/BackButton';
+import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
+import SafeAreaView from '../components/SafeAreaView';
 
 type RootStackParamList = {
   Language: undefined;
@@ -275,44 +277,48 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
   const earlyMinOptions = Array.from({ length: 60 }, (_, i) => (i + 1).toString());
   const lateMinOptions = Array.from({ length: 60 }, (_, i) => (i + 1).toString());
 
+  const insets = useSafeArea();
+
   return (
     <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       {/* Blue Header Bar */}
-      <View style={{
-        backgroundColor: '#4285F4',
-        paddingTop: 44,
-        paddingBottom: 16,
-        paddingHorizontal: 16,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        minHeight: 60
-      }}>
-        {/* Back Arrow */}
-        <BackButton color="#FFFFFF" />
-
-        {/* Title */}
-        <View style={{ 
-          position: 'absolute', 
-          left: 0, 
-          right: 0, 
-          top: 0,
-          bottom: 0,
-          alignItems: 'center', 
-          justifyContent: 'center',
-          paddingTop: 44,
-          paddingBottom: 16
+      <SafeAreaView edges={['top']} style={{ backgroundColor: '#4285F4' }}>
+        <View style={{
+          backgroundColor: '#4285F4',
+          paddingTop: hp(10),
+          paddingBottom: spacing(16),
+          paddingHorizontal: spacing(16),
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          minHeight: hp(60)
         }}>
-          <Text style={{
-            fontSize: 18,
-            fontWeight: '700',
-            color: '#FFFFFF',
-            fontFamily: 'Poppins-Bold'
+          {/* Back Arrow */}
+          <BackButton color="#FFFFFF" />
+
+          {/* Title */}
+          <View style={{ 
+            position: 'absolute', 
+            left: 0, 
+            right: 0, 
+            top: 0,
+            bottom: 0,
+            alignItems: 'center', 
+            justifyContent: 'center',
+            paddingTop: hp(10),
+            paddingBottom: spacing(16)
           }}>
-            Add Employee Account
-          </Text>
+            <Text style={{
+              fontSize: fontSize(18),
+              fontWeight: '700',
+              color: '#FFFFFF',
+              fontFamily: 'Poppins-Bold'
+            }} allowFontScaling={false}>
+              Add Employee Account
+            </Text>
+          </View>
         </View>
-      </View>
+      </SafeAreaView>
 
       {/* Tab Navigation */}
       <View style={{
@@ -320,7 +326,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
         backgroundColor: '#FFFFFF',
         borderBottomWidth: 1,
         borderBottomColor: '#E0E0E0',
-        paddingHorizontal: 16
+        paddingHorizontal: spacing(16)
       }}>
         {(['Basic', 'Working', 'Documents'] as TabType[]).map((tab) => (
           <TouchableOpacity
@@ -328,18 +334,18 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             onPress={() => setActiveTab(tab)}
             style={{
               flex: 1,
-              paddingVertical: 16,
+              paddingVertical: spacing(16),
               alignItems: 'center',
               borderBottomWidth: activeTab === tab ? 2 : 0,
               borderBottomColor: '#4285F4'
             }}
           >
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: activeTab === tab ? '#4285F4' : '#9E9E9E',
               fontFamily: activeTab === tab ? 'Poppins-SemiBold' : 'Poppins',
               fontWeight: activeTab === tab ? '600' : '400'
-            }}>
+            }} allowFontScaling={false}>
               {tab}
             </Text>
           </TouchableOpacity>
@@ -347,15 +353,15 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
       </View>
 
       <ScrollView 
-        contentContainerStyle={{ padding: 16, paddingBottom: 100 }}
+        contentContainerStyle={{ padding: spacing(16), paddingBottom: hp(100) + insets.bottom }}
         showsVerticalScrollIndicator={false}
       >
         {/* Profile Picture - Only show for Basic and Working tabs */}
         {activeTab !== 'Documents' && (
-          <View style={{ alignItems: 'center', marginTop: 20, marginBottom: 24 }}>
+          <View style={{ alignItems: 'center', marginTop: spacing(20), marginBottom: spacing(24) }}>
             <Image 
               source={require('../../assets/Profile picture.png')} 
-              style={{ width: 100, height: 100, borderRadius: 50 }}
+              style={{ width: wp(100), height: hp(100), borderRadius: hp(50), resizeMode: 'cover' }}
             />
           </View>
         )}
@@ -363,13 +369,13 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
         {activeTab === 'Basic' && (
           <>
             {/* Enter Mobile No */}
-            <View style={{ marginBottom: 20 }}>
+            <View style={{ marginBottom: spacing(20) }}>
               <Text style={{
-                fontSize: 14,
+                fontSize: fontSize(14),
                 color: '#4285F4',
                 fontFamily: 'Poppins-SemiBold',
                 fontWeight: '600',
-                marginBottom: 8
+                marginBottom: spacing(8)
               }}>
                 Enter Mobile No
               </Text>
@@ -378,28 +384,28 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                 backgroundColor: '#FFFFFF',
                 borderWidth: 1,
                 borderColor: '#E0E0E0',
-                borderRadius: 8,
+                borderRadius: hp(8),
                 overflow: 'hidden'
               }}>
                 <TouchableOpacity style={{
                   flexDirection: 'row',
                   alignItems: 'center',
-                  paddingHorizontal: 12,
-                  paddingVertical: 14,
+                  paddingHorizontal: spacing(12),
+                  paddingVertical: spacing(14),
                   borderRightWidth: 1,
                   borderRightColor: '#E0E0E0',
                   backgroundColor: '#F5F5F5'
                 }}>
-                  <Text style={{ fontSize: 16, marginRight: 6 }}>🇮🇳</Text>
-                  <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins', marginRight: 4 }}>INDIA</Text>
-                  <Text style={{ fontSize: 12, color: '#9E9E9E' }}>▼</Text>
+                  <Text style={{ fontSize: fontSize(16), marginRight: spacing(6) }} allowFontScaling={false}>🇮🇳</Text>
+                  <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins', marginRight: spacing(4) }} allowFontScaling={false}>INDIA</Text>
+                  <Text style={{ fontSize: fontSize(12), color: '#9E9E9E' }} allowFontScaling={false}>▼</Text>
                 </TouchableOpacity>
                 <TextInput
                   style={{
                     flex: 1,
-                    paddingHorizontal: 16,
-                    paddingVertical: 14,
-                    fontSize: 14,
+                    paddingHorizontal: spacing(16),
+                    paddingVertical: spacing(14),
+                    fontSize: fontSize(14),
                     color: '#000000',
                     fontFamily: 'Poppins'
                   }}
@@ -408,20 +414,21 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                   value={mobileNo}
                   onChangeText={setMobileNo}
                   keyboardType="phone-pad"
+                  allowFontScaling={false}
                 />
               </View>
             </View>
 
             {/* Enter Full Name & Emp ID */}
-            <View style={{ flexDirection: 'row', marginBottom: 20, gap: 12 }}>
+            <View style={{ flexDirection: 'row', marginBottom: spacing(20), gap: spacing(12) }}>
               <View style={{ flex: 2 }}>
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: '#4285F4',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600',
-                  marginBottom: 8
-                }}>
+                  marginBottom: spacing(8)
+                }} allowFontScaling={false}>
                   Enter Full Name
                 </Text>
                 <TextInput
@@ -429,10 +436,10 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     backgroundColor: '#FFFFFF',
                     borderWidth: 1,
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
-                    paddingHorizontal: 16,
-                    paddingVertical: 14,
-                    fontSize: 14,
+                    borderRadius: hp(8),
+                    paddingHorizontal: spacing(16),
+                    paddingVertical: spacing(14),
+                    fontSize: fontSize(14),
                     color: '#000000',
                     fontFamily: 'Poppins'
                   }}
@@ -440,16 +447,17 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                   placeholderTextColor="#9E9E9E"
                   value={fullName}
                   onChangeText={setFullName}
+                  allowFontScaling={false}
                 />
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: '#4285F4',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600',
-                  marginBottom: 8
-                }}>
+                  marginBottom: spacing(8)
+                }} allowFontScaling={false}>
                   Emp ID
                 </Text>
                 <TextInput
@@ -457,10 +465,10 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     backgroundColor: '#FFFFFF',
                     borderWidth: 1,
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
-                    paddingHorizontal: 16,
-                    paddingVertical: 14,
-                    fontSize: 14,
+                    borderRadius: hp(8),
+                    paddingHorizontal: spacing(16),
+                    paddingVertical: spacing(14),
+                    fontSize: fontSize(14),
                     color: '#000000',
                     fontFamily: 'Poppins'
                   }}
@@ -468,19 +476,20 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                   placeholderTextColor="#9E9E9E"
                   value={empId}
                   onChangeText={setEmpId}
+                  allowFontScaling={false}
                 />
               </View>
             </View>
 
             {/* Fathers Name */}
-            <View style={{ marginBottom: 20 }}>
+            <View style={{ marginBottom: spacing(20) }}>
               <Text style={{
-                fontSize: 14,
+                fontSize: fontSize(14),
                 color: '#4285F4',
                 fontFamily: 'Poppins-SemiBold',
                 fontWeight: '600',
-                marginBottom: 8
-              }}>
+                marginBottom: spacing(8)
+              }} allowFontScaling={false}>
                 Fathers Name
               </Text>
               <TextInput
@@ -488,10 +497,10 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                   backgroundColor: '#FFFFFF',
                   borderWidth: 1,
                   borderColor: '#E0E0E0',
-                  borderRadius: 8,
-                  paddingHorizontal: 16,
-                  paddingVertical: 14,
-                  fontSize: 14,
+                  borderRadius: hp(8),
+                  paddingHorizontal: spacing(16),
+                  paddingVertical: spacing(14),
+                  fontSize: fontSize(14),
                   color: '#000000',
                   fontFamily: 'Poppins'
                 }}
@@ -499,17 +508,18 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                 placeholderTextColor="#9E9E9E"
                 value={fathersName}
                 onChangeText={setFathersName}
+                allowFontScaling={false}
               />
             </View>
 
             {/* Alternate No */}
-            <View style={{ marginBottom: 20 }}>
+            <View style={{ marginBottom: spacing(20) }}>
               <Text style={{
-                fontSize: 14,
+                fontSize: fontSize(14),
                 color: '#4285F4',
                 fontFamily: 'Poppins-SemiBold',
                 fontWeight: '600',
-                marginBottom: 8
+                marginBottom: spacing(8)
               }}>
                 Alternate No
               </Text>
@@ -518,10 +528,10 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                   backgroundColor: '#FFFFFF',
                   borderWidth: 1,
                   borderColor: '#E0E0E0',
-                  borderRadius: 8,
-                  paddingHorizontal: 16,
-                  paddingVertical: 14,
-                  fontSize: 14,
+                  borderRadius: hp(8),
+                  paddingHorizontal: spacing(16),
+                  paddingVertical: spacing(14),
+                  fontSize: fontSize(14),
                   color: '#000000',
                   fontFamily: 'Poppins'
                 }}
@@ -534,14 +544,14 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             </View>
 
             {/* Date Of Birth, Gender, Age */}
-            <View style={{ flexDirection: 'row', marginBottom: 20, gap: 12 }}>
+            <View style={{ flexDirection: 'row', marginBottom: spacing(20), gap: spacing(12) }}>
               <View style={{ flex: 1 }}>
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: '#4285F4',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600',
-                  marginBottom: 8
+                  marginBottom: spacing(8)
                 }}>
                   Date Of Birth
                 </Text>
@@ -551,9 +561,9 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     backgroundColor: '#FFFFFF',
                     borderWidth: 1,
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
-                    paddingHorizontal: 16,
-                    paddingVertical: 14,
+                    borderRadius: hp(8),
+                    paddingHorizontal: spacing(16),
+                    paddingVertical: spacing(14),
                     flexDirection: 'row',
                     alignItems: 'center'
                   }}
@@ -563,7 +573,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     style={{ width: 18, height: 18, marginRight: 8, resizeMode: 'contain' }} 
                   />
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#000000',
                     fontFamily: 'Poppins',
                     flex: 1
@@ -574,11 +584,11 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: '#4285F4',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600',
-                  marginBottom: 8
+                  marginBottom: spacing(8)
                 }}>
                   Gender
                 </Text>
@@ -588,31 +598,31 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     backgroundColor: '#FFFFFF',
                     borderWidth: 1,
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
-                    paddingHorizontal: 16,
-                    paddingVertical: 14,
+                    borderRadius: hp(8),
+                    paddingHorizontal: spacing(16),
+                    paddingVertical: spacing(14),
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'space-between'
                   }}
                 >
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#000000',
                     fontFamily: 'Poppins'
                   }}>
                     {gender}
                   </Text>
-                  <Text style={{ fontSize: 12, color: '#000000' }}>▼</Text>
+                  <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>▼</Text>
                 </TouchableOpacity>
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: '#4285F4',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600',
-                  marginBottom: 8
+                  marginBottom: spacing(8)
                 }}>
                   Age
                 </Text>
@@ -620,12 +630,12 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                   backgroundColor: '#F5F5F5',
                   borderWidth: 1,
                   borderColor: '#E0E0E0',
-                  borderRadius: 8,
-                  paddingHorizontal: 16,
-                  paddingVertical: 14
+                  borderRadius: hp(8),
+                  paddingHorizontal: spacing(16),
+                  paddingVertical: spacing(14)
                 }}>
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#000000',
                     fontFamily: 'Poppins'
                   }}>
@@ -636,13 +646,13 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             </View>
 
             {/* Address */}
-            <View style={{ marginBottom: 20 }}>
+            <View style={{ marginBottom: spacing(20) }}>
               <Text style={{
-                fontSize: 14,
+                fontSize: fontSize(14),
                 color: '#4285F4',
                 fontFamily: 'Poppins-SemiBold',
                 fontWeight: '600',
-                marginBottom: 8
+                marginBottom: spacing(8)
               }}>
                 Address
               </Text>
@@ -651,10 +661,10 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                   backgroundColor: '#FFFFFF',
                   borderWidth: 1,
                   borderColor: '#E0E0E0',
-                  borderRadius: 8,
-                  paddingHorizontal: 16,
-                  paddingVertical: 14,
-                  fontSize: 14,
+                  borderRadius: hp(8),
+                  paddingHorizontal: spacing(16),
+                  paddingVertical: spacing(14),
+                  fontSize: fontSize(14),
                   color: '#000000',
                   fontFamily: 'Poppins',
                   minHeight: 80,
@@ -669,14 +679,14 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             </View>
 
             {/* State & Pincode */}
-            <View style={{ flexDirection: 'row', marginBottom: 20, gap: 12 }}>
+            <View style={{ flexDirection: 'row', marginBottom: spacing(20), gap: spacing(12) }}>
               <View style={{ flex: 1 }}>
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: '#4285F4',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600',
-                  marginBottom: 8
+                  marginBottom: spacing(8)
                 }}>
                   State
                 </Text>
@@ -686,31 +696,31 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     backgroundColor: '#FFFFFF',
                     borderWidth: 1,
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
-                    paddingHorizontal: 16,
-                    paddingVertical: 14,
+                    borderRadius: hp(8),
+                    paddingHorizontal: spacing(16),
+                    paddingVertical: spacing(14),
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'space-between'
                   }}
                 >
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#000000',
                     fontFamily: 'Poppins'
                   }}>
                     {state}
                   </Text>
-                  <Text style={{ fontSize: 12, color: '#000000' }}>▼</Text>
+                  <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>▼</Text>
                 </TouchableOpacity>
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: '#4285F4',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600',
-                  marginBottom: 8
+                  marginBottom: spacing(8)
                 }}>
                   Pincode
                 </Text>
@@ -719,10 +729,10 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     backgroundColor: '#FFFFFF',
                     borderWidth: 1,
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
-                    paddingHorizontal: 16,
-                    paddingVertical: 14,
-                    fontSize: 14,
+                    borderRadius: hp(8),
+                    paddingHorizontal: spacing(16),
+                    paddingVertical: spacing(14),
+                    fontSize: fontSize(14),
                     color: '#000000',
                     fontFamily: 'Poppins'
                   }}
@@ -736,14 +746,14 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             </View>
 
             {/* City / Village & Ward No */}
-            <View style={{ flexDirection: 'row', marginBottom: 20, gap: 12 }}>
+            <View style={{ flexDirection: 'row', marginBottom: spacing(20), gap: spacing(12) }}>
               <View style={{ flex: 1 }}>
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: '#4285F4',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600',
-                  marginBottom: 8
+                  marginBottom: spacing(8)
                 }}>
                   City / Village
                 </Text>
@@ -753,31 +763,31 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     backgroundColor: '#FFFFFF',
                     borderWidth: 1,
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
-                    paddingHorizontal: 16,
-                    paddingVertical: 14,
+                    borderRadius: hp(8),
+                    paddingHorizontal: spacing(16),
+                    paddingVertical: spacing(14),
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'space-between'
                   }}
                 >
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#000000',
                     fontFamily: 'Poppins'
                   }}>
                     {cityVillage}
                   </Text>
-                  <Text style={{ fontSize: 12, color: '#000000' }}>▼</Text>
+                  <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>▼</Text>
                 </TouchableOpacity>
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: '#4285F4',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600',
-                  marginBottom: 8
+                  marginBottom: spacing(8)
                 }}>
                   Ward No.
                 </Text>
@@ -786,10 +796,10 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     backgroundColor: '#FFFFFF',
                     borderWidth: 1,
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
-                    paddingHorizontal: 16,
-                    paddingVertical: 14,
-                    fontSize: 14,
+                    borderRadius: hp(8),
+                    paddingHorizontal: spacing(16),
+                    paddingVertical: spacing(14),
+                    fontSize: fontSize(14),
                     color: '#000000',
                     fontFamily: 'Poppins'
                   }}
@@ -807,15 +817,15 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
         {activeTab === 'Working' && (
           <>
             {/* Top Section - Joining Date, Duty, Experience, Blood Group, Education */}
-            <View style={{ marginBottom: 20 }}>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
+            <View style={{ marginBottom: spacing(20) }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing(12) }}>
               <View style={{ width: '48%' }}>
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: '#4285F4',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600',
-                  marginBottom: 8
+                  marginBottom: spacing(8)
                 }}>
                   Joining Date
                 </Text>
@@ -825,9 +835,9 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     backgroundColor: '#FFFFFF',
                     borderWidth: 1,
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
-                    paddingHorizontal: 16,
-                    paddingVertical: 14,
+                    borderRadius: hp(8),
+                    paddingHorizontal: spacing(16),
+                    paddingVertical: spacing(14),
                     flexDirection: 'row',
                     alignItems: 'center'
                   }}
@@ -837,7 +847,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     style={{ width: 18, height: 18, marginRight: 8, resizeMode: 'contain' }} 
                   />
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#000000',
                     fontFamily: 'Poppins',
                     flex: 1
@@ -848,11 +858,11 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
               </View>
               <View style={{ width: '48%' }}>
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: '#4285F4',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600',
-                  marginBottom: 8
+                  marginBottom: spacing(8)
                 }}>
                   Duty
                 </Text>
@@ -862,31 +872,31 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     backgroundColor: '#FFFFFF',
                     borderWidth: 1,
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
-                    paddingHorizontal: 16,
-                    paddingVertical: 14,
+                    borderRadius: hp(8),
+                    paddingHorizontal: spacing(16),
+                    paddingVertical: spacing(14),
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'space-between'
                   }}
                 >
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#000000',
                     fontFamily: 'Poppins'
                   }}>
                     {duty}
                   </Text>
-                  <Text style={{ fontSize: 12, color: '#000000' }}>▼</Text>
+                  <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>▼</Text>
                 </TouchableOpacity>
               </View>
               <View style={{ width: '48%' }}>
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: '#4285F4',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600',
-                  marginBottom: 8
+                  marginBottom: spacing(8)
                 }}>
                   Experience
                 </Text>
@@ -895,10 +905,10 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     backgroundColor: '#FFFFFF',
                     borderWidth: 1,
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
-                    paddingHorizontal: 16,
-                    paddingVertical: 14,
-                    fontSize: 14,
+                    borderRadius: hp(8),
+                    paddingHorizontal: spacing(16),
+                    paddingVertical: spacing(14),
+                    fontSize: fontSize(14),
                     color: '#000000',
                     fontFamily: 'Poppins'
                   }}
@@ -910,11 +920,11 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
               </View>
               <View style={{ width: '48%' }}>
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: '#4285F4',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600',
-                  marginBottom: 8
+                  marginBottom: spacing(8)
                 }}>
                   Blood Group
                 </Text>
@@ -924,31 +934,31 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     backgroundColor: '#FFFFFF',
                     borderWidth: 1,
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
-                    paddingHorizontal: 16,
-                    paddingVertical: 14,
+                    borderRadius: hp(8),
+                    paddingHorizontal: spacing(16),
+                    paddingVertical: spacing(14),
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'space-between'
                   }}
                 >
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#000000',
                     fontFamily: 'Poppins'
                   }}>
                     {bloodGroup}
                   </Text>
-                  <Text style={{ fontSize: 12, color: '#000000' }}>▼</Text>
+                  <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>▼</Text>
                 </TouchableOpacity>
               </View>
               <View style={{ width: '100%' }}>
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: '#4285F4',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600',
-                  marginBottom: 8
+                  marginBottom: spacing(8)
                 }}>
                   Education
                 </Text>
@@ -957,10 +967,10 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     backgroundColor: '#FFFFFF',
                     borderWidth: 1,
                     borderColor: '#E0E0E0',
-                    borderRadius: 8,
-                    paddingHorizontal: 16,
-                    paddingVertical: 14,
-                    fontSize: 14,
+                    borderRadius: hp(8),
+                    paddingHorizontal: spacing(16),
+                    paddingVertical: spacing(14),
+                    fontSize: fontSize(14),
                     color: '#000000',
                     fontFamily: 'Poppins'
                   }}
@@ -973,15 +983,15 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
               </View>
             </View>
             {/* Divider */}
-            <View style={{ height: 1, backgroundColor: '#E0E0E0', marginBottom: 20 }} />
+            <View style={{ height: 1, backgroundColor: '#E0E0E0', marginBottom: spacing(20) }} />
 
             {/* Duty Time Section */}
-            <View style={{ marginBottom: 20 }}>
+            <View style={{ marginBottom: spacing(20) }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#4CAF50', marginRight: 8 }} />
                   <Text style={{
-                    fontSize: 16,
+                    fontSize: fontSize(16),
                     color: '#000000',
                     fontFamily: 'Poppins-SemiBold',
                     fontWeight: '600'
@@ -992,7 +1002,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#4CAF50', marginRight: 8 }} />
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#000000',
                     fontFamily: 'Poppins-SemiBold'
                   }}>
@@ -1004,11 +1014,11 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
               {/* Start Time */}
               <View style={{ marginBottom: 16 }}>
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: '#4285F4',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600',
-                  marginBottom: 8
+                  marginBottom: spacing(8)
                 }}>
                   Start Time
                 </Text>
@@ -1020,16 +1030,16 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                       backgroundColor: '#FFFFFF',
                       borderWidth: 1,
                       borderColor: '#E0E0E0',
-                      borderRadius: 8,
-                      paddingHorizontal: 12,
-                      paddingVertical: 14,
+                      borderRadius: hp(8),
+                      paddingHorizontal: spacing(12),
+                      paddingVertical: spacing(14),
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'space-between'
                     }}
                   >
-                    <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>Hour</Text>
-                    <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>{startHour} ▼</Text>
+                    <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>Hour</Text>
+                    <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{startHour} ▼</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => setShowStartTimeModal(true)}
@@ -1038,16 +1048,16 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                       backgroundColor: '#FFFFFF',
                       borderWidth: 1,
                       borderColor: '#E0E0E0',
-                      borderRadius: 8,
-                      paddingHorizontal: 12,
-                      paddingVertical: 14,
+                      borderRadius: hp(8),
+                      paddingHorizontal: spacing(12),
+                      paddingVertical: spacing(14),
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'space-between'
                     }}
                   >
-                    <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>Minutes</Text>
-                    <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>{startMinute} ▼</Text>
+                    <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>Minutes</Text>
+                    <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{startMinute} ▼</Text>
                   </TouchableOpacity>
                   <View style={{ flexDirection: 'row', gap: 4 }}>
                     <TouchableOpacity
@@ -1056,14 +1066,14 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                         backgroundColor: startAmPm === 'AM' ? '#4285F4' : '#FFFFFF',
                         borderWidth: 1,
                         borderColor: '#E0E0E0',
-                        borderRadius: 8,
-                        paddingHorizontal: 16,
-                        paddingVertical: 14,
+                        borderRadius: hp(8),
+                        paddingHorizontal: spacing(16),
+                        paddingVertical: spacing(14),
                         minWidth: 60
                       }}
                     >
                       <Text style={{
-                        fontSize: 14,
+                        fontSize: fontSize(14),
                         color: startAmPm === 'AM' ? '#FFFFFF' : '#000000',
                         fontFamily: 'Poppins',
                         textAlign: 'center'
@@ -1077,14 +1087,14 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                         backgroundColor: startAmPm === 'PM' ? '#4285F4' : '#FFFFFF',
                         borderWidth: 1,
                         borderColor: '#E0E0E0',
-                        borderRadius: 8,
-                        paddingHorizontal: 16,
-                        paddingVertical: 14,
+                        borderRadius: hp(8),
+                        paddingHorizontal: spacing(16),
+                        paddingVertical: spacing(14),
                         minWidth: 60
                       }}
                     >
                       <Text style={{
-                        fontSize: 14,
+                        fontSize: fontSize(14),
                         color: startAmPm === 'PM' ? '#FFFFFF' : '#000000',
                         fontFamily: 'Poppins',
                         textAlign: 'center'
@@ -1099,11 +1109,11 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
               {/* End Time */}
               <View>
                 <Text style={{
-                  fontSize: 14,
+                  fontSize: fontSize(14),
                   color: '#4285F4',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600',
-                  marginBottom: 8
+                  marginBottom: spacing(8)
                 }}>
                   End Time
                 </Text>
@@ -1115,16 +1125,16 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                       backgroundColor: '#FFFFFF',
                       borderWidth: 1,
                       borderColor: '#E0E0E0',
-                      borderRadius: 8,
-                      paddingHorizontal: 12,
-                      paddingVertical: 14,
+                      borderRadius: hp(8),
+                      paddingHorizontal: spacing(12),
+                      paddingVertical: spacing(14),
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'space-between'
                     }}
                   >
-                    <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>Hour</Text>
-                    <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>{endHour} ▼</Text>
+                    <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>Hour</Text>
+                    <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{endHour} ▼</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => setShowEndTimeModal(true)}
@@ -1133,16 +1143,16 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                       backgroundColor: '#FFFFFF',
                       borderWidth: 1,
                       borderColor: '#E0E0E0',
-                      borderRadius: 8,
-                      paddingHorizontal: 12,
-                      paddingVertical: 14,
+                      borderRadius: hp(8),
+                      paddingHorizontal: spacing(12),
+                      paddingVertical: spacing(14),
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'space-between'
                     }}
                   >
-                    <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>Minutes</Text>
-                    <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>{endMinute} ▼</Text>
+                    <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>Minutes</Text>
+                    <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{endMinute} ▼</Text>
                   </TouchableOpacity>
                   <View style={{ flexDirection: 'row', gap: 4 }}>
                     <TouchableOpacity
@@ -1151,14 +1161,14 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                         backgroundColor: endAmPm === 'AM' ? '#4285F4' : '#FFFFFF',
                         borderWidth: 1,
                         borderColor: '#E0E0E0',
-                        borderRadius: 8,
-                        paddingHorizontal: 16,
-                        paddingVertical: 14,
+                        borderRadius: hp(8),
+                        paddingHorizontal: spacing(16),
+                        paddingVertical: spacing(14),
                         minWidth: 60
                       }}
                     >
                       <Text style={{
-                        fontSize: 14,
+                        fontSize: fontSize(14),
                         color: endAmPm === 'AM' ? '#FFFFFF' : '#000000',
                         fontFamily: 'Poppins',
                         textAlign: 'center'
@@ -1172,14 +1182,14 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                         backgroundColor: endAmPm === 'PM' ? '#4285F4' : '#FFFFFF',
                         borderWidth: 1,
                         borderColor: '#E0E0E0',
-                        borderRadius: 8,
-                        paddingHorizontal: 16,
-                        paddingVertical: 14,
+                        borderRadius: hp(8),
+                        paddingHorizontal: spacing(16),
+                        paddingVertical: spacing(14),
                         minWidth: 60
                       }}
                     >
                       <Text style={{
-                        fontSize: 14,
+                        fontSize: fontSize(14),
                         color: endAmPm === 'PM' ? '#FFFFFF' : '#000000',
                         fontFamily: 'Poppins',
                         textAlign: 'center'
@@ -1192,14 +1202,14 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
               </View>
             </View>
             {/* Divider */}
-            <View style={{ height: 1, backgroundColor: '#E0E0E0', marginBottom: 20 }} />
+            <View style={{ height: 1, backgroundColor: '#E0E0E0', marginBottom: spacing(20) }} />
 
             {/* Arrive Deduction Section */}
-            <View style={{ marginBottom: 20 }}>
+            <View style={{ marginBottom: spacing(20) }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
                 <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#FF5252', marginRight: 8 }} />
                 <Text style={{
-                  fontSize: 16,
+                  fontSize: fontSize(16),
                   color: '#000000',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600'
@@ -1207,14 +1217,14 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                   Arrive Deduction
                 </Text>
               </View>
-              <View style={{ flexDirection: 'row', gap: 12 }}>
+              <View style={{ flexDirection: 'row', gap: spacing(12) }}>
                 <View style={{ flex: 1 }}>
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#4285F4',
                     fontFamily: 'Poppins-SemiBold',
                     fontWeight: '600',
-                    marginBottom: 8
+                    marginBottom: spacing(8)
                   }}>
                     Early Min
                   </Text>
@@ -1224,31 +1234,31 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                       backgroundColor: '#FFFFFF',
                       borderWidth: 1,
                       borderColor: '#E0E0E0',
-                      borderRadius: 8,
-                      paddingHorizontal: 16,
-                      paddingVertical: 14,
+                      borderRadius: hp(8),
+                      paddingHorizontal: spacing(16),
+                      paddingVertical: spacing(14),
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'space-between'
                     }}
                   >
                     <Text style={{
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       color: '#000000',
                       fontFamily: 'Poppins'
                     }}>
                       {earlyMin}
                     </Text>
-                    <Text style={{ fontSize: 12, color: '#000000' }}>▼</Text>
+                    <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>▼</Text>
                   </TouchableOpacity>
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#4285F4',
                     fontFamily: 'Poppins-SemiBold',
                     fontWeight: '600',
-                    marginBottom: 8
+                    marginBottom: spacing(8)
                   }}>
                     Late Min
                   </Text>
@@ -1258,35 +1268,35 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                       backgroundColor: '#FFFFFF',
                       borderWidth: 1,
                       borderColor: '#E0E0E0',
-                      borderRadius: 8,
-                      paddingHorizontal: 16,
-                      paddingVertical: 14,
+                      borderRadius: hp(8),
+                      paddingHorizontal: spacing(16),
+                      paddingVertical: spacing(14),
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'space-between'
                     }}
                   >
                     <Text style={{
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       color: '#000000',
                       fontFamily: 'Poppins'
                     }}>
                       {lateMin}
                     </Text>
-                    <Text style={{ fontSize: 12, color: '#000000' }}>▼</Text>
+                    <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>▼</Text>
                   </TouchableOpacity>
                 </View>
               </View>
             </View>
             {/* Divider */}
-            <View style={{ height: 1, backgroundColor: '#E0E0E0', marginBottom: 20 }} />
+            <View style={{ height: 1, backgroundColor: '#E0E0E0', marginBottom: spacing(20) }} />
 
             {/* Salary Section */}
-            <View style={{ marginBottom: 20 }}>
+            <View style={{ marginBottom: spacing(20) }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
                 <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#9E9E9E', marginRight: 8 }} />
                 <Text style={{
-                  fontSize: 16,
+                  fontSize: fontSize(16),
                   color: '#000000',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600'
@@ -1294,14 +1304,14 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                   Salary
                 </Text>
               </View>
-              <View style={{ flexDirection: 'row', gap: 12, marginBottom: 12 }}>
+              <View style={{ flexDirection: 'row', gap: spacing(12), marginBottom: 12 }}>
                 <View style={{ flex: 1 }}>
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#4285F4',
                     fontFamily: 'Poppins-SemiBold',
                     fontWeight: '600',
-                    marginBottom: 8
+                    marginBottom: spacing(8)
                   }}>
                     Type
                   </Text>
@@ -1311,31 +1321,31 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                       backgroundColor: '#FFFFFF',
                       borderWidth: 1,
                       borderColor: '#E0E0E0',
-                      borderRadius: 8,
-                      paddingHorizontal: 16,
-                      paddingVertical: 14,
+                      borderRadius: hp(8),
+                      paddingHorizontal: spacing(16),
+                      paddingVertical: spacing(14),
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'space-between'
                     }}
                   >
                     <Text style={{
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       color: '#000000',
                       fontFamily: 'Poppins'
                     }}>
                       {salaryType}
                     </Text>
-                    <Text style={{ fontSize: 12, color: '#000000' }}>▼</Text>
+                    <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>▼</Text>
                   </TouchableOpacity>
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#4285F4',
                     fontFamily: 'Poppins-SemiBold',
                     fontWeight: '600',
-                    marginBottom: 8
+                    marginBottom: spacing(8)
                   }}>
                     Amount
                   </Text>
@@ -1344,10 +1354,10 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                       backgroundColor: '#FFFFFF',
                       borderWidth: 1,
                       borderColor: '#E0E0E0',
-                      borderRadius: 8,
-                      paddingHorizontal: 16,
-                      paddingVertical: 14,
-                      fontSize: 14,
+                      borderRadius: hp(8),
+                      paddingHorizontal: spacing(16),
+                      paddingVertical: spacing(14),
+                      fontSize: fontSize(14),
                       color: '#000000',
                       fontFamily: 'Poppins'
                     }}
@@ -1359,11 +1369,11 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#4285F4',
                     fontFamily: 'Poppins-SemiBold',
                     fontWeight: '600',
-                    marginBottom: 8
+                    marginBottom: spacing(8)
                   }}>
                     Per Hour
                   </Text>
@@ -1372,10 +1382,10 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                       backgroundColor: '#FFFFFF',
                       borderWidth: 1,
                       borderColor: '#E0E0E0',
-                      borderRadius: 8,
-                      paddingHorizontal: 16,
-                      paddingVertical: 14,
-                      fontSize: 14,
+                      borderRadius: hp(8),
+                      paddingHorizontal: spacing(16),
+                      paddingVertical: spacing(14),
+                      fontSize: fontSize(14),
                       color: '#000000',
                       fontFamily: 'Poppins'
                     }}
@@ -1388,15 +1398,15 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
               </View>
             </View>
             {/* Divider */}
-            <View style={{ height: 1, backgroundColor: '#E0E0E0', marginBottom: 20 }} />
+            <View style={{ height: 1, backgroundColor: '#E0E0E0', marginBottom: spacing(20) }} />
 
             {/* Overtime Section */}
-            <View style={{ marginBottom: 20 }}>
+            <View style={{ marginBottom: spacing(20) }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#4CAF50', marginRight: 8 }} />
                   <Text style={{
-                    fontSize: 16,
+                    fontSize: fontSize(16),
                     color: '#000000',
                     fontFamily: 'Poppins-SemiBold',
                     fontWeight: '600'
@@ -1415,11 +1425,11 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                 <>
                   <View style={{ marginBottom: 12 }}>
                     <Text style={{
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       color: '#4285F4',
                       fontFamily: 'Poppins-SemiBold',
                       fontWeight: '600',
-                      marginBottom: 8
+                      marginBottom: spacing(8)
                     }}>
                       Select Overtime Type
                     </Text>
@@ -1429,32 +1439,32 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                         backgroundColor: '#FFFFFF',
                         borderWidth: 1,
                         borderColor: '#E0E0E0',
-                        borderRadius: 8,
-                        paddingHorizontal: 16,
-                        paddingVertical: 14,
+                        borderRadius: hp(8),
+                        paddingHorizontal: spacing(16),
+                        paddingVertical: spacing(14),
                         flexDirection: 'row',
                         alignItems: 'center',
                         justifyContent: 'space-between'
                       }}
                     >
                       <Text style={{
-                        fontSize: 14,
+                        fontSize: fontSize(14),
                         color: '#000000',
                         fontFamily: 'Poppins',
                         flex: 1
                       }}>
                         {overtimeType}
                       </Text>
-                      <Text style={{ fontSize: 12, color: '#000000' }}>▼</Text>
+                      <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>▼</Text>
                     </TouchableOpacity>
                   </View>
                   <View>
                     <Text style={{
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       color: '#4285F4',
                       fontFamily: 'Poppins-SemiBold',
                       fontWeight: '600',
-                      marginBottom: 8
+                      marginBottom: spacing(8)
                     }}>
                       Per Hours OT
                     </Text>
@@ -1463,10 +1473,10 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                         backgroundColor: '#FFFFFF',
                         borderWidth: 1,
                         borderColor: '#E0E0E0',
-                        borderRadius: 8,
-                        paddingHorizontal: 16,
-                        paddingVertical: 14,
-                        fontSize: 14,
+                        borderRadius: hp(8),
+                        paddingHorizontal: spacing(16),
+                        paddingVertical: spacing(14),
+                        fontSize: fontSize(14),
                         color: '#000000',
                         fontFamily: 'Poppins'
                       }}
@@ -1480,15 +1490,15 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
               )}
             </View>
             {/* Divider */}
-            <View style={{ height: 1, backgroundColor: '#E0E0E0', marginBottom: 20 }} />
+            <View style={{ height: 1, backgroundColor: '#E0E0E0', marginBottom: spacing(20) }} />
 
             {/* Weekly Off Section */}
-            <View style={{ marginBottom: 20 }}>
+            <View style={{ marginBottom: spacing(20) }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#4CAF50', marginRight: 8 }} />
                   <Text style={{
-                    fontSize: 16,
+                    fontSize: fontSize(16),
                     color: '#000000',
                     fontFamily: 'Poppins-SemiBold',
                     fontWeight: '600'
@@ -1509,11 +1519,11 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     <View key={index} style={{ flexDirection: 'row', gap: 8, marginBottom: 12, alignItems: 'flex-end' }}>
                       <View style={{ flex: 1 }}>
                         <Text style={{
-                          fontSize: 14,
+                          fontSize: fontSize(14),
                           color: '#4285F4',
                           fontFamily: 'Poppins-SemiBold',
                           fontWeight: '600',
-                          marginBottom: 8
+                          marginBottom: spacing(8)
                         }}>
                           {index === 0 ? 'Day' : `Day ${index + 1}`}
                         </Text>
@@ -1526,31 +1536,31 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                             backgroundColor: '#FFFFFF',
                             borderWidth: 1,
                             borderColor: '#E0E0E0',
-                            borderRadius: 8,
-                            paddingHorizontal: 16,
-                            paddingVertical: 14,
+                            borderRadius: hp(8),
+                            paddingHorizontal: spacing(16),
+                            paddingVertical: spacing(14),
                             flexDirection: 'row',
                             alignItems: 'center',
                             justifyContent: 'space-between'
                           }}
                         >
                           <Text style={{
-                            fontSize: 14,
+                            fontSize: fontSize(14),
                             color: '#000000',
                             fontFamily: 'Poppins'
                           }}>
                             {row.day}
                           </Text>
-                          <Text style={{ fontSize: 12, color: '#000000' }}>▼</Text>
+                          <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>▼</Text>
                         </TouchableOpacity>
                       </View>
                       <View style={{ flex: 1 }}>
                         <Text style={{
-                          fontSize: 14,
+                          fontSize: fontSize(14),
                           color: '#4285F4',
                           fontFamily: 'Poppins-SemiBold',
                           fontWeight: '600',
-                          marginBottom: 8
+                          marginBottom: spacing(8)
                         }}>
                           Type
                         </Text>
@@ -1563,22 +1573,22 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                             backgroundColor: '#FFFFFF',
                             borderWidth: 1,
                             borderColor: '#E0E0E0',
-                            borderRadius: 8,
-                            paddingHorizontal: 16,
-                            paddingVertical: 14,
+                            borderRadius: hp(8),
+                            paddingHorizontal: spacing(16),
+                            paddingVertical: spacing(14),
                             flexDirection: 'row',
                             alignItems: 'center',
                             justifyContent: 'space-between'
                           }}
                         >
                           <Text style={{
-                            fontSize: 14,
+                            fontSize: fontSize(14),
                             color: '#000000',
                             fontFamily: 'Poppins'
                           }}>
                             {row.type}
                           </Text>
-                          <Text style={{ fontSize: 12, color: '#000000' }}>▼</Text>
+                          <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>▼</Text>
                         </TouchableOpacity>
                       </View>
                       <TouchableOpacity
@@ -1590,10 +1600,10 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                           backgroundColor: '#4285F4',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          marginBottom: 8
+                          marginBottom: spacing(8)
                         }}
                       >
-                        <Text style={{ fontSize: 20, color: '#FFFFFF', fontWeight: 'bold' }}>+</Text>
+                        <Text style={{ fontSize: fontSize(20), color: '#FFFFFF', fontWeight: 'bold' }}>+</Text>
                       </TouchableOpacity>
                     </View>
                   ))}
@@ -1601,15 +1611,15 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
               )}
             </View>
             {/* Divider */}
-            <View style={{ height: 1, backgroundColor: '#E0E0E0', marginBottom: 20 }} />
+            <View style={{ height: 1, backgroundColor: '#E0E0E0', marginBottom: spacing(20) }} />
 
             {/* Kilomiter Section */}
-            <View style={{ marginBottom: 20 }}>
+            <View style={{ marginBottom: spacing(20) }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#4CAF50', marginRight: 8 }} />
                   <Text style={{
-                    fontSize: 16,
+                    fontSize: fontSize(16),
                     color: '#000000',
                     fontFamily: 'Poppins-SemiBold',
                     fontWeight: '600'
@@ -1627,11 +1637,11 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
               {kilomiterEnabled && (
                 <View>
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#4285F4',
                     fontFamily: 'Poppins-SemiBold',
                     fontWeight: '600',
-                    marginBottom: 8
+                    marginBottom: spacing(8)
                   }}>
                     Km Price
                   </Text>
@@ -1640,10 +1650,10 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                       backgroundColor: '#FFFFFF',
                       borderWidth: 1,
                       borderColor: '#E0E0E0',
-                      borderRadius: 8,
-                      paddingHorizontal: 16,
-                      paddingVertical: 14,
-                      fontSize: 14,
+                      borderRadius: hp(8),
+                      paddingHorizontal: spacing(16),
+                      paddingVertical: spacing(14),
+                      fontSize: fontSize(14),
                       color: '#000000',
                       fontFamily: 'Poppins'
                     }}
@@ -1656,15 +1666,15 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
               )}
             </View>
             {/* Divider */}
-            <View style={{ height: 1, backgroundColor: '#E0E0E0', marginBottom: 20 }} />
+            <View style={{ height: 1, backgroundColor: '#E0E0E0', marginBottom: spacing(20) }} />
 
             {/* Present Criteria Section */}
-            <View style={{ marginBottom: 20 }}>
+            <View style={{ marginBottom: spacing(20) }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#4CAF50', marginRight: 8 }} />
                   <Text style={{
-                    fontSize: 16,
+                    fontSize: fontSize(16),
                     color: '#000000',
                     fontFamily: 'Poppins-SemiBold',
                     fontWeight: '600'
@@ -1683,11 +1693,11 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                 <>
                   <View style={{ marginBottom: 16 }}>
                     <Text style={{
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       color: '#4285F4',
                       fontFamily: 'Poppins-SemiBold',
                       fontWeight: '600',
-                      marginBottom: 8
+                      marginBottom: spacing(8)
                     }}>
                       Select Range
                     </Text>
@@ -1697,22 +1707,22 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                         backgroundColor: '#FFFFFF',
                         borderWidth: 1,
                         borderColor: '#E0E0E0',
-                        borderRadius: 8,
-                        paddingHorizontal: 16,
-                        paddingVertical: 14,
+                        borderRadius: hp(8),
+                        paddingHorizontal: spacing(16),
+                        paddingVertical: spacing(14),
                         flexDirection: 'row',
                         alignItems: 'center',
                         justifyContent: 'space-between'
                       }}
                     >
                       <Text style={{
-                        fontSize: 14,
+                        fontSize: fontSize(14),
                         color: '#000000',
                         fontFamily: 'Poppins'
                       }}>
                         {selectRange}
                       </Text>
-                      <Text style={{ fontSize: 12, color: '#000000' }}>▼</Text>
+                      <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>▼</Text>
                     </TouchableOpacity>
                   </View>
                   {/* Map Interface Placeholder */}
@@ -1721,23 +1731,23 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     height: 300,
                     borderRadius: 150,
                     backgroundColor: '#E0E0E0',
-                    marginBottom: 12,
+                    marginBottom: spacing(12),
                     alignItems: 'center',
                     justifyContent: 'center',
                     overflow: 'hidden',
                     borderWidth: 2,
                     borderColor: '#4285F4'
                   }}>
-                    <Text style={{ fontSize: 14, color: '#9E9E9E', fontFamily: 'Poppins' }}>
+                    <Text style={{ fontSize: fontSize(14), color: '#9E9E9E', fontFamily: 'Poppins' }}>
                       Map View
                     </Text>
                   </View>
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#9E9E9E',
                     fontFamily: 'Poppins',
                     textAlign: 'center',
-                    marginBottom: 8
+                    marginBottom: spacing(8)
                   }}>
                     Set Location
                   </Text>
@@ -1750,11 +1760,11 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
         {activeTab === 'Documents' && (
           <>
             {/* Aadhar Card Section */}
-            <View style={{ marginBottom: 20 }}>
+            <View style={{ marginBottom: spacing(20) }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
                 <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#9E9E9E', marginRight: 8 }} />
                 <Text style={{
-                  fontSize: 16,
+                  fontSize: fontSize(16),
                   color: '#000000',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600'
@@ -1764,20 +1774,20 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
               </View>
               
               {/* Images */}
-              <View style={{ flexDirection: 'row', gap: 12, marginBottom: 16 }}>
+              <View style={{ flexDirection: 'row', gap: spacing(12), marginBottom: 16 }}>
                 <View style={{ flex: 1 }}>
                   <View style={{
                     width: '100%',
                     aspectRatio: 1.6,
                     backgroundColor: '#F5F5F5',
-                    borderRadius: 8,
+                    borderRadius: hp(8),
                     borderWidth: 1,
                     borderColor: '#E0E0E0',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginBottom: 8
+                    marginBottom: spacing(8)
                   }}>
-                    <Text style={{ fontSize: 12, color: '#9E9E9E', fontFamily: 'Poppins' }}>Front Side</Text>
+                    <Text style={{ fontSize: fontSize(12), color: '#9E9E9E', fontFamily: 'Poppins' }}>Front Side</Text>
                   </View>
                 </View>
                 <View style={{ flex: 1 }}>
@@ -1785,14 +1795,14 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     width: '100%',
                     aspectRatio: 1.6,
                     backgroundColor: '#F5F5F5',
-                    borderRadius: 8,
+                    borderRadius: hp(8),
                     borderWidth: 1,
                     borderColor: '#E0E0E0',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginBottom: 8
+                    marginBottom: spacing(8)
                   }}>
-                    <Text style={{ fontSize: 12, color: '#9E9E9E', fontFamily: 'Poppins' }}>Back Side</Text>
+                    <Text style={{ fontSize: fontSize(12), color: '#9E9E9E', fontFamily: 'Poppins' }}>Back Side</Text>
                   </View>
                 </View>
               </View>
@@ -1807,9 +1817,9 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                       height: 28,
                       borderWidth: 1,
                       borderColor: '#E0E0E0',
-                      borderRadius: 4,
+                      borderRadius: hp(4),
                       textAlign: 'center',
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       color: '#000000',
                       fontFamily: 'Poppins',
                       backgroundColor: '#FFFFFF'
@@ -1827,14 +1837,14 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
               </View>
             </View>
             {/* Divider */}
-            <View style={{ height: 1, backgroundColor: '#E0E0E0', marginBottom: 20 }} />
+            <View style={{ height: 1, backgroundColor: '#E0E0E0', marginBottom: spacing(20) }} />
 
             {/* Driving License Section */}
-            <View style={{ marginBottom: 20 }}>
+            <View style={{ marginBottom: spacing(20) }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
                 <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#9E9E9E', marginRight: 8 }} />
                 <Text style={{
-                  fontSize: 16,
+                  fontSize: fontSize(16),
                   color: '#000000',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600'
@@ -1844,20 +1854,20 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
               </View>
               
               {/* Images */}
-              <View style={{ flexDirection: 'row', gap: 12, marginBottom: 16 }}>
+              <View style={{ flexDirection: 'row', gap: spacing(12), marginBottom: 16 }}>
                 <View style={{ flex: 1 }}>
                   <View style={{
                     width: '100%',
                     aspectRatio: 1.6,
                     backgroundColor: '#F5F5F5',
-                    borderRadius: 8,
+                    borderRadius: hp(8),
                     borderWidth: 1,
                     borderColor: '#E0E0E0',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginBottom: 8
+                    marginBottom: spacing(8)
                   }}>
-                    <Text style={{ fontSize: 12, color: '#9E9E9E', fontFamily: 'Poppins' }}>Front Side</Text>
+                    <Text style={{ fontSize: fontSize(12), color: '#9E9E9E', fontFamily: 'Poppins' }}>Front Side</Text>
                   </View>
                 </View>
                 <View style={{ flex: 1 }}>
@@ -1865,14 +1875,14 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     width: '100%',
                     aspectRatio: 1.6,
                     backgroundColor: '#F5F5F5',
-                    borderRadius: 8,
+                    borderRadius: hp(8),
                     borderWidth: 1,
                     borderColor: '#E0E0E0',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginBottom: 8
+                    marginBottom: spacing(8)
                   }}>
-                    <Text style={{ fontSize: 12, color: '#9E9E9E', fontFamily: 'Poppins' }}>Back Side</Text>
+                    <Text style={{ fontSize: fontSize(12), color: '#9E9E9E', fontFamily: 'Poppins' }}>Back Side</Text>
                   </View>
                 </View>
               </View>
@@ -1887,9 +1897,9 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                       height: 28,
                       borderWidth: 1,
                       borderColor: '#E0E0E0',
-                      borderRadius: 4,
+                      borderRadius: hp(4),
                       textAlign: 'center',
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       color: '#000000',
                       fontFamily: 'Poppins',
                       backgroundColor: '#FFFFFF',
@@ -1907,14 +1917,14 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
               </View>
             </View>
             {/* Divider */}
-            <View style={{ height: 1, backgroundColor: '#E0E0E0', marginBottom: 20 }} />
+            <View style={{ height: 1, backgroundColor: '#E0E0E0', marginBottom: spacing(20) }} />
 
             {/* PAN Card Section */}
-            <View style={{ marginBottom: 20 }}>
+            <View style={{ marginBottom: spacing(20) }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
                 <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#9E9E9E', marginRight: 8 }} />
                 <Text style={{
-                  fontSize: 16,
+                  fontSize: fontSize(16),
                   color: '#000000',
                   fontFamily: 'Poppins-SemiBold',
                   fontWeight: '600'
@@ -1924,20 +1934,20 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
               </View>
               
               {/* Images */}
-              <View style={{ flexDirection: 'row', gap: 12, marginBottom: 16 }}>
+              <View style={{ flexDirection: 'row', gap: spacing(12), marginBottom: 16 }}>
                 <View style={{ flex: 1 }}>
                   <View style={{
                     width: '100%',
                     aspectRatio: 1.6,
                     backgroundColor: '#F5F5F5',
-                    borderRadius: 8,
+                    borderRadius: hp(8),
                     borderWidth: 1,
                     borderColor: '#E0E0E0',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginBottom: 8
+                    marginBottom: spacing(8)
                   }}>
-                    <Text style={{ fontSize: 12, color: '#9E9E9E', fontFamily: 'Poppins' }}>Front Side</Text>
+                    <Text style={{ fontSize: fontSize(12), color: '#9E9E9E', fontFamily: 'Poppins' }}>Front Side</Text>
                   </View>
                 </View>
                 <View style={{ flex: 1 }}>
@@ -1945,14 +1955,14 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     width: '100%',
                     aspectRatio: 1.6,
                     backgroundColor: '#F5F5F5',
-                    borderRadius: 8,
+                    borderRadius: hp(8),
                     borderWidth: 1,
                     borderColor: '#E0E0E0',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginBottom: 8
+                    marginBottom: spacing(8)
                   }}>
-                    <Text style={{ fontSize: 12, color: '#9E9E9E', fontFamily: 'Poppins' }}>Back Side</Text>
+                    <Text style={{ fontSize: fontSize(12), color: '#9E9E9E', fontFamily: 'Poppins' }}>Back Side</Text>
                   </View>
                 </View>
               </View>
@@ -1967,9 +1977,9 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                       height: 28,
                       borderWidth: 1,
                       borderColor: '#E0E0E0',
-                      borderRadius: 4,
+                      borderRadius: hp(4),
                       textAlign: 'center',
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       color: '#000000',
                       fontFamily: 'Poppins',
                       backgroundColor: '#FFFFFF',
@@ -2004,8 +2014,8 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
         <TouchableOpacity
           style={{
             backgroundColor: '#4285F4',
-            borderRadius: 8,
-            paddingVertical: 16,
+            borderRadius: hp(8),
+            paddingVertical: spacing(16),
             alignItems: 'center',
             justifyContent: 'center',
             shadowColor: '#000',
@@ -2021,7 +2031,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
         >
           <Text style={{
             color: '#FFFFFF',
-            fontSize: 16,
+            fontSize: fontSize(16),
             fontFamily: 'Poppins-Bold',
             fontWeight: '700'
           }}>
@@ -2045,25 +2055,25 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20 }}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={{ fontSize: 18, fontWeight: '700', marginBottom: 20, fontFamily: 'Poppins-Bold' }}>Select Date</Text>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(20), fontFamily: 'Poppins-Bold' }}>Select Date</Text>
             
             {/* Month Navigation */}
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing(20) }}>
               <TouchableOpacity onPress={() => navigateMonth('prev')} style={{ padding: 8 }}>
-                <Text style={{ fontSize: 20, color: '#000000' }}>←</Text>
+                <Text style={{ fontSize: fontSize(20), color: '#000000' }}>←</Text>
               </TouchableOpacity>
-              <Text style={{ fontSize: 18, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }}>
+              <Text style={{ fontSize: fontSize(18), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }}>
                 {monthNames[currentMonth - 1]} {currentYear}
               </Text>
               <TouchableOpacity onPress={() => navigateMonth('next')} style={{ padding: 8 }}>
-                <Text style={{ fontSize: 20, color: '#000000' }}>→</Text>
+                <Text style={{ fontSize: fontSize(20), color: '#000000' }}>→</Text>
               </TouchableOpacity>
             </View>
 
             {/* Weekday Headers */}
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 10 }}>
               {weekDays.map((day, index) => (
-                <Text key={index} style={{ fontSize: 12, color: '#9E9E9E', fontFamily: 'Poppins-Medium', width: 30, textAlign: 'center' }}>
+                <Text key={index} style={{ fontSize: fontSize(12), color: '#9E9E9E', fontFamily: 'Poppins-Medium', width: 30, textAlign: 'center' }}>
                   {day}
                 </Text>
               ))}
@@ -2087,7 +2097,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     disabled={!day}
                   >
                     <Text style={{
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       color: day === selectedDateDay ? '#FFFFFF' : (day ? '#000000' : '#E0E0E0'),
                       fontFamily: 'Poppins'
                     }}>
@@ -2116,7 +2126,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20 }}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={{ fontSize: 18, fontWeight: '700', marginBottom: 20, fontFamily: 'Poppins-Bold' }}>Select Gender</Text>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(20), fontFamily: 'Poppins-Bold' }}>Select Gender</Text>
             {genders.map((item) => (
               <TouchableOpacity
                 key={item}
@@ -2125,12 +2135,12 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                   setShowGenderModal(false);
                 }}
                 style={{
-                  paddingVertical: 16,
+                  paddingVertical: spacing(16),
                   borderBottomWidth: 1,
                   borderBottomColor: '#E0E0E0'
                 }}
               >
-                <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
+                <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
               </TouchableOpacity>
             ))}
           </Pressable>
@@ -2152,7 +2162,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20, maxHeight: 400 }}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={{ fontSize: 18, fontWeight: '700', marginBottom: 20, fontFamily: 'Poppins-Bold' }}>Select State</Text>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(20), fontFamily: 'Poppins-Bold' }}>Select State</Text>
             <ScrollView>
               {states.map((item) => (
                 <TouchableOpacity
@@ -2162,12 +2172,12 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     setShowStateModal(false);
                   }}
                   style={{
-                    paddingVertical: 16,
+                    paddingVertical: spacing(16),
                     borderBottomWidth: 1,
                     borderBottomColor: '#E0E0E0'
                   }}
                 >
-                  <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
+                  <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
                 </TouchableOpacity>
               ))}
             </ScrollView>
@@ -2190,7 +2200,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20, maxHeight: 400 }}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={{ fontSize: 18, fontWeight: '700', marginBottom: 20, fontFamily: 'Poppins-Bold' }}>Select City / Village</Text>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(20), fontFamily: 'Poppins-Bold' }}>Select City / Village</Text>
             <ScrollView>
               {cities.map((item) => (
                 <TouchableOpacity
@@ -2200,12 +2210,12 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     setShowCityModal(false);
                   }}
                   style={{
-                    paddingVertical: 16,
+                    paddingVertical: spacing(16),
                     borderBottomWidth: 1,
                     borderBottomColor: '#E0E0E0'
                   }}
                 >
-                  <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
+                  <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
                 </TouchableOpacity>
               ))}
             </ScrollView>
@@ -2228,25 +2238,25 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20 }}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={{ fontSize: 18, fontWeight: '700', marginBottom: 20, fontFamily: 'Poppins-Bold' }}>Select Joining Date</Text>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(20), fontFamily: 'Poppins-Bold' }}>Select Joining Date</Text>
             
             {/* Month Navigation */}
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing(20) }}>
               <TouchableOpacity onPress={() => navigateJoiningMonth('prev')} style={{ padding: 8 }}>
-                <Text style={{ fontSize: 20, color: '#000000' }}>←</Text>
+                <Text style={{ fontSize: fontSize(20), color: '#000000' }}>←</Text>
               </TouchableOpacity>
-              <Text style={{ fontSize: 18, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }}>
+              <Text style={{ fontSize: fontSize(18), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }}>
                 {monthNames[joiningDateMonth - 1]} {joiningDateYear}
               </Text>
               <TouchableOpacity onPress={() => navigateJoiningMonth('next')} style={{ padding: 8 }}>
-                <Text style={{ fontSize: 20, color: '#000000' }}>→</Text>
+                <Text style={{ fontSize: fontSize(20), color: '#000000' }}>→</Text>
               </TouchableOpacity>
             </View>
 
             {/* Weekday Headers */}
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 10 }}>
               {weekDays.map((day, index) => (
-                <Text key={index} style={{ fontSize: 12, color: '#9E9E9E', fontFamily: 'Poppins-Medium', width: 30, textAlign: 'center' }}>
+                <Text key={index} style={{ fontSize: fontSize(12), color: '#9E9E9E', fontFamily: 'Poppins-Medium', width: 30, textAlign: 'center' }}>
                   {day}
                 </Text>
               ))}
@@ -2270,7 +2280,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     disabled={!day}
                   >
                     <Text style={{
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       color: day === selectedJoiningDateDay ? '#FFFFFF' : (day ? '#000000' : '#E0E0E0'),
                       fontFamily: 'Poppins'
                     }}>
@@ -2299,7 +2309,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20 }}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={{ fontSize: 18, fontWeight: '700', marginBottom: 20, fontFamily: 'Poppins-Bold' }}>Select Duty</Text>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(20), fontFamily: 'Poppins-Bold' }}>Select Duty</Text>
             {duties.map((item) => (
               <TouchableOpacity
                 key={item}
@@ -2308,12 +2318,12 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                   setShowDutyModal(false);
                 }}
                 style={{
-                  paddingVertical: 16,
+                  paddingVertical: spacing(16),
                   borderBottomWidth: 1,
                   borderBottomColor: '#E0E0E0'
                 }}
               >
-                <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
+                <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
               </TouchableOpacity>
             ))}
           </Pressable>
@@ -2335,7 +2345,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20 }}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={{ fontSize: 18, fontWeight: '700', marginBottom: 20, fontFamily: 'Poppins-Bold' }}>Select Blood Group</Text>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(20), fontFamily: 'Poppins-Bold' }}>Select Blood Group</Text>
             {bloodGroups.map((item) => (
               <TouchableOpacity
                 key={item}
@@ -2344,12 +2354,12 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                   setShowBloodGroupModal(false);
                 }}
                 style={{
-                  paddingVertical: 16,
+                  paddingVertical: spacing(16),
                   borderBottomWidth: 1,
                   borderBottomColor: '#E0E0E0'
                 }}
               >
-                <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
+                <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
               </TouchableOpacity>
             ))}
           </Pressable>
@@ -2371,7 +2381,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20 }}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={{ fontSize: 18, fontWeight: '700', marginBottom: 20, fontFamily: 'Poppins-Bold' }}>Select Salary Type</Text>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(20), fontFamily: 'Poppins-Bold' }}>Select Salary Type</Text>
             {salaryTypes.map((item) => (
               <TouchableOpacity
                 key={item}
@@ -2380,12 +2390,12 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                   setShowSalaryTypeModal(false);
                 }}
                 style={{
-                  paddingVertical: 16,
+                  paddingVertical: spacing(16),
                   borderBottomWidth: 1,
                   borderBottomColor: '#E0E0E0'
                 }}
               >
-                <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
+                <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
               </TouchableOpacity>
             ))}
           </Pressable>
@@ -2407,7 +2417,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20 }}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={{ fontSize: 18, fontWeight: '700', marginBottom: 20, fontFamily: 'Poppins-Bold' }}>Select Overtime Type</Text>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(20), fontFamily: 'Poppins-Bold' }}>Select Overtime Type</Text>
             {overtimeTypes.map((item) => (
               <TouchableOpacity
                 key={item}
@@ -2416,12 +2426,12 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                   setShowOvertimeTypeModal(false);
                 }}
                 style={{
-                  paddingVertical: 16,
+                  paddingVertical: spacing(16),
                   borderBottomWidth: 1,
                   borderBottomColor: '#E0E0E0'
                 }}
               >
-                <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
+                <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
               </TouchableOpacity>
             ))}
           </Pressable>
@@ -2443,7 +2453,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20 }}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={{ fontSize: 18, fontWeight: '700', marginBottom: 20, fontFamily: 'Poppins-Bold' }}>Select Day</Text>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(20), fontFamily: 'Poppins-Bold' }}>Select Day</Text>
             {weekDaysList.map((item) => (
               <TouchableOpacity
                 key={item}
@@ -2456,12 +2466,12 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                   setShowDayModal(false);
                 }}
                 style={{
-                  paddingVertical: 16,
+                  paddingVertical: spacing(16),
                   borderBottomWidth: 1,
                   borderBottomColor: '#E0E0E0'
                 }}
               >
-                <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
+                <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
               </TouchableOpacity>
             ))}
           </Pressable>
@@ -2483,7 +2493,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20 }}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={{ fontSize: 18, fontWeight: '700', marginBottom: 20, fontFamily: 'Poppins-Bold' }}>Select Type</Text>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(20), fontFamily: 'Poppins-Bold' }}>Select Type</Text>
             {weeklyOffTypes.map((item) => (
               <TouchableOpacity
                 key={item}
@@ -2496,12 +2506,12 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                   setShowWeeklyOffTypeModal(false);
                 }}
                 style={{
-                  paddingVertical: 16,
+                  paddingVertical: spacing(16),
                   borderBottomWidth: 1,
                   borderBottomColor: '#E0E0E0'
                 }}
               >
-                <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
+                <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
               </TouchableOpacity>
             ))}
           </Pressable>
@@ -2523,7 +2533,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20 }}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={{ fontSize: 18, fontWeight: '700', marginBottom: 20, fontFamily: 'Poppins-Bold' }}>Select Range</Text>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(20), fontFamily: 'Poppins-Bold' }}>Select Range</Text>
             {presentCriteriaRanges.map((item) => (
               <TouchableOpacity
                 key={item}
@@ -2532,12 +2542,12 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                   setShowPresentCriteriaModal(false);
                 }}
                 style={{
-                  paddingVertical: 16,
+                  paddingVertical: spacing(16),
                   borderBottomWidth: 1,
                   borderBottomColor: '#E0E0E0'
                 }}
               >
-                <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
+                <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
               </TouchableOpacity>
             ))}
           </Pressable>
@@ -2559,10 +2569,10 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20, maxHeight: 400 }}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={{ fontSize: 18, fontWeight: '700', marginBottom: 20, fontFamily: 'Poppins-Bold' }}>Select Start Time</Text>
-            <View style={{ flexDirection: 'row', gap: 12 }}>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(20), fontFamily: 'Poppins-Bold' }}>Select Start Time</Text>
+            <View style={{ flexDirection: 'row', gap: spacing(12) }}>
               <View style={{ flex: 1 }}>
-                <Text style={{ fontSize: 14, color: '#4285F4', marginBottom: 8, fontFamily: 'Poppins-SemiBold' }}>Hour</Text>
+                <Text style={{ fontSize: fontSize(14), color: '#4285F4', marginBottom: spacing(8), fontFamily: 'Poppins-SemiBold' }}>Hour</Text>
                 <ScrollView style={{ maxHeight: 200 }}>
                   {hours.map((item) => (
                     <TouchableOpacity
@@ -2577,13 +2587,13 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                         borderBottomColor: '#E0E0E0'
                       }}
                     >
-                      <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins', textAlign: 'center' }}>{item}</Text>
+                      <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins', textAlign: 'center' }}>{item}</Text>
                     </TouchableOpacity>
                   ))}
                 </ScrollView>
               </View>
               <View style={{ flex: 1 }}>
-                <Text style={{ fontSize: 14, color: '#4285F4', marginBottom: 8, fontFamily: 'Poppins-SemiBold' }}>Minutes</Text>
+                <Text style={{ fontSize: fontSize(14), color: '#4285F4', marginBottom: spacing(8), fontFamily: 'Poppins-SemiBold' }}>Minutes</Text>
                 <ScrollView style={{ maxHeight: 200 }}>
                   {minutes.map((item) => (
                     <TouchableOpacity
@@ -2598,7 +2608,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                         borderBottomColor: '#E0E0E0'
                       }}
                     >
-                      <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins', textAlign: 'center' }}>{item}</Text>
+                      <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins', textAlign: 'center' }}>{item}</Text>
                     </TouchableOpacity>
                   ))}
                 </ScrollView>
@@ -2623,10 +2633,10 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20, maxHeight: 400 }}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={{ fontSize: 18, fontWeight: '700', marginBottom: 20, fontFamily: 'Poppins-Bold' }}>Select End Time</Text>
-            <View style={{ flexDirection: 'row', gap: 12 }}>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(20), fontFamily: 'Poppins-Bold' }}>Select End Time</Text>
+            <View style={{ flexDirection: 'row', gap: spacing(12) }}>
               <View style={{ flex: 1 }}>
-                <Text style={{ fontSize: 14, color: '#4285F4', marginBottom: 8, fontFamily: 'Poppins-SemiBold' }}>Hour</Text>
+                <Text style={{ fontSize: fontSize(14), color: '#4285F4', marginBottom: spacing(8), fontFamily: 'Poppins-SemiBold' }}>Hour</Text>
                 <ScrollView style={{ maxHeight: 200 }}>
                   {hours.map((item) => (
                     <TouchableOpacity
@@ -2641,13 +2651,13 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                         borderBottomColor: '#E0E0E0'
                       }}
                     >
-                      <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins', textAlign: 'center' }}>{item}</Text>
+                      <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins', textAlign: 'center' }}>{item}</Text>
                     </TouchableOpacity>
                   ))}
                 </ScrollView>
               </View>
               <View style={{ flex: 1 }}>
-                <Text style={{ fontSize: 14, color: '#4285F4', marginBottom: 8, fontFamily: 'Poppins-SemiBold' }}>Minutes</Text>
+                <Text style={{ fontSize: fontSize(14), color: '#4285F4', marginBottom: spacing(8), fontFamily: 'Poppins-SemiBold' }}>Minutes</Text>
                 <ScrollView style={{ maxHeight: 200 }}>
                   {minutes.map((item) => (
                     <TouchableOpacity
@@ -2662,7 +2672,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                         borderBottomColor: '#E0E0E0'
                       }}
                     >
-                      <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins', textAlign: 'center' }}>{item}</Text>
+                      <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins', textAlign: 'center' }}>{item}</Text>
                     </TouchableOpacity>
                   ))}
                 </ScrollView>
@@ -2687,7 +2697,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20, maxHeight: 400 }}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={{ fontSize: 18, fontWeight: '700', marginBottom: 20, fontFamily: 'Poppins-Bold' }}>Select Early Minutes</Text>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(20), fontFamily: 'Poppins-Bold' }}>Select Early Minutes</Text>
             <ScrollView>
               {earlyMinOptions.map((item) => (
                 <TouchableOpacity
@@ -2697,12 +2707,12 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     setShowEarlyMinModal(false);
                   }}
                   style={{
-                    paddingVertical: 16,
+                    paddingVertical: spacing(16),
                     borderBottomWidth: 1,
                     borderBottomColor: '#E0E0E0'
                   }}
                 >
-                  <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
+                  <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
                 </TouchableOpacity>
               ))}
             </ScrollView>
@@ -2725,7 +2735,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20, maxHeight: 400 }}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={{ fontSize: 18, fontWeight: '700', marginBottom: 20, fontFamily: 'Poppins-Bold' }}>Select Late Minutes</Text>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(20), fontFamily: 'Poppins-Bold' }}>Select Late Minutes</Text>
             <ScrollView>
               {lateMinOptions.map((item) => (
                 <TouchableOpacity
@@ -2735,12 +2745,12 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
                     setShowLateMinModal(false);
                   }}
                   style={{
-                    paddingVertical: 16,
+                    paddingVertical: spacing(16),
                     borderBottomWidth: 1,
                     borderBottomColor: '#E0E0E0'
                   }}
                 >
-                  <Text style={{ fontSize: 16, color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
+                  <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins' }}>{item}</Text>
                 </TouchableOpacity>
               ))}
             </ScrollView>
@@ -2766,41 +2776,41 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
               borderTopRightRadius: 24, 
               padding: 24,
               alignItems: 'center',
-              paddingBottom: 32
+              paddingBottom: spacing(32) + insets.bottom
             }}
             onPress={(e) => e.stopPropagation()}
           >
             {/* Success Icon */}
             <View style={{ 
-              width: 100, 
-              height: 100, 
-              borderRadius: 50, 
+              width: wp(100), 
+              height: hp(100), 
+              borderRadius: hp(50), 
               backgroundColor: '#4CAF50',
               alignItems: 'center',
               justifyContent: 'center',
-              marginBottom: 24,
+              marginBottom: spacing(24),
               position: 'relative'
             }}>
               {/* Outer ring */}
               <View style={{
                 position: 'absolute',
-                width: 120,
-                height: 120,
-                borderRadius: 60,
+                width: wp(120),
+                height: hp(120),
+                borderRadius: hp(60),
                 borderWidth: 3,
                 borderColor: '#81C784',
                 opacity: 0.5
               }} />
               {/* Checkmark */}
               <View style={{
-                width: 50,
-                height: 50,
+              width: wp(50),
+              height: hp(50),
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
                 <View style={{
-                  width: 30,
-                  height: 20,
+              width: wp(30),
+              height: hp(20),
                   borderLeftWidth: 5,
                   borderBottomWidth: 5,
                   borderColor: '#FFFFFF',
@@ -2816,7 +2826,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
               fontWeight: '700',
               color: '#000000',
               fontFamily: 'Poppins-Bold',
-              marginBottom: 8,
+              marginBottom: spacing(8),
               textAlign: 'center',
               lineHeight: 32
             }}>
@@ -2825,7 +2835,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
 
             {/* Success Message */}
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#9E9E9E',
               fontFamily: 'Poppins',
               marginBottom: 32,
@@ -2845,23 +2855,23 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
               style={{
                 width: '100%',
                 backgroundColor: '#4285F4',
-                borderRadius: 8,
-                paddingVertical: 16,
+                borderRadius: hp(8),
+                paddingVertical: spacing(16),
                 alignItems: 'center',
                 justifyContent: 'center',
                 shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
+                shadowOffset: { width: 0, height: hp(2) },
                 shadowOpacity: 0.2,
-                shadowRadius: 4,
+                shadowRadius: hp(4),
                 elevation: 3
               }}
             >
               <Text style={{
                 color: '#FFFFFF',
-                fontSize: 16,
+                fontSize: fontSize(16),
                 fontFamily: 'Poppins-Bold',
                 fontWeight: '700'
-              }}>
+              }} allowFontScaling={false}>
                 Share To Employee
               </Text>
             </TouchableOpacity>

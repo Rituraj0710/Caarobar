@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, StatusBar, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialIcons } from '@expo/vector-icons';
-import { wp, hp, fontSize, spacing, SCREEN_WIDTH } from '../utils/responsive';
+import { wp, hp, fontSize, spacing, SCREEN_WIDTH, useSafeArea } from '../utils/responsive';
 
 type RootStackParamList = {
   RoleSelection: undefined;
@@ -14,6 +15,8 @@ type RootStackParamList = {
 type Props = NativeStackScreenProps<RootStackParamList, 'RoleSelection'>;
 
 export default function RoleSelectionScreen({ navigation }: Props) {
+  const insets = useSafeArea();
+  
   const handleRoleSelection = async (role: 'Admin' | 'Employee') => {
     // Store the selected role
     await AsyncStorage.setItem('@selectedRole', role);
@@ -22,7 +25,7 @@ export default function RoleSelectionScreen({ navigation }: Props) {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       <StatusBar barStyle="dark-content" backgroundColor="white" />
       
       {/* Centered Content Container with Equal Spacing */}
@@ -48,7 +51,7 @@ export default function RoleSelectionScreen({ navigation }: Props) {
               <MaterialIcons name="person" size={20} color="#6BA3FF" />
               <MaterialIcons name="description" size={12} color="#6BA3FF" style={styles.badgeIcon} />
             </View>
-            <Text style={styles.adminButtonText}>Continue as a Admin</Text>
+            <Text style={styles.adminButtonText} allowFontScaling={false}>Continue as a Admin</Text>
           </View>
         </TouchableOpacity>
 
@@ -64,19 +67,19 @@ export default function RoleSelectionScreen({ navigation }: Props) {
               <MaterialIcons name="group" size={20} color="#FFFFFF" />
               <MaterialIcons name="description" size={12} color="#FFFFFF" style={styles.badgeIcon} />
             </View>
-            <Text style={styles.employeeButtonText}>Continue as a Employee</Text>
+            <Text style={styles.employeeButtonText} allowFontScaling={false}>Continue as a Employee</Text>
           </View>
         </TouchableOpacity>
       </View>
 
       {/* Register Link - Positioned at bottom */}
       <View style={styles.registerContainer}>
-        <Text style={styles.registerText}>Didn't have a account? </Text>
+        <Text style={styles.registerText} allowFontScaling={false}>Didn't have a account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-          <Text style={styles.registerLink}>Register here</Text>
+          <Text style={styles.registerLink} allowFontScaling={false}>Register here</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -102,15 +105,15 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   logo: {
-    width: wp(280), // Adjusted width for better proportions
-    height: hp(150), // Adjusted height for better proportions
+    width: wp(240), // Smaller image size
+    height: hp(130), // Smaller image size
     resizeMode: 'contain',
   },
   adminButton: {
     width: '100%',
     height: hp(55),
     backgroundColor: '#FFFFFF',
-    borderWidth: 1,
+    borderWidth: wp(1),
     borderColor: '#6BA3FF', // Light blue border as shown in screenshot
     borderRadius: hp(55) / 2, // Fully rounded corners (half of height for perfect circle/rounded)
     alignItems: 'center',
@@ -129,7 +132,7 @@ const styles = StyleSheet.create({
   buttonContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     width: '100%',
   },
   iconWrapper: {
@@ -159,12 +162,13 @@ const styles = StyleSheet.create({
   },
   registerContainer: {
     position: 'absolute',
-    bottom: hp(40),
+    bottom: 0,
     alignSelf: 'center',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: spacing(20),
+    paddingBottom: spacing(20),
     flexWrap: 'wrap',
   },
   registerText: {

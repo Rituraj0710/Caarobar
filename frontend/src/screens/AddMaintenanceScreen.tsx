@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, ScrollView, Image, Modal, Pressable, SafeAreaView, StatusBar, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, ScrollView, Image, Modal, Pressable, StatusBar, Platform } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { wp, hp, fontSize, spacing, SCREEN_WIDTH, getSafeBottomPadding } from '../utils/responsive';
+import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
 import BackButton from '../components/BackButton';
+import SafeAreaView from '../components/SafeAreaView';
 
 type RootStackParamList = {
   Language: undefined;
@@ -77,6 +78,7 @@ const generateCalendarGrid = (year: number, month: number) => {
 };
 
 export default function AddMaintenanceScreen({ navigation }: Props) {
+  const insets = useSafeArea();
   const [firmName, setFirmName] = useState('Creative Designers');
   const [customerName, setCustomerName] = useState('Kamal Jangid');
   const [contact, setContact] = useState('+919460638554');
@@ -139,20 +141,18 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
   ];
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <StatusBar barStyle="light-content" backgroundColor="#E53935" />
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#E53935' }}>
-        {/* Red Header Bar */}
-        <View style={{
-          backgroundColor: '#E53935',
-          paddingTop: Platform.OS === 'ios' ? spacing(8) : spacing(12),
-          paddingBottom: spacing(16),
-          paddingHorizontal: spacing(16),
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          minHeight: hp(60)
-        }}>
+      {/* Red Header Bar */}
+      <View style={{
+        backgroundColor: '#E53935',
+        paddingTop: spacing(12),
+        paddingBottom: spacing(16),
+        paddingHorizontal: spacing(16),
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+      }}>
         {/* Back Arrow */}
         <BackButton color="#FFFFFF" />
 
@@ -165,7 +165,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
           bottom: 0,
           alignItems: 'center', 
           justifyContent: 'center',
-          paddingTop: hp(44),
+          paddingTop: spacing(12),
           paddingBottom: spacing(16)
         }}>
           <Text style={{
@@ -173,15 +173,14 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
             fontWeight: '700',
             color: '#FFFFFF',
             fontFamily: 'Poppins-Bold'
-          }}>
+          }} allowFontScaling={false}>
             Add Maintenance
           </Text>
         </View>
       </View>
-      </SafeAreaView>
 
       <ScrollView 
-        contentContainerStyle={{ padding: spacing(16), paddingBottom: hp(120) }}
+        contentContainerStyle={{ padding: spacing(16), paddingBottom: spacing(120) + insets.bottom }}
         showsVerticalScrollIndicator={false}
         style={{ flex: 1, backgroundColor: '#FFFFFF' }}
       >
@@ -193,7 +192,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
             marginBottom: spacing(8)
-          }}>
+          }} allowFontScaling={false}>
             Firm Name
           </Text>
           <TextInput
@@ -201,7 +200,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: 8,
+              borderRadius: hp(8),
               paddingHorizontal: spacing(16),
               paddingVertical: spacing(14),
               fontSize: fontSize(14),
@@ -212,6 +211,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
             placeholderTextColor="#9E9E9E"
             value={firmName}
             onChangeText={setFirmName}
+            allowFontScaling={false}
           />
         </View>
 
@@ -223,7 +223,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
             marginBottom: spacing(8)
-          }}>
+          }} allowFontScaling={false}>
             Customer Name
           </Text>
           <TextInput
@@ -231,7 +231,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: 8,
+              borderRadius: hp(8),
               paddingHorizontal: spacing(16),
               paddingVertical: spacing(14),
               fontSize: fontSize(14),
@@ -242,6 +242,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
             placeholderTextColor="#9E9E9E"
             value={customerName}
             onChangeText={setCustomerName}
+            allowFontScaling={false}
           />
         </View>
 
@@ -253,7 +254,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
             marginBottom: spacing(8)
-          }}>
+          }} allowFontScaling={false}>
             Contact
           </Text>
           <TextInput
@@ -261,7 +262,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: 8,
+              borderRadius: hp(8),
               paddingHorizontal: spacing(16),
               paddingVertical: spacing(14),
               fontSize: fontSize(14),
@@ -273,6 +274,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
             value={contact}
             onChangeText={setContact}
             keyboardType="phone-pad"
+            allowFontScaling={false}
           />
         </View>
 
@@ -284,7 +286,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
             marginBottom: spacing(8)
-          }}>
+          }} allowFontScaling={false}>
             Location
           </Text>
           <View style={{ position: 'relative' }}>
@@ -293,7 +295,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
                 backgroundColor: '#FFFFFF',
                 borderWidth: 1,
                 borderColor: '#E0E0E0',
-                borderRadius: 8,
+                borderRadius: hp(8),
                 paddingHorizontal: spacing(16),
                 paddingVertical: spacing(14),
                 paddingRight: spacing(40),
@@ -305,6 +307,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
               placeholderTextColor="#9E9E9E"
               value={location}
               onChangeText={setLocation}
+              allowFontScaling={false}
             />
             <View style={{
               position: 'absolute',
@@ -313,7 +316,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
               alignItems: 'center',
               justifyContent: 'center'
             }}>
-              <Text style={{ fontSize: fontSize(16), color: '#9E9E9E' }}>📍</Text>
+              <Text style={{ fontSize: fontSize(16), color: '#9E9E9E' }} allowFontScaling={false}>📍</Text>
             </View>
           </View>
         </View>
@@ -326,7 +329,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
             marginBottom: spacing(8)
-          }}>
+          }} allowFontScaling={false}>
             Task Type
           </Text>
           <TouchableOpacity
@@ -335,7 +338,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: 8,
+              borderRadius: hp(8),
               paddingHorizontal: spacing(16),
               paddingVertical: spacing(14),
               flexDirection: 'row',
@@ -347,10 +350,10 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
               fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               {taskType}
             </Text>
-            <Text style={{ fontSize: fontSize(12), color: '#000000' }}>▼</Text>
+            <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>▼</Text>
           </TouchableOpacity>
         </View>
 
@@ -362,7 +365,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
             marginBottom: spacing(8)
-          }}>
+          }} allowFontScaling={false}>
             Select Date
           </Text>
           <TouchableOpacity
@@ -371,7 +374,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: 8,
+              borderRadius: hp(8),
               paddingHorizontal: spacing(16),
               paddingVertical: spacing(14),
               flexDirection: 'row',
@@ -383,7 +386,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
               fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               {selectedDate}
             </Text>
             <Image 
@@ -401,7 +404,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
             marginBottom: spacing(8)
-          }}>
+          }} allowFontScaling={false}>
             Select Time
           </Text>
           <TouchableOpacity
@@ -410,7 +413,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: 8,
+              borderRadius: hp(8),
               paddingHorizontal: spacing(16),
               paddingVertical: spacing(14),
               flexDirection: 'row',
@@ -422,10 +425,10 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
               fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               {selectedTime}
             </Text>
-            <Text style={{ fontSize: fontSize(16), color: '#000000' }}>🕐</Text>
+            <Text style={{ fontSize: fontSize(16), color: '#000000' }} allowFontScaling={false}>🕐</Text>
           </TouchableOpacity>
         </View>
 
@@ -437,7 +440,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
             marginBottom: spacing(8)
-          }}>
+          }} allowFontScaling={false}>
             Description
           </Text>
           <TextInput
@@ -445,7 +448,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: 8,
+              borderRadius: hp(8),
               paddingHorizontal: spacing(16),
               paddingVertical: spacing(14),
               minHeight: hp(100),
@@ -460,6 +463,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
             numberOfLines={4}
             value={description}
             onChangeText={setDescription}
+            allowFontScaling={false}
           />
         </View>
 
@@ -471,7 +475,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
             marginBottom: spacing(8)
-          }}>
+          }} allowFontScaling={false}>
             Assigned To
           </Text>
           <TouchableOpacity
@@ -480,7 +484,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: 8,
+              borderRadius: hp(8),
               paddingHorizontal: spacing(16),
               paddingVertical: spacing(14),
               flexDirection: 'row',
@@ -491,17 +495,17 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
             <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
               <Image 
                 source={require('../../assets/Profile picture.png')} 
-                style={{ width: wp(32), height: hp(32), borderRadius: 16, marginRight: spacing(12) }} 
+                style={{ width: wp(32), height: hp(32), borderRadius: hp(16), marginRight: spacing(12), resizeMode: 'cover' }} 
               />
               <Text style={{
               fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               {assignedTo}
               </Text>
             </View>
-            <Text style={{ fontSize: fontSize(12), color: '#000000' }}>▼</Text>
+            <Text style={{ fontSize: fontSize(12), color: '#000000' }} allowFontScaling={false}>▼</Text>
           </TouchableOpacity>
         </View>
 
@@ -513,32 +517,33 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
             marginBottom: spacing(8)
-          }}>
+          }} allowFontScaling={false}>
             Add Image
           </Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing(12) }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <TouchableOpacity
               style={{
                 width: wp(100),
                 height: hp(100),
                 borderWidth: 1,
                 borderColor: '#E0E0E0',
-                borderRadius: 8,
+                borderRadius: hp(8),
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: '#FAFAFA'
+                backgroundColor: '#FAFAFA',
+                marginRight: spacing(12)
               }}
               onPress={() => {
                 // TODO: Handle image selection
               }}
             >
               {selectedImage ? (
-                <Image source={{ uri: selectedImage }} style={{ width: wp(100), height: hp(100), borderRadius: 8 }} />
+                <Image source={{ uri: selectedImage }} style={{ width: wp(100), height: hp(100), borderRadius: hp(8), resizeMode: 'cover' }} />
               ) : (
-                <>
-                  <Text style={{ fontSize: fontSize(32), color: '#9E9E9E' }}>☁</Text>
-                  <Text style={{ fontSize: fontSize(20), color: '#9E9E9E', marginTop: spacing(4) }}>↑</Text>
-                </>
+                <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                  <Text style={{ fontSize: fontSize(32), color: '#000000' }} allowFontScaling={false}>☁</Text>
+                  <Text style={{ fontSize: fontSize(20), color: '#000000', marginTop: spacing(4) }} allowFontScaling={false}>↑</Text>
+                </View>
               )}
             </TouchableOpacity>
             <TouchableOpacity
@@ -546,43 +551,42 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
                 width: wp(48),
                 height: hp(48),
                 borderWidth: 1,
-                borderColor: '#E0E0E0',
-                borderRadius: 24,
+                borderColor: '#000000',
+                borderRadius: hp(24),
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: '#FAFAFA'
+                backgroundColor: '#FFFFFF'
               }}
               onPress={() => {
                 // TODO: Handle adding more images
               }}
             >
-              <Text style={{ fontSize: fontSize(24), color: '#9E9E9E' }}>+</Text>
+              <Text style={{ fontSize: fontSize(24), color: '#000000', fontWeight: '300' }} allowFontScaling={false}>+</Text>
             </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
 
       {/* Red Save Button - Fixed at Bottom */}
-      <SafeAreaView style={{ backgroundColor: '#FFFFFF' }}>
-        <View style={{
-          padding: spacing(16),
-          paddingTop: spacing(12),
-          paddingBottom: Platform.OS === 'ios' ? spacing(8) : spacing(16),
-          backgroundColor: '#FFFFFF',
-          borderTopWidth: 1,
-          borderTopColor: '#E0E0E0'
-        }}>
+      <View style={{
+        padding: spacing(16),
+        paddingTop: spacing(12),
+        paddingBottom: spacing(16) + insets.bottom,
+        backgroundColor: '#FFFFFF',
+        borderTopWidth: 1,
+        borderTopColor: '#E0E0E0'
+      }}>
         <TouchableOpacity
           style={{
             backgroundColor: '#E53935',
-            borderRadius: 8,
+            borderRadius: hp(25),
             paddingVertical: spacing(16),
             alignItems: 'center',
             justifyContent: 'center',
             shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
+            shadowOffset: { width: 0, height: spacing(2) },
             shadowOpacity: 0.2,
-            shadowRadius: 4,
+            shadowRadius: spacing(4),
             elevation: 3
           }}
           onPress={() => {
@@ -595,12 +599,11 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
               fontSize: fontSize(16),
             fontFamily: 'Poppins-Bold',
             fontWeight: '700'
-          }}>
+          }} allowFontScaling={false}>
             Save
           </Text>
         </TouchableOpacity>
-        </View>
-      </SafeAreaView>
+      </View>
 
       {/* Task Type Modal */}
       <Modal
@@ -614,10 +617,10 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
           onPress={() => setShowTaskTypeModal(false)}
         >
           <Pressable 
-            style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: spacing(20) }}
+            style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: hp(24), borderTopRightRadius: hp(24), padding: spacing(20), paddingBottom: spacing(20) + insets.bottom }}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(16), fontFamily: 'Poppins-Bold' }}>Select Task Type</Text>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(16), fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>Select Task Type</Text>
             {taskTypes.map((type, index) => (
               <TouchableOpacity
                 key={index}
@@ -627,7 +630,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
                 }}
                 style={{ paddingVertical: spacing(12), borderBottomWidth: index < taskTypes.length - 1 ? 1 : 0, borderBottomColor: '#E0E0E0' }}
               >
-                <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }}>{type}</Text>
+                <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{type}</Text>
               </TouchableOpacity>
             ))}
           </Pressable>
@@ -646,28 +649,28 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
           onPress={() => setShowDateModal(false)}
         >
           <Pressable 
-            style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: spacing(20) }}
+            style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: hp(24), borderTopRightRadius: hp(24), padding: spacing(20), paddingBottom: spacing(20) + insets.bottom }}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(20), fontFamily: 'Poppins-Bold' }}>Select Date</Text>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(20), fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>Select Date</Text>
             
             {/* Month Navigation */}
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing(20) }}>
               <TouchableOpacity onPress={() => navigateMonth('prev')} style={{ padding: spacing(8) }}>
-                <Text style={{ fontSize: fontSize(20), color: '#000000' }}>←</Text>
+                <Text style={{ fontSize: fontSize(20), color: '#000000' }} allowFontScaling={false}>←</Text>
               </TouchableOpacity>
-              <Text style={{ fontSize: fontSize(18), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }}>
+              <Text style={{ fontSize: fontSize(18), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>
                 {monthNames[currentMonth - 1]} {currentYear}
               </Text>
               <TouchableOpacity onPress={() => navigateMonth('next')} style={{ padding: spacing(8) }}>
-                <Text style={{ fontSize: fontSize(20), color: '#000000' }}>→</Text>
+                <Text style={{ fontSize: fontSize(20), color: '#000000' }} allowFontScaling={false}>→</Text>
               </TouchableOpacity>
             </View>
 
             {/* Weekday Headers */}
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: spacing(10) }}>
               {weekDays.map((day, index) => (
-                <Text key={index} style={{ fontSize: fontSize(12), color: '#9E9E9E', fontFamily: 'Poppins-Medium', width: wp(30), textAlign: 'center' }}>
+                <Text key={index} style={{ fontSize: fontSize(12), color: '#9E9E9E', fontFamily: 'Poppins-Medium', width: wp(30), textAlign: 'center' }} allowFontScaling={false}>
                   {day}
                 </Text>
               ))}
@@ -683,7 +686,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
                     style={{
                       width: wp(30),
                       height: hp(30),
-                      borderRadius: 15,
+                      borderRadius: hp(15),
                       alignItems: 'center',
                       justifyContent: 'center',
                       backgroundColor: day === selectedDateDay ? '#4285F4' : 'transparent',
@@ -694,7 +697,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
                       fontSize: fontSize(14),
                       color: day === selectedDateDay ? '#FFFFFF' : (day ? '#000000' : '#E0E0E0'),
                       fontFamily: 'Poppins'
-                    }}>
+                    }} allowFontScaling={false}>
                       {day}
                     </Text>
                   </TouchableOpacity>
@@ -717,10 +720,10 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
           onPress={() => setShowTimeModal(false)}
         >
           <Pressable 
-            style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: spacing(20), maxHeight: '50%' }}
+            style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: hp(24), borderTopRightRadius: hp(24), padding: spacing(20), paddingBottom: spacing(20) + insets.bottom, maxHeight: '50%' }}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(16), fontFamily: 'Poppins-Bold' }}>Select Time</Text>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(16), fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>Select Time</Text>
             <ScrollView showsVerticalScrollIndicator={false}>
               {timeOptions.map((time, index) => (
                 <TouchableOpacity
@@ -731,7 +734,7 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
                   }}
                   style={{ paddingVertical: spacing(12), borderBottomWidth: index < timeOptions.length - 1 ? 1 : 0, borderBottomColor: '#E0E0E0' }}
                 >
-                  <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }}>{time}</Text>
+                  <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{time}</Text>
                 </TouchableOpacity>
               ))}
             </ScrollView>
@@ -751,10 +754,10 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
           onPress={() => setShowAssignedModal(false)}
         >
           <Pressable 
-            style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: spacing(20) }}
+            style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: hp(24), borderTopRightRadius: hp(24), padding: spacing(20), paddingBottom: spacing(20) + insets.bottom }}
             onPress={(e) => e.stopPropagation()}
           >
-            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(16), fontFamily: 'Poppins-Bold' }}>Select User</Text>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', marginBottom: spacing(16), fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>Select User</Text>
             {assignedUsers.map((user, index) => (
               <TouchableOpacity
                 key={index}
@@ -764,14 +767,14 @@ export default function AddMaintenanceScreen({ navigation }: Props) {
                 }}
                 style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: spacing(12), borderBottomWidth: index < assignedUsers.length - 1 ? 1 : 0, borderBottomColor: '#E0E0E0' }}
               >
-                <Image source={user.photo} style={{ width: wp(32), height: hp(32), borderRadius: 16, marginRight: spacing(12) }} />
-                <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }}>{user.name}</Text>
+                <Image source={user.photo} style={{ width: wp(32), height: hp(32), borderRadius: hp(16), marginRight: spacing(12), resizeMode: 'cover' }} />
+                <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{user.name}</Text>
               </TouchableOpacity>
             ))}
           </Pressable>
         </Pressable>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }
 

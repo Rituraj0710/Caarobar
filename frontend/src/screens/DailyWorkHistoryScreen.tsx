@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, StatusBar } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { wp, hp, fontSize, spacing } from '../utils/responsive';
-import BackButton from '../components/BackButton';
+import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
+import SafeAreaView from '../components/SafeAreaView';
 
 type RootStackParamList = {
   Language: undefined;
@@ -20,6 +20,7 @@ type RootStackParamList = {
   NewTask: undefined;
   WorkHistory: undefined;
   DailyWorkHistory: { month: string; monthNumber: string; year: string };
+  DailyWorkHistoryInDetail: { month: string; monthNumber: string; year: string };
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, 'DailyWorkHistory'>;
@@ -64,6 +65,7 @@ const generateDailyEntries = (monthNumber: string, year: string): DailyWorkEntry
 };
 
 export default function DailyWorkHistoryScreen({ navigation, route }: Props) {
+  const insets = useSafeArea();
   const { month, monthNumber, year } = route.params;
   const dailyEntries = generateDailyEntries(monthNumber, year);
   
@@ -76,235 +78,292 @@ export default function DailyWorkHistoryScreen({ navigation, route }: Props) {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      {/* Top Header */}
-      <View style={{ 
-        flexDirection: 'row', 
-        alignItems: 'center', 
-        justifyContent: 'space-between',
-        paddingHorizontal: 16,
-        paddingTop: 44,
-        paddingBottom: 12,
-        backgroundColor: '#FFFFFF'
-      }}>
-        {/* Left: Back Arrow and Logo */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-          <View style={{ marginRight: 8 }}>
-            <BackButton />
-          </View>
-          <Image 
-            source={require('../../assets/header carobar.png')} 
-            style={{ width: 96, height: 22, resizeMode: 'contain' }} 
-          />
-        </View>
-
-        {/* Right: Icons */}
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          {/* Bell with notification dot */}
-          <View style={{ position: 'relative', marginRight: 16 }}>
-            <TouchableOpacity style={{ padding: 4 }}>
-              <Image 
-                source={require('../../assets/Frame.png')} 
-                style={{ width: 22, height: 22, resizeMode: 'contain' }} 
-              />
-            </TouchableOpacity>
-            <View style={{ 
-              position: 'absolute', 
-              right: 2, 
-              top: 4, 
-              width: 8, 
-              height: 8, 
-              borderRadius: 4, 
-              backgroundColor: '#4CAF50' 
-            }} />
-          </View>
-          <TouchableOpacity style={{ padding: 4, marginRight: 16 }}>
-            <Text style={{ fontSize: 18, color: '#000000' }}>🔍</Text>
+      <StatusBar barStyle="light-content" backgroundColor="#248CFF" />
+      <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+        {/* Blue Header Bar */}
+        <View style={{ 
+          flexDirection: 'row', 
+          alignItems: 'center', 
+          paddingHorizontal: spacing(16),
+          paddingTop: spacing(12),
+          paddingBottom: spacing(12),
+          backgroundColor: '#248CFF'
+        }}>
+          {/* Left: Back Arrow */}
+          <TouchableOpacity 
+            onPress={() => navigation.goBack()}
+            style={{ marginRight: spacing(12) }}
+            hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}
+          >
+            <Text style={{ fontSize: fontSize(24), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{ padding: 4 }}>
-            <Text style={{ fontSize: 18, color: '#000000' }}>⋮</Text>
-          </TouchableOpacity>
+          
+          {/* Center: Title */}
+          <Text style={{ 
+            fontSize: fontSize(20), 
+            fontWeight: '700', 
+            color: '#FFFFFF', 
+            fontFamily: 'Poppins-Bold',
+            flex: 1
+          }} allowFontScaling={false}>
+            Work History
+          </Text>
         </View>
-      </View>
 
       <ScrollView 
         style={{ flex: 1 }}
-        contentContainerStyle={{ paddingBottom: 40, paddingHorizontal: 16 }}
+        contentContainerStyle={{ paddingBottom: spacing(40) + insets.bottom, paddingHorizontal: spacing(16) }}
         showsVerticalScrollIndicator={false}
       >
-        {/* Employee and Company Information Section */}
-        <View style={{ marginTop: 12, marginBottom: 24 }}>
-          {/* Company Logo, Profile Photo, and Company Info Row */}
-          <View style={{ 
-            flexDirection: 'row', 
-            alignItems: 'center', 
-            justifyContent: 'space-between',
-            marginBottom: 8
-          }}>
-            {/* Company Logo on Left */}
-            <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-              <Image 
-                source={require('../../assets/creative designers.png')} 
-                style={{ width: 140, height: 40, resizeMode: 'contain' }} 
-              />
+        {/* Employee Information Card */}
+        <View style={{ 
+          marginTop: spacing(16), 
+          marginBottom: spacing(20),
+          backgroundColor: '#FFFFFF',
+          borderRadius: hp(12),
+          padding: spacing(16),
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: hp(2) },
+          shadowOpacity: 0.1,
+          shadowRadius: hp(4),
+          elevation: 2,
+          borderWidth: wp(1),
+          borderColor: '#E0E0E0'
+        }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            {/* Profile Picture on Left */}
+            <Image 
+              source={require('../../assets/Profile picture.png')} 
+              style={{ 
+                width: wp(64), 
+                height: hp(64), 
+                borderRadius: hp(32), 
+                resizeMode: 'cover',
+                marginRight: spacing(12)
+              }}
+            />
+
+            {/* Name and Role in Middle */}
+            <View style={{ flex: 1 }}>
+              <Text style={{ 
+                fontSize: fontSize(16), 
+                fontWeight: '700', 
+                color: '#000000', 
+                fontFamily: 'Poppins-Bold',
+                marginBottom: spacing(4)
+              }} allowFontScaling={false}>
+                Kamal Jangid
+              </Text>
+              <Text style={{ 
+                fontSize: fontSize(13), 
+                color: '#9E9E9E', 
+                fontFamily: 'Poppins'
+              }} allowFontScaling={false}>
+                Carpenter
+              </Text>
             </View>
 
-            {/* Profile Picture in Center */}
-            <View style={{ alignItems: 'center', justifyContent: 'center', marginHorizontal: 20 }}>
-              <Image 
-                source={require('../../assets/Profile picture.png')} 
-                style={{ width: 80, height: 80, borderRadius: 40 }}
-              />
-            </View>
-
-            {/* Company Info on Right */}
-            <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}>
-              <Text style={{ fontSize: 14, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: 4, textAlign: 'right' }}>
-                Creative Designers
+            {/* Emp ID and Phone on Right */}
+            <View style={{ alignItems: 'flex-end' }}>
+              <Text style={{ 
+                fontSize: fontSize(13), 
+                color: '#9E9E9E', 
+                fontFamily: 'Poppins',
+                marginBottom: spacing(6)
+              }} allowFontScaling={false}>
+                Emp ID - 001
               </Text>
-              <Text style={{ fontSize: 12, color: '#666666', fontFamily: 'Poppins', marginBottom: 2, textAlign: 'right' }}>
-                Radhakishanpura ,Sikar
-              </Text>
-              <Text style={{ fontSize: 12, color: '#666666', fontFamily: 'Poppins', textAlign: 'right' }}>
-                +919460638554
-              </Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ fontSize: fontSize(14), color: '#4285F4', marginRight: spacing(4) }} allowFontScaling={false}>📞</Text>
+                <Text style={{ 
+                  fontSize: fontSize(13), 
+                  color: '#9E9E9E', 
+                  fontFamily: 'Poppins'
+                }} allowFontScaling={false}>
+                  9460638554
+                </Text>
+              </View>
             </View>
           </View>
-
-          {/* Employee Name and Role - Centered below profile photo */}
-          <View style={{ alignItems: 'center', marginBottom: 16 }}>
-            <Text style={{ fontSize: 16, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: 4 }}>
-              Kamal Jangid
-            </Text>
-            <Text style={{ fontSize: 14, color: '#666666', fontFamily: 'Poppins' }}>
-              Carpenter
-            </Text>
-          </View>
-
-          {/* Work History Link and Emp ID Row */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 8, position: 'relative' }}>
-            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-              <Image 
-                source={require('../../assets/calender.png')} 
-                style={{ width: 16, height: 16, marginRight: 6, resizeMode: 'contain' }} 
-              />
-              <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>
-                {year}
-              </Text>
-            </View>
-            <TouchableOpacity style={{ flex: 1, alignItems: 'center' }}>
-              <Text style={{ fontSize: 16, fontWeight: '700', color: '#E53935', fontFamily: 'Poppins-Bold', textDecorationLine: 'underline' }}>
-                WORK HISTORY
-              </Text>
-            </TouchableOpacity>
-            <View style={{ flex: 1, alignItems: 'flex-end', flexDirection: 'row', justifyContent: 'flex-end' }}>
-              <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>
-                Emp id - 001
-              </Text>
-              <TouchableOpacity style={{ marginLeft: 8 }}>
-                <Text style={{ fontSize: 16, color: '#000000' }}>⋮</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          
-          {/* Month Name */}
-          <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins', marginTop: 8, textAlign: 'left', paddingLeft: 0 }}>
-            {month}
-          </Text>
         </View>
 
 
         {/* Daily Work History Table */}
-        <View style={{ marginBottom: 24 }}>
-          <View style={{ borderWidth: 1, borderColor: '#CCCCCC', backgroundColor: '#FFFFFF' }}>
+        <View style={{ marginBottom: spacing(20) }}>
+          <View style={{ borderWidth: wp(1), borderColor: '#CCCCCC', backgroundColor: '#FFFFFF', borderRadius: hp(8) }}>
             {/* Table Header */}
-            <View style={{ flexDirection: 'row', backgroundColor: '#F5F5F5' }}>
-              <View style={{ flex: 2, paddingVertical: spacing(12), paddingHorizontal: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '700' }}>{year}</Text>
+            <View style={{ flexDirection: 'row', backgroundColor: '#F5F5F5', borderTopLeftRadius: hp(8), borderTopRightRadius: hp(8), borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC' }}>
+              <View style={{ flex: 2, paddingVertical: hp(10), paddingHorizontal: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', minHeight: hp(40) }}>
+                <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>{year}</Text>
               </View>
-              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '700' }}>In</Text>
+              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', minHeight: hp(40) }}>
+                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>In</Text>
               </View>
-              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '700' }}>Out</Text>
+              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', minHeight: hp(40) }}>
+                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>Out</Text>
               </View>
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '700' }}>T.Hr</Text>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', minHeight: hp(40) }}>
+                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>Hour</Text>
               </View>
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '700' }}>OT</Text>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', minHeight: hp(40) }}>
+                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>OT</Text>
               </View>
-              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '700' }}>KM</Text>
+              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), minHeight: hp(40) }}>
+                <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>KM</Text>
               </View>
             </View>
 
             {/* Table Rows */}
             {dailyEntries.map((entry, index) => (
-              <View 
+              <TouchableOpacity 
                 key={index}
                 style={{ flexDirection: 'row', backgroundColor: '#FFFFFF' }}
+                activeOpacity={0.7}
+                onPress={() => {
+                  navigation.navigate('DailyWorkHistoryInDetail', {
+                    month: month,
+                    monthNumber: monthNumber,
+                    year: year
+                  });
+                }}
               >
-                <View style={{ flex: 2, paddingVertical: spacing(12), paddingHorizontal: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
+                <View style={{ flex: 2, paddingVertical: hp(10), paddingHorizontal: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC', minHeight: hp(40), justifyContent: 'center' }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
                     {entry.date} <Text style={{ color: '#666666' }}>{entry.dayShort}</Text>
                   </Text>
                 </View>
-                <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                  <Text style={{ fontSize: fontSize(13), color: '#4CAF50', fontFamily: 'Poppins' }}>
+                <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC', minHeight: hp(40) }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#4CAF50', fontFamily: 'Poppins', fontWeight: '600', textTransform: 'none' }} allowFontScaling={false}>
                     {entry.inTime}
                   </Text>
                 </View>
-                <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                  <Text style={{ fontSize: fontSize(13), color: '#E53935', fontFamily: 'Poppins' }}>
+                <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC', minHeight: hp(40) }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#E53935', fontFamily: 'Poppins', fontWeight: '600', textTransform: 'none' }} allowFontScaling={false}>
                     {entry.outTime}
                   </Text>
                 </View>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC', minHeight: hp(40) }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
                     {entry.totalHours}
                   </Text>
                 </View>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC', borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                  <Text style={{ fontSize: fontSize(13), color: '#E53935', fontFamily: 'Poppins-SemiBold' }}>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC', minHeight: hp(40) }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#E53935', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>
                     {entry.overtime}
                   </Text>
                 </View>
-                <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderBottomWidth: 1, borderBottomColor: '#CCCCCC' }}>
-                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
+                <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC', minHeight: hp(40) }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
                     {entry.kilometers}
                   </Text>
                 </View>
-              </View>
+              </TouchableOpacity>
             ))}
+          </View>
+        </View>
 
+        {/* Payment Summary Table */}
+        <View style={{ marginBottom: spacing(20) }}>
+          <View style={{ borderWidth: wp(1), borderColor: '#CCCCCC', backgroundColor: '#FFFFFF', borderRadius: hp(8) }}>
             {/* Grand Total Row */}
-            <View style={{ flexDirection: 'row', backgroundColor: '#F5F5F5' }}>
-              <View style={{ flex: 2, paddingVertical: spacing(12), paddingHorizontal: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: fontSize(14), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }}>
+            <View style={{ flexDirection: 'row', backgroundColor: '#F0F0F0', borderTopLeftRadius: hp(8), borderTopRightRadius: hp(8), borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC' }}>
+              <View style={{ flex: 2, paddingVertical: hp(10), paddingHorizontal: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', minHeight: hp(40), justifyContent: 'center' }}>
+                <Text style={{ fontSize: fontSize(14), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>
                   Grand Total
                 </Text>
               </View>
-              <View style={{ flex: 1.2, paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC' }} />
-              <View style={{ flex: 1.2, paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC' }} />
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
-                  {grandTotal.totalHours}
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', minHeight: hp(40) }}>
+                <Text style={{ fontSize: fontSize(13), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>
+                  50
                 </Text>
               </View>
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12), borderRightWidth: 1, borderRightColor: '#CCCCCC' }}>
-                <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
-                  {String(grandTotal.overtime).padStart(2, '0')}
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', minHeight: hp(40) }}>
+                <Text style={{ fontSize: fontSize(13), fontWeight: '700', color: '#E53935', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>
+                  8
                 </Text>
               </View>
-              <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(12) }}>
-                <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
-                  {grandTotal.kilometers}
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), minHeight: hp(40) }}>
+                <Text style={{ fontSize: fontSize(13), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>
+                  101
+                </Text>
+              </View>
+            </View>
+
+            {/* Price Per Hours Row */}
+            <View style={{ flexDirection: 'row', backgroundColor: '#FFFFFF', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC' }}>
+              <View style={{ flex: 2, paddingVertical: hp(10), paddingHorizontal: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', minHeight: hp(40), justifyContent: 'center' }}>
+                <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                  Price Per Hours
+                </Text>
+              </View>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', minHeight: hp(40) }}>
+                <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                  100
+                </Text>
+              </View>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', minHeight: hp(40) }}>
+                <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                  125
+                </Text>
+              </View>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), minHeight: hp(40) }}>
+                <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                  2
+                </Text>
+              </View>
+            </View>
+
+            {/* Total Payment Row */}
+            <View style={{ flexDirection: 'row', backgroundColor: '#FFFFFF', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC' }}>
+              <View style={{ flex: 2, paddingVertical: hp(10), paddingHorizontal: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', minHeight: hp(50), justifyContent: 'center' }}>
+                <View>
+                  <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                    Total Payment
+                  </Text>
+                  <View style={{ flexDirection: 'row', marginTop: spacing(4), flexWrap: 'wrap' }}>
+                    <Text style={{ fontSize: fontSize(12), color: '#666666', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                      Food Exp <Text style={{ color: '#000000', fontWeight: '600' }}>2000</Text>
+                    </Text>
+                    <Text style={{ fontSize: fontSize(12), color: '#666666', fontFamily: 'Poppins', marginLeft: spacing(8) }} allowFontScaling={false}>
+                      Room Rent <Text style={{ color: '#000000', fontWeight: '600' }}>1000</Text>
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', minHeight: hp(50) }}>
+                <Text style={{ fontSize: fontSize(13), color: '#E53935', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>
+                  5000
+                </Text>
+              </View>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', minHeight: hp(50) }}>
+                <Text style={{ fontSize: fontSize(13), color: '#E53935', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>
+                  1000
+                </Text>
+              </View>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), minHeight: hp(50) }}>
+                <Text style={{ fontSize: fontSize(13), color: '#E53935', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>
+                  202
+                </Text>
+              </View>
+            </View>
+
+            {/* G.T. Payment Row */}
+            <View style={{ flexDirection: 'row', backgroundColor: '#F0F0F0', borderBottomLeftRadius: hp(8), borderBottomRightRadius: hp(8) }}>
+              <View style={{ flex: 2, paddingVertical: hp(10), paddingHorizontal: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', minHeight: hp(40), justifyContent: 'center' }}>
+                <Text style={{ fontSize: fontSize(14), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>
+                  G.T. Payment
+                </Text>
+              </View>
+              <View style={{ flex: 3, alignItems: 'flex-start', justifyContent: 'center', paddingVertical: hp(10), paddingHorizontal: spacing(12), minHeight: hp(40) }}>
+                <Text style={{ fontSize: fontSize(14), fontWeight: '700', color: '#E53935', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>
+                  9202 Credit
                 </Text>
               </View>
             </View>
           </View>
         </View>
       </ScrollView>
+      </SafeAreaView>
     </View>
   );
 }

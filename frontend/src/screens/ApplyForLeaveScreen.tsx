@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, ScrollView, Image, Modal, Pressable, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, ScrollView, Image, Modal, Pressable, Alert, StatusBar } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import BackButton from '../components/BackButton';
+import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
+import SafeAreaView from '../components/SafeAreaView';
 
 type RootStackParamList = {
   Language: undefined;
@@ -163,78 +164,86 @@ export default function ApplyForLeaveScreen({ navigation }: Props) {
     );
   };
 
+  const insets = useSafeArea();
+
   return (
     <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+      <StatusBar barStyle="light-content" backgroundColor="#248CFF" />
+      
       {/* Blue Header Bar */}
-      <View style={{
-        backgroundColor: '#4285F4',
-        paddingTop: 44,
-        paddingBottom: 16,
-        paddingHorizontal: 16,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between'
-      }}>
-        {/* Back Arrow */}
-        <BackButton color="#FFFFFF" />
-
-        {/* Title */}
-        <Text style={{
-          fontSize: 18,
-          fontWeight: '700',
-          color: '#FFFFFF',
-          fontFamily: 'Poppins-Bold',
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          textAlign: 'center'
+      <SafeAreaView edges={['top']} style={{ backgroundColor: '#248CFF' }}>
+        <View style={{
+          backgroundColor: '#248CFF',
+          paddingTop: spacing(8),
+          paddingBottom: spacing(12),
+          paddingHorizontal: spacing(16),
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between'
         }}>
-          Apply for Leave
-        </Text>
+          {/* Back Arrow */}
+          <TouchableOpacity 
+            onPress={() => navigation.goBack()}
+            style={{ padding: spacing(4) }}
+          >
+            <Text style={{ fontSize: fontSize(24), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
+          </TouchableOpacity>
 
-        {/* Menu Icon */}
-        <TouchableOpacity style={{ padding: 8 }}>
-          <Text style={{ fontSize: 18, color: '#FFFFFF' }}>⋮</Text>
-        </TouchableOpacity>
-      </View>
+          {/* Title */}
+          <View style={{ flex: 1, alignItems: 'center' }}>
+            <Text style={{
+              fontSize: fontSize(18),
+              fontWeight: '600',
+              color: '#FFFFFF',
+              fontFamily: 'Poppins-SemiBold'
+            }} allowFontScaling={false}>
+              Apply for Leave
+            </Text>
+          </View>
+
+          {/* Empty space for alignment */}
+          <View style={{ width: wp(32) }} />
+        </View>
+      </SafeAreaView>
 
       <ScrollView 
-        contentContainerStyle={{ padding: 16, paddingBottom: 100 }}
+        style={{ flex: 1 }}
+        contentContainerStyle={{ padding: spacing(16), paddingBottom: spacing(100) + insets.bottom }}
         showsVerticalScrollIndicator={false}
       >
         {/* Leave Type */}
-        <View style={{ marginBottom: 20 }}>
+        <View style={{ marginBottom: spacing(20) }}>
           <Text style={{
-            fontSize: 14,
-            color: '#4285F4',
+            fontSize: fontSize(14),
+            color: '#248CFF',
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
-            marginBottom: 8
-          }}>
+            marginBottom: spacing(8)
+          }} allowFontScaling={false}>
             Leave Type
           </Text>
           <TouchableOpacity 
             onPress={() => setIsLeaveTypeOpen(!isLeaveTypeOpen)}
             style={{
               backgroundColor: '#FFFFFF',
-              borderWidth: 1,
+              borderWidth: wp(1),
               borderColor: '#E0E0E0',
-              borderRadius: 8,
-              paddingHorizontal: 16,
-              paddingVertical: 14,
+              borderRadius: hp(8),
+              paddingHorizontal: spacing(16),
+              height: hp(48),
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between'
             }}
           >
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: leaveType ? '#000000' : '#9E9E9E',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               {leaveType || 'Select'}
             </Text>
-            <Text style={{ fontSize: 12, color: '#000000' }}>
+            <Text style={{ fontSize: fontSize(12), color: '#666666' }} allowFontScaling={false}>
               {isLeaveTypeOpen ? '▲' : '▼'}
             </Text>
           </TouchableOpacity>
@@ -243,15 +252,15 @@ export default function ApplyForLeaveScreen({ navigation }: Props) {
           {isLeaveTypeOpen && (
             <View style={{
               backgroundColor: '#FFFFFF',
-              borderWidth: 1,
+              borderWidth: wp(1),
               borderColor: '#E0E0E0',
-              borderRadius: 8,
-              marginTop: 4,
-              maxHeight: 300,
+              borderRadius: hp(8),
+              marginTop: spacing(4),
+              maxHeight: hp(300),
               shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
+              shadowOffset: { width: 0, height: hp(2) },
               shadowOpacity: 0.1,
-              shadowRadius: 4,
+              shadowRadius: spacing(4),
               elevation: 3
             }}>
               {leaveTypes.map((type, index) => (
@@ -262,17 +271,17 @@ export default function ApplyForLeaveScreen({ navigation }: Props) {
                     setIsLeaveTypeOpen(false);
                   }}
                   style={{
-                    paddingHorizontal: 16,
-                    paddingVertical: 14,
-                    borderBottomWidth: index < leaveTypes.length - 1 ? 1 : 0,
+                    paddingHorizontal: spacing(16),
+                    paddingVertical: spacing(14),
+                    borderBottomWidth: index < leaveTypes.length - 1 ? wp(1) : 0,
                     borderBottomColor: '#E0E0E0'
                   }}
                 >
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#000000',
                     fontFamily: 'Poppins'
-                  }}>
+                  }} allowFontScaling={false}>
                     {index + 1}. {type}
                   </Text>
                 </TouchableOpacity>
@@ -282,120 +291,116 @@ export default function ApplyForLeaveScreen({ navigation }: Props) {
         </View>
 
         {/* Start Date */}
-        <View style={{ marginBottom: 20 }}>
+        <View style={{ marginBottom: spacing(20) }}>
           <Text style={{
-            fontSize: 14,
-            color: '#4285F4',
+            fontSize: fontSize(14),
+            color: '#248CFF',
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
-            marginBottom: 8
-          }}>
+            marginBottom: spacing(8)
+          }} allowFontScaling={false}>
             Start Date
           </Text>
           <TouchableOpacity 
             onPress={() => openCalendar('start')}
             style={{
               backgroundColor: '#FFFFFF',
-              borderWidth: 1,
+              borderWidth: wp(1),
               borderColor: '#E0E0E0',
-              borderRadius: 8,
-              paddingHorizontal: 16,
-              paddingVertical: 14,
+              borderRadius: hp(8),
+              paddingHorizontal: spacing(16),
+              height: hp(48),
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between'
             }}
           >
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               {startDate}
             </Text>
-            <TouchableOpacity onPress={() => openCalendar('start')}>
-              <Image 
-                source={require('../../assets/calender.png')} 
-                style={{ width: 20, height: 20, resizeMode: 'contain' }} 
-              />
-            </TouchableOpacity>
+            <Image 
+              source={require('../../assets/calender.png')} 
+              style={{ width: wp(20), height: hp(20), resizeMode: 'contain' }} 
+            />
           </TouchableOpacity>
         </View>
 
         {/* End Date */}
-        <View style={{ marginBottom: 20 }}>
+        <View style={{ marginBottom: spacing(20) }}>
           <Text style={{
-            fontSize: 14,
-            color: '#4285F4',
+            fontSize: fontSize(14),
+            color: '#248CFF',
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
-            marginBottom: 8
-          }}>
+            marginBottom: spacing(8)
+          }} allowFontScaling={false}>
             End Date
           </Text>
           <TouchableOpacity 
             onPress={() => openCalendar('end')}
             style={{
               backgroundColor: '#FFFFFF',
-              borderWidth: 1,
+              borderWidth: wp(1),
               borderColor: '#E0E0E0',
-              borderRadius: 8,
-              paddingHorizontal: 16,
-              paddingVertical: 14,
+              borderRadius: hp(8),
+              paddingHorizontal: spacing(16),
+              height: hp(48),
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between'
             }}
           >
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               {endDate}
             </Text>
-            <TouchableOpacity onPress={() => openCalendar('end')}>
-              <Image 
-                source={require('../../assets/calender.png')} 
-                style={{ width: 20, height: 20, resizeMode: 'contain' }} 
-              />
-            </TouchableOpacity>
+            <Image 
+              source={require('../../assets/calender.png')} 
+              style={{ width: wp(20), height: hp(20), resizeMode: 'contain' }} 
+            />
           </TouchableOpacity>
         </View>
 
         {/* Day */}
-        <View style={{ marginBottom: 20 }}>
+        <View style={{ marginBottom: spacing(20) }}>
           <Text style={{
-            fontSize: 14,
-            color: '#4285F4',
+            fontSize: fontSize(14),
+            color: '#248CFF',
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
-            marginBottom: 8
-          }}>
+            marginBottom: spacing(8)
+          }} allowFontScaling={false}>
             Day
           </Text>
           <TouchableOpacity 
             onPress={() => setIsDayOpen(!isDayOpen)}
             style={{
               backgroundColor: '#FFFFFF',
-              borderWidth: 1,
+              borderWidth: wp(1),
               borderColor: '#E0E0E0',
-              borderRadius: 8,
-              paddingHorizontal: 16,
-              paddingVertical: 14,
+              borderRadius: hp(8),
+              paddingHorizontal: spacing(16),
+              height: hp(48),
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between'
             }}
           >
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: day ? '#000000' : '#9E9E9E',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               {day || 'Select'}
             </Text>
-            <Text style={{ fontSize: 12, color: '#000000' }}>
+            <Text style={{ fontSize: fontSize(12), color: '#666666' }} allowFontScaling={false}>
               {isDayOpen ? '▲' : '▼'}
             </Text>
           </TouchableOpacity>
@@ -404,15 +409,15 @@ export default function ApplyForLeaveScreen({ navigation }: Props) {
           {isDayOpen && (
             <View style={{
               backgroundColor: '#FFFFFF',
-              borderWidth: 1,
+              borderWidth: wp(1),
               borderColor: '#E0E0E0',
-              borderRadius: 8,
-              marginTop: 4,
-              maxHeight: 300,
+              borderRadius: hp(8),
+              marginTop: spacing(4),
+              maxHeight: hp(300),
               shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
+              shadowOffset: { width: 0, height: hp(2) },
               shadowOpacity: 0.1,
-              shadowRadius: 4,
+              shadowRadius: spacing(4),
               elevation: 3
             }}>
               {dayOptions.map((option, index) => (
@@ -423,17 +428,17 @@ export default function ApplyForLeaveScreen({ navigation }: Props) {
                     setIsDayOpen(false);
                   }}
                   style={{
-                    paddingHorizontal: 16,
-                    paddingVertical: 14,
-                    borderBottomWidth: index < dayOptions.length - 1 ? 1 : 0,
+                    paddingHorizontal: spacing(16),
+                    paddingVertical: spacing(14),
+                    borderBottomWidth: index < dayOptions.length - 1 ? wp(1) : 0,
                     borderBottomColor: '#E0E0E0'
                   }}
                 >
                   <Text style={{
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     color: '#000000',
                     fontFamily: 'Poppins'
-                  }}>
+                  }} allowFontScaling={false}>
                     • {option}
                   </Text>
                 </TouchableOpacity>
@@ -443,27 +448,28 @@ export default function ApplyForLeaveScreen({ navigation }: Props) {
         </View>
 
         {/* Reason for Leave */}
-        <View style={{ marginBottom: 20 }}>
+        <View style={{ marginBottom: spacing(20) }}>
           <Text style={{
-            fontSize: 14,
-            color: '#4285F4',
+            fontSize: fontSize(14),
+            color: '#248CFF',
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
-            marginBottom: 8
-          }}>
+            marginBottom: spacing(8)
+          }} allowFontScaling={false}>
             Reason for Leave
           </Text>
           <TextInput
             style={{
               backgroundColor: '#FFFFFF',
-              borderWidth: 1,
+              borderWidth: wp(1),
               borderColor: '#E0E0E0',
-              borderRadius: 8,
-              paddingHorizontal: 16,
-              paddingVertical: 14,
-              minHeight: 120,
+              borderRadius: hp(8),
+              paddingHorizontal: spacing(16),
+              paddingTop: spacing(14),
+              paddingBottom: spacing(14),
+              minHeight: hp(120),
               textAlignVertical: 'top',
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
             }}
@@ -473,29 +479,30 @@ export default function ApplyForLeaveScreen({ navigation }: Props) {
             numberOfLines={5}
             value={reason}
             onChangeText={setReason}
+            allowFontScaling={false}
           />
         </View>
 
         {/* Add Image */}
-        <View style={{ marginBottom: 20 }}>
+        <View style={{ marginBottom: spacing(20) }}>
           <Text style={{
-            fontSize: 14,
-            color: '#4285F4',
+            fontSize: fontSize(14),
+            color: '#248CFF',
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
-            marginBottom: 8
-          }}>
+            marginBottom: spacing(8)
+          }} allowFontScaling={false}>
             Add Image
           </Text>
           <TouchableOpacity 
             onPress={pickImage}
             style={{
               backgroundColor: '#FFFFFF',
-              borderWidth: 1,
+              borderWidth: wp(1),
               borderColor: '#E0E0E0',
-              borderRadius: 8,
-              width: 120,
-              height: 120,
+              borderRadius: hp(8),
+              width: wp(120),
+              aspectRatio: 1,
               alignItems: 'center',
               justifyContent: 'center',
               overflow: 'hidden'
@@ -504,12 +511,12 @@ export default function ApplyForLeaveScreen({ navigation }: Props) {
             {selectedImage ? (
               <Image 
                 source={{ uri: selectedImage }} 
-                style={{ width: 120, height: 120, resizeMode: 'cover' }} 
+                style={{ width: '100%', height: '100%', resizeMode: 'cover' }} 
               />
             ) : (
               <>
-                <Text style={{ fontSize: 32, color: '#000000' }}>☁</Text>
-                <Text style={{ fontSize: 20, color: '#000000', marginTop: 4 }}>↑</Text>
+                <Text style={{ fontSize: fontSize(32), color: '#000000' }} allowFontScaling={false}>☁</Text>
+                <Text style={{ fontSize: fontSize(20), color: '#000000', marginTop: spacing(4) }} allowFontScaling={false}>↑</Text>
               </>
             )}
           </TouchableOpacity>
@@ -517,45 +524,46 @@ export default function ApplyForLeaveScreen({ navigation }: Props) {
       </ScrollView>
 
       {/* Apply Button - Fixed at Bottom */}
-      <View style={{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        padding: 16,
-        backgroundColor: '#FFFFFF',
-        borderTopWidth: 1,
-        borderTopColor: '#E0E0E0'
-      }}>
-        <TouchableOpacity
-          style={{
-            backgroundColor: '#4285F4',
-            borderRadius: 8,
-            paddingVertical: 16,
-            alignItems: 'center',
-            justifyContent: 'center',
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.2,
-            shadowRadius: 4,
-            elevation: 3
-          }}
-          onPress={() => {
-            // TODO: Handle form submission
-            // Show success modal
-            setShowSuccessModal(true);
-          }}
-        >
-          <Text style={{
-            color: '#FFFFFF',
-            fontSize: 16,
-            fontFamily: 'Poppins-Bold',
-            fontWeight: '700'
-          }}>
-            Apply
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <SafeAreaView edges={['bottom']} style={{ backgroundColor: '#FFFFFF' }}>
+        <View style={{
+          paddingHorizontal: spacing(16),
+          paddingTop: spacing(16),
+          paddingBottom: spacing(16) + insets.bottom,
+          backgroundColor: '#FFFFFF',
+          borderTopWidth: wp(1),
+          borderTopColor: '#E0E0E0'
+        }}>
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#248CFF',
+              borderRadius: hp(8),
+              height: hp(50),
+              width: '100%',
+              alignItems: 'center',
+              justifyContent: 'center',
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: hp(2) },
+              shadowOpacity: 0.2,
+              shadowRadius: spacing(4),
+              elevation: 3
+            }}
+            onPress={() => {
+              // TODO: Handle form submission
+              // Show success modal
+              setShowSuccessModal(true);
+            }}
+          >
+            <Text style={{
+              color: '#FFFFFF',
+              fontSize: fontSize(16),
+              fontFamily: 'Poppins-Bold',
+              fontWeight: '700'
+            }} allowFontScaling={false}>
+              Apply
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
 
       {/* Calendar Picker Modal */}
       <Modal
@@ -564,27 +572,27 @@ export default function ApplyForLeaveScreen({ navigation }: Props) {
         animationType="fade"
         onRequestClose={() => setShowCalendar(false)}
       >
-        <Pressable 
-          style={{ 
-            flex: 1, 
-            backgroundColor: 'rgba(0, 0, 0, 0.5)', 
-            justifyContent: 'center', 
-            alignItems: 'center',
-            padding: 20
-          }}
-          onPress={() => setShowCalendar(false)}
-        >
+          <Pressable 
+            style={{ 
+              flex: 1, 
+              backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+              justifyContent: 'center', 
+              alignItems: 'center',
+              padding: spacing(20)
+            }}
+            onPress={() => setShowCalendar(false)}
+          >
           <Pressable 
             style={{
               backgroundColor: '#FFFFFF',
-              borderRadius: 12,
-              padding: 20,
+              borderRadius: hp(12),
+              padding: spacing(20),
               width: '100%',
-              maxWidth: 400,
+              maxWidth: wp(400),
               shadowColor: '#000',
-              shadowOffset: { width: 0, height: 4 },
+              shadowOffset: { width: 0, height: hp(4) },
               shadowOpacity: 0.3,
-              shadowRadius: 8,
+              shadowRadius: hp(8),
               elevation: 5
             }}
             onPress={(e) => e.stopPropagation()}
@@ -594,37 +602,37 @@ export default function ApplyForLeaveScreen({ navigation }: Props) {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
-              marginBottom: 20
+              marginBottom: spacing(20)
             }}>
               <TouchableOpacity onPress={() => navigateMonth('prev')}>
-                <Text style={{ fontSize: 18, color: '#000000' }}>←</Text>
+                <Text style={{ fontSize: fontSize(18), color: '#000000' }} allowFontScaling={false}>←</Text>
               </TouchableOpacity>
               <Text style={{
-                fontSize: 16,
+                fontSize: fontSize(16),
                 fontWeight: '700',
                 color: '#000000',
                 fontFamily: 'Poppins-Bold'
-              }}>
+              }} allowFontScaling={false}>
                 {monthNames[currentMonth - 1]} {currentYear}
               </Text>
               <TouchableOpacity onPress={() => navigateMonth('next')}>
-                <Text style={{ fontSize: 18, color: '#000000' }}>→</Text>
+                <Text style={{ fontSize: fontSize(18), color: '#000000' }} allowFontScaling={false}>→</Text>
               </TouchableOpacity>
             </View>
 
             {/* Days of Week Header */}
             <View style={{
               flexDirection: 'row',
-              marginBottom: 12
+              marginBottom: spacing(12)
             }}>
               {weekDays.map((day, index) => (
                 <View key={index} style={{ flex: 1, alignItems: 'center' }}>
                   <Text style={{
-                    fontSize: 12,
+                    fontSize: fontSize(12),
                     color: '#666666',
                     fontFamily: 'Poppins',
                     fontWeight: '500'
-                  }}>
+                  }} allowFontScaling={false}>
                     {day}
                   </Text>
                 </View>
@@ -634,7 +642,7 @@ export default function ApplyForLeaveScreen({ navigation }: Props) {
             {/* Calendar Grid */}
             <View>
               {calendarGrid.map((row, rowIndex) => (
-                <View key={rowIndex} style={{ flexDirection: 'row', marginBottom: 8 }}>
+                <View key={rowIndex} style={{ flexDirection: 'row', marginBottom: spacing(8) }}>
                   {row.map((day, colIndex) => (
                     <TouchableOpacity
                       key={colIndex}
@@ -643,25 +651,25 @@ export default function ApplyForLeaveScreen({ navigation }: Props) {
                         flex: 1,
                         alignItems: 'center',
                         justifyContent: 'center',
-                        height: 40
+                        height: hp(40)
                       }}
                       disabled={day === null}
                     >
                       {day !== null && (
                         <View style={{
-                          width: 36,
-                          height: 36,
-                          borderRadius: 18,
+                          width: wp(36),
+                          height: hp(36),
+                          borderRadius: hp(18),
                           backgroundColor: selectedDate === day ? '#20B2AA' : 'transparent',
                           alignItems: 'center',
                           justifyContent: 'center'
                         }}>
                           <Text style={{
-                            fontSize: 14,
+                            fontSize: fontSize(14),
                             color: selectedDate === day ? '#FFFFFF' : '#000000',
                             fontFamily: 'Poppins',
                             fontWeight: selectedDate === day ? '700' : '400'
-                          }}>
+                          }} allowFontScaling={false}>
                             {day}
                           </Text>
                         </View>
@@ -693,79 +701,79 @@ export default function ApplyForLeaveScreen({ navigation }: Props) {
           <Pressable 
             style={{
               backgroundColor: '#FFFFFF',
-              borderTopLeftRadius: 24,
-              borderTopRightRadius: 24,
-              padding: 24,
-              paddingBottom: 32,
+              borderTopLeftRadius: hp(24),
+              borderTopRightRadius: hp(24),
+              padding: spacing(24),
+              paddingBottom: spacing(32) + insets.bottom,
               alignItems: 'center'
             }}
             onPress={(e) => e.stopPropagation()}
           >
             {/* Success Icon with Halo */}
-            <View style={{ marginBottom: 20, position: 'relative' }}>
+            <View style={{ marginBottom: spacing(20), position: 'relative' }}>
               {/* Light blue halo */}
               <View style={{
                 position: 'absolute',
-                width: 120,
-                height: 120,
-                borderRadius: 60,
-                backgroundColor: 'rgba(66, 133, 244, 0.15)',
-                top: -20,
-                left: -20
+                width: wp(120),
+                height: hp(120),
+                borderRadius: hp(60),
+                backgroundColor: 'rgba(36, 140, 255, 0.15)',
+                top: hp(-20),
+                left: wp(-20)
               }} />
               {/* Blue circle */}
               <View style={{
-                width: 80,
-                height: 80,
-                borderRadius: 40,
-                backgroundColor: '#4285F4',
+                width: wp(80),
+                height: hp(80),
+                borderRadius: hp(40),
+                backgroundColor: '#248CFF',
                 alignItems: 'center',
                 justifyContent: 'center',
                 position: 'relative',
                 zIndex: 1
               }}>
-                <Text style={{ fontSize: 40, color: '#FFFFFF' }}>✓</Text>
+                <Text style={{ fontSize: fontSize(40), color: '#FFFFFF' }} allowFontScaling={false}>✓</Text>
               </View>
             </View>
 
             {/* Success Message */}
             <Text style={{
-              fontSize: 20,
+              fontSize: fontSize(20),
               fontWeight: '700',
               color: '#000000',
               fontFamily: 'Poppins-Bold',
-              marginBottom: 8,
+              marginBottom: spacing(8),
               textAlign: 'center'
-            }}>
+            }} allowFontScaling={false}>
               Leave Applied Successfully.
             </Text>
 
             {/* Subtitle */}
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#666666',
               fontFamily: 'Poppins',
-              marginBottom: 32,
+              marginBottom: spacing(32),
               textAlign: 'center',
-              paddingHorizontal: 20
-            }}>
+              paddingHorizontal: spacing(20)
+            }} allowFontScaling={false}>
               Your Leave has been applied successfully.
             </Text>
 
             {/* Done Button */}
             <TouchableOpacity
               style={{
-                backgroundColor: '#4285F4',
-                borderRadius: 8,
-                paddingVertical: 16,
-                paddingHorizontal: 48,
+                backgroundColor: '#248CFF',
+                borderRadius: hp(8),
+                paddingVertical: spacing(16),
+                paddingHorizontal: spacing(48),
                 width: '100%',
                 alignItems: 'center',
                 justifyContent: 'center',
                 shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
+                shadowOffset: { width: 0, height: hp(2) },
                 shadowOpacity: 0.2,
-                shadowRadius: 4,
+                shadowRadius: spacing(4),
                 elevation: 3
               }}
               onPress={() => {
@@ -775,10 +783,10 @@ export default function ApplyForLeaveScreen({ navigation }: Props) {
             >
               <Text style={{
                 color: '#FFFFFF',
-                fontSize: 16,
+                fontSize: fontSize(16),
                 fontFamily: 'Poppins-Bold',
                 fontWeight: '700'
-              }}>
+              }} allowFontScaling={false}>
                 Done
               </Text>
             </TouchableOpacity>

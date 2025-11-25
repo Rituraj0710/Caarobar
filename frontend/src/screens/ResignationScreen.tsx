@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView, TextInput, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, Image, TextInput, Modal, StatusBar } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import BackButton from '../components/BackButton';
+import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
+import SafeAreaView from '../components/SafeAreaView';
 
 type RootStackParamList = {
   Language: undefined;
@@ -42,6 +43,7 @@ const resignationReasons = [
 ];
 
 export default function ResignationScreen({ navigation }: Props) {
+  const insets = useSafeArea();
   const [resignationDate, setResignationDate] = useState('01/04/2025');
   const [noticePeriod, setNoticePeriod] = useState('30 days');
   const [actualLastWorkingDate, setActualLastWorkingDate] = useState('30/04/2025');
@@ -56,277 +58,278 @@ export default function ResignationScreen({ navigation }: Props) {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      {/* Top Header */}
+    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+      <StatusBar barStyle="light-content" backgroundColor="#248CFF" />
+      
+      {/* Top Header - Blue Bar */}
       <View style={{ 
         flexDirection: 'row', 
         alignItems: 'center', 
         justifyContent: 'space-between',
-        paddingHorizontal: 16,
-        paddingTop: 44,
-        paddingBottom: 12,
-        backgroundColor: '#FFFFFF'
+        paddingHorizontal: spacing(16),
+        paddingTop: spacing(12),
+        paddingBottom: spacing(12),
+        backgroundColor: '#248CFF'
       }}>
-        {/* Left: Back Arrow and Logo */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-          <View style={{ marginRight: 8 }}>
-            <BackButton />
-          </View>
-          <Image 
-            source={require('../../assets/header carobar.png')} 
-            style={{ width: 96, height: 22, resizeMode: 'contain' }} 
-          />
+        {/* Left: Back Arrow */}
+        <TouchableOpacity 
+          onPress={() => navigation.goBack()}
+          style={{ padding: spacing(4) }}
+        >
+          <Text style={{ fontSize: fontSize(24), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
+        </TouchableOpacity>
+
+        {/* Center: Title */}
+        <View style={{ flex: 1, alignItems: 'center' }}>
+          <Text style={{ 
+            fontSize: fontSize(18), 
+            fontWeight: '600', 
+            color: '#FFFFFF', 
+            fontFamily: 'Poppins-SemiBold' 
+          }} allowFontScaling={false}>
+            Resignation
+          </Text>
         </View>
 
-        {/* Right: Icons */}
+        {/* Right: Edit and Menu Icons */}
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          {/* Bell with notification dot */}
-          <View style={{ position: 'relative', marginRight: 16 }}>
-            <TouchableOpacity style={{ padding: 4 }}>
-              <Image 
-                source={require('../../assets/Frame.png')} 
-                style={{ width: 22, height: 22, resizeMode: 'contain' }} 
-              />
-            </TouchableOpacity>
-            <View style={{ 
-              position: 'absolute', 
-              right: 2, 
-              top: 4, 
-              width: 8, 
-              height: 8, 
-              borderRadius: 4, 
-              backgroundColor: '#4CAF50' 
-            }} />
-          </View>
-          <TouchableOpacity style={{ padding: 4, marginRight: 16 }}>
-            <Text style={{ fontSize: 18, color: '#000000' }}>🔍</Text>
+          <TouchableOpacity style={{ padding: spacing(4), marginRight: spacing(12) }}>
+            <Image 
+              source={require('../../assets/Registration header.png')} 
+              style={{ width: wp(20), height: hp(20), resizeMode: 'contain' }} 
+            />
           </TouchableOpacity>
-          <TouchableOpacity style={{ padding: 4 }}>
-            <Text style={{ fontSize: 18, color: '#000000' }}>⋮</Text>
+          <TouchableOpacity style={{ padding: spacing(4) }}>
+            <Text style={{ fontSize: fontSize(20), color: '#FFFFFF' }} allowFontScaling={false}>⋮</Text>
           </TouchableOpacity>
         </View>
       </View>
 
-      <ScrollView 
-        style={{ flex: 1 }}
-        contentContainerStyle={{ paddingBottom: 100, paddingHorizontal: 16 }}
-        showsVerticalScrollIndicator={false}
-      >
+      <View style={{ flex: 1, paddingHorizontal: spacing(16) }}>
         {/* Employee and Company Information Section - Card */}
         <View style={{ 
-          marginTop: 12, 
-          marginBottom: 24,
-          backgroundColor: '#F5F5F5',
-          borderRadius: 12,
-          padding: 16,
+          marginTop: spacing(6), 
+          marginBottom: spacing(6),
+          backgroundColor: '#FFFFFF',
+          borderRadius: hp(10),
+          padding: spacing(10),
           shadowColor: '#000',
-          shadowOffset: { width: 0, height: 1 },
-          shadowOpacity: 0.1,
-          shadowRadius: 2,
-          elevation: 2
+          shadowOffset: { width: 0, height: hp(1) },
+          shadowOpacity: 0.08,
+          shadowRadius: spacing(3),
+          elevation: 2,
+          borderWidth: wp(1),
+          borderColor: '#E0E0E0'
         }}>
           {/* Top Row: Logo on Left, Company Info on Right */}
-          <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 16 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: spacing(6) }}>
             {/* Company Logo on Left */}
             <View style={{ flex: 1 }}>
               <Image 
                 source={require('../../assets/creative designers.png')} 
-                style={{ width: 140, height: 40, resizeMode: 'contain', marginBottom: 8 }} 
+                style={{ width: wp(110), height: hp(30), resizeMode: 'contain' }} 
               />
             </View>
 
             {/* Company Info on Right */}
             <View style={{ flex: 1, alignItems: 'flex-end' }}>
-              <Text style={{ fontSize: 14, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: 4, textAlign: 'right' }}>
+              <Text style={{ fontSize: fontSize(10), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(1), textAlign: 'right' }} allowFontScaling={false}>
                 Creative Designers
               </Text>
-              <Text style={{ fontSize: 12, color: '#000000', fontFamily: 'Poppins', marginBottom: 2, textAlign: 'right' }}>
+              <Text style={{ fontSize: fontSize(9), color: '#000000', fontFamily: 'Poppins', marginBottom: spacing(1), textAlign: 'right' }} allowFontScaling={false}>
                 Radhakishanpura, Sikar
               </Text>
-              <Text style={{ fontSize: 12, color: '#000000', fontFamily: 'Poppins', textAlign: 'right' }}>
+              <Text style={{ fontSize: fontSize(9), color: '#000000', fontFamily: 'Poppins', textAlign: 'right' }} allowFontScaling={false}>
                 +919460638554
               </Text>
             </View>
           </View>
 
-          {/* Profile Picture in Center with Icons */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-            <View style={{ alignItems: 'center', position: 'relative' }}>
-              <Image 
-                source={require('../../assets/Profile picture.png')} 
-                style={{ width: 80, height: 80, borderRadius: 40, marginBottom: 8 }}
-              />
-              <Text style={{ fontSize: 16, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: 4, textAlign: 'center' }}>
-                Kamal Jangid
-              </Text>
-              <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins', textAlign: 'center' }}>
-                Carpenter
-              </Text>
-              {/* Edit and Ellipsis icons to the right of profile */}
-              <View style={{ position: 'absolute', right: -40, top: 0, flexDirection: 'row' }}>
-                <TouchableOpacity style={{ marginRight: 8 }}>
-                  <Text style={{ fontSize: 16, color: '#000000' }}>✏️</Text>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <Text style={{ fontSize: 18, color: '#000000' }}>⋮</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+          {/* Profile Picture in Center */}
+          <View style={{ alignItems: 'center', marginBottom: spacing(6) }}>
+            <Image 
+              source={require('../../assets/Profile picture.png')} 
+              style={{ width: wp(60), height: hp(60), borderRadius: hp(30), marginBottom: spacing(3), resizeMode: 'cover' }}
+            />
+            <Text style={{ fontSize: fontSize(13), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: spacing(1), textAlign: 'center' }} allowFontScaling={false}>
+              Kamal Jangid
+            </Text>
+            <Text style={{ fontSize: fontSize(11), color: '#666666', fontFamily: 'Poppins', marginBottom: spacing(1), textAlign: 'center' }} allowFontScaling={false}>
+              Carpenter
+            </Text>
+            <Text style={{ fontSize: fontSize(11), fontWeight: '600', color: '#FF5252', fontFamily: 'Poppins-SemiBold', textAlign: 'center' }} allowFontScaling={false}>
+              Resignation
+            </Text>
           </View>
 
-          {/* Bottom Row: Joining Date, RESIGNATION, Emp id */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingTop: 12, borderTopWidth: 1, borderTopColor: '#E0E0E0' }}>
-            <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>
+          {/* Bottom Row: Joining Date and Emp id */}
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingTop: spacing(6), borderTopWidth: wp(1), borderTopColor: '#E0E0E0' }}>
+            <Text style={{ fontSize: fontSize(10), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
               Joining 01/11/23
             </Text>
-            <Text style={{ fontSize: 16, fontWeight: '700', color: '#E91E63', fontFamily: 'Poppins-Bold', textDecorationLine: 'underline' }}>
-              RESIGNATION
-            </Text>
-            <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>
-              Emp id - 001
-            </Text>
+            <View style={{ flex: 1, alignItems: 'flex-end' }}>
+              <Text style={{ fontSize: fontSize(10), color: '#000000', fontFamily: 'Poppins', textAlign: 'right' }} allowFontScaling={false}>
+                Emp id - 001
+              </Text>
+            </View>
           </View>
         </View>
 
-        {/* Resignation Form Fields */}
-        <View style={{ marginBottom: 24 }}>
-          {/* Resignation Date */}
-          <View style={{ marginBottom: 16 }}>
-            <Text style={{ fontSize: 14, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: 8 }}>
-              Resignation Date
-            </Text>
-            <TextInput
-              value={resignationDate}
-              onChangeText={setResignationDate}
-              style={{
-                backgroundColor: '#FFFFFF',
-                borderRadius: 8,
-                paddingHorizontal: 16,
-                paddingVertical: 12,
-                fontSize: 14,
-                color: '#000000',
-                fontFamily: 'Poppins',
-                borderWidth: 1,
-                borderColor: '#E0E0E0'
-              }}
-            />
+        {/* Resignation Form Fields - 2x2 Grid */}
+        <View style={{ marginBottom: spacing(8) }}>
+          {/* Row 1 */}
+          <View style={{ flexDirection: 'row', marginBottom: spacing(8) }}>
+            {/* Resignation Date */}
+            <View style={{ flex: 1, marginRight: spacing(6) }}>
+              <Text style={{ fontSize: fontSize(11), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(4) }} allowFontScaling={false}>
+                Resignation Date
+              </Text>
+              <TextInput
+                value={resignationDate}
+                onChangeText={setResignationDate}
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  borderRadius: hp(6),
+                  paddingHorizontal: spacing(10),
+                  paddingVertical: spacing(6),
+                  fontSize: fontSize(11),
+                  color: '#000000',
+                  fontFamily: 'Poppins',
+                  borderWidth: wp(1),
+                  borderColor: '#E0E0E0',
+                  height: hp(36)
+                }}
+                allowFontScaling={false}
+              />
+            </View>
+
+            {/* Notice Period */}
+            <View style={{ flex: 1, marginLeft: spacing(6) }}>
+              <Text style={{ fontSize: fontSize(11), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(4) }} allowFontScaling={false}>
+                Notice Period
+              </Text>
+              <TextInput
+                value={noticePeriod}
+                onChangeText={setNoticePeriod}
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  borderRadius: hp(6),
+                  paddingHorizontal: spacing(10),
+                  paddingVertical: spacing(6),
+                  fontSize: fontSize(11),
+                  color: '#000000',
+                  fontFamily: 'Poppins',
+                  borderWidth: wp(1),
+                  borderColor: '#E0E0E0',
+                  height: hp(36)
+                }}
+                allowFontScaling={false}
+              />
+            </View>
           </View>
 
-          {/* Notice Period */}
-          <View style={{ marginBottom: 16 }}>
-            <Text style={{ fontSize: 14, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: 8 }}>
-              Notice Period
-            </Text>
-            <TextInput
-              value={noticePeriod}
-              onChangeText={setNoticePeriod}
-              style={{
-                backgroundColor: '#FFFFFF',
-                borderRadius: 8,
-                paddingHorizontal: 16,
-                paddingVertical: 12,
-                fontSize: 14,
-                color: '#000000',
-                fontFamily: 'Poppins',
-                borderWidth: 1,
-                borderColor: '#E0E0E0'
-              }}
-            />
-          </View>
+          {/* Row 2 */}
+          <View style={{ flexDirection: 'row' }}>
+            {/* Actual Last Working Date */}
+            <View style={{ flex: 1, marginRight: spacing(6) }}>
+              <Text style={{ fontSize: fontSize(11), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(4) }} allowFontScaling={false}>
+                Actual Last Working Date
+              </Text>
+              <TextInput
+                value={actualLastWorkingDate}
+                onChangeText={setActualLastWorkingDate}
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  borderRadius: hp(6),
+                  paddingHorizontal: spacing(10),
+                  paddingVertical: spacing(6),
+                  fontSize: fontSize(11),
+                  color: '#000000',
+                  fontFamily: 'Poppins',
+                  borderWidth: wp(1),
+                  borderColor: '#E0E0E0',
+                  height: hp(36)
+                }}
+                allowFontScaling={false}
+              />
+            </View>
 
-          {/* Actual Last Working Date */}
-          <View style={{ marginBottom: 16 }}>
-            <Text style={{ fontSize: 14, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: 8 }}>
-              Actual Last Working Date
-            </Text>
-            <TextInput
-              value={actualLastWorkingDate}
-              onChangeText={setActualLastWorkingDate}
-              style={{
-                backgroundColor: '#FFFFFF',
-                borderRadius: 8,
-                paddingHorizontal: 16,
-                paddingVertical: 12,
-                fontSize: 14,
-                color: '#000000',
-                fontFamily: 'Poppins',
-                borderWidth: 1,
-                borderColor: '#E0E0E0'
-              }}
-            />
-          </View>
-
-          {/* Request Last Working Day */}
-          <View style={{ marginBottom: 16 }}>
-            <Text style={{ fontSize: 14, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: 8 }}>
-              Request Last Working Day
-            </Text>
-            <TextInput
-              value={requestLastWorkingDay}
-              onChangeText={setRequestLastWorkingDay}
-              style={{
-                backgroundColor: '#FFFFFF',
-                borderRadius: 8,
-                paddingHorizontal: 16,
-                paddingVertical: 12,
-                fontSize: 14,
-                color: '#000000',
-                fontFamily: 'Poppins',
-                borderWidth: 1,
-                borderColor: '#E0E0E0'
-              }}
-            />
+            {/* Request Last Working Day */}
+            <View style={{ flex: 1, marginLeft: spacing(6) }}>
+              <Text style={{ fontSize: fontSize(11), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(4) }} allowFontScaling={false}>
+                Request Last Working Day
+              </Text>
+              <TextInput
+                value={requestLastWorkingDay}
+                onChangeText={setRequestLastWorkingDay}
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  borderRadius: hp(6),
+                  paddingHorizontal: spacing(10),
+                  paddingVertical: spacing(6),
+                  fontSize: fontSize(11),
+                  color: '#000000',
+                  fontFamily: 'Poppins',
+                  borderWidth: wp(1),
+                  borderColor: '#E0E0E0',
+                  height: hp(36)
+                }}
+                allowFontScaling={false}
+              />
+            </View>
           </View>
         </View>
 
         {/* Specify Reason Section */}
-        <View style={{ marginBottom: 24 }}>
-          <Text style={{ fontSize: 16, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: 12 }}>
+        <View style={{ marginBottom: spacing(6), flexShrink: 1 }}>
+          <Text style={{ fontSize: fontSize(13), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: spacing(4) }} allowFontScaling={false}>
             Specify Reason
           </Text>
           <View style={{
             backgroundColor: '#FFFFFF',
-            borderRadius: 8,
-            padding: 16,
-            borderWidth: 1,
+            borderRadius: hp(6),
+            padding: spacing(6),
+            borderWidth: wp(1),
             borderColor: '#E0E0E0'
           }}>
-            {reasons.map((reason) => (
+            {reasons.map((reason, index) => (
               <TouchableOpacity
                 key={reason.id}
                 onPress={() => toggleReason(reason.id)}
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
-                  marginBottom: 12,
-                  paddingVertical: 4
+                  marginBottom: index < reasons.length - 1 ? spacing(4) : 0,
+                  paddingVertical: spacing(0.5)
                 }}
               >
                 {reason.checked ? (
                   <View style={{
-                    width: 20,
-                    height: 20,
-                    borderRadius: 4,
-                    borderWidth: 2,
+                    width: wp(16),
+                    height: hp(16),
+                    borderRadius: hp(4),
+                    borderWidth: wp(1.5),
                     borderColor: '#4CAF50',
                     backgroundColor: '#4CAF50',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginRight: 12
+                    marginRight: spacing(8),
+                    flexShrink: 0
                   }}>
-                    <Text style={{ color: '#FFFFFF', fontSize: 12, fontWeight: 'bold' }}>✓</Text>
+                    <Text style={{ color: '#FFFFFF', fontSize: fontSize(9), fontWeight: 'bold' }} allowFontScaling={false}>✓</Text>
                   </View>
                 ) : (
                   <View style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: 3,
+                    width: wp(5),
+                    height: hp(5),
+                    borderRadius: hp(2.5),
                     backgroundColor: '#000000',
-                    marginRight: 17,
-                    marginLeft: 7
+                    marginRight: spacing(12),
+                    marginLeft: spacing(5),
+                    flexShrink: 0
                   }} />
                 )}
-                <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins', flex: 1 }}>
+                <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins', flex: 1 }} allowFontScaling={false}>
                   {reason.label}
                 </Text>
               </TouchableOpacity>
@@ -335,65 +338,65 @@ export default function ResignationScreen({ navigation }: Props) {
         </View>
 
         {/* Add Image Section */}
-        <View style={{ marginBottom: 24 }}>
-          <Text style={{ fontSize: 16, fontWeight: '700', color: '#2196F3', fontFamily: 'Poppins-Bold', marginBottom: 12 }}>
+        <View style={{ marginBottom: spacing(8) }}>
+          <Text style={{ fontSize: fontSize(13), fontWeight: '700', color: '#248CFF', fontFamily: 'Poppins-Bold', marginBottom: spacing(6) }} allowFontScaling={false}>
             Add Image
           </Text>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <View style={{
               flex: 1,
-              height: 120,
-              backgroundColor: '#F5F5F5',
-              borderRadius: 8,
-              borderWidth: 1,
+              height: hp(60),
+              backgroundColor: '#FFFFFF',
+              borderRadius: hp(6),
+              borderWidth: wp(1),
               borderColor: '#E0E0E0',
               borderStyle: 'dashed',
               alignItems: 'center',
               justifyContent: 'center',
-              marginRight: 12
+              marginRight: spacing(8)
             }}>
-              <Text style={{ fontSize: 32, marginBottom: 8 }}>☁️</Text>
-              <Text style={{ fontSize: 20 }}>↑</Text>
+              <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={{ fontSize: fontSize(20), marginBottom: spacing(2) }} allowFontScaling={false}>☁️</Text>
+                <Text style={{ fontSize: fontSize(14) }} allowFontScaling={false}>↑</Text>
+              </View>
             </View>
             <TouchableOpacity style={{
-              width: 50,
-              height: 50,
-              borderRadius: 25,
+              width: wp(44),
+              height: hp(44),
+              borderRadius: hp(22),
               backgroundColor: '#FFFFFF',
               alignItems: 'center',
               justifyContent: 'center',
-              borderWidth: 2,
-              borderColor: '#000000'
+              borderWidth: wp(2),
+              borderColor: '#000000',
+              flexShrink: 0
             }}>
-              <Text style={{ fontSize: 24, color: '#000000', fontWeight: 'bold' }}>+</Text>
+              <Text style={{ fontSize: fontSize(18), color: '#000000', fontWeight: 'bold' }} allowFontScaling={false}>+</Text>
             </TouchableOpacity>
           </View>
         </View>
-      </ScrollView>
+      </View>
 
       {/* Send Button */}
       <View style={{ 
-        position: 'absolute', 
-        bottom: 0, 
-        left: 0, 
-        right: 0, 
         backgroundColor: '#FFFFFF',
-        paddingHorizontal: 16,
-        paddingVertical: 16,
-        borderTopWidth: 1,
+        paddingHorizontal: spacing(16),
+        paddingTop: spacing(8),
+        paddingBottom: spacing(8) + insets.bottom,
+        borderTopWidth: wp(1),
         borderTopColor: '#E0E0E0'
       }}>
         <TouchableOpacity 
           onPress={() => setShowSuccessModal(true)}
           style={{
-            backgroundColor: '#2196F3',
-            paddingVertical: 16,
-            borderRadius: 8,
+            backgroundColor: '#248CFF',
+            paddingVertical: spacing(10),
+            borderRadius: hp(6),
             alignItems: 'center',
             justifyContent: 'center'
           }}
         >
-          <Text style={{ fontSize: 16, fontWeight: '600', color: '#FFFFFF', fontFamily: 'Poppins-SemiBold' }}>
+          <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#FFFFFF', fontFamily: 'Poppins-SemiBold' }} allowFontScaling={false}>
             Send
           </Text>
         </TouchableOpacity>
@@ -403,6 +406,7 @@ export default function ResignationScreen({ navigation }: Props) {
       <Modal
         visible={showSuccessModal}
         transparent={true}
+
         animationType="slide"
         onRequestClose={() => setShowSuccessModal(false)}
       >
@@ -415,56 +419,68 @@ export default function ResignationScreen({ navigation }: Props) {
           <View style={{ 
             backgroundColor: '#FFFFFF', 
             width: '100%',
-            borderTopLeftRadius: 24,
-            borderTopRightRadius: 24,
-            paddingTop: 32,
-            paddingBottom: 24,
-            paddingHorizontal: 24,
+            borderTopLeftRadius: hp(24),
+            borderTopRightRadius: hp(24),
+            paddingTop: spacing(32),
+            paddingBottom: spacing(32) + insets.bottom,
+            paddingHorizontal: spacing(24),
             alignItems: 'center'
           }}>
-            {/* Success Icon */}
+            {/* Draggable Handle Indicator */}
+            <View style={{
+              width: wp(40),
+              height: hp(4),
+              backgroundColor: '#E0E0E0',
+              borderRadius: hp(2),
+              marginBottom: spacing(32),
+              alignSelf: 'center'
+            }} />
+
+            {/* Success Icon - Tick Image */}
             <View style={{ 
-              width: 80, 
-              height: 80, 
-              borderRadius: 40, 
-              backgroundColor: '#E3F2FD',
               alignItems: 'center',
               justifyContent: 'center',
-              marginBottom: 20
+              marginBottom: spacing(32)
             }}>
-              <View style={{ 
-                width: 60, 
-                height: 60, 
-                borderRadius: 30, 
-                backgroundColor: '#2196F3',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                <Text style={{ fontSize: 32, color: '#FFFFFF' }}>✓</Text>
-              </View>
+              <Image 
+                source={require('../../assets/tick.png')} 
+                style={{ width: wp(140), height: hp(140), resizeMode: 'contain' }} 
+              />
             </View>
 
-            {/* Title */}
-            <Text style={{ 
-              fontSize: 20, 
-              fontWeight: '700', 
-              color: '#000000', 
-              fontFamily: 'Poppins-Bold',
-              marginBottom: 8,
-              textAlign: 'center'
-            }}>
-              Resignation Applied Successfully
-            </Text>
+            {/* Title - Two Lines */}
+            <View style={{ marginBottom: spacing(16), alignItems: 'center' }}>
+              <Text style={{ 
+                fontSize: fontSize(24), 
+                fontWeight: '700', 
+                color: '#000000', 
+                fontFamily: 'Poppins-Bold',
+                textAlign: 'center',
+                marginBottom: spacing(4)
+              }} allowFontScaling={false}>
+                Resignation Applied
+              </Text>
+              <Text style={{ 
+                fontSize: fontSize(24), 
+                fontWeight: '700', 
+                color: '#000000', 
+                fontFamily: 'Poppins-Bold',
+                textAlign: 'center'
+              }} allowFontScaling={false}>
+                Successfully
+              </Text>
+            </View>
 
             {/* Message */}
             <Text style={{ 
-              fontSize: 14, 
+              fontSize: fontSize(15), 
               color: '#666666', 
               fontFamily: 'Poppins',
-              marginBottom: 32,
+              marginBottom: spacing(40),
               textAlign: 'center',
-              lineHeight: 20
-            }}>
+              lineHeight: fontSize(22),
+              paddingHorizontal: spacing(16)
+            }} allowFontScaling={false}>
               Your Resignation has been applied successfully
             </Text>
 
@@ -475,27 +491,27 @@ export default function ResignationScreen({ navigation }: Props) {
                 navigation.goBack();
               }}
               style={{
-                backgroundColor: '#2196F3',
+                backgroundColor: '#248CFF',
                 width: '100%',
-                paddingVertical: 16,
-                borderRadius: 8,
+                paddingVertical: spacing(16),
+                borderRadius: hp(12),
                 alignItems: 'center',
                 justifyContent: 'center'
               }}
             >
               <Text style={{ 
-                fontSize: 16, 
+                fontSize: fontSize(16), 
                 fontWeight: '600', 
                 color: '#FFFFFF', 
                 fontFamily: 'Poppins-SemiBold' 
-              }}>
+              }} allowFontScaling={false}>
                 Done
               </Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, StatusBar, TextInput, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import api from '@/lib/api';
@@ -7,7 +8,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
-import { wp, hp, fontSize, spacing, SCREEN_WIDTH } from '../utils/responsive';
+import { wp, hp, fontSize, spacing, SCREEN_WIDTH, useSafeArea } from '../utils/responsive';
 
 type RootStackParamList = {
   Language: undefined;
@@ -32,6 +33,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Register'>;
 
 export default function RegisterScreen({ navigation }: Props) {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const insets = useSafeArea();
   const { register, setValue, handleSubmit, formState: { errors, isSubmitting }, setError, clearErrors, watch } = useForm<FormValues>({
     defaultValues: { 
       name: '', 
@@ -87,36 +89,38 @@ export default function RegisterScreen({ navigation }: Props) {
   };
 
   return (
-    <KeyboardAvoidingView className="flex-1 bg-white" behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-      <StatusBar barStyle="dark-content" backgroundColor="white" />
-      <ScrollView style={{flex: 1}} contentContainerStyle={{ paddingBottom: hp(32) }} keyboardShouldPersistTaps="handled">
-        {/* Back arrow */}
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', top: hp(20), left: spacing(16), zIndex: 10, width: wp(40), height: hp(40), alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{ fontSize: fontSize(24) }}>←</Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }} edges={['top']}>
+      <KeyboardAvoidingView className="flex-1" behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        <StatusBar barStyle="dark-content" backgroundColor="white" />
+        <ScrollView style={{flex: 1}} contentContainerStyle={{ paddingBottom: hp(32) + insets.bottom }} keyboardShouldPersistTaps="handled">
+          {/* Back arrow */}
+          <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', top: insets.top + spacing(8), left: spacing(16), zIndex: 10, width: wp(40), height: hp(40), alignItems: 'center', justifyContent: 'center' }}>
+          <Text style={{ fontSize: fontSize(24) }} allowFontScaling={false}>←</Text>
         </TouchableOpacity>
         {/* Header titles */}
         <View style={{ alignItems: 'center', marginTop: hp(65), marginBottom: spacing(10), width: Math.min(wp(400), SCREEN_WIDTH - spacing(32)), alignSelf: 'center' }}>
-          <Text style={{ fontFamily: 'LexendDeca-Bold', fontWeight: '700', fontSize: fontSize(24), lineHeight: 36, color: '#12110D', textAlign: 'center' }}>Register Account</Text>
-          <Text style={{ fontFamily: 'LexendDeca-Bold', fontWeight: '700', fontSize: fontSize(24), lineHeight: 36, color: '#12110D', textAlign: 'center', marginTop: spacing(2) }}>to <Text style={{ color: '#248CFF' }}>CAAROBAR</Text></Text>
-          <Text style={{ fontFamily: 'Poppins', fontSize: fontSize(12.5), color: '#888', marginTop: spacing(8) }}>Hello there, register to continue</Text>
+          <Text style={{ fontFamily: 'LexendDeca-Bold', fontWeight: '700', fontSize: fontSize(24), lineHeight: 36, color: '#12110D', textAlign: 'center' }} allowFontScaling={false}>Register Account</Text>
+          <Text style={{ fontFamily: 'LexendDeca-Bold', fontWeight: '700', fontSize: fontSize(24), lineHeight: 36, color: '#12110D', textAlign: 'center', marginTop: spacing(2) }} allowFontScaling={false}>to <Text style={{ color: '#248CFF' }} allowFontScaling={false}>CAAROBAR</Text></Text>
+          <Text style={{ fontFamily: 'Poppins', fontSize: fontSize(12.5), color: '#888', marginTop: spacing(8) }} allowFontScaling={false}>Hello there, register to continue</Text>
         </View>
         {/* Form field cards */}
         <View style={{ alignItems: 'center' }}>
           {/* Enter Name */}
           <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), height: hp(50), marginBottom: spacing(18), backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 6, borderWidth: 1, borderColor: 'rgb(130,130,130)', justifyContent: 'center' }}>
-            <Text style={{ position: 'absolute', top: -10, left: spacing(12), backgroundColor: '#fff', paddingHorizontal: spacing(4), fontFamily: 'Inter', fontWeight: '500', fontSize: fontSize(14), lineHeight: 21, color: 'rgba(52,122,255,1)' }}>Enter Name</Text>
+            <Text style={{ position: 'absolute', top: -10, left: spacing(12), backgroundColor: '#fff', paddingHorizontal: spacing(4), fontFamily: 'Inter', fontWeight: '500', fontSize: fontSize(14), lineHeight: 21, color: 'rgba(52,122,255,1)' }} allowFontScaling={false}>Enter Name</Text>
             <TextInput
               placeholder="Enter your full name"
               placeholderTextColor="#ACACAB"
               value={name}
               onChangeText={(text) => setValue('name', text, { shouldValidate: true })}
+              allowFontScaling={false}
               style={{ paddingHorizontal: spacing(12), fontSize: fontSize(14), color: '#12110D' }}
             />
           </View>
-          {errors.name && <Text style={{ color: '#ef4444', fontSize: fontSize(12), alignSelf: 'flex-start', marginLeft: spacing(32), marginTop: -spacing(6), marginBottom: spacing(8) }}>{errors.name.message}</Text>}
+          {errors.name && <Text style={{ color: '#ef4444', fontSize: fontSize(12), alignSelf: 'flex-start', marginLeft: spacing(32), marginTop: -spacing(6), marginBottom: spacing(8) }} allowFontScaling={false}>{errors.name.message}</Text>}
           {/* Email Address */}
           <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), height: hp(50), marginBottom: spacing(18), backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 6, borderWidth: 1, borderColor: 'rgb(130,130,130)', justifyContent: 'center' }}>
-            <Text style={{ position: 'absolute', top: -10, left: spacing(12), backgroundColor: '#fff', paddingHorizontal: spacing(4), fontFamily: 'Inter', fontWeight: '500', fontSize: fontSize(14), lineHeight: 21, color: 'rgba(52,122,255,1)' }}>Email Address</Text>
+            <Text style={{ position: 'absolute', top: -10, left: spacing(12), backgroundColor: '#fff', paddingHorizontal: spacing(4), fontFamily: 'Inter', fontWeight: '500', fontSize: fontSize(14), lineHeight: 21, color: 'rgba(52,122,255,1)' }} allowFontScaling={false}>Email Address</Text>
             <TextInput
               placeholder="Enter your email address"
               placeholderTextColor="#ACACAB"
@@ -124,79 +128,85 @@ export default function RegisterScreen({ navigation }: Props) {
               onChangeText={(text) => setValue('email', text, { shouldValidate: true })}
               keyboardType="email-address"
               autoCapitalize="none"
+              allowFontScaling={false}
               style={{ paddingHorizontal: spacing(12), fontSize: fontSize(14), color: '#12110D' }}
             />
           </View>
-          {errors.email && <Text style={{ color: '#ef4444', fontSize: fontSize(12), alignSelf: 'flex-start', marginLeft: spacing(32), marginTop: -spacing(6), marginBottom: spacing(8) }}>{errors.email.message}</Text>}
+          {errors.email && <Text style={{ color: '#ef4444', fontSize: fontSize(12), alignSelf: 'flex-start', marginLeft: spacing(32), marginTop: -spacing(6), marginBottom: spacing(8) }} allowFontScaling={false}>{errors.email.message}</Text>}
           {/* Enter Mobile */}
-          <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), height: hp(50), marginBottom: spacing(18), backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 6, borderWidth: 1, borderColor: 'rgb(130,130,130)', justifyContent: 'center' }}>
-            <Text style={{ position: 'absolute', top: -10, left: spacing(12), backgroundColor: '#fff', paddingHorizontal: spacing(4), fontFamily: 'Inter', fontWeight: '500', fontSize: fontSize(14), lineHeight: 21, color: 'rgba(52,122,255,1)' }}>Enter Mobile</Text>
+          <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), height: hp(50), marginBottom: spacing(18), backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: hp(6), borderWidth: 1, borderColor: 'rgb(130,130,130)', justifyContent: 'center' }}>
+            <Text style={{ position: 'absolute', top: -10, left: spacing(12), backgroundColor: '#fff', paddingHorizontal: spacing(4), fontFamily: 'Inter', fontWeight: '500', fontSize: fontSize(14), lineHeight: 21, color: 'rgba(52,122,255,1)' }} allowFontScaling={false}>Enter Mobile</Text>
             <TextInput
               placeholder="Enter your mobile number"
               placeholderTextColor="#ACACAB"
               value={mobile}
               onChangeText={(text) => setValue('mobile', text, { shouldValidate: true })}
               keyboardType="phone-pad"
+              allowFontScaling={false}
               style={{ paddingHorizontal: spacing(12), fontSize: fontSize(14), color: '#12110D' }}
             />
           </View>
-          {errors.mobile && <Text style={{ color: '#ef4444', fontSize: fontSize(12), alignSelf: 'flex-start', marginLeft: spacing(32), marginTop: -spacing(6), marginBottom: spacing(8) }}>{errors.mobile.message}</Text>}
+          {errors.mobile && <Text style={{ color: '#ef4444', fontSize: fontSize(12), alignSelf: 'flex-start', marginLeft: spacing(32), marginTop: -spacing(6), marginBottom: spacing(8) }} allowFontScaling={false}>{errors.mobile.message}</Text>}
           {/* Alternate No */}
-          <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), height: hp(50), marginBottom: spacing(18), backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 6, borderWidth: 1, borderColor: 'rgb(130,130,130)', justifyContent: 'center' }}>
-            <Text style={{ position: 'absolute', top: -10, left: spacing(12), backgroundColor: '#fff', paddingHorizontal: spacing(4), fontFamily: 'Inter', fontWeight: '500', fontSize: fontSize(14), lineHeight: 21, color: 'rgba(52,122,255,1)' }}>Alternate No</Text>
+          <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), height: hp(50), marginBottom: spacing(18), backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: hp(6), borderWidth: 1, borderColor: 'rgb(130,130,130)', justifyContent: 'center' }}>
+            <Text style={{ position: 'absolute', top: -10, left: spacing(12), backgroundColor: '#fff', paddingHorizontal: spacing(4), fontFamily: 'Inter', fontWeight: '500', fontSize: fontSize(14), lineHeight: 21, color: 'rgba(52,122,255,1)' }} allowFontScaling={false}>Alternate No</Text>
             <TextInput
               placeholder="Enter alternate number (optional)"
               placeholderTextColor="#ACACAB"
               value={alternateNo}
               onChangeText={(text) => setValue('alternateNo', text)}
               keyboardType="phone-pad"
+              allowFontScaling={false}
               style={{ paddingHorizontal: spacing(12), fontSize: fontSize(14), color: '#12110D' }}
             />
           </View>
           {/* Company Name */}
-          <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), height: hp(50), marginBottom: spacing(18), backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 6, borderWidth: 1, borderColor: 'rgb(130,130,130)', justifyContent: 'center' }}>
-            <Text style={{ position: 'absolute', top: -10, left: spacing(12), backgroundColor: '#fff', paddingHorizontal: spacing(4), fontFamily: 'Inter', fontWeight: '500', fontSize: fontSize(14), lineHeight: 21, color: 'rgba(52,122,255,1)' }}>Company Name</Text>
+          <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), height: hp(50), marginBottom: spacing(18), backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: hp(6), borderWidth: 1, borderColor: 'rgb(130,130,130)', justifyContent: 'center' }}>
+            <Text style={{ position: 'absolute', top: -10, left: spacing(12), backgroundColor: '#fff', paddingHorizontal: spacing(4), fontFamily: 'Inter', fontWeight: '500', fontSize: fontSize(14), lineHeight: 21, color: 'rgba(52,122,255,1)' }} allowFontScaling={false}>Company Name</Text>
             <TextInput
               placeholder="Enter your company name"
               placeholderTextColor="#ACACAB"
               value={companyName}
               onChangeText={(text) => setValue('companyName', text, { shouldValidate: true })}
+              allowFontScaling={false}
               style={{ paddingHorizontal: spacing(12), fontSize: fontSize(14), color: '#12110D' }}
             />
           </View>
-          {errors.companyName && <Text style={{ color: '#ef4444', fontSize: fontSize(12), alignSelf: 'flex-start', marginLeft: spacing(32), marginTop: -spacing(6), marginBottom: spacing(8) }}>{errors.companyName.message}</Text>}
+          {errors.companyName && <Text style={{ color: '#ef4444', fontSize: fontSize(12), alignSelf: 'flex-start', marginLeft: spacing(32), marginTop: -spacing(6), marginBottom: spacing(8) }} allowFontScaling={false}>{errors.companyName.message}</Text>}
           {/* Address */}
-          <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), height: hp(50), marginBottom: spacing(18), backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 6, borderWidth: 1, borderColor: 'rgb(130,130,130)', justifyContent: 'center' }}>
-            <Text style={{ position: 'absolute', top: -10, left: spacing(12), backgroundColor: '#fff', paddingHorizontal: spacing(4), fontFamily: 'Inter', fontWeight: '500', fontSize: fontSize(14), lineHeight: 21, color: 'rgba(52,122,255,1)' }}>Address</Text>
+          <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), height: hp(50), marginBottom: spacing(18), backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: hp(6), borderWidth: 1, borderColor: 'rgb(130,130,130)', justifyContent: 'center' }}>
+            <Text style={{ position: 'absolute', top: -10, left: spacing(12), backgroundColor: '#fff', paddingHorizontal: spacing(4), fontFamily: 'Inter', fontWeight: '500', fontSize: fontSize(14), lineHeight: 21, color: 'rgba(52,122,255,1)' }} allowFontScaling={false}>Address</Text>
             <TextInput
               placeholder="Enter your address"
               placeholderTextColor="#ACACAB"
               value={address}
               onChangeText={(text) => setValue('address', text, { shouldValidate: true })}
+              allowFontScaling={false}
               style={{ paddingHorizontal: spacing(12), fontSize: fontSize(14), color: '#12110D' }}
             />
           </View>
-          {errors.address && <Text style={{ color: '#ef4444', fontSize: fontSize(12), alignSelf: 'flex-start', marginLeft: spacing(32), marginTop: -spacing(6), marginBottom: spacing(8) }}>{errors.address.message}</Text>}
+          {errors.address && <Text style={{ color: '#ef4444', fontSize: fontSize(12), alignSelf: 'flex-start', marginLeft: spacing(32), marginTop: -spacing(6), marginBottom: spacing(8) }} allowFontScaling={false}>{errors.address.message}</Text>}
         </View>
         {/* Terms and Conditions */}
         <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: spacing(12), marginBottom: spacing(18), width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), alignSelf: 'center' }}>
           <TouchableOpacity onPress={() => setAgreedToTerms(!agreedToTerms)} style={{ marginRight: spacing(12), marginTop: spacing(4) }}>
             <View style={{ width: wp(20), height: hp(20), borderRadius: 4, borderWidth: 2, borderColor: agreedToTerms ? '#248CFF' : '#D1D5DB', alignItems: 'center', justifyContent: 'center', backgroundColor: agreedToTerms ? '#248CFF' : 'transparent' }}>
-              {agreedToTerms && <Text style={{ color: '#fff', fontSize: fontSize(12) }}>✓</Text>}
+              {agreedToTerms && <Text style={{ color: '#fff', fontSize: fontSize(12) }} allowFontScaling={false}>✓</Text>}
             </View>
           </TouchableOpacity>
           <View style={{ flex: 1 }}>
-            <Text style={{ fontSize: fontSize(13), color: '#12110D', lineHeight: 18 }}>
-              I agree to the <Text style={{ color: '#248CFF' }}>Term & Conditions</Text> & <Text style={{ color: '#248CFF' }}>Privacy Policy</Text>{'\n'}set out by this site.
+            <Text style={{ fontSize: fontSize(13), color: '#12110D', lineHeight: 18 }} allowFontScaling={false}>
+              I agree to the <Text style={{ color: '#248CFF' }} allowFontScaling={false}>Term & Conditions</Text> & <Text style={{ color: '#248CFF' }} allowFontScaling={false}>Privacy Policy</Text>{'\n'}set out by this site.
             </Text>
           </View>
         </View>
         {/* Register Button */}
-        <TouchableOpacity onPress={handleSubmit(onSubmit)} disabled={isSubmitting} style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), height: hp(55), borderRadius: 30, backgroundColor: '#248CFF', alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginBottom: spacing(24) }}>
-          <Text style={{ color: '#fff', fontSize: fontSize(16), fontWeight: '700' }}>Register</Text>
+        <TouchableOpacity onPress={handleSubmit(onSubmit)} disabled={isSubmitting} style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), height: hp(55), borderRadius: hp(30), backgroundColor: '#248CFF', alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginBottom: spacing(24) }}>
+          <Text style={{ color: '#fff', fontSize: fontSize(16), fontWeight: '700' }} allowFontScaling={false}>Register</Text>
         </TouchableOpacity>
       </ScrollView>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 

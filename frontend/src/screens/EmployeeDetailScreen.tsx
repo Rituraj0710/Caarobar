@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView, StatusBar, Switch, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, StatusBar, Switch } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { wp, hp, fontSize, spacing, SCREEN_WIDTH, useSafeArea } from '../utils/responsive';
+import SafeAreaView from '../components/SafeAreaView';
 
 type RootStackParamList = {
   EmployeeDetail: {
@@ -38,11 +40,11 @@ export default function EmployeeDetailScreen({ navigation, route }: Props) {
   } = route.params || {};
 
   const [isToggleOn, setIsToggleOn] = useState(true);
+  const insets = useSafeArea();
 
-  const screenWidth = Dimensions.get('window').width;
-  const tileGap = 12;
-  const horizontalMargin = 16 * 2;
-  const tileWidth = (screenWidth - horizontalMargin - tileGap * 3) / 4;
+  const tileGap = spacing(12);
+  const horizontalMargin = spacing(16) * 2;
+  const tileWidth = (SCREEN_WIDTH - horizontalMargin - tileGap * 3) / 4;
 
   const quickActions = [
     { 
@@ -143,63 +145,65 @@ export default function EmployeeDetailScreen({ navigation, route }: Props) {
       <StatusBar barStyle="dark-content" backgroundColor="white" />
       
       {/* Header */}
-      <View style={{
-        backgroundColor: '#FFFFFF',
-        paddingTop: 44,
-        paddingBottom: 12,
-        paddingHorizontal: 16,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        borderBottomWidth: 1,
-        borderBottomColor: '#E0E0E0'
-      }}>
-        {/* Back Arrow */}
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 8 }}>
-          <Text style={{ fontSize: 20, color: '#000000' }}>←</Text>
-        </TouchableOpacity>
+      <SafeAreaView edges={['top']} style={{ backgroundColor: '#FFFFFF' }}>
+        <View style={{
+          backgroundColor: '#FFFFFF',
+          paddingTop: hp(10),
+          paddingBottom: spacing(12),
+          paddingHorizontal: spacing(16),
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          borderBottomWidth: 1,
+          borderBottomColor: '#E0E0E0'
+        }}>
+          {/* Back Arrow */}
+          <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: spacing(8) }}>
+            <Text style={{ fontSize: fontSize(20), color: '#000000' }} allowFontScaling={false}>←</Text>
+          </TouchableOpacity>
 
-        {/* Logo */}
-        <View style={{ flex: 1, alignItems: 'center' }}>
-          <Image
-            source={require('../../assets/caarobar (2) 1.png')}
-            style={{ width: 120, height: 40, resizeMode: 'contain' }}
-          />
-        </View>
+          {/* Logo */}
+          <View style={{ flex: 1, alignItems: 'center' }}>
+            <Image
+              source={require('../../assets/caarobar (2) 1.png')}
+              style={{ width: wp(120), height: hp(40), resizeMode: 'contain' }}
+            />
+          </View>
 
-        {/* Right Icons */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
-          {/* Crown Icon */}
-          <TouchableOpacity style={{ padding: 4 }}>
-            <Text style={{ fontSize: 20, color: '#000000' }}>👑</Text>
-          </TouchableOpacity>
-          {/* Bell with notification */}
-          <TouchableOpacity style={{ position: 'relative', padding: 4 }}>
-            <Image source={require('../../assets/Frame.png')} style={{ width: 22, height: 22, resizeMode: 'contain' }} />
-            <View style={{ position: 'absolute', top: 2, right: 2, width: 8, height: 8, borderRadius: 4, backgroundColor: '#4CAF50', borderWidth: 1.5, borderColor: 'white' }} />
-          </TouchableOpacity>
-          {/* Search */}
-          <TouchableOpacity style={{ padding: 4 }}>
-            <Text style={{ fontSize: 20, color: '#000000' }}>🔍</Text>
-          </TouchableOpacity>
-          {/* More options */}
-          <TouchableOpacity style={{ padding: 4 }}>
-            <Text style={{ fontSize: 20, color: '#000000' }}>⋮</Text>
-          </TouchableOpacity>
+          {/* Right Icons */}
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing(16) }}>
+            {/* Crown Icon */}
+            <TouchableOpacity style={{ padding: spacing(4) }}>
+              <Text style={{ fontSize: fontSize(20), color: '#000000' }} allowFontScaling={false}>👑</Text>
+            </TouchableOpacity>
+            {/* Bell with notification */}
+            <TouchableOpacity style={{ position: 'relative', padding: spacing(4) }}>
+              <Image source={require('../../assets/Frame.png')} style={{ width: wp(22), height: hp(22), resizeMode: 'contain' }} />
+              <View style={{ position: 'absolute', top: hp(2), right: wp(2), width: wp(8), height: hp(8), borderRadius: hp(4), backgroundColor: '#4CAF50', borderWidth: 1.5, borderColor: 'white' }} />
+            </TouchableOpacity>
+            {/* Search */}
+            <TouchableOpacity style={{ padding: spacing(4) }}>
+              <Text style={{ fontSize: fontSize(20), color: '#000000' }} allowFontScaling={false}>🔍</Text>
+            </TouchableOpacity>
+            {/* More options */}
+            <TouchableOpacity style={{ padding: spacing(4) }}>
+              <Text style={{ fontSize: fontSize(20), color: '#000000' }} allowFontScaling={false}>⋮</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </SafeAreaView>
 
       <ScrollView
         style={{ flex: 1 }}
-        contentContainerStyle={{ paddingBottom: 100 }}
+        contentContainerStyle={{ paddingBottom: hp(100) + insets.bottom }}
         showsVerticalScrollIndicator={false}
       >
         {/* Employee Information Section */}
         <View style={{
           flexDirection: 'row',
-          paddingHorizontal: 16,
-          paddingTop: 20,
-          paddingBottom: 16,
+          paddingHorizontal: spacing(16),
+          paddingTop: spacing(20),
+          paddingBottom: spacing(16),
           borderBottomWidth: 1,
           borderBottomColor: '#E0E0E0'
         }}>
@@ -207,46 +211,46 @@ export default function EmployeeDetailScreen({ navigation, route }: Props) {
           <View style={{ flex: 1, alignItems: 'flex-start' }}>
             <Image
               source={require('../../assets/creative designers.png')}
-              style={{ width: 140, height: 40, resizeMode: 'contain', marginBottom: 12 }}
+              style={{ width: wp(140), height: hp(40), resizeMode: 'contain', marginBottom: spacing(12) }}
             />
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               Salary {salary}
             </Text>
           </View>
 
           {/* Middle Column - Profile Picture, Name, Role */}
-          <View style={{ flex: 1, alignItems: 'center', paddingHorizontal: 12 }}>
+          <View style={{ flex: 1, alignItems: 'center', paddingHorizontal: spacing(12) }}>
             <Image
               source={require('../../assets/Profile picture.png')}
               style={{
-                width: 80,
-                height: 80,
-                borderRadius: 40,
-                marginBottom: 8,
+                width: wp(80),
+                height: hp(80),
+                borderRadius: hp(40),
+                marginBottom: spacing(8),
                 resizeMode: 'cover',
                 backgroundColor: '#F5F5F5'
               }}
             />
             <Text style={{
-              fontSize: 16,
+              fontSize: fontSize(16),
               fontWeight: '700',
               color: '#000000',
               fontFamily: 'Poppins-Bold',
-              marginBottom: 4,
+              marginBottom: spacing(4),
               textAlign: 'center'
-            }}>
+            }} allowFontScaling={false}>
               {name}
             </Text>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#666666',
               fontFamily: 'Poppins',
               textAlign: 'center'
-            }}>
+            }} allowFontScaling={false}>
               {role}
             </Text>
           </View>
@@ -254,39 +258,39 @@ export default function EmployeeDetailScreen({ navigation, route }: Props) {
           {/* Right Column - Company Info */}
           <View style={{ flex: 1, alignItems: 'flex-end' }}>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               fontWeight: '600',
               color: '#000000',
               fontFamily: 'Poppins-SemiBold',
-              marginBottom: 4,
+              marginBottom: spacing(4),
               textAlign: 'right'
-            }}>
+            }} allowFontScaling={false}>
               {company}
             </Text>
             <Text style={{
-              fontSize: 12,
+              fontSize: fontSize(12),
               color: '#000000',
               fontFamily: 'Poppins',
-              marginBottom: 2,
+              marginBottom: spacing(2),
               textAlign: 'right'
-            }}>
+            }} allowFontScaling={false}>
               {location}
             </Text>
             <Text style={{
-              fontSize: 12,
+              fontSize: fontSize(12),
               color: '#000000',
               fontFamily: 'Poppins',
-              marginBottom: 2,
+              marginBottom: spacing(2),
               textAlign: 'right'
-            }}>
+            }} allowFontScaling={false}>
               {phone}
             </Text>
             <Text style={{
-              fontSize: 12,
+              fontSize: fontSize(12),
               color: '#000000',
               fontFamily: 'Poppins',
               textAlign: 'right'
-            }}>
+            }} allowFontScaling={false}>
               Emp id - {empId}
             </Text>
           </View>
@@ -296,86 +300,86 @@ export default function EmployeeDetailScreen({ navigation, route }: Props) {
         <View style={{
           flexDirection: 'row',
           alignItems: 'center',
-          paddingHorizontal: 16,
-          paddingVertical: 16,
+          paddingHorizontal: spacing(16),
+          paddingVertical: spacing(16),
           borderBottomWidth: 1,
           borderBottomColor: '#E0E0E0'
         }}>
           {/* Bell Icon in Gray Box */}
           <View style={{
-            width: 50,
-            height: 50,
-            borderRadius: 8,
+            width: wp(50),
+            height: hp(50),
+            borderRadius: hp(8),
             backgroundColor: '#F5F5F5',
             alignItems: 'center',
             justifyContent: 'center',
-            marginRight: 16
+            marginRight: spacing(16)
           }}>
             <Image
               source={require('../../assets/Frame.png')}
-              style={{ width: 24, height: 24, resizeMode: 'contain', tintColor: '#4CAF50' }}
+              style={{ width: wp(24), height: hp(24), resizeMode: 'contain', tintColor: '#4CAF50' }}
             />
           </View>
 
           {/* Joining and End Dates */}
-          <View style={{ flex: 1, marginRight: 16 }}>
+          <View style={{ flex: 1, marginRight: spacing(16) }}>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins',
-              marginBottom: 4
-            }}>
+              marginBottom: spacing(4)
+            }} allowFontScaling={false}>
               Joining {joiningDate}
             </Text>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               End {endDate}
             </Text>
           </View>
 
           {/* Progress Bar */}
-          <View style={{ alignItems: 'center', marginRight: 16 }}>
+          <View style={{ alignItems: 'center', marginRight: spacing(16) }}>
             <View style={{
-              width: 60,
-              height: 60,
-              borderRadius: 30,
-              borderWidth: 6,
+              width: wp(60),
+              height: hp(60),
+              borderRadius: hp(30),
+              borderWidth: hp(6),
               borderColor: '#E0E0E0',
               borderTopColor: '#4CAF50',
               borderRightColor: '#4CAF50',
               alignItems: 'center',
               justifyContent: 'center',
-              marginBottom: 4
+              marginBottom: spacing(4)
             }}>
               <Text style={{
-                fontSize: 12,
+                fontSize: fontSize(12),
                 fontWeight: '700',
                 color: '#4CAF50',
                 fontFamily: 'Poppins-Bold'
-              }}>
+              }} allowFontScaling={false}>
                 {progress}%
               </Text>
             </View>
             <Text style={{
-              fontSize: 12,
+              fontSize: fontSize(12),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               {progressDays} Day
             </Text>
           </View>
 
           {/* Toggle Switch */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing(8) }}>
             <Text style={{
-              fontSize: 12,
+              fontSize: fontSize(12),
               color: isToggleOn ? '#4CAF50' : '#9E9E9E',
               fontFamily: 'Poppins',
-              marginRight: 4
-            }}>
+              marginRight: spacing(4)
+            }} allowFontScaling={false}>
               {isToggleOn ? 'ON' : 'OFF'}
             </Text>
             <Switch
@@ -389,15 +393,15 @@ export default function EmployeeDetailScreen({ navigation, route }: Props) {
         </View>
 
         {/* Quick Actions Section */}
-        <View style={{ paddingHorizontal: 16, paddingTop: 20, paddingBottom: 16 }}>
+        <View style={{ paddingHorizontal: spacing(16), paddingTop: spacing(20), paddingBottom: spacing(16) }}>
           <Text style={{
-            fontSize: 20,
+            fontSize: fontSize(20),
             fontWeight: '700',
             color: '#000000',
             fontFamily: 'Poppins-Bold',
             textDecorationLine: 'underline',
-            marginBottom: 16
-          }}>
+            marginBottom: spacing(16)
+          }} allowFontScaling={false}>
             Quick Actions
           </Text>
 
@@ -414,17 +418,17 @@ export default function EmployeeDetailScreen({ navigation, route }: Props) {
                 style={{
                   width: tileWidth,
                   alignItems: 'center',
-                  marginBottom: 16
+                  marginBottom: spacing(16)
                 }}
               >
                 <View style={{
                   width: tileWidth,
                   height: tileWidth,
-                  borderRadius: 8,
+                  borderRadius: hp(8),
                   backgroundColor: action.bgColor,
                   alignItems: 'center',
                   justifyContent: 'center',
-                  marginBottom: 8,
+                  marginBottom: spacing(8),
                   position: 'relative',
                   borderWidth: 1,
                   borderColor: '#E0E0E0'
@@ -436,11 +440,11 @@ export default function EmployeeDetailScreen({ navigation, route }: Props) {
                   {action.hasNotification && (
                     <View style={{
                       position: 'absolute',
-                      top: 4,
-                      right: 4,
-                      width: 8,
-                      height: 8,
-                      borderRadius: 4,
+                      top: spacing(4),
+                      right: spacing(4),
+                      width: wp(8),
+                      height: hp(8),
+                      borderRadius: hp(4),
                       backgroundColor: '#4CAF50',
                       borderWidth: 1,
                       borderColor: '#FFFFFF'
@@ -448,11 +452,11 @@ export default function EmployeeDetailScreen({ navigation, route }: Props) {
                   )}
                 </View>
                 <Text style={{
-                  fontSize: 11,
+                  fontSize: fontSize(11),
                   color: '#000000',
                   fontFamily: 'Poppins',
                   textAlign: 'center'
-                }}>
+                }} allowFontScaling={false}>
                   {action.name}
                 </Text>
               </TouchableOpacity>
@@ -463,235 +467,233 @@ export default function EmployeeDetailScreen({ navigation, route }: Props) {
         {/* Powered by Section */}
         <View style={{
           alignItems: 'center',
-          paddingVertical: 20,
+          paddingVertical: spacing(20),
           borderTopWidth: 1,
           borderTopColor: '#E0E0E0',
-          marginTop: 20
+          marginTop: spacing(20)
         }}>
           <Text style={{
-            fontSize: 12,
+            fontSize: fontSize(12),
             color: '#9E9E9E',
             fontFamily: 'Poppins',
-            marginBottom: 8
-          }}>
+            marginBottom: spacing(8)
+          }} allowFontScaling={false}>
             Powered by - Caarobar
           </Text>
           <Image
             source={require('../../assets/caarobar (2) 1.png')}
-            style={{ width: 100, height: 30, resizeMode: 'contain' }}
+            style={{ width: wp(100), height: hp(30), resizeMode: 'contain' }}
           />
         </View>
       </ScrollView>
 
       {/* Bottom Navigation Bar */}
-      <View style={{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        backgroundColor: '#FFFFFF',
-        borderTopWidth: 1,
-        borderTopColor: '#E0E0E0',
-        flexDirection: 'row',
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        justifyContent: 'space-around',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: -2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 5
-      }}>
-        <TouchableOpacity
-          style={{ alignItems: 'center', flex: 1 }}
-        >
-          <View style={{
-            width: 40,
-            height: 40,
-            borderRadius: 20,
-            backgroundColor: '#4285F4',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 4
-          }}>
-            {/* Home Icon */}
-            <View style={{ width: 20, height: 20, alignItems: 'center', justifyContent: 'center' }}>
-              <View style={{
-                width: 0,
-                height: 0,
-                borderLeftWidth: 8,
-                borderRightWidth: 8,
-                borderBottomWidth: 6,
-                borderLeftColor: 'transparent',
-                borderRightColor: 'transparent',
-                borderBottomColor: '#FFFFFF',
-                marginBottom: 2
-              }} />
-              <View style={{
-                width: 12,
-                height: 8,
-                borderWidth: 1.5,
-                borderColor: '#FFFFFF',
-                borderRadius: 1
-              }} />
-            </View>
-          </View>
-          <Text style={{
-            fontSize: 10,
-            color: '#4285F4',
-            fontFamily: 'Poppins'
-          }}>
-            Home
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={{ alignItems: 'center', flex: 1 }}
-        >
-          <View style={{
-            width: 40,
-            height: 40,
-            borderRadius: 20,
-            backgroundColor: 'transparent',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 4
-          }}>
-            {/* Paper Airplane Icon */}
-            <View style={{ 
-              width: 20, 
-              height: 20, 
-              alignItems: 'center', 
+      <SafeAreaView edges={['bottom']} style={{ backgroundColor: '#FFFFFF' }}>
+        <View style={{
+          backgroundColor: '#FFFFFF',
+          borderTopWidth: 1,
+          borderTopColor: '#E0E0E0',
+          flexDirection: 'row',
+          paddingVertical: spacing(8),
+          paddingHorizontal: spacing(16),
+          justifyContent: 'space-around',
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: hp(-2) },
+          shadowOpacity: 0.1,
+          shadowRadius: hp(4),
+          elevation: 5
+        }}>
+          <TouchableOpacity
+            style={{ alignItems: 'center', flex: 1 }}
+          >
+            <View style={{
+              width: wp(40),
+              height: hp(40),
+              borderRadius: hp(20),
+              backgroundColor: '#4285F4',
+              alignItems: 'center',
               justifyContent: 'center',
-              transform: [{ rotate: '45deg' }]
+              marginBottom: spacing(4)
             }}>
-              <View style={{
-                width: 0,
-                height: 0,
-                borderLeftWidth: 0,
-                borderRightWidth: 10,
-                borderTopWidth: 5,
-                borderBottomWidth: 5,
-                borderRightColor: '#000000',
-                borderTopColor: 'transparent',
-                borderBottomColor: 'transparent',
-                marginLeft: 2
-              }} />
+              {/* Home Icon */}
+              <View style={{ width: wp(20), height: hp(20), alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{
+                  width: 0,
+                  height: 0,
+                  borderLeftWidth: wp(8),
+                  borderRightWidth: wp(8),
+                  borderBottomWidth: hp(6),
+                  borderLeftColor: 'transparent',
+                  borderRightColor: 'transparent',
+                  borderBottomColor: '#FFFFFF',
+                  marginBottom: hp(2)
+                }} />
+                <View style={{
+                  width: wp(12),
+                  height: hp(8),
+                  borderWidth: 1.5,
+                  borderColor: '#FFFFFF',
+                  borderRadius: 1
+                }} />
+              </View>
             </View>
-          </View>
-          <Text style={{
-            fontSize: 10,
-            color: '#000000',
-            fontFamily: 'Poppins'
-          }}>
-            Branch
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={{ alignItems: 'center', flex: 1 }}
-        >
-          <View style={{
-            width: 40,
-            height: 40,
-            borderRadius: 20,
-            backgroundColor: 'transparent',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 4
-          }}>
-            <Text style={{ 
-              fontSize: 18, 
-              color: '#000000',
-              fontFamily: 'Poppins-Bold'
-            }}>
-              ₹
+            <Text style={{
+              fontSize: fontSize(10),
+              color: '#4285F4',
+              fontFamily: 'Poppins'
+            }} allowFontScaling={false}>
+              Home
             </Text>
-          </View>
-          <Text style={{
-            fontSize: 10,
-            color: '#000000',
-            fontFamily: 'Poppins'
-          }}>
-            Salary
-          </Text>
-        </TouchableOpacity>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={{ alignItems: 'center', flex: 1 }}
-        >
-          <View style={{
-            width: 40,
-            height: 40,
-            borderRadius: 20,
-            backgroundColor: 'transparent',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 4
-          }}>
-            {/* Map Pin Icon */}
-            <View style={{ width: 20, height: 20, alignItems: 'center', justifyContent: 'flex-start' }}>
-              <View style={{
-                width: 12,
-                height: 12,
-                borderRadius: 6,
-                borderWidth: 2,
-                borderColor: '#000000',
-                backgroundColor: '#000000',
-                marginBottom: -2
-              }} />
-              <View style={{
-                width: 0,
-                height: 0,
-                borderLeftWidth: 6,
-                borderRightWidth: 6,
-                borderTopWidth: 8,
-                borderLeftColor: 'transparent',
-                borderRightColor: 'transparent',
-                borderTopColor: '#000000'
-              }} />
+          <TouchableOpacity
+            style={{ alignItems: 'center', flex: 1 }}
+          >
+            <View style={{
+              width: wp(40),
+              height: hp(40),
+              borderRadius: hp(20),
+              backgroundColor: 'transparent',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: spacing(4)
+            }}>
+              {/* Paper Airplane Icon */}
+              <View style={{ 
+                width: wp(20), 
+                height: hp(20), 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                transform: [{ rotate: '45deg' }]
+              }}>
+                <View style={{
+                  width: 0,
+                  height: 0,
+                  borderLeftWidth: 0,
+                  borderRightWidth: wp(10),
+                  borderTopWidth: hp(5),
+                  borderBottomWidth: hp(5),
+                  borderRightColor: '#000000',
+                  borderTopColor: 'transparent',
+                  borderBottomColor: 'transparent',
+                  marginLeft: wp(2)
+                }} />
+              </View>
             </View>
-          </View>
-          <Text style={{
-            fontSize: 10,
-            color: '#000000',
-            fontFamily: 'Poppins'
-          }}>
-            Location
-          </Text>
-        </TouchableOpacity>
+            <Text style={{
+              fontSize: fontSize(10),
+              color: '#000000',
+              fontFamily: 'Poppins'
+            }} allowFontScaling={false}>
+              Branch
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={{ alignItems: 'center', flex: 1 }}
-        >
-          <View style={{
-            width: 40,
-            height: 40,
-            borderRadius: 20,
-            backgroundColor: 'transparent',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 4
-          }}>
-            <Image 
-              source={require('../../assets/gear-icon.png')} 
-              style={{ 
-                width: 20, 
-                height: 20, 
-                resizeMode: 'contain',
-                tintColor: '#000000'
-              }} 
-            />
-          </View>
-          <Text style={{
-            fontSize: 10,
-            color: '#000000',
-            fontFamily: 'Poppins'
-          }}>
-            Tools
-          </Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            style={{ alignItems: 'center', flex: 1 }}
+          >
+            <View style={{
+              width: wp(40),
+              height: hp(40),
+              borderRadius: hp(20),
+              backgroundColor: 'transparent',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: spacing(4)
+            }}>
+              <Text style={{ 
+                fontSize: fontSize(18), 
+                color: '#000000',
+                fontFamily: 'Poppins-Bold'
+              }} allowFontScaling={false}>
+                ₹
+              </Text>
+            </View>
+            <Text style={{
+              fontSize: fontSize(10),
+              color: '#000000',
+              fontFamily: 'Poppins'
+            }} allowFontScaling={false}>
+              Salary
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{ alignItems: 'center', flex: 1 }}
+          >
+            <View style={{
+              width: wp(40),
+              height: hp(40),
+              borderRadius: hp(20),
+              backgroundColor: 'transparent',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: spacing(4)
+            }}>
+              {/* Map Pin Icon */}
+              <View style={{ width: wp(20), height: hp(20), alignItems: 'center', justifyContent: 'flex-start' }}>
+                <View style={{
+                  width: wp(12),
+                  height: hp(12),
+                  borderRadius: hp(6),
+                  borderWidth: 2,
+                  borderColor: '#000000',
+                  backgroundColor: '#000000',
+                  marginBottom: hp(-2)
+                }} />
+                <View style={{
+                  width: 0,
+                  height: 0,
+                  borderLeftWidth: wp(6),
+                  borderRightWidth: wp(6),
+                  borderTopWidth: hp(8),
+                  borderLeftColor: 'transparent',
+                  borderRightColor: 'transparent',
+                  borderTopColor: '#000000'
+                }} />
+              </View>
+            </View>
+            <Text style={{
+              fontSize: fontSize(10),
+              color: '#000000',
+              fontFamily: 'Poppins'
+            }} allowFontScaling={false}>
+              Location
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{ alignItems: 'center', flex: 1 }}
+          >
+            <View style={{
+              width: wp(40),
+              height: hp(40),
+              borderRadius: hp(20),
+              backgroundColor: 'transparent',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: spacing(4)
+            }}>
+              <Image 
+                source={require('../../assets/gear-icon.png')} 
+                style={{ 
+                  width: wp(20), 
+                  height: hp(20), 
+                  resizeMode: 'contain',
+                  tintColor: '#000000'
+                }} 
+              />
+            </View>
+            <Text style={{
+              fontSize: fontSize(10),
+              color: '#000000',
+              fontFamily: 'Poppins'
+            }} allowFontScaling={false}>
+              Tools
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
     </View>
   );
 }

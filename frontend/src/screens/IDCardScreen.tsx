@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, StatusBar } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import BackButton from '../components/BackButton';
+import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
+import SafeAreaView from '../components/SafeAreaView';
 
 type RootStackParamList = {
   Language: undefined;
@@ -33,167 +34,148 @@ type RootStackParamList = {
 type Props = NativeStackScreenProps<RootStackParamList, 'IDCard'>;
 
 export default function IDCardScreen({ navigation }: Props) {
+  const insets = useSafeArea();
   const [orientation, setOrientation] = useState<'vertical' | 'horizontal'>('vertical');
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      {/* Top Header */}
+    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+      <StatusBar barStyle="light-content" backgroundColor="#248CFF" />
+      
+      {/* Top Header - Blue Bar */}
       <View style={{ 
         flexDirection: 'row', 
         alignItems: 'center', 
         justifyContent: 'space-between',
-        paddingHorizontal: 16,
-        paddingTop: 44,
-        paddingBottom: 12,
-        backgroundColor: '#FFFFFF'
+        paddingHorizontal: spacing(16),
+        paddingTop: spacing(12),
+        paddingBottom: spacing(12),
+        backgroundColor: '#248CFF'
       }}>
-        {/* Left: Back Arrow and Logo */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-          <View style={{ marginRight: 8 }}>
-            <BackButton />
-          </View>
-          <Image 
-            source={require('../../assets/header carobar.png')} 
-            style={{ width: 96, height: 22, resizeMode: 'contain' }} 
-          />
-        </View>
+        {/* Left: Back Arrow */}
+        <TouchableOpacity 
+          onPress={() => navigation.goBack()}
+          style={{ padding: spacing(4) }}
+        >
+          <Text style={{ fontSize: fontSize(24), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
+        </TouchableOpacity>
 
-        {/* Right: Icons */}
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          {/* Bell with notification dot */}
-          <View style={{ position: 'relative', marginRight: 16 }}>
-            <TouchableOpacity style={{ padding: 4 }}>
-              <Image 
-                source={require('../../assets/Frame.png')} 
-                style={{ width: 22, height: 22, resizeMode: 'contain' }} 
-              />
-            </TouchableOpacity>
-            <View style={{ 
-              position: 'absolute', 
-              right: 2, 
-              top: 4, 
-              width: 8, 
-              height: 8, 
-              borderRadius: 4, 
-              backgroundColor: '#4CAF50' 
-            }} />
-          </View>
-          <TouchableOpacity style={{ padding: 4, marginRight: 16 }}>
-            <Text style={{ fontSize: 18, color: '#000000' }}>🔍</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{ padding: 4 }}>
-            <Text style={{ fontSize: 18, color: '#000000' }}>⋮</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <ScrollView 
-        style={{ flex: 1 }}
-        contentContainerStyle={{ paddingTop: 8, paddingBottom: 120, paddingHorizontal: 16, alignItems: 'center' }}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Page Title */}
-        <View style={{ marginTop: 6, marginBottom: 18, width: '100%', alignItems: 'flex-start' }}>
+        {/* Center: ID Card Title */}
+        <View style={{ flex: 1, alignItems: 'center' }}>
           <Text style={{ 
-            fontSize: 20, 
-            fontWeight: '700', 
-            color: '#000000', 
-            fontFamily: 'Poppins-Bold',
-            textDecorationLine: 'underline'
-          }}>
+            fontSize: fontSize(18), 
+            fontWeight: '600', 
+            color: '#FFFFFF', 
+            fontFamily: 'Poppins-SemiBold' 
+          }} allowFontScaling={false}>
             ID Card
           </Text>
         </View>
 
+        {/* Right: Three Dots Menu */}
+        <TouchableOpacity style={{ padding: spacing(4) }}>
+          <Text style={{ fontSize: fontSize(20), color: '#FFFFFF' }} allowFontScaling={false}>⋮</Text>
+        </TouchableOpacity>
+      </View>
+
+      <ScrollView 
+        style={{ flex: 1 }}
+        contentContainerStyle={{ 
+          paddingTop: spacing(20), 
+          paddingBottom: spacing(120) + insets.bottom, 
+          paddingHorizontal: spacing(16), 
+          alignItems: 'center' 
+        }}
+        showsVerticalScrollIndicator={false}
+      >
         {/* ID Card */}
         {orientation === 'vertical' ? (
           /* Vertical Orientation - Portrait Style */
           <View style={{ 
             backgroundColor: '#FFFFFF',
-            borderRadius: 12,
-            padding: 24,
-            marginBottom: 18,
+            borderRadius: spacing(12),
+            padding: spacing(24),
+            marginBottom: spacing(18),
             shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
+            shadowOffset: { width: 0, height: spacing(2) },
             shadowOpacity: 0.1,
-            shadowRadius: 4,
+            shadowRadius: spacing(4),
             elevation: 3,
-            borderWidth: 1,
+            borderWidth: wp(1),
             borderColor: '#E0E0E0',
             width: '100%',
-            maxWidth: 320,
+            maxWidth: wp(320),
             alignSelf: 'center'
           }}>
             {/* Top Section: Company Logo and Details */}
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: spacing(20) }}>
               {/* Company Logo on Left */}
-              <View style={{ flex: 1, paddingRight: 8 }}>
+              <View style={{ flex: 1, paddingRight: spacing(8) }}>
                 <Image 
                   source={require('../../assets/creative designers.png')} 
-                  style={{ width: 110, height: 32, resizeMode: 'contain' }} 
+                  style={{ width: wp(130), height: hp(37), resizeMode: 'contain' }} 
                 />
               </View>
 
               {/* Company Details on Right */}
-              <View style={{ flex: 1, alignItems: 'flex-end', paddingLeft: 8 }}>
-                <Text style={{ fontSize: 12, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: 3, textAlign: 'right' }}>
+              <View style={{ flex: 1, alignItems: 'flex-end', paddingLeft: spacing(8) }}>
+                <Text style={{ fontSize: fontSize(11), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(2), textAlign: 'right' }} allowFontScaling={false}>
                   Creative Designers
                 </Text>
-                <Text style={{ fontSize: 10, color: '#000000', fontFamily: 'Poppins', marginBottom: 2, textAlign: 'right' }}>
+                <Text style={{ fontSize: fontSize(10), color: '#000000', fontFamily: 'Poppins', marginBottom: spacing(1), textAlign: 'right' }} allowFontScaling={false}>
                   Radhakishanpura, Sikar
                 </Text>
-                <Text style={{ fontSize: 10, color: '#000000', fontFamily: 'Poppins', textAlign: 'right' }}>
+                <Text style={{ fontSize: fontSize(10), color: '#000000', fontFamily: 'Poppins', textAlign: 'right' }} allowFontScaling={false}>
                   +919460638554
                 </Text>
               </View>
             </View>
 
             {/* Profile Picture Centered */}
-            <View style={{ alignItems: 'center', marginBottom: 20 }}>
+            <View style={{ alignItems: 'center', marginBottom: spacing(16) }}>
               <Image 
                 source={require('../../assets/Profile picture.png')} 
-                style={{ width: 110, height: 110, borderRadius: 55, marginBottom: 12 }}
+                style={{ width: wp(100), height: hp(100), borderRadius: hp(50), marginBottom: spacing(8), resizeMode: 'cover' }}
               />
-              <Text style={{ fontSize: 18, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: 4, textAlign: 'center' }}>
+              <Text style={{ fontSize: fontSize(16), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: spacing(2), textAlign: 'center' }} allowFontScaling={false}>
                 Kamal Jangid
               </Text>
-              <Text style={{ fontSize: 13, color: '#666666', fontFamily: 'Poppins', textAlign: 'center' }}>
+              <Text style={{ fontSize: fontSize(12), color: '#666666', fontFamily: 'Poppins', textAlign: 'center' }} allowFontScaling={false}>
                 Carpenter
               </Text>
             </View>
 
             {/* Employee Details - Vertical Stack */}
-            <View style={{ marginBottom: 20 }}>
-              <View style={{ marginBottom: 12 }}>
-                <Text style={{ fontSize: 12, color: '#000000', fontFamily: 'Poppins' }}>
-                  Employee ID : <Text style={{ color: '#666666' }}>001</Text>
+            <View style={{ marginBottom: spacing(16) }}>
+              <View style={{ marginBottom: spacing(8) }}>
+                <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                  Employee ID : <Text style={{ color: '#666666' }} allowFontScaling={false}>001</Text>
                 </Text>
               </View>
-              <View style={{ marginBottom: 12 }}>
-                <Text style={{ fontSize: 12, color: '#000000', fontFamily: 'Poppins' }}>
-                  Joning Date : <Text style={{ color: '#666666' }}>01/01/2023</Text>
+              <View style={{ marginBottom: spacing(8) }}>
+                <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                  Joning Date : <Text style={{ color: '#666666' }} allowFontScaling={false}>01/01/2023</Text>
                 </Text>
               </View>
-              <View style={{ marginBottom: 12 }}>
-                <Text style={{ fontSize: 12, color: '#000000', fontFamily: 'Poppins' }}>
-                  Date Of Birth : <Text style={{ color: '#666666' }}>18/01/1985</Text>
+              <View style={{ marginBottom: spacing(8) }}>
+                <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                  Date Of Birth : <Text style={{ color: '#666666' }} allowFontScaling={false}>18/01/1985</Text>
                 </Text>
               </View>
-              <View style={{ marginBottom: 12 }}>
-                <Text style={{ fontSize: 12, color: '#000000', fontFamily: 'Poppins' }}>
-                  Phone : <Text style={{ color: '#666666' }}>9460638554</Text>
+              <View style={{ marginBottom: spacing(8) }}>
+                <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                  Phone : <Text style={{ color: '#666666' }} allowFontScaling={false}>9460638554</Text>
                 </Text>
               </View>
               <View>
-                <Text style={{ fontSize: 12, color: '#000000', fontFamily: 'Poppins' }}>
-                  City : <Text style={{ color: '#666666' }}>Sikar</Text>
+                <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                  City : <Text style={{ color: '#666666' }} allowFontScaling={false}>Sikar</Text>
                 </Text>
               </View>
             </View>
 
             {/* Bottom: Powered by */}
-            <View style={{ alignItems: 'center', marginTop: 16, paddingTop: 16, borderTopWidth: 1, borderTopColor: '#E0E0E0' }}>
-              <Text style={{ fontSize: 10, color: '#666666', fontFamily: 'Poppins' }}>
+            <View style={{ alignItems: 'center', marginTop: spacing(12), paddingTop: spacing(12), borderTopWidth: wp(1), borderTopColor: '#E0E0E0' }}>
+              <Text style={{ fontSize: fontSize(10), color: '#666666', fontFamily: 'Poppins' }} allowFontScaling={false}>
                 Powered by - Caarobar
               </Text>
             </View>
@@ -202,93 +184,93 @@ export default function IDCardScreen({ navigation }: Props) {
           /* Horizontal Orientation - Landscape Style */
           <View style={{ 
             backgroundColor: '#FFFFFF',
-            borderRadius: 12,
-            padding: 20,
-            marginBottom: 18,
+            borderRadius: hp(12),
+            padding: spacing(20),
+            marginBottom: spacing(18),
             shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
+            shadowOffset: { width: 0, height: hp(2) },
             shadowOpacity: 0.1,
-            shadowRadius: 4,
+            shadowRadius: spacing(4),
             elevation: 3,
-            borderWidth: 1,
+            borderWidth: wp(1),
             borderColor: '#E0E0E0',
             width: '100%',
-            maxWidth: 600,
+            maxWidth: wp(600),
             alignSelf: 'center'
           }}>
             {/* Top Section: Company Logo and Details */}
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 18 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: spacing(16) }}>
               {/* Company Logo on Left */}
-              <View style={{ flex: 1, paddingRight: 12 }}>
+              <View style={{ flex: 1, paddingRight: spacing(12) }}>
                 <Image 
                   source={require('../../assets/creative designers.png')} 
-                  style={{ width: 130, height: 37, resizeMode: 'contain' }} 
+                  style={{ width: wp(130), height: hp(37), resizeMode: 'contain' }} 
                 />
               </View>
 
               {/* Company Details on Right */}
-              <View style={{ flex: 1, alignItems: 'flex-end', paddingLeft: 12 }}>
-                <Text style={{ fontSize: 13, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: 4, textAlign: 'right' }}>
+              <View style={{ flex: 1, alignItems: 'flex-end', paddingLeft: spacing(12) }}>
+                <Text style={{ fontSize: fontSize(11), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(2), textAlign: 'right' }} allowFontScaling={false}>
                   Creative Designers
                 </Text>
-                <Text style={{ fontSize: 11, color: '#000000', fontFamily: 'Poppins', marginBottom: 2, textAlign: 'right' }}>
+                <Text style={{ fontSize: fontSize(10), color: '#000000', fontFamily: 'Poppins', marginBottom: spacing(1), textAlign: 'right' }} allowFontScaling={false}>
                   Radhakishanpura, Sikar
                 </Text>
-                <Text style={{ fontSize: 11, color: '#000000', fontFamily: 'Poppins', textAlign: 'right' }}>
+                <Text style={{ fontSize: fontSize(10), color: '#000000', fontFamily: 'Poppins', textAlign: 'right' }} allowFontScaling={false}>
                   +919460638554
                 </Text>
               </View>
             </View>
 
             {/* Middle Section: Profile and Details in Horizontal Layout */}
-            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 16 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: spacing(16) }}>
               {/* Profile Picture and Name on Left */}
-              <View style={{ marginRight: 24, alignItems: 'center', width: 110 }}>
+              <View style={{ marginRight: spacing(24), alignItems: 'center', width: wp(110) }}>
                 <Image 
                   source={require('../../assets/Profile picture.png')} 
-                  style={{ width: 85, height: 85, borderRadius: 42.5, marginBottom: 10 }}
+                  style={{ width: wp(85), height: hp(85), borderRadius: hp(42.5), marginBottom: spacing(10), resizeMode: 'cover' }}
                 />
-                <Text style={{ fontSize: 14, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: 3, textAlign: 'center' }}>
+                <Text style={{ fontSize: fontSize(14), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: spacing(3), textAlign: 'center' }} allowFontScaling={false}>
                   Kamal Jangid
                 </Text>
-                <Text style={{ fontSize: 11, color: '#666666', fontFamily: 'Poppins', textAlign: 'center' }}>
+                <Text style={{ fontSize: fontSize(11), color: '#666666', fontFamily: 'Poppins', textAlign: 'center' }} allowFontScaling={false}>
                   Carpenter
                 </Text>
               </View>
 
               {/* Employee Details in Two Columns */}
               <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-                <View style={{ width: '48%', marginBottom: 8 }}>
-                  <Text style={{ fontSize: 11, color: '#000000', fontFamily: 'Poppins' }}>
-                    Employee ID : <Text style={{ color: '#666666' }}>001</Text>
+                <View style={{ width: '48%', marginBottom: spacing(8) }}>
+                  <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                    Employee ID : <Text style={{ color: '#666666' }} allowFontScaling={false}>001</Text>
                   </Text>
                 </View>
-                <View style={{ width: '48%', marginBottom: 8 }}>
-                  <Text style={{ fontSize: 11, color: '#000000', fontFamily: 'Poppins' }}>
-                    Joning Date : <Text style={{ color: '#666666' }}>01/01/2023</Text>
+                <View style={{ width: '48%', marginBottom: spacing(8) }}>
+                  <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                    Joning Date : <Text style={{ color: '#666666' }} allowFontScaling={false}>01/01/2023</Text>
                   </Text>
                 </View>
-                <View style={{ width: '48%', marginBottom: 8 }}>
-                  <Text style={{ fontSize: 11, color: '#000000', fontFamily: 'Poppins' }}>
-                    Date Of Birth : <Text style={{ color: '#666666' }}>18/01/1985</Text>
+                <View style={{ width: '48%', marginBottom: spacing(8) }}>
+                  <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                    Date Of Birth : <Text style={{ color: '#666666' }} allowFontScaling={false}>18/01/1985</Text>
                   </Text>
                 </View>
-                <View style={{ width: '48%', marginBottom: 8 }}>
-                  <Text style={{ fontSize: 11, color: '#000000', fontFamily: 'Poppins' }}>
-                    Phone : <Text style={{ color: '#666666' }}>9460638554</Text>
+                <View style={{ width: '48%', marginBottom: spacing(8) }}>
+                  <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                    Phone : <Text style={{ color: '#666666' }} allowFontScaling={false}>9460638554</Text>
                   </Text>
                 </View>
                 <View style={{ width: '48%' }}>
-                  <Text style={{ fontSize: 11, color: '#000000', fontFamily: 'Poppins' }}>
-                    City : <Text style={{ color: '#666666' }}>Sikar</Text>
+                  <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                    City : <Text style={{ color: '#666666' }} allowFontScaling={false}>Sikar</Text>
                   </Text>
                 </View>
               </View>
             </View>
 
             {/* Bottom: Powered by */}
-            <View style={{ alignItems: 'center', marginTop: 12, paddingTop: 12, borderTopWidth: 1, borderTopColor: '#E0E0E0' }}>
-              <Text style={{ fontSize: 10, color: '#666666', fontFamily: 'Poppins' }}>
+            <View style={{ alignItems: 'center', marginTop: spacing(12), paddingTop: spacing(12), borderTopWidth: wp(1), borderTopColor: '#E0E0E0' }}>
+              <Text style={{ fontSize: fontSize(10), color: '#666666', fontFamily: 'Poppins' }} allowFontScaling={false}>
                 Powered by - Caarobar
               </Text>
             </View>
@@ -303,9 +285,10 @@ export default function IDCardScreen({ navigation }: Props) {
         left: 0, 
         right: 0, 
         backgroundColor: '#FFFFFF',
-        paddingHorizontal: 16,
-        paddingVertical: 16,
-        borderTopWidth: 1,
+        paddingHorizontal: spacing(16),
+        paddingVertical: spacing(16),
+        paddingBottom: spacing(16) + insets.bottom,
+        borderTopWidth: wp(1),
         borderTopColor: '#E0E0E0',
         flexDirection: 'row',
         alignItems: 'center',
@@ -315,24 +298,24 @@ export default function IDCardScreen({ navigation }: Props) {
         <TouchableOpacity 
           onPress={() => setOrientation('vertical')}
           style={{
-            backgroundColor: orientation === 'vertical' ? '#2196F3' : '#FFFFFF',
-            borderWidth: 2,
-            borderColor: '#2196F3',
-            paddingVertical: 12,
-            paddingHorizontal: 24,
-            borderRadius: 8,
+            backgroundColor: orientation === 'vertical' ? '#248CFF' : '#FFFFFF',
+            borderWidth: wp(1),
+            borderColor: '#248CFF',
+            paddingVertical: spacing(12),
+            paddingHorizontal: spacing(24),
+            borderRadius: hp(20),
             flex: 1,
-            marginRight: 12,
+            marginRight: spacing(12),
             alignItems: 'center',
             justifyContent: 'center'
           }}
         >
           <Text style={{ 
-            fontSize: 14, 
+            fontSize: fontSize(14), 
             fontWeight: '600', 
-            color: orientation === 'vertical' ? '#FFFFFF' : '#2196F3', 
+            color: orientation === 'vertical' ? '#FFFFFF' : '#248CFF', 
             fontFamily: 'Poppins-SemiBold' 
-          }}>
+          }} allowFontScaling={false}>
             Vertical
           </Text>
         </TouchableOpacity>
@@ -340,44 +323,44 @@ export default function IDCardScreen({ navigation }: Props) {
         {/* Printer Button */}
         <TouchableOpacity 
           style={{
-            width: 50,
-            height: 50,
-            borderRadius: 25,
-            backgroundColor: '#2196F3',
+            width: wp(50),
+            height: hp(50),
+            borderRadius: hp(25),
+            backgroundColor: '#248CFF',
             alignItems: 'center',
             justifyContent: 'center',
-            marginRight: 12
+            marginRight: spacing(12)
           }}
         >
-          <Text style={{ fontSize: 20, color: '#FFFFFF' }}>🖨️</Text>
+          <Text style={{ fontSize: fontSize(20), color: '#FFFFFF' }} allowFontScaling={false}>🖨️</Text>
         </TouchableOpacity>
 
         {/* Horizontal Button */}
         <TouchableOpacity 
           onPress={() => setOrientation('horizontal')}
           style={{
-            backgroundColor: orientation === 'horizontal' ? '#2196F3' : '#FFFFFF',
-            borderWidth: 2,
-            borderColor: '#2196F3',
-            paddingVertical: 12,
-            paddingHorizontal: 24,
-            borderRadius: 8,
+            backgroundColor: orientation === 'horizontal' ? '#248CFF' : '#FFFFFF',
+            borderWidth: wp(1),
+            borderColor: '#248CFF',
+            paddingVertical: spacing(12),
+            paddingHorizontal: spacing(24),
+            borderRadius: hp(20),
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center'
           }}
         >
           <Text style={{ 
-            fontSize: 14, 
+            fontSize: fontSize(14), 
             fontWeight: '600', 
-            color: orientation === 'horizontal' ? '#FFFFFF' : '#2196F3', 
+            color: orientation === 'horizontal' ? '#FFFFFF' : '#248CFF', 
             fontFamily: 'Poppins-SemiBold' 
-          }}>
+          }} allowFontScaling={false}>
             Horizontal
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

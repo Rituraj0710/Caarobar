@@ -7,14 +7,18 @@
       "android": {
         "buildType": "apk"
       }
-    }
-  },
-"production": {
+    },
+    "safespace": {
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "production": {
       "android": {
         "buildType": "app-bundle"
       }
     }
-
+  }
 }
 
 

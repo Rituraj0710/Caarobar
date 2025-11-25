@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { wp, hp, fontSize, spacing, SCREEN_WIDTH } from '../utils/responsive';
+import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
 import BackButton from '../components/BackButton';
+import SafeAreaView from '../components/SafeAreaView';
 
 type RootStackParamList = {
   Language: undefined;
@@ -24,23 +25,24 @@ type RootStackParamList = {
 type Props = NativeStackScreenProps<RootStackParamList, 'AddCustomer'>;
 
 export default function AddCustomerScreen({ navigation }: Props) {
+  const insets = useSafeArea();
+  const [serialNo, setSerialNo] = useState('1');
   const [firmName, setFirmName] = useState('Creative Designers');
   const [customerName, setCustomerName] = useState('Kamal Jangid');
   const [contact, setContact] = useState('+919460638554');
   const [location, setLocation] = useState('Radhakishanpura, Sikar');
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       {/* Blue Header Bar */}
       <View style={{
-        backgroundColor: '#4285F4',
-        paddingTop: hp(44),
+        backgroundColor: '#248CFF',
+        paddingTop: spacing(12),
         paddingBottom: spacing(16),
         paddingHorizontal: spacing(16),
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        minHeight: hp(60)
+        justifyContent: 'space-between'
       }}>
         {/* Back Arrow */}
         <BackButton color="#FFFFFF" />
@@ -54,7 +56,7 @@ export default function AddCustomerScreen({ navigation }: Props) {
           bottom: 0,
           alignItems: 'center', 
           justifyContent: 'center',
-          paddingTop: hp(44),
+          paddingTop: spacing(12),
           paddingBottom: spacing(16)
         }}>
           <Text style={{
@@ -62,16 +64,48 @@ export default function AddCustomerScreen({ navigation }: Props) {
             fontWeight: '700',
             color: '#FFFFFF',
             fontFamily: 'Poppins-Bold'
-          }}>
+          }} allowFontScaling={false}>
             Add Customer
           </Text>
         </View>
       </View>
 
       <ScrollView 
-        contentContainerStyle={{ padding: spacing(16), paddingBottom: hp(100) }}
+        contentContainerStyle={{ padding: spacing(16), paddingBottom: spacing(100) + insets.bottom }}
         showsVerticalScrollIndicator={false}
       >
+        {/* Serial No. */}
+        <View style={{ marginBottom: spacing(20) }}>
+          <Text style={{
+            fontSize: fontSize(14),
+            color: '#4285F4',
+            fontFamily: 'Poppins-SemiBold',
+            fontWeight: '600',
+            marginBottom: spacing(8)
+          }} allowFontScaling={false}>
+            Serial No.
+          </Text>
+          <TextInput
+            style={{
+              backgroundColor: '#FFFFFF',
+              borderWidth: 1,
+              borderColor: '#E0E0E0',
+              borderRadius: hp(8),
+              paddingHorizontal: spacing(16),
+              paddingVertical: spacing(14),
+              fontSize: fontSize(14),
+              color: '#000000',
+              fontFamily: 'Poppins'
+            }}
+            placeholder="Enter serial number"
+            placeholderTextColor="#9E9E9E"
+            value={serialNo}
+            onChangeText={setSerialNo}
+            keyboardType="numeric"
+            allowFontScaling={false}
+          />
+        </View>
+
         {/* Firm Name */}
         <View style={{ marginBottom: spacing(20) }}>
           <Text style={{
@@ -80,7 +114,7 @@ export default function AddCustomerScreen({ navigation }: Props) {
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
             marginBottom: spacing(8)
-          }}>
+          }} allowFontScaling={false}>
             Firm Name
           </Text>
           <TextInput
@@ -88,7 +122,7 @@ export default function AddCustomerScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: 8,
+              borderRadius: hp(8),
               paddingHorizontal: spacing(16),
               paddingVertical: spacing(14),
               fontSize: fontSize(14),
@@ -99,6 +133,7 @@ export default function AddCustomerScreen({ navigation }: Props) {
             placeholderTextColor="#9E9E9E"
             value={firmName}
             onChangeText={setFirmName}
+            allowFontScaling={false}
           />
         </View>
 
@@ -110,7 +145,7 @@ export default function AddCustomerScreen({ navigation }: Props) {
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
             marginBottom: spacing(8)
-          }}>
+          }} allowFontScaling={false}>
             Customer Name
           </Text>
           <TextInput
@@ -118,7 +153,7 @@ export default function AddCustomerScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: 8,
+              borderRadius: hp(8),
               paddingHorizontal: spacing(16),
               paddingVertical: spacing(14),
               fontSize: fontSize(14),
@@ -129,6 +164,7 @@ export default function AddCustomerScreen({ navigation }: Props) {
             placeholderTextColor="#9E9E9E"
             value={customerName}
             onChangeText={setCustomerName}
+            allowFontScaling={false}
           />
         </View>
 
@@ -140,27 +176,40 @@ export default function AddCustomerScreen({ navigation }: Props) {
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
             marginBottom: spacing(8)
-          }}>
+          }} allowFontScaling={false}>
             Contact
           </Text>
-          <TextInput
-            style={{
-              backgroundColor: '#FFFFFF',
-              borderWidth: 1,
-              borderColor: '#E0E0E0',
-              borderRadius: 8,
-              paddingHorizontal: spacing(16),
-              paddingVertical: spacing(14),
-              fontSize: fontSize(14),
-              color: '#000000',
-              fontFamily: 'Poppins'
-            }}
-            placeholder="Enter contact number"
-            placeholderTextColor="#9E9E9E"
-            value={contact}
-            onChangeText={setContact}
-            keyboardType="phone-pad"
-          />
+          <View style={{ position: 'relative' }}>
+            <TextInput
+              style={{
+                backgroundColor: '#FFFFFF',
+                borderWidth: 1,
+                borderColor: '#E0E0E0',
+                borderRadius: hp(8),
+                paddingHorizontal: spacing(16),
+                paddingVertical: spacing(14),
+                paddingRight: spacing(40),
+                fontSize: fontSize(14),
+                color: '#000000',
+                fontFamily: 'Poppins'
+              }}
+              placeholder="Enter contact number"
+              placeholderTextColor="#9E9E9E"
+              value={contact}
+              onChangeText={setContact}
+              keyboardType="phone-pad"
+              allowFontScaling={false}
+            />
+            <View style={{
+              position: 'absolute',
+              right: spacing(12),
+              top: spacing(14),
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <Text style={{ fontSize: fontSize(16), color: '#9E9E9E' }} allowFontScaling={false}>👥</Text>
+            </View>
+          </View>
         </View>
 
         {/* Location */}
@@ -171,7 +220,7 @@ export default function AddCustomerScreen({ navigation }: Props) {
             fontFamily: 'Poppins-SemiBold',
             fontWeight: '600',
             marginBottom: spacing(8)
-          }}>
+          }} allowFontScaling={false}>
             Location
           </Text>
           <View style={{ position: 'relative' }}>
@@ -180,7 +229,7 @@ export default function AddCustomerScreen({ navigation }: Props) {
                 backgroundColor: '#FFFFFF',
                 borderWidth: 1,
                 borderColor: '#E0E0E0',
-                borderRadius: 8,
+                borderRadius: hp(8),
                 paddingHorizontal: spacing(16),
                 paddingVertical: spacing(14),
                 paddingRight: spacing(40),
@@ -192,6 +241,7 @@ export default function AddCustomerScreen({ navigation }: Props) {
               placeholderTextColor="#9E9E9E"
               value={location}
               onChangeText={setLocation}
+              allowFontScaling={false}
             />
             <View style={{
               position: 'absolute',
@@ -200,7 +250,7 @@ export default function AddCustomerScreen({ navigation }: Props) {
               alignItems: 'center',
               justifyContent: 'center'
             }}>
-              <Text style={{ fontSize: fontSize(16), color: '#9E9E9E' }}>📍</Text>
+              <Text style={{ fontSize: fontSize(16), color: '#9E9E9E' }} allowFontScaling={false}>📍</Text>
             </View>
           </View>
         </View>
@@ -209,11 +259,11 @@ export default function AddCustomerScreen({ navigation }: Props) {
       {/* Save Button - Fixed at Bottom */}
       <View style={{
         position: 'absolute',
-        bottom: spacing(20),
+        bottom: 0,
         left: 0,
         right: 0,
         padding: spacing(16),
-        paddingBottom: 0,
+        paddingBottom: spacing(16) + insets.bottom,
         backgroundColor: '#FFFFFF',
         borderTopWidth: 1,
         borderTopColor: '#E0E0E0'
@@ -221,14 +271,14 @@ export default function AddCustomerScreen({ navigation }: Props) {
         <TouchableOpacity
           style={{
             backgroundColor: '#4285F4',
-            borderRadius: 8,
+            borderRadius: hp(25),
             paddingVertical: spacing(16),
             alignItems: 'center',
             justifyContent: 'center',
             shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
+            shadowOffset: { width: 0, height: spacing(2) },
             shadowOpacity: 0.2,
-            shadowRadius: 4,
+            shadowRadius: spacing(4),
             elevation: 3
           }}
           onPress={() => {
@@ -241,12 +291,12 @@ export default function AddCustomerScreen({ navigation }: Props) {
             fontSize: fontSize(16),
             fontFamily: 'Poppins-Bold',
             fontWeight: '700'
-          }}>
+          }} allowFontScaling={false}>
             Save
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

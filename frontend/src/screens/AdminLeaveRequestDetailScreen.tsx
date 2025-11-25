@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput, Image } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import BackButton from '../components/BackButton';
+import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
+import SafeAreaView from '../components/SafeAreaView';
 
 type RootStackParamList = {
   AdminLeaveRequestDetail: {
@@ -20,6 +22,7 @@ type RootStackParamList = {
 type Props = NativeStackScreenProps<RootStackParamList, 'AdminLeaveRequestDetail'>;
 
 export default function AdminLeaveRequestDetailScreen({ navigation, route }: Props) {
+  const insets = useSafeArea();
   const {
     employeeId = '1',
     employeeName = 'Kamal Kishore Jangid',
@@ -47,15 +50,15 @@ export default function AdminLeaveRequestDetailScreen({ navigation, route }: Pro
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <StatusBar barStyle="light-content" backgroundColor="#4285F4" />
       
       {/* Blue Header */}
       <View style={{
         backgroundColor: '#4285F4',
-        paddingTop: 44,
-        paddingBottom: 12,
-        paddingHorizontal: 16,
+        paddingTop: spacing(12),
+        paddingBottom: spacing(12),
+        paddingHorizontal: spacing(16),
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'
@@ -65,47 +68,47 @@ export default function AdminLeaveRequestDetailScreen({ navigation, route }: Pro
 
         {/* Title */}
         <Text style={{
-          fontSize: 18,
+          fontSize: fontSize(18),
           fontWeight: '700',
           color: '#FFFFFF',
           fontFamily: 'Poppins-Bold',
           flex: 1,
           textAlign: 'center',
-          marginRight: 40
-        }}>
+          marginRight: wp(40)
+        }} allowFontScaling={false}>
           Leave Request Details
         </Text>
       </View>
 
       <ScrollView
         style={{ flex: 1 }}
-        contentContainerStyle={{ paddingBottom: 100 }}
+        contentContainerStyle={{ paddingBottom: spacing(100) + insets.bottom }}
         showsVerticalScrollIndicator={false}
       >
         {/* Leave Request Information Section */}
-        <View style={{ paddingHorizontal: 16, paddingTop: 20 }}>
+        <View style={{ paddingHorizontal: spacing(16), paddingTop: spacing(20) }}>
           {/* Leave Type */}
           <View style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            paddingVertical: 16,
+            paddingVertical: spacing(16),
             borderBottomWidth: 1,
             borderBottomColor: '#E0E0E0'
           }}>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               Leave Type
             </Text>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins',
               fontWeight: '600'
-            }}>
+            }} allowFontScaling={false}>
               {leaveType}
             </Text>
           </View>
@@ -115,23 +118,23 @@ export default function AdminLeaveRequestDetailScreen({ navigation, route }: Pro
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            paddingVertical: 16,
+            paddingVertical: spacing(16),
             borderBottomWidth: 1,
             borderBottomColor: '#E0E0E0'
           }}>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               Request Date
             </Text>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins',
               fontWeight: '600'
-            }}>
+            }} allowFontScaling={false}>
               {requestDate}
             </Text>
           </View>
@@ -141,23 +144,23 @@ export default function AdminLeaveRequestDetailScreen({ navigation, route }: Pro
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            paddingVertical: 16,
+            paddingVertical: spacing(16),
             borderBottomWidth: 1,
             borderBottomColor: '#E0E0E0'
           }}>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               Start Off Date
             </Text>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins',
               fontWeight: '600'
-            }}>
+            }} allowFontScaling={false}>
               {startOffDate}
             </Text>
           </View>
@@ -167,23 +170,23 @@ export default function AdminLeaveRequestDetailScreen({ navigation, route }: Pro
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            paddingVertical: 16,
+            paddingVertical: spacing(16),
             borderBottomWidth: 1,
             borderBottomColor: '#E0E0E0'
           }}>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               Day
             </Text>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins',
               fontWeight: '600'
-            }}>
+            }} allowFontScaling={false}>
               {day}
             </Text>
           </View>
@@ -193,23 +196,23 @@ export default function AdminLeaveRequestDetailScreen({ navigation, route }: Pro
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            paddingVertical: 16,
+            paddingVertical: spacing(16),
             borderBottomWidth: 1,
             borderBottomColor: '#E0E0E0'
           }}>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               Approved By
             </Text>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins',
               fontWeight: '600'
-            }}>
+            }} allowFontScaling={false}>
               {approvedBy}
             </Text>
           </View>
@@ -219,81 +222,81 @@ export default function AdminLeaveRequestDetailScreen({ navigation, route }: Pro
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            paddingVertical: 16,
+            paddingVertical: spacing(16),
             borderBottomWidth: 1,
             borderBottomColor: '#E0E0E0'
           }}>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins'
-            }}>
+            }} allowFontScaling={false}>
               Status
             </Text>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: status === 'Pending' ? '#F59E0B' : status === 'Approved' ? '#4CAF50' : '#E53935',
               fontFamily: 'Poppins',
               fontWeight: '600'
-            }}>
+            }} allowFontScaling={false}>
               {status}
             </Text>
           </View>
         </View>
 
         {/* Reason for Leave Section */}
-        <View style={{ paddingHorizontal: 16, paddingTop: 20 }}>
+        <View style={{ paddingHorizontal: spacing(16), paddingTop: spacing(20) }}>
           <Text style={{
-            fontSize: 14,
+            fontSize: fontSize(14),
             color: '#000000',
             fontFamily: 'Poppins',
-            marginBottom: 8
-          }}>
+            marginBottom: spacing(8)
+          }} allowFontScaling={false}>
             Reason for Leave :-
           </Text>
           <View style={{
             borderWidth: 1,
             borderColor: '#E0E0E0',
-            borderRadius: 8,
-            padding: 12,
-            minHeight: 100,
+            borderRadius: hp(8),
+            padding: spacing(12),
+            minHeight: hp(100),
             backgroundColor: '#FAFAFA'
           }}>
             <Text style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: '#000000',
               fontFamily: 'Poppins',
-              lineHeight: 20
-            }}>
+              lineHeight: fontSize(20)
+            }} allowFontScaling={false}>
               • {reason}
             </Text>
           </View>
         </View>
 
         {/* Add Image Section */}
-        <View style={{ paddingHorizontal: 16, paddingTop: 20 }}>
+        <View style={{ paddingHorizontal: spacing(16), paddingTop: spacing(20) }}>
           <Text style={{
-            fontSize: 14,
+            fontSize: fontSize(14),
             color: '#4285F4',
             fontFamily: 'Poppins',
             fontWeight: '600',
-            marginBottom: 12
-          }}>
+            marginBottom: spacing(12)
+          }} allowFontScaling={false}>
             Add Image
           </Text>
           <View style={{
             flexDirection: 'row',
             alignItems: 'center',
-            gap: 12
+            gap: spacing(12)
           }}>
             {/* Dashed Border Box with Upload Icon */}
             <View style={{
-              width: 120,
-              height: 120,
+              width: wp(120),
+              height: hp(120),
               borderWidth: 2,
               borderColor: '#E0E0E0',
               borderStyle: 'dashed',
-              borderRadius: 8,
+              borderRadius: hp(8),
               alignItems: 'center',
               justifyContent: 'center',
               backgroundColor: '#FAFAFA',
@@ -302,16 +305,16 @@ export default function AdminLeaveRequestDetailScreen({ navigation, route }: Pro
               {/* Cloud/Upload Icon - Large Black Cloud with Up Arrow */}
               <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                 {/* Large Cloud Shape */}
-                <Text style={{ fontSize: 60, color: '#000000', marginBottom: 8 }}>☁</Text>
+                <Text style={{ fontSize: fontSize(60), color: '#000000', marginBottom: spacing(8) }} allowFontScaling={false}>☁</Text>
                 {/* Up Arrow inside cloud */}
                 <View style={{
                   position: 'absolute',
-                  bottom: 25,
+                  bottom: spacing(25),
                   width: 0,
                   height: 0,
-                  borderLeftWidth: 10,
-                  borderRightWidth: 10,
-                  borderBottomWidth: 14,
+                  borderLeftWidth: wp(10),
+                  borderRightWidth: wp(10),
+                  borderBottomWidth: hp(14),
                   borderLeftColor: 'transparent',
                   borderRightColor: 'transparent',
                   borderBottomColor: '#000000'
@@ -322,9 +325,9 @@ export default function AdminLeaveRequestDetailScreen({ navigation, route }: Pro
             {/* Circular Plus Button */}
             <TouchableOpacity
               style={{
-                width: 50,
-                height: 50,
-                borderRadius: 25,
+                width: wp(50),
+                height: hp(50),
+                borderRadius: hp(25),
                 backgroundColor: '#000000',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -336,7 +339,7 @@ export default function AdminLeaveRequestDetailScreen({ navigation, route }: Pro
                 console.log('Add image');
               }}
             >
-              <Text style={{ fontSize: 24, color: '#FFFFFF', fontWeight: 'bold' }}>+</Text>
+              <Text style={{ fontSize: fontSize(24), color: '#FFFFFF', fontWeight: 'bold' }} allowFontScaling={false}>+</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -350,16 +353,16 @@ export default function AdminLeaveRequestDetailScreen({ navigation, route }: Pro
         right: 0,
         backgroundColor: '#FFFFFF',
         flexDirection: 'row',
-        paddingHorizontal: 16,
-        paddingVertical: 16,
-        paddingBottom: 34,
+        paddingHorizontal: spacing(16),
+        paddingVertical: spacing(16),
+        paddingBottom: spacing(34) + insets.bottom,
         borderTopWidth: 1,
         borderTopColor: '#E0E0E0',
-        gap: 12,
+        gap: spacing(12),
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: -2 },
+        shadowOffset: { width: 0, height: spacing(-2) },
         shadowOpacity: 0.1,
-        shadowRadius: 4,
+        shadowRadius: spacing(4),
         elevation: 5
       }}>
         {/* Reject Button */}
@@ -368,21 +371,21 @@ export default function AdminLeaveRequestDetailScreen({ navigation, route }: Pro
           style={{
             flex: 1,
             backgroundColor: '#E53935',
-            borderRadius: 8,
-            paddingVertical: 14,
+            borderRadius: hp(8),
+            paddingVertical: spacing(14),
             alignItems: 'center',
             justifyContent: 'center',
             flexDirection: 'row',
-            gap: 8
+            gap: spacing(8)
           }}
         >
-          <Text style={{ fontSize: 20, color: '#FFFFFF', fontWeight: 'bold' }}>×</Text>
+          <Text style={{ fontSize: fontSize(20), color: '#FFFFFF', fontWeight: 'bold' }} allowFontScaling={false}>×</Text>
           <Text style={{
-            fontSize: 16,
+            fontSize: fontSize(16),
             color: '#FFFFFF',
             fontFamily: 'Poppins-Bold',
             fontWeight: '700'
-          }}>
+          }} allowFontScaling={false}>
             Reject
           </Text>
         </TouchableOpacity>
@@ -393,26 +396,26 @@ export default function AdminLeaveRequestDetailScreen({ navigation, route }: Pro
           style={{
             flex: 1,
             backgroundColor: '#4CAF50',
-            borderRadius: 8,
-            paddingVertical: 14,
+            borderRadius: hp(8),
+            paddingVertical: spacing(14),
             alignItems: 'center',
             justifyContent: 'center',
             flexDirection: 'row',
-            gap: 8
+            gap: spacing(8)
           }}
         >
-          <Text style={{ fontSize: 20, color: '#FFFFFF', fontWeight: 'bold' }}>✓</Text>
+          <Text style={{ fontSize: fontSize(20), color: '#FFFFFF', fontWeight: 'bold' }} allowFontScaling={false}>✓</Text>
           <Text style={{
-            fontSize: 16,
+            fontSize: fontSize(16),
             color: '#FFFFFF',
             fontFamily: 'Poppins-Bold',
             fontWeight: '700'
-          }}>
+          }} allowFontScaling={false}>
             Approve
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

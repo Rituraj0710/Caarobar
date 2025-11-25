@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { wp, hp, fontSize, spacing } from '../utils/responsive';
+import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
 import BackButton from '../components/BackButton';
+import SafeAreaView from '../components/SafeAreaView';
 
 type RootStackParamList = {
   Language: undefined;
@@ -45,6 +46,7 @@ const expenseRequests: ExpenseRequest[] = [
 ];
 
 export default function ExpenseRequestDetailScreen({ navigation, route }: Props) {
+  const insets = useSafeArea();
   const { month, monthNumber, year } = route.params;
 
   const totalExpense = expenseRequests.reduce((sum, req) => sum + req.payment, 0);
@@ -53,24 +55,24 @@ export default function ExpenseRequestDetailScreen({ navigation, route }: Props)
     if (status === 'approved') {
       return (
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <View style={{ width: 20, height: 20, borderRadius: 10, backgroundColor: '#4CAF50', alignItems: 'center', justifyContent: 'center', marginRight: 6 }}>
-            <Text style={{ color: '#FFFFFF', fontSize: 12, fontWeight: 'bold' }}>✓</Text>
+          <View style={{ width: wp(20), height: hp(20), borderRadius: hp(10), backgroundColor: '#4CAF50', alignItems: 'center', justifyContent: 'center', marginRight: spacing(6) }}>
+            <Text style={{ color: '#FFFFFF', fontSize: fontSize(12), fontWeight: 'bold' }} allowFontScaling={false}>✓</Text>
           </View>
         </View>
       );
     } else if (status === 'pending') {
       return (
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <View style={{ width: 20, height: 20, borderRadius: 10, backgroundColor: '#FFC107', alignItems: 'center', justifyContent: 'center', marginRight: 6 }}>
-            <Text style={{ color: '#FFFFFF', fontSize: 12, fontWeight: 'bold' }}>−</Text>
+          <View style={{ width: wp(20), height: hp(20), borderRadius: hp(10), backgroundColor: '#FFC107', alignItems: 'center', justifyContent: 'center', marginRight: spacing(6) }}>
+            <Text style={{ color: '#FFFFFF', fontSize: fontSize(12), fontWeight: 'bold' }} allowFontScaling={false}>−</Text>
           </View>
         </View>
       );
     } else {
       return (
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <View style={{ width: 20, height: 20, borderRadius: 10, backgroundColor: '#E53935', alignItems: 'center', justifyContent: 'center', marginRight: 6 }}>
-            <Text style={{ color: '#FFFFFF', fontSize: 12, fontWeight: 'bold' }}>×</Text>
+          <View style={{ width: wp(20), height: hp(20), borderRadius: hp(10), backgroundColor: '#E53935', alignItems: 'center', justifyContent: 'center', marginRight: spacing(6) }}>
+            <Text style={{ color: '#FFFFFF', fontSize: fontSize(12), fontWeight: 'bold' }} allowFontScaling={false}>×</Text>
           </View>
         </View>
       );
@@ -78,122 +80,122 @@ export default function ExpenseRequestDetailScreen({ navigation, route }: Props)
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       {/* Top Header */}
       <View style={{ 
         flexDirection: 'row', 
         alignItems: 'center', 
         justifyContent: 'space-between',
-        paddingHorizontal: 16,
-        paddingTop: 44,
-        paddingBottom: 12,
+        paddingHorizontal: spacing(16),
+        paddingTop: spacing(12),
+        paddingBottom: spacing(12),
         backgroundColor: '#FFFFFF'
       }}>
         {/* Left: Back Arrow and Logo */}
         <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-          <View style={{ marginRight: 8 }}>
+          <View style={{ marginRight: spacing(8) }}>
             <BackButton />
           </View>
           <Image 
             source={require('../../assets/header carobar.png')} 
-            style={{ width: 96, height: 22, resizeMode: 'contain' }} 
+            style={{ width: wp(96), height: hp(22), resizeMode: 'contain' }} 
           />
         </View>
 
         {/* Right: Icons */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing(16) }}>
           {/* Bell with notification dot */}
           <View style={{ position: 'relative' }}>
-            <TouchableOpacity style={{ padding: 4 }}>
+            <TouchableOpacity style={{ padding: spacing(4) }}>
               <Image 
                 source={require('../../assets/Frame.png')} 
-                style={{ width: 22, height: 22, resizeMode: 'contain' }} 
+                style={{ width: wp(22), height: hp(22), resizeMode: 'contain' }} 
               />
             </TouchableOpacity>
             <View style={{ 
               position: 'absolute', 
-              right: 2, 
-              top: 4, 
-              width: 8, 
-              height: 8, 
-              borderRadius: 4, 
+              right: spacing(2), 
+              top: spacing(4), 
+              width: wp(8), 
+              height: hp(8), 
+              borderRadius: hp(4), 
               backgroundColor: '#4CAF50' 
             }} />
           </View>
-          <TouchableOpacity style={{ padding: 4 }}>
-            <Text style={{ fontSize: 18, color: '#000000' }}>🔍</Text>
+          <TouchableOpacity style={{ padding: spacing(4) }}>
+            <Text style={{ fontSize: fontSize(18), color: '#000000' }} allowFontScaling={false}>🔍</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{ padding: 4 }}>
-            <Text style={{ fontSize: 18, color: '#000000' }}>⋮</Text>
+          <TouchableOpacity style={{ padding: spacing(4) }}>
+            <Text style={{ fontSize: fontSize(18), color: '#000000' }} allowFontScaling={false}>⋮</Text>
           </TouchableOpacity>
         </View>
       </View>
 
       <ScrollView 
         style={{ flex: 1 }}
-        contentContainerStyle={{ paddingBottom: 100, paddingHorizontal: 16 }}
+        contentContainerStyle={{ paddingBottom: spacing(100) + insets.bottom, paddingHorizontal: spacing(16) }}
         showsVerticalScrollIndicator={false}
       >
         {/* Employee and Company Information Section */}
-        <View style={{ marginTop: 12, marginBottom: 24 }}>
+        <View style={{ marginTop: spacing(12), marginBottom: spacing(24) }}>
           {/* Top Row: Logo, Profile, Company Info */}
-          <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 16 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: spacing(16) }}>
             {/* Left: Company Logo */}
             <View style={{ flex: 1, alignItems: 'flex-start' }}>
               <Image 
                 source={require('../../assets/creative designers.png')} 
-                style={{ width: 140, height: 40, resizeMode: 'contain', marginBottom: 8 }} 
+                style={{ width: wp(140), height: hp(40), resizeMode: 'contain', marginBottom: spacing(8) }} 
               />
               {/* Calendar Icon with Year */}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: spacing(8) }}>
                 <Image 
                   source={require('../../assets/calender.png')} 
-                  style={{ width: 18, height: 18, marginRight: 4, resizeMode: 'contain' }} 
+                  style={{ width: wp(18), height: hp(18), marginRight: spacing(4), resizeMode: 'contain' }} 
                 />
-                <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>{year}</Text>
+                <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{year}</Text>
               </View>
               {/* Joining Date */}
-              <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>
+              <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
                 Joining 01/11/23
               </Text>
             </View>
 
             {/* Center: Profile Picture */}
-            <View style={{ alignItems: 'center', marginHorizontal: 16 }}>
+            <View style={{ alignItems: 'center', marginHorizontal: spacing(16) }}>
               <Image 
                 source={require('../../assets/Profile picture.png')} 
-                style={{ width: 80, height: 80, borderRadius: 40, marginBottom: 8 }}
+                style={{ width: wp(80), height: hp(80), borderRadius: hp(40), marginBottom: spacing(8), resizeMode: 'cover' }}
               />
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
-                <Text style={{ fontSize: 16, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: spacing(4) }}>
+                <Text style={{ fontSize: fontSize(16), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>
                   Kamal Jangid
                 </Text>
-                <TouchableOpacity style={{ marginLeft: 8 }}>
-                  <Text style={{ fontSize: 16, color: '#000000' }}>⋮</Text>
+                <TouchableOpacity style={{ marginLeft: spacing(8) }}>
+                  <Text style={{ fontSize: fontSize(16), color: '#000000' }} allowFontScaling={false}>⋮</Text>
                 </TouchableOpacity>
               </View>
-              <Text style={{ fontSize: 14, color: '#666666', fontFamily: 'Poppins', marginBottom: 8 }}>
+              <Text style={{ fontSize: fontSize(14), color: '#666666', fontFamily: 'Poppins', marginBottom: spacing(8) }} allowFontScaling={false}>
                 Carpenter
               </Text>
               {/* Expense Request Link */}
-              <Text style={{ fontSize: 16, fontWeight: '700', color: '#FF5252', fontFamily: 'Poppins-Bold', textDecorationLine: 'underline' }}>
+              <Text style={{ fontSize: fontSize(16), fontWeight: '700', color: '#FF5252', fontFamily: 'Poppins-Bold', textDecorationLine: 'underline' }} allowFontScaling={false}>
                 EXPENSE REQUEST
               </Text>
               {/* Emp ID below EXPENSE REQUEST */}
-              <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins', marginTop: 8 }}>
+              <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins', marginTop: spacing(8) }} allowFontScaling={false}>
                 Emp id - 001
               </Text>
             </View>
 
             {/* Right: Company Info */}
             <View style={{ flex: 1, alignItems: 'flex-end' }}>
-              <Text style={{ fontSize: 14, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: 4 }}>
+              <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(4) }} allowFontScaling={false}>
                 Creative Designers
               </Text>
-              <Text style={{ fontSize: 12, color: '#666666', fontFamily: 'Poppins', marginBottom: 2 }}>
+              <Text style={{ fontSize: fontSize(12), color: '#666666', fontFamily: 'Poppins', marginBottom: spacing(2) }} allowFontScaling={false}>
                 Radhakishanpura ,Sikar
               </Text>
-              <Text style={{ fontSize: 12, color: '#666666', fontFamily: 'Poppins' }}>
+              <Text style={{ fontSize: fontSize(12), color: '#666666', fontFamily: 'Poppins' }} allowFontScaling={false}>
                 +919460638554
               </Text>
             </View>
@@ -207,7 +209,7 @@ export default function ExpenseRequestDetailScreen({ navigation, route }: Props)
             backgroundColor: '#FFFFFF',
             borderWidth: 1,
             borderColor: '#E0E0E0',
-            borderRadius: 12,
+            borderRadius: hp(12),
             overflow: 'hidden'
           }}>
             {/* Table Header */}
@@ -220,16 +222,16 @@ export default function ExpenseRequestDetailScreen({ navigation, route }: Props)
               paddingHorizontal: spacing(12)
             }}>
               <View style={{ flex: 1.5 }}>
-                <Text style={{ fontSize: fontSize(12), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Request</Text>
+                <Text style={{ fontSize: fontSize(12), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }} allowFontScaling={false}>Request</Text>
               </View>
               <View style={{ flex: 1.5 }}>
-                <Text style={{ fontSize: fontSize(12), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Type</Text>
+                <Text style={{ fontSize: fontSize(12), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }} allowFontScaling={false}>Type</Text>
               </View>
               <View style={{ flex: 1.5 }}>
-                <Text style={{ fontSize: fontSize(12), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Payment</Text>
+                <Text style={{ fontSize: fontSize(12), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }} allowFontScaling={false}>Payment</Text>
               </View>
               <View style={{ flex: 2 }}>
-                <Text style={{ fontSize: fontSize(12), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }}>Approved</Text>
+                <Text style={{ fontSize: fontSize(12), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }} allowFontScaling={false}>Approved</Text>
               </View>
             </View>
 
@@ -248,21 +250,21 @@ export default function ExpenseRequestDetailScreen({ navigation, route }: Props)
               >
                 {/* Request Date */}
                 <View style={{ flex: 1.5 }}>
-                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
                     {request.date}
                   </Text>
                 </View>
                 
                 {/* Type */}
                 <View style={{ flex: 1.5 }}>
-                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
                     {request.type}
                   </Text>
                 </View>
                 
                 {/* Payment */}
                 <View style={{ flex: 1.5 }}>
-                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
                     {request.payment}
                   </Text>
                 </View>
@@ -270,7 +272,7 @@ export default function ExpenseRequestDetailScreen({ navigation, route }: Props)
                 {/* Approved */}
                 <View style={{ flex: 2, flexDirection: 'row', alignItems: 'center' }}>
                   {getApprovalIcon(request.approved)}
-                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }}>
+                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
                     {request.approver}
                   </Text>
                 </View>
@@ -289,6 +291,7 @@ export default function ExpenseRequestDetailScreen({ navigation, route }: Props)
         backgroundColor: '#FFFFFF',
         paddingHorizontal: spacing(16),
         paddingVertical: spacing(12),
+        paddingBottom: spacing(12) + insets.bottom,
         borderTopWidth: 1,
         borderTopColor: '#E0E0E0'
       }}>
@@ -300,10 +303,10 @@ export default function ExpenseRequestDetailScreen({ navigation, route }: Props)
               backgroundColor: '#2196F3', 
               paddingVertical: spacing(12), 
               paddingHorizontal: spacing(24), 
-              borderRadius: 8 
+              borderRadius: hp(8) 
             }}
           >
-            <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#FFFFFF', fontFamily: 'Poppins-SemiBold' }}>
+            <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#FFFFFF', fontFamily: 'Poppins-SemiBold' }} allowFontScaling={false}>
               Create Request
             </Text>
           </TouchableOpacity>
@@ -311,13 +314,13 @@ export default function ExpenseRequestDetailScreen({ navigation, route }: Props)
 
         {/* Expense Total */}
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }}>Expense</Text>
-          <Text style={{ fontSize: fontSize(14), fontWeight: '700', color: '#FF5252', fontFamily: 'Poppins-Bold' }}>
+          <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>Expense</Text>
+          <Text style={{ fontSize: fontSize(14), fontWeight: '700', color: '#FF5252', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>
             {totalExpense}
           </Text>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

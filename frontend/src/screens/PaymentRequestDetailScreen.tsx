@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, StatusBar } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import BackButton from '../components/BackButton';
+import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
+import SafeAreaView from '../components/SafeAreaView';
 
 type RootStackParamList = {
   Language: undefined;
@@ -73,8 +74,10 @@ const generatePaymentRequests = (monthNumber: string, year: string): PaymentRequ
 };
 
 export default function PaymentRequestDetailScreen({ navigation, route }: Props) {
+  const insets = useSafeArea();
   const { month, monthNumber, year } = route.params;
   const paymentRequests = generatePaymentRequests(monthNumber, year);
+  const [activeTab, setActiveTab] = useState<'Request' | 'Requested' | 'Leave'>('Request');
   
   // Calculate payment taken (sum of approved amounts)
   const paymentTaken = paymentRequests
@@ -100,14 +103,14 @@ export default function PaymentRequestDetailScreen({ navigation, route }: Props)
     
     return (
       <View style={{
-        width: 20,
-        height: 20,
-        borderRadius: 10,
+        width: wp(20),
+        height: hp(20),
+        borderRadius: hp(10),
         backgroundColor: iconColor,
         alignItems: 'center',
         justifyContent: 'center'
       }}>
-        <Text style={{ fontSize: 12, color: '#FFFFFF', fontWeight: '700' }}>
+        <Text style={{ fontSize: fontSize(12), color: '#FFFFFF', fontWeight: '700' }} allowFontScaling={false}>
           {iconText}
         </Text>
       </View>
@@ -129,161 +132,206 @@ export default function PaymentRequestDetailScreen({ navigation, route }: Props)
 
   return (
     <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      {/* Top Header */}
-      <View style={{ 
-        flexDirection: 'row', 
-        alignItems: 'center', 
-        justifyContent: 'space-between',
-        paddingHorizontal: 16,
-        paddingTop: 44,
-        paddingBottom: 12,
-        backgroundColor: '#FFFFFF'
-      }}>
-        {/* Left: Back Arrow and Logo */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-          <View style={{ marginRight: 8 }}>
-            <BackButton />
-          </View>
-          <Image 
-            source={require('../../assets/header carobar.png')} 
-            style={{ width: 96, height: 22, resizeMode: 'contain' }} 
-          />
-        </View>
-
-        {/* Right: Icons */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
-          {/* Bell with notification dot */}
-          <View style={{ position: 'relative' }}>
-            <TouchableOpacity style={{ padding: 4 }}>
-              <Image 
-                source={require('../../assets/Frame.png')} 
-                style={{ width: 22, height: 22, resizeMode: 'contain' }} 
-              />
-            </TouchableOpacity>
-            <View style={{ 
-              position: 'absolute', 
-              right: 2, 
-              top: 4, 
-              width: 8, 
-              height: 8, 
-              borderRadius: 4, 
-              backgroundColor: '#4CAF50' 
-            }} />
-          </View>
-          <TouchableOpacity style={{ padding: 4 }}>
-            <Text style={{ fontSize: 18, color: '#000000' }}>🔍</Text>
+      <StatusBar barStyle="light-content" backgroundColor="#248CFF" />
+      <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+        {/* Blue Header Bar */}
+        <View style={{ 
+          flexDirection: 'row', 
+          alignItems: 'center', 
+          paddingHorizontal: spacing(16),
+          paddingTop: spacing(12),
+          paddingBottom: spacing(12),
+          backgroundColor: '#248CFF'
+        }}>
+          {/* Left: Back Arrow */}
+          <TouchableOpacity 
+            onPress={() => navigation.goBack()}
+            style={{ marginRight: spacing(12) }}
+            hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}
+          >
+            <Text style={{ fontSize: fontSize(24), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{ padding: 4 }}>
-            <Text style={{ fontSize: 18, color: '#000000' }}>⋮</Text>
-          </TouchableOpacity>
+          
+          {/* Center: Title */}
+          <Text style={{ 
+            fontSize: fontSize(20), 
+            fontWeight: '700', 
+            color: '#FFFFFF', 
+            fontFamily: 'Poppins-Bold',
+            flex: 1
+          }} allowFontScaling={false}>
+            Payment Request
+          </Text>
         </View>
-      </View>
 
       <ScrollView 
         style={{ flex: 1 }}
-        contentContainerStyle={{ paddingBottom: 100, paddingHorizontal: 16 }}
+        contentContainerStyle={{ paddingBottom: spacing(100) + insets.bottom, paddingHorizontal: spacing(16) }}
         showsVerticalScrollIndicator={false}
       >
-        {/* Employee and Company Information Section */}
-        <View style={{ marginTop: 12, marginBottom: 24 }}>
-          {/* Three Column Layout: Left (Company) | Center (Profile) | Right (Company Details) */}
-          <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 16 }}>
-            {/* Left Column: Company Logo and Info */}
-            <View style={{ flex: 1, alignItems: 'flex-start' }}>
-              <Image 
-                source={require('../../assets/creative designers.png')} 
-                style={{ width: 140, height: 40, resizeMode: 'contain', marginBottom: 12 }} 
-              />
-              {/* Year */}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
-                <Image 
-                  source={require('../../assets/calender.png')} 
-                  style={{ width: 16, height: 16, marginRight: 6, resizeMode: 'contain' }} 
-                />
-                <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>
-                  {year}
-                </Text>
-              </View>
-              <Text style={{ fontSize: 13, color: '#666666', fontFamily: 'Poppins' }}>
-                Joining 01/11/23
-              </Text>
-            </View>
-
-            {/* Center Column: Profile Picture */}
-            <View style={{ flex: 1, alignItems: 'center', marginHorizontal: 16 }}>
-              <Image 
-                source={require('../../assets/Profile picture.png')} 
-                style={{ width: 80, height: 80, borderRadius: 40, marginBottom: 8 }}
-              />
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
-                <Text style={{ fontSize: 16, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginRight: 4 }}>
-                  Kamal Jangid
-                </Text>
-                <TouchableOpacity>
-                  <Text style={{ fontSize: 16, color: '#000000' }}>⋮</Text>
-                </TouchableOpacity>
-              </View>
-              <Text style={{ fontSize: 14, color: '#666666', fontFamily: 'Poppins', marginBottom: 8 }}>
-                Carpenter
-              </Text>
-              <Text style={{ fontSize: 16, fontWeight: '700', color: '#E53935', fontFamily: 'Poppins-Bold', textTransform: 'uppercase', textDecorationLine: 'underline' }}>
-                PAYMENT REQUEST
-              </Text>
-            </View>
-
-            {/* Right Column: Company Details and Emp ID */}
-            <View style={{ flex: 1, alignItems: 'flex-end' }}>
-              <View style={{ alignItems: 'flex-end', marginBottom: 12 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
-                  <Text style={{ fontSize: 14, fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold', marginRight: 4 }}>
-                    Creative Designers
-                  </Text>
-                  <TouchableOpacity>
-                    <Text style={{ fontSize: 16, color: '#000000' }}>⋮</Text>
-                  </TouchableOpacity>
-                </View>
-                <Text style={{ fontSize: 12, color: '#666666', fontFamily: 'Poppins', marginBottom: 2 }}>
-                  Radhakishanpura, Sikar
-                </Text>
-                <Text style={{ fontSize: 12, color: '#666666', fontFamily: 'Poppins', marginBottom: 8 }}>
-                  +919460638554
-                </Text>
-              </View>
-              <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>
-                Emp id - 001
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        {/* Payment Request List Header */}
+        {/* Employee Information Card */}
         <View style={{ 
-          backgroundColor: '#F5F5F5',
-          paddingVertical: 12,
-          paddingHorizontal: 16,
-          borderRadius: 8,
-          marginBottom: 12
+          marginTop: spacing(16), 
+          marginBottom: spacing(20),
+          backgroundColor: '#FFFFFF',
+          borderRadius: hp(12),
+          padding: spacing(16),
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: hp(2) },
+          shadowOpacity: 0.1,
+          shadowRadius: hp(4),
+          elevation: 2,
+          borderWidth: wp(1),
+          borderColor: '#E0E0E0'
         }}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            {/* Profile Picture on Left */}
+            <Image 
+              source={require('../../assets/Profile picture.png')} 
+              style={{ 
+                width: wp(64), 
+                height: hp(64), 
+                borderRadius: hp(32), 
+                resizeMode: 'cover',
+                marginRight: spacing(12)
+              }}
+            />
+
+            {/* Name and Role in Middle */}
             <View style={{ flex: 1 }}>
-              <Text style={{ fontSize: 13, fontWeight: '600', color: '#666666', fontFamily: 'Poppins-SemiBold' }}>
-                Request
+              <Text style={{ 
+                fontSize: fontSize(16), 
+                fontWeight: '700', 
+                color: '#000000', 
+                fontFamily: 'Poppins-Bold',
+                marginBottom: spacing(4)
+              }} allowFontScaling={false}>
+                Kamal Jangid
+              </Text>
+              <Text style={{ 
+                fontSize: fontSize(13), 
+                color: '#9E9E9E', 
+                fontFamily: 'Poppins'
+              }} allowFontScaling={false}>
+                Carpenter
               </Text>
             </View>
-            <View style={{ flex: 1 }}>
-              <Text style={{ fontSize: 13, fontWeight: '600', color: '#666666', fontFamily: 'Poppins-SemiBold' }}>
-                Requested
+
+            {/* Emp ID and Phone on Right */}
+            <View style={{ alignItems: 'flex-end' }}>
+              <Text style={{ 
+                fontSize: fontSize(13), 
+                color: '#9E9E9E', 
+                fontFamily: 'Poppins',
+                marginBottom: spacing(6)
+              }} allowFontScaling={false}>
+                Emp ID - 001
               </Text>
-            </View>
-            <View style={{ flex: 1, alignItems: 'flex-end' }}>
-              <Text style={{ fontSize: 13, fontWeight: '600', color: '#666666', fontFamily: 'Poppins-SemiBold' }}>
-                Payment
-              </Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ fontSize: fontSize(14), color: '#4285F4', marginRight: spacing(4) }} allowFontScaling={false}>📞</Text>
+                <Text style={{ 
+                  fontSize: fontSize(13), 
+                  color: '#4285F4', 
+                  fontFamily: 'Poppins'
+                }} allowFontScaling={false}>
+                  9460638554
+                </Text>
+              </View>
             </View>
           </View>
         </View>
 
-        {/* Payment Request Items */}
+        {/* Tab Navigation */}
+        <View style={{ 
+          flexDirection: 'row', 
+          marginBottom: spacing(16),
+          borderBottomWidth: wp(1),
+          borderBottomColor: '#E0E0E0'
+        }}>
+          <TouchableOpacity 
+            onPress={() => setActiveTab('Request')}
+            style={{ 
+              flex: 1, 
+              paddingBottom: spacing(12),
+              borderBottomWidth: activeTab === 'Request' ? wp(2) : 0,
+              borderBottomColor: '#248CFF',
+              alignItems: 'center'
+            }}
+          >
+            <Text style={{ 
+              fontSize: fontSize(14), 
+              fontWeight: activeTab === 'Request' ? '700' : '400',
+              color: '#000000', 
+              fontFamily: activeTab === 'Request' ? 'Poppins-Bold' : 'Poppins'
+            }} allowFontScaling={false}>
+              Request
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            onPress={() => setActiveTab('Requested')}
+            style={{ 
+              flex: 1, 
+              paddingBottom: spacing(12),
+              borderBottomWidth: activeTab === 'Requested' ? wp(2) : 0,
+              borderBottomColor: '#248CFF',
+              alignItems: 'center'
+            }}
+          >
+            <Text style={{ 
+              fontSize: fontSize(14), 
+              fontWeight: activeTab === 'Requested' ? '700' : '400',
+              color: '#000000', 
+              fontFamily: activeTab === 'Requested' ? 'Poppins-Bold' : 'Poppins'
+            }} allowFontScaling={false}>
+              Requested
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            onPress={() => setActiveTab('Leave')}
+            style={{ 
+              flex: 1, 
+              paddingBottom: spacing(12),
+              borderBottomWidth: activeTab === 'Leave' ? wp(2) : 0,
+              borderBottomColor: '#248CFF',
+              alignItems: 'center'
+            }}
+          >
+            <Text style={{ 
+              fontSize: fontSize(14), 
+              fontWeight: activeTab === 'Leave' ? '700' : '400',
+              color: '#000000', 
+              fontFamily: activeTab === 'Leave' ? 'Poppins-Bold' : 'Poppins'
+            }} allowFontScaling={false}>
+              Leave
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Payment Request Table Header */}
+        <View style={{ 
+          flexDirection: 'row',
+          paddingVertical: spacing(12),
+          paddingHorizontal: spacing(16),
+          marginBottom: spacing(8)
+        }}>
+          <View style={{ flex: 1 }}>
+            <Text style={{ fontSize: fontSize(13), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }} allowFontScaling={false}>
+              Request
+            </Text>
+          </View>
+          <View style={{ flex: 1, alignItems: 'center' }}>
+            <Text style={{ fontSize: fontSize(13), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }} allowFontScaling={false}>
+              Requested
+            </Text>
+          </View>
+          <View style={{ flex: 1, alignItems: 'flex-end' }}>
+            <Text style={{ fontSize: fontSize(13), fontWeight: '600', color: '#000000', fontFamily: 'Poppins-SemiBold' }} allowFontScaling={false}>
+              Leave
+            </Text>
+          </View>
+        </View>
+
+        {/* Payment Request Table Rows */}
         {paymentRequests.length > 0 ? (
           paymentRequests.map((item, index) => (
             <View 
@@ -291,25 +339,25 @@ export default function PaymentRequestDetailScreen({ navigation, route }: Props)
               style={{ 
                 flexDirection: 'row',
                 alignItems: 'center',
-                paddingVertical: 16,
-                paddingHorizontal: 16,
-                borderBottomWidth: index < paymentRequests.length - 1 ? 1 : 0,
+                paddingVertical: spacing(16),
+                paddingHorizontal: spacing(16),
+                borderBottomWidth: index < paymentRequests.length - 1 ? wp(1) : 0,
                 borderBottomColor: '#E0E0E0',
                 backgroundColor: '#FFFFFF'
               }}
             >
               <View style={{ flex: 1 }}>
-                <Text style={{ fontSize: 13, color: '#000000', fontFamily: 'Poppins' }}>
+                <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
                   {item.requestDate}
                 </Text>
               </View>
-              <View style={{ flex: 1 }}>
-                <Text style={{ fontSize: 13, color: '#000000', fontFamily: 'Poppins' }}>
+              <View style={{ flex: 1, alignItems: 'center' }}>
+                <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
                   {item.requestedDate}
                 </Text>
               </View>
-              <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', gap: 8 }}>
-                <Text style={{ fontSize: 13, color: '#000000', fontFamily: 'Poppins' }}>
+              <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
+                <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins', marginRight: spacing(8) }} allowFontScaling={false}>
                   {item.amount}
                 </Text>
                 {renderStatusIcon(item.status)}
@@ -317,8 +365,8 @@ export default function PaymentRequestDetailScreen({ navigation, route }: Props)
             </View>
           ))
         ) : (
-          <View style={{ paddingVertical: 40, alignItems: 'center' }}>
-            <Text style={{ fontSize: 14, color: '#9E9E9E', fontFamily: 'Poppins' }}>
+          <View style={{ paddingVertical: spacing(40), alignItems: 'center' }}>
+            <Text style={{ fontSize: fontSize(14), color: '#9E9E9E', fontFamily: 'Poppins' }} allowFontScaling={false}>
               No payment requests found for this month
             </Text>
           </View>
@@ -328,49 +376,51 @@ export default function PaymentRequestDetailScreen({ navigation, route }: Props)
       {/* Payment Taken Summary */}
       <View style={{
         position: 'absolute',
-        bottom: 80,
-        left: 16,
-        right: 16
+        bottom: spacing(80) + insets.bottom,
+        right: spacing(16)
       }}>
-        <Text style={{ fontSize: 14, color: '#000000', fontFamily: 'Poppins' }}>
-          Payment Taken: <Text style={{ color: '#E53935', fontWeight: '700', fontFamily: 'Poppins-Bold' }}>{paymentTaken}</Text>
+        <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+          Payment Taken: <Text style={{ color: '#E53935', fontWeight: '700', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>{paymentTaken}</Text>
         </Text>
       </View>
 
-      {/* Create Request Button */}
+      {/* Create Request Button - Pill Shape */}
       <View style={{
         position: 'absolute',
-        bottom: 20,
-        right: 16
+        bottom: spacing(20) + insets.bottom,
+        right: spacing(16)
       }}>
         <TouchableOpacity
           style={{
-            backgroundColor: '#2196F3',
-            borderRadius: 12,
-            paddingVertical: 16,
-            paddingHorizontal: 24,
+            backgroundColor: '#248CFF',
+            paddingVertical: spacing(12),
+            paddingHorizontal: spacing(24),
+            borderRadius: hp(25),
             alignItems: 'center',
             justifyContent: 'center',
             shadowColor: '#000',
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.3,
-            shadowRadius: 8,
-            elevation: 5
+            shadowOffset: { width: 0, height: spacing(2) },
+            shadowOpacity: 0.25,
+            shadowRadius: spacing(4),
+            elevation: 4,
+            borderTopWidth: wp(1),
+            borderTopColor: '#4A9EFF'
           }}
           onPress={() => {
             navigation.navigate('ApplyForPayment');
           }}
         >
           <Text style={{ 
-            fontSize: 16, 
+            fontSize: fontSize(14), 
             fontWeight: '700', 
             color: '#FFFFFF', 
-            fontFamily: 'Poppins-Bold' 
-          }}>
+            fontFamily: 'Poppins-Bold'
+          }} allowFontScaling={false}>
             Create Request
           </Text>
         </TouchableOpacity>
       </View>
+      </SafeAreaView>
     </View>
   );
 }

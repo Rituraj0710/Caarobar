@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, TextInput, ScrollView, Modal, Pressable } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import BackButton from '../components/BackButton';
+import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
+import SafeAreaView from '../components/SafeAreaView';
 
 type RootStackParamList = {
   Language: undefined;
@@ -58,6 +60,7 @@ const generateCalendarGrid = (year: number, month: number) => {
 };
 
 export default function NewTaskScreen({ navigation }: Props) {
+  const insets = useSafeArea();
   const [taskNumber] = useState('1');
   const [inDate, setInDate] = useState('05/07/2025');
   const [outDate, setOutDate] = useState('08/07/2025');
@@ -126,55 +129,55 @@ export default function NewTaskScreen({ navigation }: Props) {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
+    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
       {/* Top Header */}
       <View style={{ 
         flexDirection: 'row', 
         alignItems: 'center', 
         justifyContent: 'space-between',
-        paddingHorizontal: 16,
-        paddingTop: 44,
-        paddingBottom: 12,
+        paddingHorizontal: spacing(16),
+        paddingTop: spacing(12),
+        paddingBottom: spacing(12),
         backgroundColor: '#FFFFFF'
       }}>
         {/* Left: Back Arrow and Logo */}
         <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-          <View style={{ marginRight: 8 }}>
+          <View style={{ marginRight: spacing(8) }}>
             <BackButton />
           </View>
           <Image 
             source={require('../../assets/header carobar.png')} 
-            style={{ width: 96, height: 22, resizeMode: 'contain' }} 
+            style={{ width: wp(96), height: hp(22), resizeMode: 'contain' }} 
           />
         </View>
 
         {/* Right: Refresh Icon */}
-        <TouchableOpacity style={{ padding: 4 }}>
-          <Text style={{ fontSize: 18, color: '#000000' }}>↻</Text>
+        <TouchableOpacity style={{ padding: spacing(4) }}>
+          <Text style={{ fontSize: fontSize(18), color: '#000000' }} allowFontScaling={false}>↻</Text>
         </TouchableOpacity>
       </View>
 
       <ScrollView 
         style={{ flex: 1 }}
-        contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 20, paddingBottom: 100 }}
+        contentContainerStyle={{ paddingHorizontal: spacing(16), paddingTop: spacing(20), paddingBottom: spacing(100) + insets.bottom }}
         showsVerticalScrollIndicator={false}
       >
         {/* No. Label and Date Fields */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
-          <Text style={{ fontSize: 12, color: '#9E9E9E', fontFamily: 'Poppins' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing(24) }}>
+          <Text style={{ fontSize: fontSize(12), color: '#9E9E9E', fontFamily: 'Poppins' }} allowFontScaling={false}>
             No. {taskNumber}
           </Text>
           
           {/* In Date */}
           <TouchableOpacity 
             onPress={() => openCalendar('in')}
-            style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}
+            style={{ flexDirection: 'row', alignItems: 'center', gap: spacing(6) }}
           >
             <Image 
               source={require('../../assets/calender.png')} 
-              style={{ width: 18, height: 18, resizeMode: 'contain' }} 
+              style={{ width: wp(18), height: hp(18), resizeMode: 'contain' }} 
             />
-            <Text style={{ fontSize: 14, color: '#1976D2', fontFamily: 'Poppins' }}>
+            <Text style={{ fontSize: fontSize(14), color: '#1976D2', fontFamily: 'Poppins' }} allowFontScaling={false}>
               In {inDate}
             </Text>
           </TouchableOpacity>
@@ -182,43 +185,44 @@ export default function NewTaskScreen({ navigation }: Props) {
           {/* Out Date */}
           <TouchableOpacity 
             onPress={() => openCalendar('out')}
-            style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}
+            style={{ flexDirection: 'row', alignItems: 'center', gap: spacing(6) }}
           >
             <Image 
               source={require('../../assets/calender.png')} 
-              style={{ width: 18, height: 18, resizeMode: 'contain' }} 
+              style={{ width: wp(18), height: hp(18), resizeMode: 'contain' }} 
             />
-            <Text style={{ fontSize: 14, color: '#E53935', fontFamily: 'Poppins' }}>
+            <Text style={{ fontSize: fontSize(14), color: '#E53935', fontFamily: 'Poppins' }} allowFontScaling={false}>
               Out {outDate}
             </Text>
           </TouchableOpacity>
         </View>
 
         {/* Title Input */}
-        <View style={{ marginBottom: 24 }}>
+        <View style={{ marginBottom: spacing(24) }}>
           <TextInput
             style={{
-              fontSize: 24,
+              fontSize: fontSize(24),
               color: title ? '#000000' : '#9E9E9E',
               fontFamily: title ? 'Poppins-Bold' : 'Poppins',
               fontWeight: title ? '700' : '400',
-              minHeight: 40
+              minHeight: hp(40)
             }}
             placeholder="Title"
             placeholderTextColor="#9E9E9E"
             value={title}
             onChangeText={setTitle}
+            allowFontScaling={false}
           />
         </View>
 
         {/* Description Input */}
-        <View style={{ marginBottom: 24 }}>
+        <View style={{ marginBottom: spacing(24) }}>
           <TextInput
             style={{
-              fontSize: 14,
+              fontSize: fontSize(14),
               color: description ? '#000000' : '#9E9E9E',
               fontFamily: 'Poppins',
-              minHeight: 120,
+              minHeight: hp(120),
               textAlignVertical: 'top'
             }}
             placeholder="Start typing"
@@ -227,6 +231,7 @@ export default function NewTaskScreen({ navigation }: Props) {
             numberOfLines={8}
             value={description}
             onChangeText={setDescription}
+            allowFontScaling={false}
           />
         </View>
       </ScrollView>
@@ -235,18 +240,18 @@ export default function NewTaskScreen({ navigation }: Props) {
       <TouchableOpacity
         style={{
           position: 'absolute',
-          bottom: 20,
-          right: 16,
-          width: 56,
-          height: 56,
-          borderRadius: 28,
+          bottom: spacing(20) + insets.bottom,
+          right: spacing(16),
+          width: wp(56),
+          height: hp(56),
+          borderRadius: hp(28),
           backgroundColor: '#E53935',
           alignItems: 'center',
           justifyContent: 'center',
           shadowColor: '#000',
-          shadowOffset: { width: 0, height: 4 },
+          shadowOffset: { width: 0, height: spacing(4) },
           shadowOpacity: 0.3,
-          shadowRadius: 8,
+          shadowRadius: spacing(8),
           elevation: 5,
           zIndex: 10
         }}
@@ -254,7 +259,7 @@ export default function NewTaskScreen({ navigation }: Props) {
           setShowAddDataModal(true);
         }}
       >
-        <Text style={{ fontSize: 28, color: '#FFFFFF', lineHeight: 28 }}>+</Text>
+        <Text style={{ fontSize: fontSize(28), color: '#FFFFFF', lineHeight: fontSize(28) }} allowFontScaling={false}>+</Text>
       </TouchableOpacity>
 
       {/* Add Data Bottom Sheet Modal */}
@@ -275,42 +280,42 @@ export default function NewTaskScreen({ navigation }: Props) {
           <Pressable 
             style={{
               backgroundColor: '#FFFFFF',
-              borderTopLeftRadius: 24,
-              borderTopRightRadius: 24,
-              padding: 20,
-              paddingBottom: 32,
+              borderTopLeftRadius: hp(24),
+              borderTopRightRadius: hp(24),
+              padding: spacing(20),
+              paddingBottom: spacing(32) + insets.bottom,
               shadowColor: '#000',
-              shadowOffset: { width: 0, height: -2 },
+              shadowOffset: { width: 0, height: spacing(-2) },
               shadowOpacity: 0.1,
-              shadowRadius: 4,
+              shadowRadius: spacing(4),
               elevation: 5
             }}
             onPress={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing(24) }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={{ 
-                  fontSize: 20, 
+                  fontSize: fontSize(20), 
                   fontWeight: '700', 
                   color: '#000000', 
                   fontFamily: 'Poppins-Bold',
-                  marginRight: 8 
-                }}>+</Text>
+                  marginRight: spacing(8) 
+                }} allowFontScaling={false}>+</Text>
                 <Text style={{ 
-                  fontSize: 18, 
+                  fontSize: fontSize(18), 
                   fontWeight: '700', 
                   color: '#000000', 
                   fontFamily: 'Poppins-Bold' 
-                }}>
+                }} allowFontScaling={false}>
                   Add Data
                 </Text>
               </View>
               <TouchableOpacity 
                 onPress={() => setShowAddDataModal(false)}
-                style={{ padding: 4 }}
+                style={{ padding: spacing(4) }}
               >
-                <Text style={{ fontSize: 20, color: '#AAAAAA', fontFamily: 'Poppins' }}>✕</Text>
+                <Text style={{ fontSize: fontSize(20), color: '#AAAAAA', fontFamily: 'Poppins' }} allowFontScaling={false}>✕</Text>
               </TouchableOpacity>
             </View>
 
@@ -319,7 +324,7 @@ export default function NewTaskScreen({ navigation }: Props) {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                paddingVertical: 16,
+                paddingVertical: spacing(16),
                 borderBottomWidth: 1,
                 borderBottomColor: '#EEEEEE'
               }}
@@ -329,30 +334,30 @@ export default function NewTaskScreen({ navigation }: Props) {
               }}
             >
               {/* Camera Icon with Plus Overlay */}
-              <View style={{ position: 'relative', marginRight: 16, width: 32, height: 32 }}>
-                <Text style={{ fontSize: 24, color: '#333333' }}>📷</Text>
+              <View style={{ position: 'relative', marginRight: spacing(16), width: wp(32), height: hp(32) }}>
+                <Text style={{ fontSize: fontSize(24), color: '#333333' }} allowFontScaling={false}>📷</Text>
                 <View style={{
                   position: 'absolute',
-                  top: -4,
-                  right: -4,
-                  width: 16,
-                  height: 16,
-                  borderRadius: 8,
+                  top: spacing(-4),
+                  right: spacing(-4),
+                  width: wp(16),
+                  height: hp(16),
+                  borderRadius: hp(8),
                   backgroundColor: '#FFFFFF',
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderWidth: 1,
                   borderColor: '#333333'
                 }}>
-                  <Text style={{ fontSize: 10, color: '#333333', fontWeight: '700', fontFamily: 'Poppins-Bold', lineHeight: 10 }}>+</Text>
+                  <Text style={{ fontSize: fontSize(10), color: '#333333', fontWeight: '700', fontFamily: 'Poppins-Bold', lineHeight: fontSize(10) }} allowFontScaling={false}>+</Text>
                 </View>
               </View>
               <Text style={{ 
-                fontSize: 16, 
+                fontSize: fontSize(16), 
                 color: '#333333', 
                 fontFamily: 'Poppins',
                 fontWeight: '400'
-              }}>
+              }} allowFontScaling={false}>
                 Image
               </Text>
             </TouchableOpacity>
@@ -362,7 +367,7 @@ export default function NewTaskScreen({ navigation }: Props) {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                paddingVertical: 16
+                paddingVertical: spacing(16)
               }}
               onPress={() => {
                 // TODO: Handle document selection
@@ -370,30 +375,30 @@ export default function NewTaskScreen({ navigation }: Props) {
               }}
             >
               {/* Document Icon with Plus Overlay */}
-              <View style={{ position: 'relative', marginRight: 16, width: 32, height: 32 }}>
-                <Text style={{ fontSize: 24, color: '#333333' }}>📄</Text>
+              <View style={{ position: 'relative', marginRight: spacing(16), width: wp(32), height: hp(32) }}>
+                <Text style={{ fontSize: fontSize(24), color: '#333333' }} allowFontScaling={false}>📄</Text>
                 <View style={{
                   position: 'absolute',
-                  top: -4,
-                  right: -4,
-                  width: 16,
-                  height: 16,
-                  borderRadius: 8,
+                  top: spacing(-4),
+                  right: spacing(-4),
+                  width: wp(16),
+                  height: hp(16),
+                  borderRadius: hp(8),
                   backgroundColor: '#FFFFFF',
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderWidth: 1,
                   borderColor: '#333333'
                 }}>
-                  <Text style={{ fontSize: 10, color: '#333333', fontWeight: '700', fontFamily: 'Poppins-Bold', lineHeight: 10 }}>+</Text>
+                  <Text style={{ fontSize: fontSize(10), color: '#333333', fontWeight: '700', fontFamily: 'Poppins-Bold', lineHeight: fontSize(10) }} allowFontScaling={false}>+</Text>
                 </View>
               </View>
               <Text style={{ 
-                fontSize: 16, 
+                fontSize: fontSize(16), 
                 color: '#333333', 
                 fontFamily: 'Poppins',
                 fontWeight: '400'
-              }}>
+              }} allowFontScaling={false}>
                 Document
               </Text>
             </TouchableOpacity>
@@ -412,24 +417,24 @@ export default function NewTaskScreen({ navigation }: Props) {
           style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}
           onPress={() => setShowCalendar(false)}
         >
-          <Pressable style={{ backgroundColor: '#FFFFFF', borderRadius: 12, padding: 20, width: '90%' }}>
+          <Pressable style={{ backgroundColor: '#FFFFFF', borderRadius: hp(12), padding: spacing(20), width: '90%' }}>
             {/* Month Navigation */}
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <TouchableOpacity onPress={() => navigateMonth('prev')} style={{ padding: 8 }}>
-                <Text style={{ fontSize: 20, color: '#000000' }}>←</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing(20) }}>
+              <TouchableOpacity onPress={() => navigateMonth('prev')} style={{ padding: spacing(8) }}>
+                <Text style={{ fontSize: fontSize(20), color: '#000000' }} allowFontScaling={false}>←</Text>
               </TouchableOpacity>
-              <Text style={{ fontSize: 18, fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }}>
+              <Text style={{ fontSize: fontSize(18), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>
                 {monthNames[currentMonth - 1]} {currentYear}
               </Text>
-              <TouchableOpacity onPress={() => navigateMonth('next')} style={{ padding: 8 }}>
-                <Text style={{ fontSize: 20, color: '#000000' }}>→</Text>
+              <TouchableOpacity onPress={() => navigateMonth('next')} style={{ padding: spacing(8) }}>
+                <Text style={{ fontSize: fontSize(20), color: '#000000' }} allowFontScaling={false}>→</Text>
               </TouchableOpacity>
             </View>
 
             {/* Weekday Headers */}
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 10 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: spacing(10) }}>
               {weekDays.map((day, index) => (
-                <Text key={index} style={{ fontSize: 12, color: '#9E9E9E', fontFamily: 'Poppins-Medium', width: 30, textAlign: 'center' }}>
+                <Text key={index} style={{ fontSize: fontSize(12), color: '#9E9E9E', fontFamily: 'Poppins-Medium', width: wp(30), textAlign: 'center' }} allowFontScaling={false}>
                   {day}
                 </Text>
               ))}
@@ -437,15 +442,15 @@ export default function NewTaskScreen({ navigation }: Props) {
 
             {/* Calendar Grid */}
             {calendarGrid.map((row, rowIndex) => (
-              <View key={rowIndex} style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 6 }}>
+              <View key={rowIndex} style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: spacing(6) }}>
                 {row.map((day, colIndex) => (
                   <TouchableOpacity
                     key={colIndex}
                     onPress={() => day && handleDateSelect(day)}
                     style={{
-                      width: 30,
-                      height: 30,
-                      borderRadius: 15,
+                      width: wp(30),
+                      height: hp(30),
+                      borderRadius: hp(15),
                       alignItems: 'center',
                       justifyContent: 'center',
                       backgroundColor: day === selectedDate ? '#4285F4' : 'transparent',
@@ -453,10 +458,10 @@ export default function NewTaskScreen({ navigation }: Props) {
                     disabled={!day}
                   >
                     <Text style={{
-                      fontSize: 14,
+                      fontSize: fontSize(14),
                       color: day === selectedDate ? '#FFFFFF' : (day ? '#000000' : '#E0E0E0'),
                       fontFamily: 'Poppins'
-                    }}>
+                    }} allowFontScaling={false}>
                       {day}
                     </Text>
                   </TouchableOpacity>
@@ -466,7 +471,7 @@ export default function NewTaskScreen({ navigation }: Props) {
           </Pressable>
         </Pressable>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Text, TextInput, View, Pressable } from 'react-native';
+import { wp, hp, fontSize, spacing } from '@/utils/responsive';
 
 type Props = {
   value: string;
@@ -26,6 +27,8 @@ export default function OTPInput({ value, onChange, onComplete, autoFocus, error
   }, [value, onComplete]);
 
   const digits = [0, 1, 2, 3].map((i) => value[i] || '');
+  const boxSize = wp(72);
+  const gap = spacing(6);
 
   return (
     <View className="items-center">
@@ -40,14 +43,23 @@ export default function OTPInput({ value, onChange, onComplete, autoFocus, error
             key={idx}
             className="rounded-lg items-center justify-center border bg-white"
             style={{ 
-              width: 72, 
-              height: 72, 
+              width: boxSize, 
+              height: boxSize, 
               borderColor: error ? '#FE0032' : '#E5E7EB',
               borderWidth: 1,
-              marginHorizontal: 6
+              marginHorizontal: gap
             }}
           >
-            <Text style={{ fontSize: 24, fontWeight: '600', color: '#12110D' }}>{d}</Text>
+            <Text 
+              style={{ 
+                fontSize: fontSize(24), 
+                fontWeight: '600', 
+                color: '#12110D' 
+              }}
+              allowFontScaling={false}
+            >
+              {d}
+            </Text>
           </View>
         ))}
       </Pressable>
@@ -61,10 +73,14 @@ export default function OTPInput({ value, onChange, onComplete, autoFocus, error
         maxLength={4}
         style={{ position: 'absolute', opacity: 0, height: 0, width: 0 }}
         autoFocus={autoFocus}
+        allowFontScaling={false}
       />
-      {error ? <Text className="text-accentRed mt-2">{error}</Text> : null}
+      {error ? (
+        <Text className="text-sm text-accentRed mt-2" allowFontScaling={false}>{error}</Text>
+      ) : null}
     </View>
   );
 }
+
 
 
