@@ -13,8 +13,7 @@
     "updates": {
       "enabled": false,
       "fallbackToCacheTimeout": 0,
-      "checkAutomatically": "NEVER",
-      "url": null
+      "checkAutomatically": "NEVER"
     },
     "assetBundlePatterns": [
       "**/*"
