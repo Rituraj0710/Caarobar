@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import Svg, { Path } from 'react-native-svg';
 import { useNavigation } from '@react-navigation/native';
 import { wp, hp, spacing } from '../utils/responsive';
 
@@ -8,9 +8,11 @@ interface BackButtonProps {
   onPress?: () => void;
   color?: string;
   size?: number;
+  width?: number;
+  height?: number;
 }
 
-export default function BackButton({ onPress, color = '#000000', size }: BackButtonProps) {
+export default function BackButton({ onPress, color = '#000000', size, width, height }: BackButtonProps) {
   const navigation = useNavigation();
   
   const handlePress = () => {
@@ -21,7 +23,9 @@ export default function BackButton({ onPress, color = '#000000', size }: BackBut
     }
   };
 
-  const iconSize = size || wp(32); // Responsive size, default to 32 (bigger and bolder)
+  // Use width/height if provided, otherwise fall back to size for square, or default
+  const iconWidth = width || size || wp(16.67);
+  const iconHeight = height || size || hp(14.57);
 
   return (
     <TouchableOpacity 
@@ -29,12 +33,15 @@ export default function BackButton({ onPress, color = '#000000', size }: BackBut
       style={styles.button}
       activeOpacity={0.7}
     >
-      <MaterialIcons 
-        name="arrow-back" 
-        size={iconSize} 
-        color={color}
-        style={styles.icon}
-      />
+      <Svg width={iconWidth} height={iconHeight} viewBox="0 0 24 24" fill="none">
+        <Path 
+          d="M12 4l-8 8 8 8 1.41-1.41L6.83 13H20v-2H6.83l6.58-6.59L12 4z" 
+          fill={color}
+          stroke={color}
+          strokeWidth="1"
+          strokeLinejoin="round"
+        />
+      </Svg>
     </TouchableOpacity>
   );
 }
@@ -44,9 +51,6 @@ const styles = StyleSheet.create({
     padding: spacing(8),
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  icon: {
-    fontWeight: 'bold',
   },
 });
 

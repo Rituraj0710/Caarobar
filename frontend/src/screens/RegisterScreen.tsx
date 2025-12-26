@@ -8,6 +8,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
+import BackButton from '@/components/BackButton';
 import { wp, hp, fontSize, spacing, SCREEN_WIDTH, useSafeArea } from '../utils/responsive';
 
 type RootStackParamList = {
@@ -92,13 +93,18 @@ export default function RegisterScreen({ navigation }: Props) {
     <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }} edges={['top']}>
       <KeyboardAvoidingView className="flex-1" behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <StatusBar barStyle="dark-content" backgroundColor="white" />
+        {/* Back Button */}
+        <View style={{ position: 'absolute', top: Math.max(0, insets.top - spacing(4)), left: wp(23), zIndex: 10 }}>
+          <BackButton 
+            onPress={() => navigation.goBack()}
+            color="#000000"
+            width={wp(20)}
+            height={hp(18)}
+          />
+        </View>
         <ScrollView style={{flex: 1}} contentContainerStyle={{ paddingBottom: hp(32) + insets.bottom }} keyboardShouldPersistTaps="handled">
-          {/* Back arrow */}
-          <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', top: insets.top + spacing(8), left: spacing(16), zIndex: 10, width: wp(40), height: hp(40), alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{ fontSize: fontSize(24) }} allowFontScaling={false}>←</Text>
-        </TouchableOpacity>
         {/* Header titles */}
-        <View style={{ alignItems: 'center', marginTop: hp(65), marginBottom: spacing(10), width: Math.min(wp(400), SCREEN_WIDTH - spacing(32)), alignSelf: 'center' }}>
+        <View style={{ alignItems: 'center', marginTop: hp(35), marginBottom: spacing(10), width: Math.min(wp(400), SCREEN_WIDTH - spacing(32)), alignSelf: 'center' }}>
           <Text style={{ fontFamily: 'LexendDeca-Bold', fontWeight: '700', fontSize: fontSize(24), lineHeight: 36, color: '#12110D', textAlign: 'center' }} allowFontScaling={false}>Register Account</Text>
           <Text style={{ fontFamily: 'LexendDeca-Bold', fontWeight: '700', fontSize: fontSize(24), lineHeight: 36, color: '#12110D', textAlign: 'center', marginTop: spacing(2) }} allowFontScaling={false}>to <Text style={{ color: '#248CFF' }} allowFontScaling={false}>CAAROBAR</Text></Text>
           <Text style={{ fontFamily: 'Poppins', fontSize: fontSize(12.5), color: '#888', marginTop: spacing(8) }} allowFontScaling={false}>Hello there, register to continue</Text>

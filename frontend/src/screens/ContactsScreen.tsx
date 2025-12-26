@@ -4,6 +4,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
 import BackButton from '../components/BackButton';
 import SafeAreaView from '../components/SafeAreaView';
+import Button from '../components/ui/Button';
 
 type RootStackParamList = {
   Language: undefined;
@@ -107,14 +108,18 @@ export default function ContactsScreen({ navigation }: Props) {
         flexDirection: 'row', 
         alignItems: 'center', 
         paddingHorizontal: spacing(16),
-        paddingTop: spacing(12),
-        paddingBottom: spacing(12),
-        backgroundColor: '#248CFF'
+        paddingTop: spacing(8),
+        paddingBottom: spacing(8),
+        backgroundColor: '#2D6EFF'
       }}>
         {/* Left: Back Arrow */}
         <TouchableOpacity 
           onPress={() => navigation.goBack()}
-          style={{ marginRight: spacing(12) }}
+          style={{ 
+            marginRight: spacing(12),
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
           hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}
         >
           <Text style={{ fontSize: fontSize(24), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
@@ -123,9 +128,11 @@ export default function ContactsScreen({ navigation }: Props) {
         {/* Contacts Title */}
         <Text style={{ 
           fontSize: fontSize(20), 
-          fontWeight: '700', 
+          fontWeight: '600', 
           color: '#FFFFFF', 
-          fontFamily: 'Poppins-Bold'
+          fontFamily: 'Inter',
+          textAlignVertical: 'center',
+          includeFontPadding: false
         }} allowFontScaling={false}>
           Contacts
         </Text>
@@ -465,32 +472,12 @@ export default function ContactsScreen({ navigation }: Props) {
             </View>
 
             {/* Done Button */}
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#4285F4',
-                borderRadius: hp(12), // More rounded
-                paddingVertical: spacing(16),
-                paddingHorizontal: spacing(24),
-                alignItems: 'center',
-                justifyContent: 'center',
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: hp(2) },
-                shadowOpacity: 0.2,
-                shadowRadius: spacing(4),
-                elevation: 3
-              }}
+            <Button
+              title="Done"
               onPress={() => setShowDetailModal(false)}
-            >
-              <Text style={{
-                color: '#FFFFFF',
-                fontSize: fontSize(16),
-                fontFamily: 'Poppins-Bold',
-                fontWeight: '700',
-                lineHeight: fontSize(22)
-              }} allowFontScaling={false}>
-                Done
-              </Text>
-            </TouchableOpacity>
+              variant="primary"
+              style={{ width: '100%' }}
+            />
           </Pressable>
         </Pressable>
       </Modal>

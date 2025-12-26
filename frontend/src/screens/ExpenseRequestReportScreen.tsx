@@ -65,7 +65,7 @@ export default function ExpenseRequestReportScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      <StatusBar barStyle="light-content" backgroundColor="#248CFF" />
+      <StatusBar barStyle="light-content" backgroundColor="#2D6EFF" />
       
       {/* Header - Blue Bar */}
       <View style={{ 
@@ -73,9 +73,9 @@ export default function ExpenseRequestReportScreen({ navigation }: Props) {
         alignItems: 'center', 
         justifyContent: 'space-between',
         paddingHorizontal: spacing(16),
-        paddingTop: spacing(12),
-        paddingBottom: spacing(12),
-        backgroundColor: '#248CFF'
+        paddingTop: spacing(8),
+        paddingBottom: spacing(8),
+        backgroundColor: '#2D6EFF'
       }}>
         {/* Left: Back Arrow */}
         <TouchableOpacity 
@@ -85,13 +85,13 @@ export default function ExpenseRequestReportScreen({ navigation }: Props) {
           <Text style={{ fontSize: fontSize(24), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
         </TouchableOpacity>
 
-        {/* Center: Title */}
-        <View style={{ flex: 1, alignItems: 'center' }}>
+        {/* Left: Title */}
+        <View style={{ flex: 1, alignItems: 'flex-start', paddingLeft: spacing(12) }}>
           <Text style={{ 
             fontSize: fontSize(18), 
-            fontWeight: '600', 
+            fontWeight: '500', 
             color: '#FFFFFF', 
-            fontFamily: 'Poppins-SemiBold' 
+            fontFamily: 'Inter' 
           }} allowFontScaling={false}>
             Expense Request Report
           </Text>

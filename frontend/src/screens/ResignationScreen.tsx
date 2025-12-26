@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Image, TextInput, Modal, StatusBar } from
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
 import SafeAreaView from '../components/SafeAreaView';
+import Button from '../components/ui/Button';
 
 type RootStackParamList = {
   Language: undefined;
@@ -59,7 +60,7 @@ export default function ResignationScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      <StatusBar barStyle="light-content" backgroundColor="#248CFF" />
+      <StatusBar barStyle="light-content" backgroundColor="#2D6EFF" />
       
       {/* Top Header - Blue Bar */}
       <View style={{ 
@@ -67,9 +68,9 @@ export default function ResignationScreen({ navigation }: Props) {
         alignItems: 'center', 
         justifyContent: 'space-between',
         paddingHorizontal: spacing(16),
-        paddingTop: spacing(12),
-        paddingBottom: spacing(12),
-        backgroundColor: '#248CFF'
+        paddingTop: spacing(8),
+        paddingBottom: spacing(8),
+        backgroundColor: '#2D6EFF'
       }}>
         {/* Left: Back Arrow */}
         <TouchableOpacity 
@@ -79,13 +80,13 @@ export default function ResignationScreen({ navigation }: Props) {
           <Text style={{ fontSize: fontSize(24), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
         </TouchableOpacity>
 
-        {/* Center: Title */}
-        <View style={{ flex: 1, alignItems: 'center' }}>
+        {/* Left: Title */}
+        <View style={{ flex: 1, alignItems: 'flex-start', paddingLeft: spacing(12) }}>
           <Text style={{ 
             fontSize: fontSize(18), 
-            fontWeight: '600', 
+            fontWeight: '500', 
             color: '#FFFFFF', 
-            fontFamily: 'Poppins-SemiBold' 
+            fontFamily: 'Inter' 
           }} allowFontScaling={false}>
             Resignation
           </Text>
@@ -386,20 +387,11 @@ export default function ResignationScreen({ navigation }: Props) {
         borderTopWidth: wp(1),
         borderTopColor: '#E0E0E0'
       }}>
-        <TouchableOpacity 
+        <Button
+          title="Send"
           onPress={() => setShowSuccessModal(true)}
-          style={{
-            backgroundColor: '#248CFF',
-            paddingVertical: spacing(10),
-            borderRadius: hp(6),
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <Text style={{ fontSize: fontSize(14), fontWeight: '600', color: '#FFFFFF', fontFamily: 'Poppins-SemiBold' }} allowFontScaling={false}>
-            Send
-          </Text>
-        </TouchableOpacity>
+          variant="primary"
+        />
       </View>
 
       {/* Success Modal */}
@@ -485,29 +477,15 @@ export default function ResignationScreen({ navigation }: Props) {
             </Text>
 
             {/* Done Button */}
-            <TouchableOpacity 
+            <Button
+              title="Done"
               onPress={() => {
                 setShowSuccessModal(false);
                 navigation.goBack();
               }}
-              style={{
-                backgroundColor: '#248CFF',
-                width: '100%',
-                paddingVertical: spacing(16),
-                borderRadius: hp(12),
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <Text style={{ 
-                fontSize: fontSize(16), 
-                fontWeight: '600', 
-                color: '#FFFFFF', 
-                fontFamily: 'Poppins-SemiBold' 
-              }} allowFontScaling={false}>
-                Done
-              </Text>
-            </TouchableOpacity>
+              variant="primary"
+              style={{ width: '100%' }}
+            />
           </View>
         </View>
       </Modal>

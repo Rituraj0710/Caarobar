@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, TextInput, ScrollView, Image, Modal, Pres
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
 import SafeAreaView from '../components/SafeAreaView';
+import Button from '../components/ui/Button';
 
 type RootStackParamList = {
   Language: undefined;
@@ -167,44 +168,42 @@ export default function ApplyForLeaveScreen({ navigation }: Props) {
   const insets = useSafeArea();
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      <StatusBar barStyle="light-content" backgroundColor="#248CFF" />
+    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+      <StatusBar barStyle="light-content" backgroundColor="#2D6EFF" />
       
-      {/* Blue Header Bar */}
-      <SafeAreaView edges={['top']} style={{ backgroundColor: '#248CFF' }}>
-        <View style={{
-          backgroundColor: '#248CFF',
-          paddingTop: spacing(8),
-          paddingBottom: spacing(12),
-          paddingHorizontal: spacing(16),
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between'
-        }}>
-          {/* Back Arrow */}
-          <TouchableOpacity 
-            onPress={() => navigation.goBack()}
-            style={{ padding: spacing(4) }}
-          >
-            <Text style={{ fontSize: fontSize(24), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
-          </TouchableOpacity>
+      {/* Header - Blue Bar */}
+      <View style={{ 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'space-between',
+        paddingHorizontal: spacing(16),
+        paddingTop: spacing(12),
+        paddingBottom: spacing(12),
+        backgroundColor: '#2D6EFF'
+      }}>
+        {/* Left: Back Arrow */}
+        <TouchableOpacity 
+          onPress={() => navigation.goBack()}
+          style={{ padding: spacing(4) }}
+        >
+          <Text style={{ fontSize: fontSize(24), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
+        </TouchableOpacity>
 
-          {/* Title */}
-          <View style={{ flex: 1, alignItems: 'center' }}>
-            <Text style={{
-              fontSize: fontSize(18),
-              fontWeight: '600',
-              color: '#FFFFFF',
-              fontFamily: 'Poppins-SemiBold'
-            }} allowFontScaling={false}>
-              Apply for Leave
-            </Text>
-          </View>
-
-          {/* Empty space for alignment */}
-          <View style={{ width: wp(32) }} />
+        {/* Left: Title */}
+        <View style={{ flex: 1, alignItems: 'flex-start', paddingLeft: spacing(12) }}>
+          <Text style={{ 
+            fontSize: fontSize(18), 
+            fontWeight: '500', 
+            color: '#FFFFFF', 
+            fontFamily: 'Inter' 
+          }} allowFontScaling={false}>
+            Apply for Leave
+          </Text>
         </View>
-      </SafeAreaView>
+
+        {/* Right: Empty space for alignment */}
+        <View style={{ width: wp(32) }} />
+      </View>
 
       <ScrollView 
         style={{ flex: 1 }}
@@ -533,35 +532,15 @@ export default function ApplyForLeaveScreen({ navigation }: Props) {
           borderTopWidth: wp(1),
           borderTopColor: '#E0E0E0'
         }}>
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#248CFF',
-              borderRadius: hp(8),
-              height: hp(50),
-              width: '100%',
-              alignItems: 'center',
-              justifyContent: 'center',
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: hp(2) },
-              shadowOpacity: 0.2,
-              shadowRadius: spacing(4),
-              elevation: 3
-            }}
+          <Button
+            title="Apply"
             onPress={() => {
               // TODO: Handle form submission
               // Show success modal
               setShowSuccessModal(true);
             }}
-          >
-            <Text style={{
-              color: '#FFFFFF',
-              fontSize: fontSize(16),
-              fontFamily: 'Poppins-Bold',
-              fontWeight: '700'
-            }} allowFontScaling={false}>
-              Apply
-            </Text>
-          </TouchableOpacity>
+            variant="primary"
+          />
         </View>
       </SafeAreaView>
 
@@ -761,39 +740,19 @@ export default function ApplyForLeaveScreen({ navigation }: Props) {
             </Text>
 
             {/* Done Button */}
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#248CFF',
-                borderRadius: hp(8),
-                paddingVertical: spacing(16),
-                paddingHorizontal: spacing(48),
-                width: '100%',
-                alignItems: 'center',
-                justifyContent: 'center',
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: hp(2) },
-                shadowOpacity: 0.2,
-                shadowRadius: spacing(4),
-                elevation: 3
-              }}
+            <Button
+              title="Done"
               onPress={() => {
                 setShowSuccessModal(false);
                 navigation.goBack();
               }}
-            >
-              <Text style={{
-                color: '#FFFFFF',
-                fontSize: fontSize(16),
-                fontFamily: 'Poppins-Bold',
-                fontWeight: '700'
-              }} allowFontScaling={false}>
-                Done
-              </Text>
-            </TouchableOpacity>
+              variant="primary"
+              style={{ width: '100%' }}
+            />
           </Pressable>
         </Pressable>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }
 

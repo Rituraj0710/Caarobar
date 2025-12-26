@@ -51,14 +51,14 @@ export default function EmployeeDetailScreen({ navigation, route }: Props) {
       name: 'Leave Request', 
       icon: require('../../assets/Leave Request.png'), 
       bgColor: '#FCE4EC', 
-      hasNotification: true,
+      hasNotification: false,
       onPress: () => {} 
     },
     { 
       name: 'Pay Request', 
       icon: require('../../assets/Pay request.png'), 
       bgColor: '#E0F2F1', 
-      hasNotification: true,
+      hasNotification: false,
       onPress: () => {} 
     },
     { 
@@ -114,7 +114,7 @@ export default function EmployeeDetailScreen({ navigation, route }: Props) {
       name: 'Expense', 
       icon: require('../../assets/Expense.png'), 
       bgColor: '#F5F5F5', 
-      hasNotification: true,
+      hasNotification: false,
       onPress: () => {} 
     },
     { 

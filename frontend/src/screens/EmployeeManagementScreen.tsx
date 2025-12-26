@@ -1951,16 +1951,16 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
         left: 0,
         right: 0,
         backgroundColor: '#FFFFFF',
-        borderTopWidth: 1,
+        borderTopWidth: wp(1),
         borderTopColor: '#E0E0E0',
         flexDirection: 'row',
-        paddingVertical: 8,
+        paddingVertical: hp(8),
         paddingHorizontal: spacing(16),
         justifyContent: 'space-around',
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: -2 },
+        shadowOffset: { width: 0, height: hp(-2) },
         shadowOpacity: 0.1,
-        shadowRadius: 4,
+        shadowRadius: spacing(4),
         elevation: 5
       }}>
         <TouchableOpacity
@@ -1968,41 +1968,29 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
           style={{ alignItems: 'center', flex: 1 }}
         >
           <View style={{
-            width: 40,
-            height: hp(40),
-            borderRadius: 20,
+            width: wp(40),
+            height: wp(40),
+            borderRadius: wp(20),
             backgroundColor: activeBottomTab === 'Home' ? '#4285F4' : 'transparent',
             alignItems: 'center',
             justifyContent: 'center',
-            marginBottom: 4
+            marginBottom: hp(4)
           }}>
-            {/* Home Icon - House with curved roof */}
-            <View style={{ width: 20, height: 20, alignItems: 'center', justifyContent: 'center' }}>
-              <View style={{
-                width: 0,
-                height: 0,
-                borderLeftWidth: 8,
-                borderRightWidth: 8,
-                borderBottomWidth: 6,
-                borderLeftColor: 'transparent',
-                borderRightColor: 'transparent',
-                borderBottomColor: activeBottomTab === 'Home' ? '#FFFFFF' : '#000000',
-                marginBottom: 2
-              }} />
-              <View style={{
-                width: 12,
-                height: hp(8),
-                borderWidth: 1.5,
-                borderColor: activeBottomTab === 'Home' ? '#FFFFFF' : '#000000',
-                borderRadius: 1
-              }} />
-            </View>
+            <Image 
+              source={require('../../assets/admin home.png')} 
+              style={{ 
+                width: wp(20), 
+                height: hp(20), 
+                resizeMode: 'contain',
+                tintColor: activeBottomTab === 'Home' ? '#FFFFFF' : '#000000'
+              }} 
+            />
           </View>
           <Text style={{
             fontSize: fontSize(10),
             color: activeBottomTab === 'Home' ? '#4285F4' : '#000000',
             fontFamily: 'Poppins'
-          }}>
+          }} allowFontScaling={false}>
             Home
           </Text>
         </TouchableOpacity>
@@ -2012,41 +2000,29 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
           style={{ alignItems: 'center', flex: 1 }}
         >
           <View style={{
-            width: 40,
-            height: hp(40),
-            borderRadius: 20,
+            width: wp(40),
+            height: wp(40),
+            borderRadius: wp(20),
             backgroundColor: activeBottomTab === 'Branch' ? '#4285F4' : 'transparent',
             alignItems: 'center',
             justifyContent: 'center',
-            marginBottom: 4
+            marginBottom: hp(4)
           }}>
-            {/* Paper Airplane Icon */}
-            <View style={{ 
-              width: 20, 
-              height: 20, 
-              alignItems: 'center', 
-              justifyContent: 'center',
-              transform: [{ rotate: '45deg' }]
-            }}>
-              <View style={{
-                width: 0,
-                height: 0,
-                borderLeftWidth: 0,
-                borderRightWidth: 10,
-                borderTopWidth: 5,
-                borderBottomWidth: 5,
-                borderRightColor: activeBottomTab === 'Branch' ? '#FFFFFF' : '#000000',
-                borderTopColor: 'transparent',
-                borderBottomColor: 'transparent',
-                marginLeft: 2
-              }} />
-            </View>
+            <Image 
+              source={require('../../assets/admin branch.png')} 
+              style={{ 
+                width: wp(20), 
+                height: hp(20), 
+                resizeMode: 'contain',
+                tintColor: activeBottomTab === 'Branch' ? '#FFFFFF' : '#000000'
+              }} 
+            />
           </View>
           <Text style={{
             fontSize: fontSize(10),
             color: activeBottomTab === 'Branch' ? '#4285F4' : '#000000',
             fontFamily: 'Poppins'
-          }}>
+          }} allowFontScaling={false}>
             Branch
           </Text>
         </TouchableOpacity>
@@ -2056,27 +2032,29 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
           style={{ alignItems: 'center', flex: 1 }}
         >
           <View style={{
-            width: 40,
-            height: hp(40),
-            borderRadius: 20,
+            width: wp(40),
+            height: wp(40),
+            borderRadius: wp(20),
             backgroundColor: activeBottomTab === 'Salary' ? '#4285F4' : 'transparent',
             alignItems: 'center',
             justifyContent: 'center',
-            marginBottom: 4
+            marginBottom: hp(4)
           }}>
-            <Text style={{ 
-              fontSize: fontSize(18), 
-              color: activeBottomTab === 'Salary' ? '#FFFFFF' : '#000000',
-              fontFamily: 'Poppins-Bold'
-            }}>
-              ₹
-            </Text>
+            <Image 
+              source={require('../../assets/Admin ruppes.png')} 
+              style={{ 
+                width: wp(20), 
+                height: hp(20), 
+                resizeMode: 'contain',
+                tintColor: activeBottomTab === 'Salary' ? '#FFFFFF' : '#000000'
+              }} 
+            />
           </View>
           <Text style={{
             fontSize: fontSize(10),
             color: activeBottomTab === 'Salary' ? '#4285F4' : '#000000',
             fontFamily: 'Poppins'
-          }}>
+          }} allowFontScaling={false}>
             Salary
           </Text>
         </TouchableOpacity>
@@ -2086,42 +2064,29 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
           style={{ alignItems: 'center', flex: 1 }}
         >
           <View style={{
-            width: 40,
-            height: hp(40),
-            borderRadius: 20,
+            width: wp(40),
+            height: wp(40),
+            borderRadius: wp(20),
             backgroundColor: activeBottomTab === 'Location' ? '#4285F4' : 'transparent',
             alignItems: 'center',
             justifyContent: 'center',
-            marginBottom: 4
+            marginBottom: hp(4)
           }}>
-            {/* Map Pin Icon */}
-            <View style={{ width: 20, height: 20, alignItems: 'center', justifyContent: 'flex-start' }}>
-              <View style={{
-                width: 12,
-                height: 12,
-                borderRadius: 6,
-                borderWidth: 2,
-                borderColor: activeBottomTab === 'Location' ? '#FFFFFF' : '#000000',
-                backgroundColor: activeBottomTab === 'Location' ? '#FFFFFF' : '#000000',
-                marginBottom: -2
-              }} />
-              <View style={{
-                width: 0,
-                height: 0,
-                borderLeftWidth: 6,
-                borderRightWidth: 6,
-                borderTopWidth: 8,
-                borderLeftColor: 'transparent',
-                borderRightColor: 'transparent',
-                borderTopColor: activeBottomTab === 'Location' ? '#FFFFFF' : '#000000'
-              }} />
-            </View>
+            <Image 
+              source={require('../../assets/Admin location.png')} 
+              style={{ 
+                width: wp(20), 
+                height: hp(20), 
+                resizeMode: 'contain',
+                tintColor: activeBottomTab === 'Location' ? '#FFFFFF' : '#000000'
+              }} 
+            />
           </View>
           <Text style={{
             fontSize: fontSize(10),
             color: activeBottomTab === 'Location' ? '#4285F4' : '#000000',
             fontFamily: 'Poppins'
-          }}>
+          }} allowFontScaling={false}>
             Location
           </Text>
         </TouchableOpacity>
@@ -2131,19 +2096,19 @@ export default function EmployeeManagementScreen({ navigation }: Props) {
           style={{ alignItems: 'center', flex: 1 }}
         >
           <View style={{
-            width: 40,
-            height: hp(40),
-            borderRadius: 20,
+            width: wp(40),
+            height: wp(40),
+            borderRadius: wp(20),
             backgroundColor: activeBottomTab === 'Tools' ? '#4285F4' : 'transparent',
             alignItems: 'center',
             justifyContent: 'center',
-            marginBottom: 4
+            marginBottom: hp(4)
           }}>
             <Image 
-              source={require('../../assets/gear-icon.png')} 
+              source={require('../../assets/Admin setting.png')} 
               style={{ 
-                width: 20, 
-                height: 20, 
+                width: wp(20), 
+                height: hp(20), 
                 resizeMode: 'contain',
                 tintColor: activeBottomTab === 'Tools' ? '#FFFFFF' : '#000000'
               }} 

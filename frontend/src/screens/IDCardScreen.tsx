@@ -39,40 +39,45 @@ export default function IDCardScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      <StatusBar barStyle="light-content" backgroundColor="#248CFF" />
+      <StatusBar barStyle="light-content" backgroundColor="#2D6EFF" />
       
-      {/* Top Header - Blue Bar */}
+      {/* Blue Header Bar */}
       <View style={{ 
         flexDirection: 'row', 
         alignItems: 'center', 
-        justifyContent: 'space-between',
         paddingHorizontal: spacing(16),
-        paddingTop: spacing(12),
-        paddingBottom: spacing(12),
-        backgroundColor: '#248CFF'
+        paddingTop: spacing(8),
+        paddingBottom: spacing(8),
+        backgroundColor: '#2D6EFF'
       }}>
         {/* Left: Back Arrow */}
         <TouchableOpacity 
           onPress={() => navigation.goBack()}
-          style={{ padding: spacing(4) }}
+          style={{ 
+            marginRight: spacing(12),
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+          hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}
         >
           <Text style={{ fontSize: fontSize(24), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
         </TouchableOpacity>
-
-        {/* Center: ID Card Title */}
-        <View style={{ flex: 1, alignItems: 'center' }}>
-          <Text style={{ 
-            fontSize: fontSize(18), 
-            fontWeight: '600', 
-            color: '#FFFFFF', 
-            fontFamily: 'Poppins-SemiBold' 
-          }} allowFontScaling={false}>
-            ID Card
-          </Text>
-        </View>
+        
+        {/* ID Card Title */}
+        <Text style={{ 
+          fontSize: fontSize(20), 
+          fontWeight: '600', 
+          color: '#FFFFFF', 
+          fontFamily: 'Inter',
+          textAlignVertical: 'center',
+          includeFontPadding: false,
+          flex: 1
+        }} allowFontScaling={false}>
+          ID Card
+        </Text>
 
         {/* Right: Three Dots Menu */}
-        <TouchableOpacity style={{ padding: spacing(4) }}>
+        <TouchableOpacity style={{ padding: spacing(4), marginLeft: spacing(8) }}>
           <Text style={{ fontSize: fontSize(20), color: '#FFFFFF' }} allowFontScaling={false}>⋮</Text>
         </TouchableOpacity>
       </View>
@@ -144,30 +149,30 @@ export default function IDCardScreen({ navigation }: Props) {
               </Text>
             </View>
 
-            {/* Employee Details - Vertical Stack */}
-            <View style={{ marginBottom: spacing(16) }}>
+            {/* Employee Details - Vertical Stack - Centered */}
+            <View style={{ marginBottom: spacing(16), alignItems: 'center' }}>
               <View style={{ marginBottom: spacing(8) }}>
-                <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins', textAlign: 'center' }} allowFontScaling={false}>
                   Employee ID : <Text style={{ color: '#666666' }} allowFontScaling={false}>001</Text>
                 </Text>
               </View>
               <View style={{ marginBottom: spacing(8) }}>
-                <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins', textAlign: 'center' }} allowFontScaling={false}>
                   Joning Date : <Text style={{ color: '#666666' }} allowFontScaling={false}>01/01/2023</Text>
                 </Text>
               </View>
               <View style={{ marginBottom: spacing(8) }}>
-                <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins', textAlign: 'center' }} allowFontScaling={false}>
                   Date Of Birth : <Text style={{ color: '#666666' }} allowFontScaling={false}>18/01/1985</Text>
                 </Text>
               </View>
               <View style={{ marginBottom: spacing(8) }}>
-                <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins', textAlign: 'center' }} allowFontScaling={false}>
                   Phone : <Text style={{ color: '#666666' }} allowFontScaling={false}>9460638554</Text>
                 </Text>
               </View>
               <View>
-                <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins', textAlign: 'center' }} allowFontScaling={false}>
                   City : <Text style={{ color: '#666666' }} allowFontScaling={false}>Sikar</Text>
                 </Text>
               </View>
@@ -176,7 +181,7 @@ export default function IDCardScreen({ navigation }: Props) {
             {/* Bottom: Powered by */}
             <View style={{ alignItems: 'center', marginTop: spacing(12), paddingTop: spacing(12), borderTopWidth: wp(1), borderTopColor: '#E0E0E0' }}>
               <Text style={{ fontSize: fontSize(10), color: '#666666', fontFamily: 'Poppins' }} allowFontScaling={false}>
-                Powered by - Caarobar
+                Powered by - <Text style={{ fontWeight: '600', color: '#000000' }} allowFontScaling={false}>Caar</Text><Text style={{ fontWeight: '600', color: '#FF6B6B' }} allowFontScaling={false}>o</Text><Text style={{ fontWeight: '600', color: '#000000' }} allowFontScaling={false}>bar</Text>
               </Text>
             </View>
           </View>
@@ -222,8 +227,8 @@ export default function IDCardScreen({ navigation }: Props) {
               </View>
             </View>
 
-            {/* Middle Section: Profile and Details in Horizontal Layout */}
-            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: spacing(16) }}>
+            {/* Middle Section: Profile and Details in Horizontal Layout - Centered */}
+            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: spacing(16), justifyContent: 'center' }}>
               {/* Profile Picture and Name on Left */}
               <View style={{ marginRight: spacing(24), alignItems: 'center', width: wp(110) }}>
                 <Image 
@@ -238,30 +243,30 @@ export default function IDCardScreen({ navigation }: Props) {
                 </Text>
               </View>
 
-              {/* Employee Details in Two Columns */}
-              <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-                <View style={{ width: '48%', marginBottom: spacing(8) }}>
-                  <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+              {/* Employee Details in Two Columns - Centered */}
+              <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ width: '48%', marginBottom: spacing(8), alignItems: 'center' }}>
+                  <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins', textAlign: 'center' }} allowFontScaling={false}>
                     Employee ID : <Text style={{ color: '#666666' }} allowFontScaling={false}>001</Text>
                   </Text>
                 </View>
-                <View style={{ width: '48%', marginBottom: spacing(8) }}>
-                  <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                <View style={{ width: '48%', marginBottom: spacing(8), alignItems: 'center' }}>
+                  <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins', textAlign: 'center' }} allowFontScaling={false}>
                     Joning Date : <Text style={{ color: '#666666' }} allowFontScaling={false}>01/01/2023</Text>
                   </Text>
                 </View>
-                <View style={{ width: '48%', marginBottom: spacing(8) }}>
-                  <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                <View style={{ width: '48%', marginBottom: spacing(8), alignItems: 'center' }}>
+                  <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins', textAlign: 'center' }} allowFontScaling={false}>
                     Date Of Birth : <Text style={{ color: '#666666' }} allowFontScaling={false}>18/01/1985</Text>
                   </Text>
                 </View>
-                <View style={{ width: '48%', marginBottom: spacing(8) }}>
-                  <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                <View style={{ width: '48%', marginBottom: spacing(8), alignItems: 'center' }}>
+                  <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins', textAlign: 'center' }} allowFontScaling={false}>
                     Phone : <Text style={{ color: '#666666' }} allowFontScaling={false}>9460638554</Text>
                   </Text>
                 </View>
-                <View style={{ width: '48%' }}>
-                  <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                <View style={{ width: '48%', alignItems: 'center' }}>
+                  <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins', textAlign: 'center' }} allowFontScaling={false}>
                     City : <Text style={{ color: '#666666' }} allowFontScaling={false}>Sikar</Text>
                   </Text>
                 </View>
@@ -271,7 +276,7 @@ export default function IDCardScreen({ navigation }: Props) {
             {/* Bottom: Powered by */}
             <View style={{ alignItems: 'center', marginTop: spacing(12), paddingTop: spacing(12), borderTopWidth: wp(1), borderTopColor: '#E0E0E0' }}>
               <Text style={{ fontSize: fontSize(10), color: '#666666', fontFamily: 'Poppins' }} allowFontScaling={false}>
-                Powered by - Caarobar
+                Powered by - <Text style={{ fontWeight: '600', color: '#000000' }} allowFontScaling={false}>Caar</Text><Text style={{ fontWeight: '600', color: '#FF6B6B' }} allowFontScaling={false}>o</Text><Text style={{ fontWeight: '600', color: '#000000' }} allowFontScaling={false}>bar</Text>
               </Text>
             </View>
           </View>

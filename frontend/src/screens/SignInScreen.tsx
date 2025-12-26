@@ -7,6 +7,7 @@ import api from '@/lib/api';
 import Logo from '@/components/Logo';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
+import BackButton from '@/components/BackButton';
 import { wp, hp, fontSize, spacing, SCREEN_WIDTH, useSafeArea } from '../utils/responsive';
 
 type RootStackParamList = {
@@ -59,30 +60,31 @@ export default function SignInScreen({ navigation, route }: Props) {
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <StatusBar barStyle="dark-content" backgroundColor="white" />
       {/* Back Button */}
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Language')}
-          style={{ position: 'absolute', top: insets.top + spacing(8), left: spacing(16), zIndex: 10, width: wp(40), height: hp(40), alignItems: 'center', justifyContent: 'center' }}
-        hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
-      >
-        <Text style={{ fontSize: fontSize(28), color: '#12110D' }} allowFontScaling={false}>←</Text>
-      </TouchableOpacity>
+      <View style={{ position: 'absolute', top: Math.max(0, insets.top - spacing(8)), left: (SCREEN_WIDTH - Math.min(wp(392), SCREEN_WIDTH - spacing(32))) / 2 - spacing(4), zIndex: 10 }}>
+        <BackButton 
+          onPress={() => navigation.goBack()}
+          color="#000000"
+          width={wp(20)}
+          height={hp(18)}
+        />
+      </View>
       <View style={{ flex: 1, alignItems: 'center', width: '100%' }}>
         {/* Logo + Tagline block */}
-        <View style={{ alignItems: 'center', marginTop: hp(40), marginBottom: spacing(18), width: Math.min(wp(400), SCREEN_WIDTH - spacing(32)), alignSelf: 'center' }}>
+        <View style={{ alignItems: 'center', marginTop: hp(20), marginBottom: spacing(18), width: Math.min(wp(400), SCREEN_WIDTH - spacing(32)), alignSelf: 'center' }}>
           <Image
             source={require('../../assets/caarobar (2) 1.png')}
             style={{ width: wp(130.81), height: hp(62), resizeMode: 'contain' }}
           />
-          <Text style={{ width: wp(285), marginTop: spacing(8), fontFamily: 'Inter', fontWeight: '400', fontSize: fontSize(13), color: '#12110D', lineHeight: 19.5, textAlign: 'center' }} allowFontScaling={false}>
+          <Text style={{ width: wp(285), marginTop: spacing(8), fontFamily: 'Inter', fontWeight: '300', fontSize: fontSize(13), color: '#12110D', lineHeight: 19.5, textAlign: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }} allowFontScaling={false}>
             Get Control of your staff management with us.
           </Text>
         </View>
         {/* Welcome Section */}
         <View style={{ alignSelf: 'center', marginBottom: spacing(24), width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)) }}>
-          <Text style={{ fontFamily: 'LexendDeca-Bold', fontWeight: '700', fontSize: fontSize(24), color: '#12110D', textAlign: 'left', lineHeight: fontSize(36), marginBottom: spacing(4) }} allowFontScaling={false}>
+          <Text style={{ fontFamily: 'Lexend Deca', fontWeight: '700', fontSize: 24, color: '#12110D', textAlign: 'left', lineHeight: 36, marginBottom: spacing(4), letterSpacing: 1.5 }} allowFontScaling={false}>
             Welcome Back 👋
           </Text>
-          <Text style={{ fontFamily: 'LexendDeca-Bold', fontWeight: '700', fontSize: fontSize(24), color: '#2979FF', textAlign: 'left', lineHeight: fontSize(36), marginBottom: spacing(8) }} allowFontScaling={false}>
+          <Text style={{ fontFamily: 'Lexend Deca', fontWeight: '700', fontSize: 24, color: '#2979FF', textAlign: 'left', lineHeight: 36, marginBottom: spacing(8), letterSpacing: 1.5 }} allowFontScaling={false}>
             to CAAROBAR
           </Text>
           <Text style={{ color: '#787878', fontFamily: 'Poppins', fontSize: fontSize(13), lineHeight: fontSize(20), textAlign: 'left' }} allowFontScaling={false}>Hello there, login to continue</Text>
@@ -97,7 +99,7 @@ export default function SignInScreen({ navigation, route }: Props) {
               backgroundColor: '#FFFFFF',
               borderRadius: spacing(8),
               borderWidth: 1,
-              borderColor: '#E0E0E0',
+              borderColor: '#828282',
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
@@ -105,8 +107,15 @@ export default function SignInScreen({ navigation, route }: Props) {
               marginRight: spacing(12),
             }}
           >
-            <Text style={{ fontSize: fontSize(20), marginRight: spacing(8) }} allowFontScaling={false}>🇮🇳</Text>
-            <Text style={{ fontFamily: 'Inter', fontWeight: '400', fontSize: fontSize(14), color: '#000000', marginRight: spacing(6) }} allowFontScaling={false}>INDIA</Text>
+            {/* Indian Flag - Simple representation */}
+            <View style={{ width: wp(24), height: hp(16), marginRight: spacing(8), overflow: 'hidden', borderRadius: 2 }}>
+              <View style={{ flex: 1, backgroundColor: '#FF9933' }} />
+              <View style={{ flex: 1, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ width: wp(8), height: hp(8), borderRadius: wp(4), borderWidth: 1, borderColor: '#000080' }} />
+              </View>
+              <View style={{ flex: 1, backgroundColor: '#138808' }} />
+            </View>
+            <Text style={{ fontFamily: 'Inter', fontWeight: '400', fontSize: fontSize(14), color: '#999999', marginRight: spacing(6) }} allowFontScaling={false}>INDIA</Text>
             <Text style={{ fontSize: fontSize(10), color: '#666666' }} allowFontScaling={false}>▼</Text>
           </TouchableOpacity>
           
@@ -116,13 +125,13 @@ export default function SignInScreen({ navigation, route }: Props) {
             height: hp(50),
             backgroundColor: '#FFFFFF',
             borderRadius: spacing(8),
-            borderWidth: wp(1),
-            borderColor: '#E0E0E0',
+            borderWidth: 1,
+            borderColor: '#828282',
             flexDirection: 'row',
             alignItems: 'center',
             paddingHorizontal: spacing(12),
           }}>
-            <Text style={{ fontSize: fontSize(14), color: '#999999', marginRight: spacing(4) }} allowFontScaling={false}>+91</Text>
+            <Text style={{ fontSize: fontSize(14), color: '#000000', marginRight: spacing(4), fontWeight: '700' }} allowFontScaling={false}>+91</Text>
           <TextInput
               placeholder="Enter Phone Number"
               placeholderTextColor="#999999"
@@ -161,9 +170,9 @@ export default function SignInScreen({ navigation, route }: Props) {
         </TouchableOpacity>
         {/* Separator */}
         <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), alignSelf: 'center', marginBottom: spacing(20), flexDirection: 'row', alignItems: 'center' }}>
-          <View style={{ flex: 1, height: 1, backgroundColor: '#E5E5E5' }} />
-          <Text style={{ marginHorizontal: spacing(10), color: '#999999', fontSize: fontSize(12), fontFamily: 'Poppins' }} allowFontScaling={false}>or</Text>
-          <View style={{ flex: 1, height: 1, backgroundColor: '#E5E5E5' }} />
+          <View style={{ flex: 1, height: 1, backgroundColor: '#828282' }} />
+          <Text style={{ marginHorizontal: spacing(10), color: '#828282', fontSize: fontSize(12), fontFamily: 'Poppins' }} allowFontScaling={false}>or</Text>
+          <View style={{ flex: 1, height: 1, backgroundColor: '#828282' }} />
         </View>
         {/* Google and Email Icons - Circular */}
         <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), alignSelf: 'center', marginBottom: spacing(40), flexDirection: 'row', justifyContent: 'center' }}>
@@ -174,8 +183,8 @@ export default function SignInScreen({ navigation, route }: Props) {
               height: hp(56),
               borderRadius: wp(28),
               backgroundColor: '#FFFFFF',
-            borderWidth: 1,
-              borderColor: '#E0E0E0',
+              borderWidth: 1,
+              borderColor: '#CCCCCC',
               alignItems: 'center',
               justifyContent: 'center',
               marginRight: spacing(20),
@@ -183,57 +192,48 @@ export default function SignInScreen({ navigation, route }: Props) {
           >
             <Image 
               source={require('../../assets/Google.png')} 
-              style={{ width: wp(24), height: hp(24), resizeMode: 'contain' }} 
+              style={{ width: wp(28), height: hp(28), resizeMode: 'contain' }} 
             />
-        </TouchableOpacity>
+          </TouchableOpacity>
           
           {/* Email Icon */}
-        <TouchableOpacity
-          style={{
+          <TouchableOpacity
+            style={{
               width: wp(56),
               height: hp(56),
               borderRadius: wp(28),
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
-              borderColor: '#E0E0E0',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-            <Text 
-              style={{ 
-                fontSize: fontSize(28), 
-                color: '#2979FF', 
-                textAlign: 'center', 
-                lineHeight: fontSize(28),
-                includeFontPadding: false,
-                marginTop: -hp(2), // Fine-tune vertical centering
-              }} 
-              allowFontScaling={false}
-            >
-              ✉
-            </Text>
-        </TouchableOpacity>
+              borderColor: '#CCCCCC',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Image 
+              source={require('../../assets/gmail_icon_for_sign_up_page-removebg-preview.png')} 
+              style={{ width: wp(36), height: hp(36), resizeMode: 'contain' }} 
+            />
+          </TouchableOpacity>
         </View>
         {/* Spacer to push footer to bottom */}
         <View style={{ flex: 1 }} />
         
         {/* Footer - Terms and Privacy */}
-        <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), alignSelf: 'center', marginBottom: spacing(20) + insets.bottom, alignItems: 'center' }}>
-          <Text style={{ fontSize: fontSize(12), color: '#999999', fontFamily: 'Poppins', marginBottom: spacing(8), textAlign: 'center' }} allowFontScaling={false}>
+        <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), alignSelf: 'center', marginBottom: spacing(20) + insets.bottom, alignItems: 'center', paddingHorizontal: spacing(16) }}>
+          <Text style={{ fontSize: fontSize(12), color: '#999999', fontFamily: 'Poppins', marginBottom: spacing(4), textAlign: 'center', lineHeight: fontSize(18) }} allowFontScaling={false}>
             By continuing, you agree to our
           </Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
             <TouchableOpacity>
-              <Text style={{ fontSize: fontSize(12), color: '#666666', fontFamily: 'Poppins', textDecorationLine: 'underline' }} allowFontScaling={false}>Terms of Service</Text>
+              <Text style={{ fontSize: fontSize(12), color: '#666666', fontFamily: 'Poppins', textDecorationLine: 'underline', lineHeight: fontSize(18) }} allowFontScaling={false}>Terms of Service</Text>
             </TouchableOpacity>
-            <Text style={{ fontSize: fontSize(12), color: '#999999', marginHorizontal: spacing(4) }} allowFontScaling={false}>,</Text>
+            <Text style={{ fontSize: fontSize(12), color: '#999999', marginHorizontal: spacing(3) }} allowFontScaling={false}> </Text>
             <TouchableOpacity>
-              <Text style={{ fontSize: fontSize(12), color: '#666666', fontFamily: 'Poppins', textDecorationLine: 'underline' }} allowFontScaling={false}>Privacy Policy</Text>
+              <Text style={{ fontSize: fontSize(12), color: '#666666', fontFamily: 'Poppins', textDecorationLine: 'underline', lineHeight: fontSize(18) }} allowFontScaling={false}>Privacy Policy</Text>
             </TouchableOpacity>
-            <Text style={{ fontSize: fontSize(12), color: '#999999', marginHorizontal: spacing(4) }} allowFontScaling={false}>,</Text>
+            <Text style={{ fontSize: fontSize(12), color: '#999999', marginHorizontal: spacing(3) }} allowFontScaling={false}> </Text>
             <TouchableOpacity>
-              <Text style={{ fontSize: fontSize(12), color: '#666666', fontFamily: 'Poppins', textDecorationLine: 'underline' }} allowFontScaling={false}>Content Policy</Text>
+              <Text style={{ fontSize: fontSize(12), color: '#666666', fontFamily: 'Poppins', textDecorationLine: 'underline', lineHeight: fontSize(18) }} allowFontScaling={false}>Content Policy</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -1,6 +1,6 @@
 import React from 'react';
-import { ActivityIndicator, GestureResponderEvent, Pressable, Text, ViewStyle } from 'react-native';
-import { hp } from '@/utils/responsive';
+import { ActivityIndicator, GestureResponderEvent, TouchableOpacity, Text, ViewStyle } from 'react-native';
+import { hp, fontSize, spacing } from '../../utils/responsive';
 
 type ButtonVariant = 'primary' | 'secondary';
 
@@ -11,7 +11,6 @@ type ButtonProps = {
   loading?: boolean;
   accessibilityLabel?: string;
   variant?: ButtonVariant;
-  className?: string;
   style?: ViewStyle | ViewStyle[];
 };
 
@@ -22,38 +21,52 @@ export default function Button({
   loading,
   accessibilityLabel,
   variant = 'primary',
-  className,
   style,
 }: ButtonProps) {
   const isPrimary = variant === 'primary';
-  const baseClasses = 'rounded-button items-center justify-center shadow-card';
-  const primaryClasses = 'bg-brand';
-  const secondaryClasses = 'bg-background-light border border-border-gray';
 
   return (
-    <Pressable
+    <TouchableOpacity
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel || title}
       onPress={onPress}
       disabled={disabled || loading}
-      className={`${baseClasses} ${isPrimary ? primaryClasses : secondaryClasses} ${className || ''}`}
-      style={({ pressed }) => [
-        { height: hp(50) },
+      activeOpacity={0.8}
+      style={[
+        {
+          backgroundColor: isPrimary ? '#4285F4' : '#FFFFFF',
+          borderRadius: hp(50),
+          paddingVertical: spacing(14),
+          alignItems: 'center',
+          justifyContent: 'center',
+          shadowColor: '#4285F4',
+          shadowOffset: { width: 0, height: spacing(2) },
+          shadowOpacity: 0.3,
+          shadowRadius: spacing(4),
+          elevation: 4,
+          borderWidth: isPrimary ? 0 : 1,
+          borderColor: isPrimary ? 'transparent' : '#E0E0E0',
+        },
         Array.isArray(style) ? style : style ? [style] : [],
-        { transform: [{ scale: pressed ? 0.98 : 1 }] },
+        (disabled || loading) && { opacity: 0.6 },
       ]}
     >
       {loading ? (
-        <ActivityIndicator color={isPrimary ? '#FFFFFF' : '#101317'} />
+        <ActivityIndicator color={isPrimary ? '#FFFFFF' : '#4285F4'} />
       ) : (
         <Text 
-          className={`text-base font-medium ${isPrimary ? 'text-white' : 'text-text-black'}`}
+          style={{
+            fontSize: fontSize(16),
+            fontWeight: '700',
+            color: isPrimary ? '#FFFFFF' : '#4285F4',
+            fontFamily: isPrimary ? 'Poppins-Bold' : 'Poppins-SemiBold',
+          }}
           allowFontScaling={false}
         >
           {title}
         </Text>
       )}
-    </Pressable>
+    </TouchableOpacity>
   );
 }
 

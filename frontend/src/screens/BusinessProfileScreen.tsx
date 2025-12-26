@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput, ScrollView, Image, Modal, Pressable, StatusBar } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MaterialIcons } from '@expo/vector-icons';
-import BackButton from '../components/BackButton';
 import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
 import SafeAreaView from '../components/SafeAreaView';
+import Button from '../components/ui/Button';
 
 type RootStackParamList = {
   BusinessProfile: undefined;
@@ -47,75 +47,88 @@ export default function BusinessProfileScreen({ navigation }: Props) {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      <StatusBar barStyle="light-content" backgroundColor="#4285F4" />
+    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+      <StatusBar barStyle="light-content" backgroundColor="#2D6EFF" />
       
       {/* Blue Header Bar */}
-      <SafeAreaView edges={['top']} style={{ backgroundColor: '#4285F4' }}>
-        <View style={{
-          backgroundColor: '#4285F4',
-          paddingTop: hp(10),
-          paddingBottom: spacing(16),
-          paddingHorizontal: spacing(16),
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}>
-          <BackButton color="#FFFFFF" />
-          <View style={{ flex: 1, alignItems: 'center', marginRight: wp(32) }}>
-            <Text style={{ fontSize: fontSize(18), fontWeight: '700', color: '#FFFFFF', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>
-              Bussiness Profile
-            </Text>
-          </View>
+      <View style={{ 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        paddingHorizontal: spacing(16),
+        paddingTop: spacing(8),
+        paddingBottom: spacing(8),
+        backgroundColor: '#2D6EFF'
+      }}>
+        {/* Left: Back Arrow */}
+        <TouchableOpacity 
+          onPress={() => navigation.goBack()}
+          style={{ padding: spacing(4) }}
+        >
+          <Text style={{ fontSize: fontSize(24), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
+        </TouchableOpacity>
+
+        {/* Left: Business Profile Title */}
+        <View style={{ flex: 1, alignItems: 'flex-start', paddingLeft: spacing(12) }}>
+          <Text style={{ 
+            fontSize: fontSize(18), 
+            fontWeight: '500', 
+            color: '#FFFFFF', 
+            fontFamily: 'Inter' 
+          }} allowFontScaling={false}>
+            Bussiness Profile
+          </Text>
         </View>
-      </SafeAreaView>
+      </View>
 
       <ScrollView 
-        style={{ flex: 1 }}
-        contentContainerStyle={{ paddingBottom: spacing(20), paddingHorizontal: spacing(16) }}
+        style={{ flex: 1, backgroundColor: '#FFFFFF' }}
+        contentContainerStyle={{ paddingHorizontal: spacing(16), paddingTop: spacing(16) }}
         showsVerticalScrollIndicator={false}
       >
         {/* Image Upload Sections */}
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: spacing(20), marginBottom: spacing(24) }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: spacing(20) }}>
           {/* Company Logo */}
-          <View style={{ flex: 1, marginRight: spacing(12) }}>
-            <Text style={{ fontSize: fontSize(14), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
+          <View style={{ flex: 1, marginRight: spacing(8) }}>
+            <Text style={{ fontSize: fontSize(13), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
               Company logo
             </Text>
             <TouchableOpacity style={{
               backgroundColor: '#FFFFFF',
-              borderWidth: 1,
-              borderColor: '#E0E0E0',
-              borderRadius: hp(12),
-              height: hp(120),
+              borderWidth: 1.5,
+              borderColor: '#D0D0D0',
+              borderStyle: 'dashed',
+              borderRadius: spacing(8),
+              height: hp(110),
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-              <MaterialIcons name="cloud-upload" size={wp(48)} color="#9E9E9E" />
+              <MaterialIcons name="cloud-upload" size={wp(40)} color="#9E9E9E" />
             </TouchableOpacity>
           </View>
 
           {/* Owner Image */}
-          <View style={{ flex: 1, marginLeft: spacing(12) }}>
-            <Text style={{ fontSize: fontSize(14), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
+          <View style={{ flex: 1, marginLeft: spacing(8) }}>
+            <Text style={{ fontSize: fontSize(13), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
               Owner Image
             </Text>
             <TouchableOpacity style={{
               backgroundColor: '#FFFFFF',
-              borderWidth: 1,
-              borderColor: '#E0E0E0',
-              borderRadius: hp(12),
-              height: hp(120),
+              borderWidth: 1.5,
+              borderColor: '#D0D0D0',
+              borderStyle: 'dashed',
+              borderRadius: spacing(8),
+              height: hp(110),
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-              <MaterialIcons name="cloud-upload" size={wp(48)} color="#9E9E9E" />
+              <MaterialIcons name="cloud-upload" size={wp(40)} color="#9E9E9E" />
             </TouchableOpacity>
           </View>
         </View>
 
         {/* Business Name */}
         <View style={{ marginBottom: spacing(16) }}>
-          <Text style={{ fontSize: fontSize(14), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
+          <Text style={{ fontSize: fontSize(13), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
             Bussiness Name
           </Text>
           <TextInput
@@ -123,8 +136,8 @@ export default function BusinessProfileScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: hp(12),
-              paddingHorizontal: spacing(16),
+              borderRadius: spacing(8),
+              paddingHorizontal: spacing(14),
               paddingVertical: spacing(12),
               fontSize: fontSize(14),
               color: '#000000',
@@ -133,13 +146,14 @@ export default function BusinessProfileScreen({ navigation }: Props) {
             value={businessName}
             onChangeText={setBusinessName}
             placeholder="Enter business name"
+            placeholderTextColor="#999999"
             allowFontScaling={false}
           />
         </View>
 
         {/* Owner Name */}
         <View style={{ marginBottom: spacing(16) }}>
-          <Text style={{ fontSize: fontSize(14), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
+          <Text style={{ fontSize: fontSize(13), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
             Owner Name
           </Text>
           <TextInput
@@ -147,8 +161,8 @@ export default function BusinessProfileScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: hp(12),
-              paddingHorizontal: spacing(16),
+              borderRadius: spacing(8),
+              paddingHorizontal: spacing(14),
               paddingVertical: spacing(12),
               fontSize: fontSize(14),
               color: '#000000',
@@ -157,13 +171,14 @@ export default function BusinessProfileScreen({ navigation }: Props) {
             value={ownerName}
             onChangeText={setOwnerName}
             placeholder="Enter owner name"
+            placeholderTextColor="#999999"
             allowFontScaling={false}
           />
         </View>
 
         {/* GSTIN */}
         <View style={{ marginBottom: spacing(16) }}>
-          <Text style={{ fontSize: fontSize(14), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
+          <Text style={{ fontSize: fontSize(13), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
             GSTIN
           </Text>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -173,8 +188,8 @@ export default function BusinessProfileScreen({ navigation }: Props) {
                 backgroundColor: '#FFFFFF',
                 borderWidth: 1,
                 borderColor: '#E0E0E0',
-                borderRadius: hp(12),
-                paddingHorizontal: spacing(16),
+                borderRadius: spacing(8),
+                paddingHorizontal: spacing(14),
                 paddingVertical: spacing(12),
                 fontSize: fontSize(14),
                 color: '#000000',
@@ -183,17 +198,18 @@ export default function BusinessProfileScreen({ navigation }: Props) {
               value={gstin}
               onChangeText={setGstin}
               placeholder="Enter GSTIN"
+              placeholderTextColor="#999999"
               allowFontScaling={false}
             />
-            <View style={{ marginLeft: spacing(12), width: wp(24), height: hp(24), borderRadius: hp(12), backgroundColor: '#4CAF50', alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ color: '#FFFFFF', fontSize: fontSize(14), fontWeight: 'bold' }} allowFontScaling={false}>✓</Text>
+            <View style={{ marginLeft: spacing(10), width: spacing(24), height: spacing(24), borderRadius: spacing(12), backgroundColor: '#4CAF50', alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ color: '#FFFFFF', fontSize: fontSize(12), fontWeight: 'bold' }} allowFontScaling={false}>✓</Text>
             </View>
           </View>
         </View>
 
         {/* Business PAN No. */}
         <View style={{ marginBottom: spacing(16) }}>
-          <Text style={{ fontSize: fontSize(14), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
+          <Text style={{ fontSize: fontSize(13), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
             Bussiness PAN No.
           </Text>
           <TextInput
@@ -201,8 +217,8 @@ export default function BusinessProfileScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: hp(12),
-              paddingHorizontal: spacing(16),
+              borderRadius: spacing(8),
+              paddingHorizontal: spacing(14),
               paddingVertical: spacing(12),
               fontSize: fontSize(14),
               color: '#000000',
@@ -211,13 +227,14 @@ export default function BusinessProfileScreen({ navigation }: Props) {
             value={panNo}
             onChangeText={setPanNo}
             placeholder="Enter PAN number"
+            placeholderTextColor="#999999"
             allowFontScaling={false}
           />
         </View>
 
         {/* Business E-mail */}
         <View style={{ marginBottom: spacing(16) }}>
-          <Text style={{ fontSize: fontSize(14), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
+          <Text style={{ fontSize: fontSize(13), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
             Bussiness E-mail
           </Text>
           <TextInput
@@ -225,8 +242,8 @@ export default function BusinessProfileScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: hp(12),
-              paddingHorizontal: spacing(16),
+              borderRadius: spacing(8),
+              paddingHorizontal: spacing(14),
               paddingVertical: spacing(12),
               fontSize: fontSize(14),
               color: '#000000',
@@ -235,6 +252,7 @@ export default function BusinessProfileScreen({ navigation }: Props) {
             value={email}
             onChangeText={setEmail}
             placeholder="Enter email"
+            placeholderTextColor="#999999"
             keyboardType="email-address"
             autoCapitalize="none"
             allowFontScaling={false}
@@ -243,27 +261,27 @@ export default function BusinessProfileScreen({ navigation }: Props) {
 
         {/* Company Contact */}
         <View style={{ marginBottom: spacing(16) }}>
-          <Text style={{ fontSize: fontSize(14), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
+          <Text style={{ fontSize: fontSize(13), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
             Company Contact
           </Text>
           <View style={{
             backgroundColor: '#FFFFFF',
             borderWidth: 1,
             borderColor: '#E0E0E0',
-            borderRadius: hp(12),
+            borderRadius: spacing(8),
             flexDirection: 'row',
             alignItems: 'center',
             paddingHorizontal: spacing(12),
           }}>
             <TouchableOpacity 
               onPress={() => setShowCountryModal(true)}
-              style={{ flexDirection: 'row', alignItems: 'center', marginRight: spacing(12) }}
+              style={{ flexDirection: 'row', alignItems: 'center', marginRight: spacing(8) }}
             >
-              <Text style={{ fontSize: fontSize(16), marginRight: spacing(4) }} allowFontScaling={false}>🇮🇳</Text>
-              <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{selectedCountry}</Text>
-              <Text style={{ fontSize: fontSize(14), color: '#000000', marginLeft: spacing(4) }} allowFontScaling={false}>▼</Text>
+              <Text style={{ fontSize: fontSize(18), marginRight: spacing(6) }} allowFontScaling={false}>🇮🇳</Text>
+              <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{selectedCountry}</Text>
+              <Text style={{ fontSize: fontSize(10), color: '#666666', marginLeft: spacing(4) }} allowFontScaling={false}>▼</Text>
             </TouchableOpacity>
-            <View style={{ width: 1, height: hp(24), backgroundColor: '#E0E0E0', marginRight: spacing(12) }} />
+            <View style={{ width: 1, height: spacing(24), backgroundColor: '#E0E0E0', marginRight: spacing(10) }} />
             <TextInput
               style={{
                 flex: 1,
@@ -275,6 +293,7 @@ export default function BusinessProfileScreen({ navigation }: Props) {
               value={companyContact}
               onChangeText={setCompanyContact}
               placeholder="Enter contact number"
+              placeholderTextColor="#999999"
               keyboardType="phone-pad"
               allowFontScaling={false}
             />
@@ -283,27 +302,27 @@ export default function BusinessProfileScreen({ navigation }: Props) {
 
         {/* Alternate No */}
         <View style={{ marginBottom: spacing(16) }}>
-          <Text style={{ fontSize: fontSize(14), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
+          <Text style={{ fontSize: fontSize(13), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
             Alternate No
           </Text>
           <View style={{
             backgroundColor: '#FFFFFF',
             borderWidth: 1,
             borderColor: '#E0E0E0',
-            borderRadius: hp(12),
+            borderRadius: spacing(8),
             flexDirection: 'row',
             alignItems: 'center',
             paddingHorizontal: spacing(12),
           }}>
             <TouchableOpacity 
               onPress={() => setShowAltCountryModal(true)}
-              style={{ flexDirection: 'row', alignItems: 'center', marginRight: spacing(12) }}
+              style={{ flexDirection: 'row', alignItems: 'center', marginRight: spacing(8) }}
             >
-              <Text style={{ fontSize: fontSize(16), marginRight: spacing(4) }} allowFontScaling={false}>🇮🇳</Text>
-              <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{selectedAltCountry}</Text>
-              <Text style={{ fontSize: fontSize(14), color: '#000000', marginLeft: spacing(4) }} allowFontScaling={false}>▼</Text>
+              <Text style={{ fontSize: fontSize(18), marginRight: spacing(6) }} allowFontScaling={false}>🇮🇳</Text>
+              <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{selectedAltCountry}</Text>
+              <Text style={{ fontSize: fontSize(10), color: '#666666', marginLeft: spacing(4) }} allowFontScaling={false}>▼</Text>
             </TouchableOpacity>
-            <View style={{ width: 1, height: hp(24), backgroundColor: '#E0E0E0', marginRight: spacing(12) }} />
+            <View style={{ width: 1, height: spacing(24), backgroundColor: '#E0E0E0', marginRight: spacing(10) }} />
             <TextInput
               style={{
                 flex: 1,
@@ -315,6 +334,7 @@ export default function BusinessProfileScreen({ navigation }: Props) {
               value={alternateNo}
               onChangeText={setAlternateNo}
               placeholder="Enter alternate number"
+              placeholderTextColor="#999999"
               keyboardType="phone-pad"
               allowFontScaling={false}
             />
@@ -323,7 +343,7 @@ export default function BusinessProfileScreen({ navigation }: Props) {
 
         {/* Category */}
         <View style={{ marginBottom: spacing(16) }}>
-          <Text style={{ fontSize: fontSize(14), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
+          <Text style={{ fontSize: fontSize(13), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
             Category
           </Text>
           <TouchableOpacity
@@ -332,49 +352,57 @@ export default function BusinessProfileScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: hp(12),
-              paddingHorizontal: spacing(16),
+              borderRadius: spacing(8),
+              paddingHorizontal: spacing(14),
               paddingVertical: spacing(12),
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
             }}
           >
-            <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+            <Text style={{ fontSize: fontSize(14), color: category ? '#000000' : '#999999', fontFamily: 'Poppins' }} allowFontScaling={false}>
               {category || 'Select category'}
             </Text>
-            <Text style={{ fontSize: fontSize(14), color: '#000000' }} allowFontScaling={false}>▼</Text>
+            <Text style={{ fontSize: fontSize(10), color: '#666666' }} allowFontScaling={false}>▼</Text>
           </TouchableOpacity>
         </View>
 
         {/* Address */}
         <View style={{ marginBottom: spacing(16) }}>
-          <Text style={{ fontSize: fontSize(14), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
+          <Text style={{ fontSize: fontSize(13), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
             Address
           </Text>
-          <TextInput
-            style={{
-              backgroundColor: '#FFFFFF',
-              borderWidth: 1,
-              borderColor: '#E0E0E0',
-              borderRadius: hp(12),
-              paddingHorizontal: spacing(16),
-              paddingVertical: spacing(12),
-              fontSize: fontSize(14),
-              color: '#000000',
-              fontFamily: 'Poppins',
-            }}
-            value={address}
-            onChangeText={setAddress}
-            placeholder="Enter address"
-            multiline
-            allowFontScaling={false}
-          />
+          <View style={{
+            backgroundColor: '#FFFFFF',
+            borderWidth: 1,
+            borderColor: '#E0E0E0',
+            borderRadius: spacing(8),
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingHorizontal: spacing(14),
+            paddingVertical: spacing(12),
+          }}>
+            <TextInput
+              style={{
+                flex: 1,
+                fontSize: fontSize(14),
+                color: '#000000',
+                fontFamily: 'Poppins',
+              }}
+              value={address}
+              onChangeText={setAddress}
+              placeholder="Enter address"
+              placeholderTextColor="#999999"
+              multiline
+              allowFontScaling={false}
+            />
+            <MaterialIcons name="location-on" size={spacing(20)} color="#4285F4" style={{ marginLeft: spacing(8) }} />
+          </View>
         </View>
 
         {/* Pincode */}
         <View style={{ marginBottom: spacing(16) }}>
-          <Text style={{ fontSize: fontSize(14), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
+          <Text style={{ fontSize: fontSize(13), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
             Pincode
           </Text>
           <TextInput
@@ -382,8 +410,8 @@ export default function BusinessProfileScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: hp(12),
-              paddingHorizontal: spacing(16),
+              borderRadius: spacing(8),
+              paddingHorizontal: spacing(14),
               paddingVertical: spacing(12),
               fontSize: fontSize(14),
               color: '#000000',
@@ -392,6 +420,7 @@ export default function BusinessProfileScreen({ navigation }: Props) {
             value={pincode}
             onChangeText={setPincode}
             placeholder="Enter pincode"
+            placeholderTextColor="#999999"
             keyboardType="number-pad"
             allowFontScaling={false}
           />
@@ -399,7 +428,7 @@ export default function BusinessProfileScreen({ navigation }: Props) {
 
         {/* City */}
         <View style={{ marginBottom: spacing(16) }}>
-          <Text style={{ fontSize: fontSize(14), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
+          <Text style={{ fontSize: fontSize(13), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
             City
           </Text>
           <TouchableOpacity
@@ -408,24 +437,24 @@ export default function BusinessProfileScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: hp(12),
-              paddingHorizontal: spacing(16),
+              borderRadius: spacing(8),
+              paddingHorizontal: spacing(14),
               paddingVertical: spacing(12),
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
             }}
           >
-            <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+            <Text style={{ fontSize: fontSize(14), color: city ? '#000000' : '#999999', fontFamily: 'Poppins' }} allowFontScaling={false}>
               {city || 'Select city'}
             </Text>
-            <Text style={{ fontSize: fontSize(14), color: '#000000' }} allowFontScaling={false}>▼</Text>
+            <Text style={{ fontSize: fontSize(10), color: '#666666' }} allowFontScaling={false}>▼</Text>
           </TouchableOpacity>
         </View>
 
         {/* State */}
-        <View style={{ marginBottom: spacing(24) }}>
-          <Text style={{ fontSize: fontSize(14), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
+        <View style={{ marginBottom: spacing(16) }}>
+          <Text style={{ fontSize: fontSize(13), color: '#4285F4', fontFamily: 'Poppins-SemiBold', marginBottom: spacing(8) }} allowFontScaling={false}>
             State
           </Text>
           <TouchableOpacity
@@ -434,46 +463,29 @@ export default function BusinessProfileScreen({ navigation }: Props) {
               backgroundColor: '#FFFFFF',
               borderWidth: 1,
               borderColor: '#E0E0E0',
-              borderRadius: hp(12),
-              paddingHorizontal: spacing(16),
+              borderRadius: spacing(8),
+              paddingHorizontal: spacing(14),
               paddingVertical: spacing(12),
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
             }}
           >
-            <Text style={{ fontSize: fontSize(14), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+            <Text style={{ fontSize: fontSize(14), color: state ? '#000000' : '#999999', fontFamily: 'Poppins' }} allowFontScaling={false}>
               {state || 'Select state'}
             </Text>
-            <Text style={{ fontSize: fontSize(14), color: '#000000' }} allowFontScaling={false}>▼</Text>
+            <Text style={{ fontSize: fontSize(10), color: '#666666' }} allowFontScaling={false}>▼</Text>
           </TouchableOpacity>
         </View>
+        {/* Save Button - Inside ScrollView */}
+        <View style={{ marginTop: spacing(4), marginBottom: spacing(20) }}>
+          <Button
+            title="Save"
+            onPress={handleSave}
+            variant="primary"
+          />
+        </View>
       </ScrollView>
-
-      {/* Fixed Save Button */}
-      <View style={{
-        backgroundColor: '#FFFFFF',
-        paddingHorizontal: spacing(16),
-        paddingTop: spacing(12),
-        paddingBottom: spacing(24),
-        borderTopWidth: 1,
-        borderTopColor: '#E0E0E0',
-      }}>
-        <TouchableOpacity
-          onPress={handleSave}
-          style={{
-            backgroundColor: '#4285F4',
-            borderRadius: hp(12),
-            paddingVertical: spacing(16),
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Text style={{ fontSize: fontSize(16), fontWeight: '700', color: '#FFFFFF', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>
-            Save
-          </Text>
-        </TouchableOpacity>
-      </View>
 
       {/* Category Modal */}
       <Modal
@@ -483,22 +495,24 @@ export default function BusinessProfileScreen({ navigation }: Props) {
         onRequestClose={() => setShowCategoryModal(false)}
       >
         <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' }} onPress={() => setShowCategoryModal(false)}>
-          <Pressable style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: hp(20), borderTopRightRadius: hp(20), padding: spacing(20), paddingBottom: spacing(32) + (useSafeArea().bottom || 0) }}>
+          <Pressable style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: spacing(20), borderTopRightRadius: spacing(20), padding: spacing(20), paddingBottom: spacing(20) + (useSafeArea().bottom || 0) }}>
             <Text style={{ fontSize: fontSize(18), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: spacing(16) }} allowFontScaling={false}>
               Select Category
             </Text>
-            {categories.map((cat) => (
-              <TouchableOpacity
-                key={cat}
-                onPress={() => {
-                  setCategory(cat);
-                  setShowCategoryModal(false);
-                }}
-                style={{ paddingVertical: spacing(12), borderBottomWidth: 1, borderBottomColor: '#E0E0E0' }}
-              >
-                <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{cat}</Text>
-              </TouchableOpacity>
-            ))}
+            <ScrollView style={{ maxHeight: hp(300) }}>
+              {categories.map((cat) => (
+                <TouchableOpacity
+                  key={cat}
+                  onPress={() => {
+                    setCategory(cat);
+                    setShowCategoryModal(false);
+                  }}
+                  style={{ paddingVertical: spacing(14), borderBottomWidth: 1, borderBottomColor: '#F0F0F0' }}
+                >
+                  <Text style={{ fontSize: fontSize(15), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{cat}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
           </Pressable>
         </Pressable>
       </Modal>
@@ -511,22 +525,24 @@ export default function BusinessProfileScreen({ navigation }: Props) {
         onRequestClose={() => setShowCityModal(false)}
       >
         <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' }} onPress={() => setShowCityModal(false)}>
-          <Pressable style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: hp(20), borderTopRightRadius: hp(20), padding: spacing(20), paddingBottom: spacing(32) + (useSafeArea().bottom || 0) }}>
+          <Pressable style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: spacing(20), borderTopRightRadius: spacing(20), padding: spacing(20), paddingBottom: spacing(20) + (useSafeArea().bottom || 0) }}>
             <Text style={{ fontSize: fontSize(18), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: spacing(16) }} allowFontScaling={false}>
               Select City
             </Text>
-            {cities.map((c) => (
-              <TouchableOpacity
-                key={c}
-                onPress={() => {
-                  setCity(c);
-                  setShowCityModal(false);
-                }}
-                style={{ paddingVertical: spacing(12), borderBottomWidth: 1, borderBottomColor: '#E0E0E0' }}
-              >
-                <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{c}</Text>
-              </TouchableOpacity>
-            ))}
+            <ScrollView style={{ maxHeight: hp(300) }}>
+              {cities.map((c) => (
+                <TouchableOpacity
+                  key={c}
+                  onPress={() => {
+                    setCity(c);
+                    setShowCityModal(false);
+                  }}
+                  style={{ paddingVertical: spacing(14), borderBottomWidth: 1, borderBottomColor: '#F0F0F0' }}
+                >
+                  <Text style={{ fontSize: fontSize(15), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{c}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
           </Pressable>
         </Pressable>
       </Modal>
@@ -539,22 +555,24 @@ export default function BusinessProfileScreen({ navigation }: Props) {
         onRequestClose={() => setShowStateModal(false)}
       >
         <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' }} onPress={() => setShowStateModal(false)}>
-          <Pressable style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: hp(20), borderTopRightRadius: hp(20), padding: spacing(20), paddingBottom: spacing(32) + (useSafeArea().bottom || 0) }}>
+          <Pressable style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: spacing(20), borderTopRightRadius: spacing(20), padding: spacing(20), paddingBottom: spacing(20) + (useSafeArea().bottom || 0) }}>
             <Text style={{ fontSize: fontSize(18), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: spacing(16) }} allowFontScaling={false}>
               Select State
             </Text>
-            {states.map((s) => (
-              <TouchableOpacity
-                key={s}
-                onPress={() => {
-                  setState(s);
-                  setShowStateModal(false);
-                }}
-                style={{ paddingVertical: spacing(12), borderBottomWidth: 1, borderBottomColor: '#E0E0E0' }}
-              >
-                <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{s}</Text>
-              </TouchableOpacity>
-            ))}
+            <ScrollView style={{ maxHeight: hp(300) }}>
+              {states.map((s) => (
+                <TouchableOpacity
+                  key={s}
+                  onPress={() => {
+                    setState(s);
+                    setShowStateModal(false);
+                  }}
+                  style={{ paddingVertical: spacing(14), borderBottomWidth: 1, borderBottomColor: '#F0F0F0' }}
+                >
+                  <Text style={{ fontSize: fontSize(15), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{s}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
           </Pressable>
         </Pressable>
       </Modal>
@@ -567,22 +585,24 @@ export default function BusinessProfileScreen({ navigation }: Props) {
         onRequestClose={() => setShowCountryModal(false)}
       >
         <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' }} onPress={() => setShowCountryModal(false)}>
-          <Pressable style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: hp(20), borderTopRightRadius: hp(20), padding: spacing(20), paddingBottom: spacing(32) + (useSafeArea().bottom || 0) }}>
+          <Pressable style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: spacing(20), borderTopRightRadius: spacing(20), padding: spacing(20), paddingBottom: spacing(20) + (useSafeArea().bottom || 0) }}>
             <Text style={{ fontSize: fontSize(18), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: spacing(16) }} allowFontScaling={false}>
               Select Country
             </Text>
-            {countries.map((country) => (
-              <TouchableOpacity
-                key={country}
-                onPress={() => {
-                  setSelectedCountry(country);
-                  setShowCountryModal(false);
-                }}
-                style={{ paddingVertical: spacing(12), borderBottomWidth: 1, borderBottomColor: '#E0E0E0' }}
-              >
-                <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{country}</Text>
-              </TouchableOpacity>
-            ))}
+            <ScrollView style={{ maxHeight: hp(300) }}>
+              {countries.map((country) => (
+                <TouchableOpacity
+                  key={country}
+                  onPress={() => {
+                    setSelectedCountry(country);
+                    setShowCountryModal(false);
+                  }}
+                  style={{ paddingVertical: spacing(14), borderBottomWidth: 1, borderBottomColor: '#F0F0F0' }}
+                >
+                  <Text style={{ fontSize: fontSize(15), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{country}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
           </Pressable>
         </Pressable>
       </Modal>
@@ -595,26 +615,28 @@ export default function BusinessProfileScreen({ navigation }: Props) {
         onRequestClose={() => setShowAltCountryModal(false)}
       >
         <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' }} onPress={() => setShowAltCountryModal(false)}>
-          <Pressable style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: hp(20), borderTopRightRadius: hp(20), padding: spacing(20), paddingBottom: spacing(32) + (useSafeArea().bottom || 0) }}>
-            <Text style={{ fontSize: fontSize(18), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: spacing(16) }}>
+          <Pressable style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: spacing(20), borderTopRightRadius: spacing(20), padding: spacing(20), paddingBottom: spacing(20) + (useSafeArea().bottom || 0) }}>
+            <Text style={{ fontSize: fontSize(18), fontWeight: '700', color: '#000000', fontFamily: 'Poppins-Bold', marginBottom: spacing(16) }} allowFontScaling={false}>
               Select Country
             </Text>
-            {countries.map((country) => (
-              <TouchableOpacity
-                key={country}
-                onPress={() => {
-                  setSelectedAltCountry(country);
-                  setShowAltCountryModal(false);
-                }}
-                style={{ paddingVertical: spacing(12), borderBottomWidth: 1, borderBottomColor: '#E0E0E0' }}
-              >
-                <Text style={{ fontSize: fontSize(16), color: '#000000', fontFamily: 'Poppins' }}>{country}</Text>
-              </TouchableOpacity>
-            ))}
+            <ScrollView style={{ maxHeight: hp(300) }}>
+              {countries.map((country) => (
+                <TouchableOpacity
+                  key={country}
+                  onPress={() => {
+                    setSelectedAltCountry(country);
+                    setShowAltCountryModal(false);
+                  }}
+                  style={{ paddingVertical: spacing(14), borderBottomWidth: 1, borderBottomColor: '#F0F0F0' }}
+                >
+                  <Text style={{ fontSize: fontSize(15), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>{country}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
           </Pressable>
         </Pressable>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -126,22 +126,21 @@ export default function TasksScreen({ navigation }: Props) {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <StatusBar 
         barStyle="light-content" 
-        backgroundColor={activeTab === 'Tasks' ? '#248CFF' : activeTab === 'Order Book' ? '#248CFF' : '#248CFF'} 
+        backgroundColor={activeTab === 'Tasks' ? '#2D6EFF' : activeTab === 'Order Book' ? '#2D6EFF' : '#2D6EFF'} 
       />
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-        {/* Blue Header Bar */}
-        <View style={{ 
-          flexDirection: 'row', 
-          alignItems: 'center', 
-          justifyContent: 'space-between',
-          paddingHorizontal: spacing(16),
-          paddingTop: spacing(12),
-          paddingBottom: spacing(12),
-          backgroundColor: '#248CFF'
-        }}>
+      {/* Blue Header Bar */}
+      <View style={{ 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'space-between',
+        paddingHorizontal: spacing(16),
+        paddingTop: spacing(8),
+        paddingBottom: spacing(8),
+        backgroundColor: '#2D6EFF'
+      }}>
           {/* Left: Back Arrow */}
           <TouchableOpacity 
             onPress={() => navigation.goBack()}
@@ -151,14 +150,13 @@ export default function TasksScreen({ navigation }: Props) {
             <Text style={{ fontSize: fontSize(24), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
           </TouchableOpacity>
           
-          {/* Center: Title */}
+          {/* Left: Title */}
           <Text style={{ 
             fontSize: fontSize(20), 
-            fontWeight: '700', 
+            fontWeight: '600', 
             color: '#FFFFFF', 
-            fontFamily: 'Poppins-Bold',
-            flex: 1,
-            textAlign: 'center'
+            fontFamily: 'Inter',
+            flex: 1
           }} allowFontScaling={false}>
             {activeTab}
           </Text>
@@ -523,7 +521,7 @@ export default function TasksScreen({ navigation }: Props) {
                   style={{
                     backgroundColor: '#FFFFFF',
                     borderRadius: hp(12),
-                    padding: spacing(16),
+                    padding: spacing(12),
                     marginBottom: spacing(12),
                     borderWidth: wp(1),
                     borderColor: '#E0E0E0',
@@ -535,7 +533,7 @@ export default function TasksScreen({ navigation }: Props) {
                   }}
                 >
                 {/* Top Row: No., In Date, Out Date */}
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing(12) }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing(8) }}>
                   <Text style={{ fontSize: fontSize(12), color: '#9E9E9E', fontFamily: 'Poppins' }} allowFontScaling={false}>
                     No. {task.id}
                   </Text>
@@ -564,13 +562,13 @@ export default function TasksScreen({ navigation }: Props) {
                   fontWeight: '700', 
                   color: '#000000', 
                   fontFamily: 'Poppins-Bold',
-                  marginBottom: spacing(8)
+                  marginBottom: spacing(6)
                 }} allowFontScaling={false}>
                   {task.title}
                 </Text>
 
                 {/* Location Row */}
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: spacing(12) }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: spacing(8) }}>
                   <Text style={{ fontSize: fontSize(14), color: '#9E9E9E', marginRight: spacing(6) }} allowFontScaling={false}>📍</Text>
                   <Text style={{ fontSize: fontSize(13), color: '#9E9E9E', fontFamily: 'Poppins' }} allowFontScaling={false}>
                     {task.location}
@@ -583,13 +581,13 @@ export default function TasksScreen({ navigation }: Props) {
                   <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
                     <View style={{ 
                       backgroundColor: '#FFEBEE', 
-                      paddingHorizontal: spacing(10), 
-                      paddingVertical: spacing(4), 
+                      paddingHorizontal: spacing(8), 
+                      paddingVertical: spacing(3), 
                       borderRadius: hp(12),
-                      marginRight: spacing(8)
+                      marginRight: spacing(6)
                     }}>
                       <Text style={{ 
-                        fontSize: fontSize(12), 
+                        fontSize: fontSize(11), 
                         color: '#C62828', 
                         fontFamily: 'Poppins-SemiBold',
                         fontWeight: '600'
@@ -599,12 +597,12 @@ export default function TasksScreen({ navigation }: Props) {
                     </View>
                     <View style={{ 
                       backgroundColor: '#FFEBEE', 
-                      paddingHorizontal: spacing(10), 
-                      paddingVertical: spacing(4), 
+                      paddingHorizontal: spacing(8), 
+                      paddingVertical: spacing(3), 
                       borderRadius: hp(12)
                     }}>
                       <Text style={{ 
-                        fontSize: fontSize(12), 
+                        fontSize: fontSize(11), 
                         color: '#C62828', 
                         fontFamily: 'Poppins-SemiBold',
                         fontWeight: '600'
@@ -617,29 +615,29 @@ export default function TasksScreen({ navigation }: Props) {
                   {/* Right: Contact Person, Phone, Additional Count, Status */}
                   <View style={{ alignItems: 'flex-end', flex: 1 }}>
                     <Text style={{ 
-                      fontSize: fontSize(13), 
+                      fontSize: fontSize(12), 
                       color: '#000000', 
                       fontFamily: 'Poppins',
-                      marginBottom: spacing(4),
+                      marginBottom: spacing(3),
                       textAlign: 'right'
                     }} allowFontScaling={false}>
                       {task.assignee}
                     </Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: spacing(4), justifyContent: 'flex-end' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: spacing(3), justifyContent: 'flex-end' }}>
                       <Text style={{ 
-                        fontSize: fontSize(12), 
+                        fontSize: fontSize(11), 
                         color: '#9E9E9E', 
                         fontFamily: 'Poppins',
                         marginRight: spacing(4)
                       }} allowFontScaling={false}>
                         {task.phone}
                       </Text>
-                      <Text style={{ fontSize: fontSize(14), color: '#666666' }} allowFontScaling={false}>📞</Text>
+                      <Text style={{ fontSize: fontSize(13), color: '#666666' }} allowFontScaling={false}>📞</Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
                       {task.additionalCount && (
                         <Text style={{ 
-                          fontSize: fontSize(12), 
+                          fontSize: fontSize(11), 
                           color: '#9E9E9E', 
                           fontFamily: 'Poppins',
                           marginRight: spacing(6)
@@ -649,12 +647,12 @@ export default function TasksScreen({ navigation }: Props) {
                       )}
                       <View style={{ 
                         backgroundColor: statusColor.bg, 
-                        paddingHorizontal: spacing(10), 
-                        paddingVertical: spacing(4), 
+                        paddingHorizontal: spacing(8), 
+                        paddingVertical: spacing(3), 
                         borderRadius: hp(12) 
                       }}>
                         <Text style={{ 
-                          fontSize: fontSize(12), 
+                          fontSize: fontSize(11), 
                           color: statusColor.text, 
                           fontFamily: 'Poppins-SemiBold',
                           fontWeight: '600'
@@ -1040,7 +1038,6 @@ export default function TasksScreen({ navigation }: Props) {
             </TouchableOpacity>
           ))}
         </View>
-      </SafeAreaView>
       </SafeAreaView>
 
       {/* Search Modal - Dropdown from Search Icon */}
@@ -1637,7 +1634,7 @@ export default function TasksScreen({ navigation }: Props) {
           </Pressable>
         </Pressable>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }
 

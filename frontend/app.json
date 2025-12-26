@@ -9,8 +9,12 @@
       "resizeMode": "contain",
       "backgroundColor": "#FFFFFF"
     },
+    "userInterfaceStyle": "automatic",
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "enabled": false,
+      "fallbackToCacheTimeout": 0,
+      "checkAutomatically": "NEVER",
+      "url": null
     },
     "assetBundlePatterns": [
       "**/*"
@@ -30,9 +34,9 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "880d081c-c49a-4a91-8ab5-30bfdf456c25"
+        "projectId": "9694f880-022d-4ff6-8120-8582d3d4954d"
       }
     },
-    "owner": "rituraj07"
+    "owner": "riturajgupta"
   }
 }

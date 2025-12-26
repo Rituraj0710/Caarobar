@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, ActivityIndicator, KeyboardAvoidingView, Platform, Image, Pressable, TouchableOpacity, StatusBar, TextInput, ScrollView } from 'react-native';
+import { View, Text, ActivityIndicator, KeyboardAvoidingView, Platform, Image, Pressable, TouchableOpacity, StatusBar, TextInput, ScrollView, Keyboard } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Illustration from '../../assets/VerifcationCode.png';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -107,8 +107,8 @@ export default function OTPVerificationScreen({ route, navigation }: Props) {
           keyboardShouldPersistTaps="handled"
         >
           {/* Header with Back Button */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: insets.top + spacing(20), width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), paddingHorizontal: spacing(16), position: 'relative', alignSelf: 'center' }}>
-            <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', left: spacing(16), zIndex: 10, width: wp(40), height: hp(40), alignItems: 'center', justifyContent: 'center' }} hitSlop={{top: hp(10), left: wp(10), bottom: hp(10), right: wp(10)}}>
+          <View style={{ width: '100%', position: 'relative', marginTop: 0, minHeight: hp(50), justifyContent: 'center', alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', left: spacing(16), zIndex: 10, width: wp(40), height: hp(40), alignItems: 'center', justifyContent: 'center', top: '50%', marginTop: -hp(20) }} hitSlop={{top: hp(10), left: wp(10), bottom: hp(10), right: wp(10)}}>
               <Text style={{ fontSize: fontSize(28), color: '#12110D' }} allowFontScaling={false}>←</Text>
             </TouchableOpacity>
             <Text style={{ fontFamily: 'Poppins-Bold', fontWeight: '700', fontSize: fontSize(22), color: '#12110D', textAlign: 'center', width: '100%' }} allowFontScaling={false}>
@@ -117,7 +117,7 @@ export default function OTPVerificationScreen({ route, navigation }: Props) {
           </View>
 
         {/* Subtitle */}
-        <Text style={{ fontFamily: 'Poppins', fontSize: fontSize(13), color: '#888888', textAlign: 'center', marginTop: spacing(10), marginBottom: spacing(28), width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), alignSelf: 'center', paddingHorizontal: spacing(16) }} allowFontScaling={false}>
+        <Text style={{ fontFamily: 'Poppins', fontSize: fontSize(13), color: '#888888', textAlign: 'center', marginTop: spacing(4), marginBottom: spacing(28), width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), alignSelf: 'center', paddingHorizontal: spacing(16) }} allowFontScaling={false}>
           We have sent the code verification to your Phone
         </Text>
 
@@ -136,16 +136,26 @@ export default function OTPVerificationScreen({ route, navigation }: Props) {
 
         {/* OTP Input - 4 boxes */}
         <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), marginBottom: spacing(24), alignItems: 'center', justifyContent: 'center', alignSelf: 'center', paddingHorizontal: spacing(16) }}>
-          <Pressable
-            onPress={() => inputRef.current?.focus()}
-            style={{ flexDirection: 'row', justifyContent: 'center', flexWrap: 'nowrap' }}
-          >
+          <View style={{ flexDirection: 'row', justifyContent: 'center', flexWrap: 'nowrap', width: '100%' }}>
             {[0, 1, 2, 3].map((idx) => {
               const digit = otp[idx] || '';
               const boxSize = Math.min(wp(56), hp(56)); // Use smaller dimension to maintain square shape
               return (
-                <View
+                <TouchableOpacity
                   key={idx}
+                  activeOpacity={0.7}
+                  onPress={() => {
+                    if (inputRef.current) {
+                      // Dismiss any existing keyboard first
+                      Keyboard.dismiss();
+                      // Use setTimeout to ensure keyboard opens after dismiss
+                      setTimeout(() => {
+                        if (inputRef.current) {
+                          inputRef.current.focus();
+                        }
+                      }, Platform.OS === 'android' ? 100 : 50);
+                    }
+                  }}
                   style={{
                     width: boxSize,
                     height: boxSize,
@@ -168,10 +178,10 @@ export default function OTPVerificationScreen({ route, navigation }: Props) {
                   >
                     {digit}
                   </Text>
-                </View>
+                </TouchableOpacity>
               );
             })}
-          </Pressable>
+          </View>
           <TextInput
             ref={inputRef}
             value={otp}
@@ -179,9 +189,24 @@ export default function OTPVerificationScreen({ route, navigation }: Props) {
             keyboardType="number-pad"
             returnKeyType="done"
             maxLength={4}
-            style={{ position: 'absolute', opacity: 0, height: 0, width: 0 }}
-            autoFocus
+            style={{ 
+              position: 'absolute',
+              left: Platform.OS === 'ios' ? -9999 : 0,
+              top: 0,
+              width: Platform.OS === 'ios' ? 1 : '100%',
+              height: Platform.OS === 'ios' ? 1 : Math.min(wp(56), hp(56)),
+              opacity: 0,
+              zIndex: 1,
+            }}
+            showSoftInputOnFocus={true}
             allowFontScaling={false}
+            caretHidden={true}
+            contextMenuHidden={true}
+            autoFocus={false}
+            editable={true}
+            blurOnSubmit={false}
+            autoCorrect={false}
+            spellCheck={false}
           />
         </View>
 
@@ -215,21 +240,19 @@ export default function OTPVerificationScreen({ route, navigation }: Props) {
           style={{
             width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)),
             height: hp(50),
-            borderRadius: spacing(8), // Slightly rounded corners (matching screenshot)
-            backgroundColor: (loading || otp.trim().length !== 4) ? '#CCCCCC' : '#248CFF',
+            alignSelf: 'center',
+            borderRadius: hp(25), // Fully rounded (pill-shaped)
+            backgroundColor: (loading || otp.trim().length !== 4) ? '#CCCCCC' : '#2979FF',
             alignItems: 'center',
             justifyContent: 'center',
-            marginTop: spacing(32),
+            marginTop: spacing(16),
             marginBottom: spacing(16),
-            alignSelf: 'center',
-            paddingHorizontal: spacing(16),
-            opacity: (loading || otp.trim().length !== 4) ? 0.6 : 1,
           }}
         >
           {loading ? (
             <ActivityIndicator color="white" />
           ) : (
-            <Text style={{ color: '#FFFFFF', fontSize: fontSize(16), fontFamily: 'Poppins', fontWeight: '600' }} allowFontScaling={false}>Verify</Text>
+            <Text style={{ color: '#FFFFFF', fontSize: fontSize(16), fontWeight: '600', fontFamily: 'Poppins-SemiBold' }} allowFontScaling={false}>Verify</Text>
           )}
         </TouchableOpacity>
         </ScrollView>

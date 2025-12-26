@@ -78,7 +78,7 @@ export default function LeaveRequestDetailScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      <StatusBar barStyle="light-content" backgroundColor="#248CFF" />
+      <StatusBar barStyle="light-content" backgroundColor="#2D6EFF" />
       
       {/* Header - Blue Bar */}
       <View style={{ 
@@ -88,7 +88,7 @@ export default function LeaveRequestDetailScreen({ navigation }: Props) {
         paddingHorizontal: spacing(16),
         paddingTop: spacing(12),
         paddingBottom: spacing(12),
-        backgroundColor: '#248CFF'
+        backgroundColor: '#2D6EFF'
       }}>
         {/* Left: Back Arrow */}
         <TouchableOpacity 
@@ -98,13 +98,13 @@ export default function LeaveRequestDetailScreen({ navigation }: Props) {
           <Text style={{ fontSize: fontSize(24), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
         </TouchableOpacity>
 
-        {/* Center: Title */}
-        <View style={{ flex: 1, alignItems: 'center' }}>
+        {/* Left: Title */}
+        <View style={{ flex: 1, alignItems: 'flex-start', paddingLeft: spacing(12) }}>
           <Text style={{ 
             fontSize: fontSize(18), 
-            fontWeight: '600', 
+            fontWeight: '500', 
             color: '#FFFFFF', 
-            fontFamily: 'Poppins-SemiBold' 
+            fontFamily: 'Inter' 
           }} allowFontScaling={false}>
             Leave Request
           </Text>
@@ -252,21 +252,28 @@ export default function LeaveRequestDetailScreen({ navigation }: Props) {
           position: 'absolute',
           bottom: spacing(60) + insets.bottom,
           right: spacing(16),
-          backgroundColor: '#248CFF',
-          paddingHorizontal: spacing(24),
+          backgroundColor: '#4A90E2',
+          paddingHorizontal: spacing(32),
           paddingVertical: spacing(14),
-          borderRadius: hp(8),
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: hp(2) },
-          shadowOpacity: 0.3,
-          shadowRadius: spacing(4),
-          elevation: 5,
+          borderRadius: hp(30),
+          shadowColor: '#000000',
+          shadowOffset: { width: 0, height: hp(3) },
+          shadowOpacity: 0.12,
+          shadowRadius: hp(5),
+          elevation: 4,
         }}
         onPress={() => {
           navigation.navigate('ApplyForLeave');
         }}
       >
-        <Text style={{ color: '#FFFFFF', fontSize: fontSize(15), fontFamily: 'Poppins-Bold', fontWeight: '700' }} allowFontScaling={false}>
+        <Text style={{ 
+          color: '#FFFFFF', 
+          fontSize: fontSize(15), 
+          fontFamily: 'Poppins-SemiBold', 
+          fontWeight: '600',
+          textAlign: 'center',
+          letterSpacing: 0.3
+        }} allowFontScaling={false}>
           Create Request
         </Text>
       </TouchableOpacity>

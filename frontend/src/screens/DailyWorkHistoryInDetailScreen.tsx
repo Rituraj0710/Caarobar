@@ -244,7 +244,7 @@ export default function DailyWorkHistoryInDetailScreen({ navigation, route }: Pr
 
   return (
     <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      <StatusBar barStyle="light-content" backgroundColor="#248CFF" />
+      <StatusBar barStyle="light-content" backgroundColor="#2D6EFF" />
       <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
         {/* Blue Header Bar */}
         <View style={{ 
@@ -253,7 +253,7 @@ export default function DailyWorkHistoryInDetailScreen({ navigation, route }: Pr
           paddingHorizontal: spacing(16),
           paddingTop: spacing(12),
           paddingBottom: spacing(12),
-          backgroundColor: '#248CFF'
+          backgroundColor: '#2D6EFF'
         }}>
           {/* Left: Back Arrow */}
           <TouchableOpacity 
@@ -264,12 +264,12 @@ export default function DailyWorkHistoryInDetailScreen({ navigation, route }: Pr
             <Text style={{ fontSize: fontSize(24), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
           </TouchableOpacity>
           
-          {/* Center: Title */}
+          {/* Left: Title */}
           <Text style={{ 
             fontSize: fontSize(20), 
-            fontWeight: '700', 
+            fontWeight: '600', 
             color: '#FFFFFF', 
-            fontFamily: 'Poppins-Bold',
+            fontFamily: 'Inter',
             flex: 1
           }} allowFontScaling={false}>
             Work History

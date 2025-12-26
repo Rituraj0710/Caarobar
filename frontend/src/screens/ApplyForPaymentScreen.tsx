@@ -128,9 +128,9 @@ export default function ApplyForPaymentScreen({ navigation }: Props) {
         </TouchableOpacity>
         <Text style={{
           fontSize: fontSize(18),
-          fontWeight: '700',
+          fontWeight: '600',
           color: '#FFFFFF',
-          fontFamily: 'Poppins-Bold',
+          fontFamily: 'Inter',
           flex: 1
         }} allowFontScaling={false}>
           Apply for Payment

@@ -96,7 +96,7 @@ export default function ApplyForExpenseScreen({ navigation }: Props) {
         <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginRight: spacing(16) }}>
           <Text style={{ fontSize: fontSize(24), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
         </TouchableOpacity>
-        <Text style={{ fontSize: fontSize(18), fontWeight: '600', color: '#FFFFFF', fontFamily: 'Poppins-SemiBold', flex: 1, textAlign: 'center' }} allowFontScaling={false}>
+        <Text style={{ fontSize: fontSize(18), fontWeight: '500', color: '#FFFFFF', fontFamily: 'Inter', flex: 1, textAlign: 'center' }} allowFontScaling={false}>
           Apply for Expense
         </Text>
         <View style={{ width: wp(40) }} />

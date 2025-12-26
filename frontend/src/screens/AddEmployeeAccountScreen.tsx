@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, TextInput, ScrollView, Image, Modal, Pressable, Switch } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, ScrollView, Image, Modal, Pressable, Switch, StatusBar } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import BackButton from '../components/BackButton';
 import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
 import SafeAreaView from '../components/SafeAreaView';
+import Button from '../components/ui/Button';
 
 type RootStackParamList = {
   Language: undefined;
@@ -22,7 +23,7 @@ type RootStackParamList = {
 
 type Props = NativeStackScreenProps<RootStackParamList, 'AddEmployeeAccount'>;
 
-type TabType = 'Basic' | 'Working' | 'Documents';
+type TabType = 'Basic' | 'Working' | 'Documents' | 'Bank Detail';
 
 const weekDays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 const monthNames = [
@@ -134,6 +135,14 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
   const [aadharNumber, setAadharNumber] = useState(['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']);
   const [drivingLicenseNumber, setDrivingLicenseNumber] = useState(['R', 'J', '2', '3', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']);
   const [panNumber, setPanNumber] = useState(['A', 'B', 'C', '1', '2', '3', '4', 'X', 'X', 'X']);
+  
+  // Bank Detail tab fields
+  const [bankMobileNo, setBankMobileNo] = useState('+91 9460638554');
+  const [accountHolderName, setAccountHolderName] = useState('Creative Designers');
+  const [accountNumber, setAccountNumber] = useState('21484000682');
+  const [ifscCode, setIfscCode] = useState('RMGB0001484');
+  const [bankName, setBankName] = useState('Rajasthan Gramin Bank');
+  const [upiId, setUpiId] = useState('9460638554-2@ybl');
   
   // Modal states
   const [showDateModal, setShowDateModal] = useState(false);
@@ -280,45 +289,37 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
   const insets = useSafeArea();
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+      <StatusBar barStyle="light-content" backgroundColor="#4285F4" />
       {/* Blue Header Bar */}
-      <SafeAreaView edges={['top']} style={{ backgroundColor: '#4285F4' }}>
-        <View style={{
-          backgroundColor: '#4285F4',
-          paddingTop: hp(10),
-          paddingBottom: spacing(16),
-          paddingHorizontal: spacing(16),
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          minHeight: hp(60)
-        }}>
+      <View style={{ 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        paddingHorizontal: spacing(16),
+        paddingTop: spacing(8),
+        paddingBottom: spacing(8),
+        backgroundColor: '#4285F4'
+      }}>
           {/* Back Arrow */}
-          <BackButton color="#FFFFFF" />
-
-          {/* Title */}
-          <View style={{ 
-            position: 'absolute', 
-            left: 0, 
-            right: 0, 
-            top: 0,
-            bottom: 0,
-            alignItems: 'center', 
-            justifyContent: 'center',
-            paddingTop: hp(10),
-            paddingBottom: spacing(16)
-          }}>
-            <Text style={{
-              fontSize: fontSize(18),
-              fontWeight: '700',
-              color: '#FFFFFF',
-              fontFamily: 'Poppins-Bold'
-            }} allowFontScaling={false}>
-              Add Employee Account
-            </Text>
-          </View>
+          <TouchableOpacity 
+            onPress={() => navigation.goBack()}
+            style={{ marginRight: spacing(12) }}
+            hitSlop={{ top: hp(10), left: wp(10), bottom: hp(10), right: wp(10) }}
+          >
+            <Text style={{ fontSize: fontSize(24), color: '#FFFFFF' }} allowFontScaling={false}>←</Text>
+          </TouchableOpacity>
+          
+          {/* Left-Aligned Title */}
+          <Text style={{ 
+            fontSize: fontSize(18), 
+            fontWeight: '700', 
+            color: '#FFFFFF', 
+            fontFamily: 'Poppins-Bold',
+            flex: 1
+          }} allowFontScaling={false}>
+            Add Employee Account
+          </Text>
         </View>
-      </SafeAreaView>
 
       {/* Tab Navigation */}
       <View style={{
@@ -328,7 +329,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
         borderBottomColor: '#E0E0E0',
         paddingHorizontal: spacing(16)
       }}>
-        {(['Basic', 'Working', 'Documents'] as TabType[]).map((tab) => (
+        {(['Basic', 'Working', 'Documents', 'Bank Detail'] as TabType[]).map((tab) => (
           <TouchableOpacity
             key={tab}
             onPress={() => setActiveTab(tab)}
@@ -341,7 +342,7 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             }}
           >
             <Text style={{
-              fontSize: fontSize(14),
+              fontSize: fontSize(12),
               color: activeTab === tab ? '#4285F4' : '#9E9E9E',
               fontFamily: activeTab === tab ? 'Poppins-SemiBold' : 'Poppins',
               fontWeight: activeTab === tab ? '600' : '400'
@@ -357,8 +358,8 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
         showsVerticalScrollIndicator={false}
       >
         {/* Profile Picture - Only show for Basic and Working tabs */}
-        {activeTab !== 'Documents' && (
-          <View style={{ alignItems: 'center', marginTop: spacing(20), marginBottom: spacing(24) }}>
+        {activeTab !== 'Documents' && activeTab !== 'Bank Detail' && (
+          <View style={{ alignItems: 'center', marginTop: spacing(8), marginBottom: spacing(12) }}>
             <Image 
               source={require('../../assets/Profile picture.png')} 
               style={{ width: wp(100), height: hp(100), borderRadius: hp(50), resizeMode: 'cover' }}
@@ -1998,6 +1999,220 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             </View>
           </>
         )}
+
+        {activeTab === 'Bank Detail' && (
+          <>
+            {/* Enter Mobile No */}
+            <View style={{ marginBottom: spacing(20) }}>
+              <Text style={{
+                fontSize: fontSize(14),
+                color: '#4285F4',
+                fontFamily: 'Poppins-SemiBold',
+                fontWeight: '600',
+                marginBottom: spacing(8)
+              }}>
+                Enter Mobile No
+              </Text>
+              <View style={{
+                backgroundColor: '#FFFFFF',
+                borderWidth: 1,
+                borderColor: '#E0E0E0',
+                borderRadius: spacing(8),
+                paddingHorizontal: spacing(16),
+                paddingVertical: spacing(14),
+                flexDirection: 'row',
+                alignItems: 'center'
+              }}>
+                <Text style={{ fontSize: fontSize(20), marginRight: spacing(8) }}>🇮🇳</Text>
+                <Text style={{
+                  fontSize: fontSize(14),
+                  color: '#000000',
+                  fontFamily: 'Poppins',
+                  marginRight: spacing(8)
+                }}>
+                  INDIA
+                </Text>
+                <Text style={{ fontSize: fontSize(12), color: '#000000', marginRight: spacing(12) }}>▼</Text>
+                <TextInput
+                  value={bankMobileNo}
+                  onChangeText={setBankMobileNo}
+                  placeholder="+91 9460638554"
+                  placeholderTextColor="#9E9E9E"
+                  keyboardType="phone-pad"
+                  style={{
+                    flex: 1,
+                    fontSize: fontSize(14),
+                    color: '#000000',
+                    fontFamily: 'Poppins',
+                    padding: 0
+                  }}
+                />
+              </View>
+            </View>
+
+            {/* Account Holder Name */}
+            <View style={{ marginBottom: spacing(20) }}>
+              <Text style={{
+                fontSize: fontSize(14),
+                color: '#4285F4',
+                fontFamily: 'Poppins-SemiBold',
+                fontWeight: '600',
+                marginBottom: spacing(8)
+              }}>
+                Account Holder Name
+              </Text>
+              <TextInput
+                value={accountHolderName}
+                onChangeText={setAccountHolderName}
+                placeholder="Enter Account Holder Name"
+                placeholderTextColor="#9E9E9E"
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  borderWidth: 1,
+                  borderColor: '#E0E0E0',
+                  borderRadius: spacing(8),
+                  paddingHorizontal: spacing(16),
+                  paddingVertical: spacing(14),
+                  fontSize: fontSize(14),
+                  color: '#000000',
+                  fontFamily: 'Poppins'
+                }}
+              />
+            </View>
+
+            {/* Account Number */}
+            <View style={{ marginBottom: spacing(20) }}>
+              <Text style={{
+                fontSize: fontSize(14),
+                color: '#4285F4',
+                fontFamily: 'Poppins-SemiBold',
+                fontWeight: '600',
+                marginBottom: spacing(8)
+              }}>
+                Account Number
+              </Text>
+              <TextInput
+                value={accountNumber}
+                onChangeText={setAccountNumber}
+                placeholder="Enter Account Number"
+                placeholderTextColor="#9E9E9E"
+                keyboardType="number-pad"
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  borderWidth: 1,
+                  borderColor: '#E0E0E0',
+                  borderRadius: spacing(8),
+                  paddingHorizontal: spacing(16),
+                  paddingVertical: spacing(14),
+                  fontSize: fontSize(14),
+                  color: '#000000',
+                  fontFamily: 'Poppins'
+                }}
+              />
+            </View>
+
+            {/* IFSC Code */}
+            <View style={{ marginBottom: spacing(20) }}>
+              <Text style={{
+                fontSize: fontSize(14),
+                color: '#4285F4',
+                fontFamily: 'Poppins-SemiBold',
+                fontWeight: '600',
+                marginBottom: spacing(8)
+              }}>
+                IFSC Code
+              </Text>
+              <View style={{
+                backgroundColor: '#FFFFFF',
+                borderWidth: 1,
+                borderColor: '#E0E0E0',
+                borderRadius: spacing(8),
+                paddingHorizontal: spacing(16),
+                paddingVertical: spacing(14),
+                flexDirection: 'row',
+                alignItems: 'center'
+              }}>
+                <TextInput
+                  value={ifscCode}
+                  onChangeText={setIfscCode}
+                  placeholder="Enter IFSC Code"
+                  placeholderTextColor="#9E9E9E"
+                  autoCapitalize="characters"
+                  style={{
+                    flex: 1,
+                    fontSize: fontSize(14),
+                    color: '#000000',
+                    fontFamily: 'Poppins',
+                    padding: 0
+                  }}
+                />
+                <Text style={{ fontSize: fontSize(18), color: '#9E9E9E', marginLeft: spacing(8) }}>🔍</Text>
+              </View>
+            </View>
+
+            {/* Bank Name */}
+            <View style={{ marginBottom: spacing(20) }}>
+              <Text style={{
+                fontSize: fontSize(14),
+                color: '#4285F4',
+                fontFamily: 'Poppins-SemiBold',
+                fontWeight: '600',
+                marginBottom: spacing(8)
+              }}>
+                Bank Name
+              </Text>
+              <TextInput
+                value={bankName}
+                onChangeText={setBankName}
+                placeholder="Enter Bank Name"
+                placeholderTextColor="#9E9E9E"
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  borderWidth: 1,
+                  borderColor: '#E0E0E0',
+                  borderRadius: spacing(8),
+                  paddingHorizontal: spacing(16),
+                  paddingVertical: spacing(14),
+                  fontSize: fontSize(14),
+                  color: '#000000',
+                  fontFamily: 'Poppins'
+                }}
+              />
+            </View>
+
+            {/* UPI ID */}
+            <View style={{ marginBottom: spacing(20) }}>
+              <Text style={{
+                fontSize: fontSize(14),
+                color: '#4285F4',
+                fontFamily: 'Poppins-SemiBold',
+                fontWeight: '600',
+                marginBottom: spacing(8)
+              }}>
+                UPI ID
+              </Text>
+              <TextInput
+                value={upiId}
+                onChangeText={setUpiId}
+                placeholder="Enter UPI ID"
+                placeholderTextColor="#9E9E9E"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  borderWidth: 1,
+                  borderColor: '#E0E0E0',
+                  borderRadius: spacing(8),
+                  paddingHorizontal: spacing(16),
+                  paddingVertical: spacing(14),
+                  fontSize: fontSize(14),
+                  color: '#000000',
+                  fontFamily: 'Poppins'
+                }}
+              />
+            </View>
+          </>
+        )}
       </ScrollView>
 
       {/* Save Button - Fixed at Bottom */}
@@ -2011,33 +2226,14 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
         borderTopWidth: 1,
         borderTopColor: '#E0E0E0'
       }}>
-        <TouchableOpacity
-          style={{
-            backgroundColor: '#4285F4',
-            borderRadius: hp(8),
-            paddingVertical: spacing(16),
-            alignItems: 'center',
-            justifyContent: 'center',
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.2,
-            shadowRadius: 4,
-            elevation: 3
-          }}
+        <Button
+          title="Save"
           onPress={() => {
             // Show success modal
             setShowSuccessModal(true);
           }}
-        >
-          <Text style={{
-            color: '#FFFFFF',
-            fontSize: fontSize(16),
-            fontFamily: 'Poppins-Bold',
-            fontWeight: '700'
-          }}>
-            Save
-          </Text>
-        </TouchableOpacity>
+          variant="primary"
+        />
       </View>
 
       {/* Date Picker Modal */}
@@ -2846,40 +3042,20 @@ export default function AddEmployeeAccountScreen({ navigation }: Props) {
             </Text>
 
             {/* Share To Employee Button */}
-            <TouchableOpacity
+            <Button
+              title="Share To Employee"
               onPress={() => {
                 setShowSuccessModal(false);
                 // TODO: Handle share functionality
                 navigation.goBack();
               }}
-              style={{
-                width: '100%',
-                backgroundColor: '#4285F4',
-                borderRadius: hp(8),
-                paddingVertical: spacing(16),
-                alignItems: 'center',
-                justifyContent: 'center',
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: hp(2) },
-                shadowOpacity: 0.2,
-                shadowRadius: hp(4),
-                elevation: 3
-              }}
-            >
-              <Text style={{
-                color: '#FFFFFF',
-                fontSize: fontSize(16),
-                fontFamily: 'Poppins-Bold',
-                fontWeight: '700'
-              }} allowFontScaling={false}>
-                Share To Employee
-              </Text>
-            </TouchableOpacity>
+              variant="primary"
+              style={{ width: '100%' }}
+            />
           </Pressable>
         </Pressable>
       </Modal>
-
-    </View>
+    </SafeAreaView>
   );
 }
 

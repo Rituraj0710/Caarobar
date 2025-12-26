@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StatusBar, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -16,8 +16,11 @@ type Props = NativeStackScreenProps<RootStackParamList, 'RoleSelection'>;
 
 export default function RoleSelectionScreen({ navigation }: Props) {
   const insets = useSafeArea();
+  const [clickedButton, setClickedButton] = useState<'Admin' | 'Employee' | null>(null);
   
   const handleRoleSelection = async (role: 'Admin' | 'Employee') => {
+    // Set clicked button state
+    setClickedButton(role);
     // Store the selected role
     await AsyncStorage.setItem('@selectedRole', role);
     // Navigate directly to SignIn
@@ -41,33 +44,73 @@ export default function RoleSelectionScreen({ navigation }: Props) {
 
         {/* Admin Button */}
         <TouchableOpacity
-          style={styles.adminButton}
+          style={[
+            styles.adminButton,
+            { backgroundColor: clickedButton === 'Admin' ? '#FFFFFF' : '#2D6EFF' }
+          ]}
           onPress={() => handleRoleSelection('Admin')}
           activeOpacity={0.8}
         >
           <View style={styles.buttonContent}>
             {/* Admin Icon - Person with document/badge */}
             <View style={styles.iconWrapper}>
-              <MaterialIcons name="person" size={20} color="#6BA3FF" />
-              <MaterialIcons name="description" size={12} color="#6BA3FF" style={styles.badgeIcon} />
+              <MaterialIcons 
+                name="person" 
+                size={20} 
+                color={clickedButton === 'Admin' ? '#6BA3FF' : '#FFFFFF'} 
+              />
+              <MaterialIcons 
+                name="description" 
+                size={12} 
+                color={clickedButton === 'Admin' ? '#6BA3FF' : '#FFFFFF'} 
+                style={styles.badgeIcon} 
+              />
             </View>
-            <Text style={styles.adminButtonText} allowFontScaling={false}>Continue as a Admin</Text>
+            <Text 
+              style={[
+                styles.adminButtonText,
+                { color: clickedButton === 'Admin' ? '#6BA3FF' : '#FFFFFF' }
+              ]} 
+              allowFontScaling={false}
+            >
+              Continue as a Admin
+            </Text>
           </View>
         </TouchableOpacity>
 
         {/* Employee Button */}
         <TouchableOpacity
-          style={styles.employeeButton}
+          style={[
+            styles.employeeButton,
+            { backgroundColor: clickedButton === 'Employee' ? '#FFFFFF' : '#2D6EFF' }
+          ]}
           onPress={() => handleRoleSelection('Employee')}
           activeOpacity={0.8}
         >
           <View style={styles.buttonContent}>
             {/* Employee Icon - Group with document/badge */}
             <View style={styles.iconWrapper}>
-              <MaterialIcons name="group" size={20} color="#FFFFFF" />
-              <MaterialIcons name="description" size={12} color="#FFFFFF" style={styles.badgeIcon} />
+              <MaterialIcons 
+                name="group" 
+                size={20} 
+                color={clickedButton === 'Employee' ? '#6BA3FF' : '#FFFFFF'} 
+              />
+              <MaterialIcons 
+                name="description" 
+                size={12} 
+                color={clickedButton === 'Employee' ? '#6BA3FF' : '#FFFFFF'} 
+                style={styles.badgeIcon} 
+              />
             </View>
-            <Text style={styles.employeeButtonText} allowFontScaling={false}>Continue as a Employee</Text>
+            <Text 
+              style={[
+                styles.employeeButtonText,
+                { color: clickedButton === 'Employee' ? '#6BA3FF' : '#FFFFFF' }
+              ]} 
+              allowFontScaling={false}
+            >
+              Continue as a Employee
+            </Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -112,18 +155,19 @@ const styles = StyleSheet.create({
   adminButton: {
     width: '100%',
     height: hp(55),
-    backgroundColor: '#FFFFFF',
     borderWidth: wp(1),
     borderColor: '#6BA3FF', // Light blue border as shown in screenshot
     borderRadius: hp(55) / 2, // Fully rounded corners (half of height for perfect circle/rounded)
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: spacing(16),
+    marginBottom: -spacing(8), // Reduce spacing between Admin and Employee buttons
   },
   employeeButton: {
     width: '100%',
     height: hp(55),
-    backgroundColor: '#2979FF', // Solid blue background
+    borderWidth: wp(1),
+    borderColor: '#6BA3FF', // Light blue border
     borderRadius: hp(55) / 2, // Fully rounded corners (half of height for perfect circle/rounded)
     alignItems: 'center',
     justifyContent: 'center',
@@ -151,13 +195,11 @@ const styles = StyleSheet.create({
   adminButtonText: {
     fontSize: fontSize(16),
     fontWeight: '500',
-    color: '#6BA3FF', // Light blue text to match border
     fontFamily: 'Poppins-Medium',
   },
   employeeButtonText: {
     fontSize: fontSize(16),
     fontWeight: '500',
-    color: '#FFFFFF', // White text
     fontFamily: 'Poppins-Medium',
   },
   registerContainer: {
@@ -178,7 +220,7 @@ const styles = StyleSheet.create({
   },
   registerLink: {
     fontSize: fontSize(14),
-    color: '#2979FF', // Blue color for clickable link
+    color: '#2D6EFF', // Blue color for clickable link
     fontWeight: '500',
     fontFamily: 'Poppins-Medium',
   },
