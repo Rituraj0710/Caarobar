@@ -174,9 +174,9 @@ export default function WorkHistoryScreen({ navigation }: Props) {
 
         {/* Work History Table */}
         <View style={{ marginBottom: spacing(16) }}>
-          <View style={{ borderWidth: 1, borderColor: '#CCCCCC', backgroundColor: '#FFFFFF' }}>
-            {/* Table Header */}
-            <View style={{ flexDirection: 'row', backgroundColor: '#F5F5F5', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC' }}>
+          {/* Table Header - Separate Container */}
+          <View style={{ borderWidth: 1, borderColor: '#CCCCCC', backgroundColor: '#F5F5F5', borderRadius: hp(8), overflow: 'hidden', marginBottom: spacing(8) }}>
+            <View style={{ flexDirection: 'row' }}>
               <View style={{ flex: 2, flexDirection: 'row', alignItems: 'center', paddingVertical: spacing(8), paddingHorizontal: spacing(8), borderRightWidth: wp(1), borderRightColor: '#CCCCCC' }}>
                 <Image 
                   source={require('../../assets/task_calender_icon.png')} 
@@ -208,7 +208,10 @@ export default function WorkHistoryScreen({ navigation }: Props) {
                 <Text style={{ fontSize: fontSize(11), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>Salary</Text>
               </View>
             </View>
+          </View>
 
+          {/* Table Body - Separate Container */}
+          <View style={{ borderWidth: 1, borderColor: '#CCCCCC', backgroundColor: '#FFFFFF', borderRadius: hp(8), overflow: 'hidden' }}>
             {/* Table Rows */}
             {workHistoryData.map((monthData, index) => (
               <TouchableOpacity
@@ -229,55 +232,45 @@ export default function WorkHistoryScreen({ navigation }: Props) {
                   </Text>
                 </View>
                 <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(8), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC' }}>
-                  {monthData.absent !== undefined ? (
+                  {monthData.absent !== undefined && (
                     <Text style={{ fontSize: fontSize(12), color: '#E53935', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>
                       {monthData.absent}
                     </Text>
-                  ) : (
-                    <Text style={{ fontSize: fontSize(12), color: '#9E9E9E', fontFamily: 'Poppins' }} allowFontScaling={false}>-</Text>
                   )}
                 </View>
                 <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(8), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC' }}>
-                  {monthData.present !== undefined ? (
+                  {monthData.present !== undefined && (
                     <Text style={{ fontSize: fontSize(12), color: '#4CAF50', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>
                       {monthData.present}
                     </Text>
-                  ) : (
-                    <Text style={{ fontSize: fontSize(12), color: '#9E9E9E', fontFamily: 'Poppins' }} allowFontScaling={false}>-</Text>
                   )}
                 </View>
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(8), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC' }}>
-                  {monthData.totalHours !== undefined ? (
+                  {monthData.totalHours !== undefined && (
                     <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
                       {monthData.totalHours}
                     </Text>
-                  ) : (
-                    <Text style={{ fontSize: fontSize(12), color: '#9E9E9E', fontFamily: 'Poppins' }} allowFontScaling={false}>-</Text>
                   )}
                 </View>
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(8), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC' }}>
-                  {monthData.overtime !== undefined ? (
+                  {monthData.overtime !== undefined && (
                     <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
                       {monthData.overtime}
                     </Text>
-                  ) : (
-                    <Text style={{ fontSize: fontSize(12), color: '#9E9E9E', fontFamily: 'Poppins' }} allowFontScaling={false}>-</Text>
                   )}
                 </View>
                 <View style={{ flex: 1.5, alignItems: 'center', justifyContent: 'center', paddingVertical: spacing(8), borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC' }}>
-                  {monthData.salary !== undefined ? (
+                  {monthData.salary !== undefined && (
                     <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
                       {monthData.salary}
                     </Text>
-                  ) : (
-                    <Text style={{ fontSize: fontSize(12), color: '#9E9E9E', fontFamily: 'Poppins' }} allowFontScaling={false}>-</Text>
                   )}
                 </View>
               </TouchableOpacity>
             ))}
 
             {/* Grand Total Row */}
-            <View style={{ flexDirection: 'row', backgroundColor: '#FFE5E5' }}>
+            <View style={{ flexDirection: 'row', backgroundColor: '#FFE5E5', borderBottomLeftRadius: hp(8), borderBottomRightRadius: hp(8) }}>
               <View style={{ flex: 2, paddingVertical: spacing(8), paddingHorizontal: spacing(8), borderRightWidth: wp(1), borderRightColor: '#CCCCCC' }}>
                 <Text style={{ fontSize: fontSize(13), fontWeight: '700', color: '#E53935', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>
                   Grand Total
