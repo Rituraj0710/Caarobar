@@ -39,7 +39,6 @@ export default function RoleSelectionScreen({ navigation }: Props) {
             source={require('../../assets/caarobar (2) 1.png')}
             style={styles.logo}
             resizeMode="contain"
-            shouldRasterizeIOS={false}
             fadeDuration={0}
           />
         </View>
@@ -208,7 +207,7 @@ const styles = StyleSheet.create({
   },
   registerContainer: {
     position: 'absolute',
-    bottom: hp(40),
+    bottom: hp(10),
     alignSelf: 'center',
     flexDirection: 'row',
     alignItems: 'center',
