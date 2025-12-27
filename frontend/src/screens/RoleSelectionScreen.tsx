@@ -117,7 +117,7 @@ export default function RoleSelectionScreen({ navigation }: Props) {
 
       {/* Register Link - Positioned at bottom */}
       <View style={styles.registerContainer}>
-        <Text style={styles.registerText} allowFontScaling={false}>Didn't have a account? </Text>
+        <Text style={styles.registerText} allowFontScaling={false}>Didn't have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate('Register')}>
           <Text style={styles.registerLink} allowFontScaling={false}>Register here</Text>
         </TouchableOpacity>
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
   },
   registerContainer: {
     position: 'absolute',
-    bottom: 0,
+    bottom: hp(40),
     alignSelf: 'center',
     flexDirection: 'row',
     alignItems: 'center',
