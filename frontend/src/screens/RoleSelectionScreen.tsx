@@ -39,6 +39,8 @@ export default function RoleSelectionScreen({ navigation }: Props) {
             source={require('../../assets/caarobar (2) 1.png')}
             style={styles.logo}
             resizeMode="contain"
+            shouldRasterizeIOS={false}
+            fadeDuration={0}
           />
         </View>
 
@@ -151,6 +153,8 @@ const styles = StyleSheet.create({
     width: wp(240), // Smaller image size
     height: hp(130), // Smaller image size
     resizeMode: 'contain',
+    // Enhanced image quality properties
+    backgroundColor: 'transparent',
   },
   adminButton: {
     width: '100%',
