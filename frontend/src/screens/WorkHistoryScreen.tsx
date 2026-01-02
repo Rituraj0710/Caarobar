@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Image, ScrollView, StatusBar } from 'reac
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { wp, hp, fontSize, spacing, useSafeArea } from '../utils/responsive';
 import SafeAreaView from '../components/SafeAreaView';
+import CallDetailsIcon from '../../assets/icons/Call Details.svg';
 
 type RootStackParamList = {
   Language: undefined;
@@ -141,7 +142,7 @@ export default function WorkHistoryScreen({ navigation }: Props) {
               </Text>
               <Text style={{ 
                 fontSize: fontSize(13), 
-                color: '#666666', 
+                color: '#979696', 
                 fontFamily: 'Poppins'
               }} allowFontScaling={false}>
                 Carpenter
@@ -152,17 +153,17 @@ export default function WorkHistoryScreen({ navigation }: Props) {
             <View style={{ alignItems: 'flex-end' }}>
               <Text style={{ 
                 fontSize: fontSize(12), 
-                color: '#000000', 
+                color: '#979696', 
                 fontFamily: 'Poppins',
                 marginBottom: spacing(4)
               }} allowFontScaling={false}>
                 Emp ID - 001
               </Text>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={{ fontSize: fontSize(13), color: '#666666', marginRight: spacing(4) }} allowFontScaling={false}>📞</Text>
+                <CallDetailsIcon width={wp(16)} height={hp(16)} style={{ marginRight: spacing(4) }} />
                 <Text style={{ 
                   fontSize: fontSize(12), 
-                  color: '#000000', 
+                  color: '#979696', 
                   fontFamily: 'Poppins'
                 }} allowFontScaling={false}>
                   9460638554
@@ -179,7 +180,7 @@ export default function WorkHistoryScreen({ navigation }: Props) {
             <View style={{ flexDirection: 'row' }}>
               <View style={{ flex: 2, flexDirection: 'row', alignItems: 'center', paddingVertical: spacing(8), paddingHorizontal: spacing(8), borderRightWidth: wp(1), borderRightColor: '#CCCCCC' }}>
                 <Image 
-                  source={require('../../assets/task_calender_icon.png')} 
+                  source={require('../../assets/calender_WorkHistory.png')} 
                   style={{ width: wp(16), height: hp(16), marginRight: spacing(6), resizeMode: 'contain' }} 
                 />
                 <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>
@@ -270,7 +271,7 @@ export default function WorkHistoryScreen({ navigation }: Props) {
             ))}
 
             {/* Grand Total Row */}
-            <View style={{ flexDirection: 'row', backgroundColor: '#FFE5E5', borderBottomLeftRadius: hp(8), borderBottomRightRadius: hp(8) }}>
+            <View style={{ flexDirection: 'row', backgroundColor: '#F5F5F5', borderBottomLeftRadius: hp(8), borderBottomRightRadius: hp(8) }}>
               <View style={{ flex: 2, paddingVertical: spacing(8), paddingHorizontal: spacing(8), borderRightWidth: wp(1), borderRightColor: '#CCCCCC' }}>
                 <Text style={{ fontSize: fontSize(13), fontWeight: '700', color: '#E53935', fontFamily: 'Poppins-Bold' }} allowFontScaling={false}>
                   Grand Total

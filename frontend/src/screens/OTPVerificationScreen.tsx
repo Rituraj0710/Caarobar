@@ -139,7 +139,7 @@ export default function OTPVerificationScreen({ route, navigation }: Props) {
           <View style={{ flexDirection: 'row', justifyContent: 'center', flexWrap: 'nowrap', width: '100%' }}>
             {[0, 1, 2, 3].map((idx) => {
               const digit = otp[idx] || '';
-              const boxSize = Math.min(wp(56), hp(56)); // Use smaller dimension to maintain square shape
+              const boxSize = Math.min(wp(64), hp(64)); // Use smaller dimension to maintain square shape
               return (
                 <TouchableOpacity
                   key={idx}
@@ -188,13 +188,14 @@ export default function OTPVerificationScreen({ route, navigation }: Props) {
             onChangeText={(text) => setOtp(text.replace(/\D/g, '').slice(0, 4))}
             keyboardType="number-pad"
             returnKeyType="done"
+            onSubmitEditing={onVerify}
             maxLength={4}
             style={{ 
               position: 'absolute',
               left: Platform.OS === 'ios' ? -9999 : 0,
               top: 0,
               width: Platform.OS === 'ios' ? 1 : '100%',
-              height: Platform.OS === 'ios' ? 1 : Math.min(wp(56), hp(56)),
+              height: Platform.OS === 'ios' ? 1 : Math.min(wp(64), hp(64)),
               opacity: 0,
               zIndex: 1,
             }}
@@ -211,20 +212,30 @@ export default function OTPVerificationScreen({ route, navigation }: Props) {
         </View>
 
         {/* Timer and Resend - Right aligned */}
-        <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginBottom: spacing(24), alignSelf: 'center', paddingHorizontal: spacing(16) }}>
-          <Text style={{ fontFamily: 'Poppins', fontSize: fontSize(14), color: '#12110D', marginRight: spacing(8) }} allowFontScaling={false}>
-            00:{String(countdown).padStart(2, '0')}
-          </Text>
-          <TouchableOpacity onPress={onResend} disabled={countdown > 0} hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}>
-            <Text style={{ 
-              fontFamily: 'Poppins', 
-              fontSize: fontSize(14), 
-              color: countdown > 0 ? '#888888' : '#248CFF',
-              fontWeight: countdown > 0 ? '400' : '600'
-            }} allowFontScaling={false}>
-              Resend it
-            </Text>
-          </TouchableOpacity>
+        <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), marginBottom: spacing(24), alignItems: 'center', justifyContent: 'center', alignSelf: 'center', paddingHorizontal: spacing(16) }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', flexWrap: 'nowrap', width: '100%' }}>
+            <View style={{ 
+              width: 4 * Math.min(wp(64), hp(64)) + 8 * spacing(6),
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              marginRight: spacing(8)
+            }}>
+              <Text style={{ fontFamily: 'Poppins', fontSize: fontSize(14), color: '#12110D', marginRight: spacing(8) }} allowFontScaling={false}>
+                00:{String(countdown).padStart(2, '0')}
+              </Text>
+              <TouchableOpacity onPress={onResend} disabled={countdown > 0} hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}>
+                <Text style={{ 
+                  fontFamily: 'Poppins', 
+                  fontSize: fontSize(14), 
+                  color: countdown > 0 ? '#888888' : '#248CFF',
+                  fontWeight: countdown > 0 ? '400' : '600'
+                }} allowFontScaling={false}>
+                  Resend it
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
 
         {error ? (

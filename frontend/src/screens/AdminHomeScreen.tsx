@@ -5,6 +5,23 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '@/lib/api';
 import { wp, hp, fontSize, spacing, SCREEN_WIDTH, useSafeArea } from '../utils/responsive';
+import TaskIcon from '../../assets/icons/task.svg';
+import HistoryIcon from '../../assets/icons/history.svg';
+import PaymentIcon from '../../assets/icons/payment.svg';
+import LeaveIcon from '../../assets/icons/leave.svg';
+import PayIcon from '../../assets/icons/pay.svg';
+import ExpenseIcon from '../../assets/icons/expense.svg';
+import AssetIcon from '../../assets/icons/assest.svg';
+import AgreementsIcon from '../../assets/icons/aggreements.svg';
+import CalenderIcon from '../../assets/icons/calender.svg';
+import ResignationIcon from '../../assets/icons/Resignation.svg';
+import CertificateIcon from '../../assets/icons/Certificate.svg';
+import IDCardIcon from '../../assets/icons/ID Card.svg';
+import PFIcon from '../../assets/icons/PF.svg';
+import ESIIcon from '../../assets/icons/ESI.svg';
+import AddEmpIcon from '../../assets/icons/Add Emp.svg';
+import AdminIcon from '../../assets/icons/Admin.svg';
+import ContactIcon from '../../assets/icons/contact.svg';
 
 type RootStackParamList = {
   Language: undefined;
@@ -88,23 +105,23 @@ export default function HomeScreen({ navigation }: Props) {
   };
 
   const quickActions = [
-    { name: 'Contacts', icon: require('../../assets/contacts.png'), bgColor: '#FFFFFF', hasNotification: false, onPress: () => navigation.navigate('Contacts') },
-    { name: 'Tasks', icon: require('../../assets/tasks.png'), bgColor: '#00897B', hasNotification: false, onPress: () => navigation.navigate('Tasks') },
-    { name: 'History', icon: require('../../assets/history.png'), bgColor: '#FFFFFF', hasNotification: false, onPress: () => navigation.navigate('WorkHistory') },
-    { name: 'Payment', icon: require('../../assets/payment.png'), bgColor: '#F5E6D3', hasNotification: false, onPress: () => navigation.navigate('PaymentReport') },
-    { name: 'Leave Request', icon: require('../../assets/Leave Request.png'), bgColor: '#FCE4EC', hasNotification: false, onPress: () => navigation.navigate('LeaveReport') },
-    { name: 'Pay Request', icon: require('../../assets/Pay request.png'), bgColor: '#E0F2F1', hasNotification: false, onPress: () => navigation.navigate('PaymentRequestReport') },
-    { name: 'Expense', icon: require('../../assets/Expense.png'), bgColor: '#F5F5F5', hasNotification: false, onPress: () => navigation.navigate('ExpenseRequestReport') },
-    { name: 'Asset', icon: require('../../assets/assets.png'), bgColor: '#FFF9C4', hasNotification: false, onPress: () => navigation.navigate('AssetsReport') },
-    { name: 'Agreements', icon: require('../../assets/agreements.png'), bgColor: '#E0F7FA', hasNotification: false, onPress: () => navigation.navigate('Agreements') },
-    { name: 'Calender', icon: require('../../assets/calender.png'), bgColor: '#FFF3E0', hasNotification: false, onPress: () => navigation.navigate('Calendar') },
-    { name: 'Resignation', icon: require('../../assets/Homepage Resignation (2).png'), bgColor: '#E0F7FA', hasNotification: false, onPress: () => navigation.navigate('Resignation') },
-    { name: 'Certificate', icon: require('../../assets/Homepage certificate.png'), bgColor: '#757575', hasNotification: false },
-    { name: 'ID Card', icon: require('../../assets/id card (2).png'), bgColor: '#FFF9C4', hasNotification: false, onPress: () => navigation.navigate('IDCard') },
-    { name: 'PF', icon: require('../../assets/PF.png'), bgColor: '#FFF9C4', hasNotification: false },
-    { name: 'ESI', icon: require('../../assets/ESI.png'), bgColor: '#FFF9C4', hasNotification: false },
-    { name: 'Add Employee', icon: require('../../assets/add employee.png'), bgColor: '#FFF9C4', hasNotification: false, onPress: () => navigation.navigate('AddEmployeeAccount') },
-    { name: 'Admin', icon: require('../../assets/admin.png'), bgColor: '#FFFFFF', hasNotification: false, onPress: () => navigation.navigate('BusinessProfile') },
+    { name: 'Contacts', icon: null, iconSvg: ContactIcon, bgColor: '#FFFFFF', hasNotification: false, onPress: () => navigation.navigate('Contacts') },
+    { name: 'Tasks', icon: null, iconSvg: TaskIcon, bgColor: '#00897B', hasNotification: false, onPress: () => navigation.navigate('Tasks') },
+    { name: 'History', icon: null, iconSvg: HistoryIcon, bgColor: '#FFFFFF', hasNotification: false, onPress: () => navigation.navigate('WorkHistory') },
+    { name: 'Payment', icon: null, iconSvg: PaymentIcon, bgColor: '#F5E6D3', hasNotification: false, onPress: () => navigation.navigate('PaymentReport') },
+    { name: 'Leave Request', icon: null, iconSvg: LeaveIcon, bgColor: '#FCE4EC', hasNotification: false, onPress: () => navigation.navigate('LeaveReport') },
+    { name: 'Pay Request', icon: null, iconSvg: PayIcon, bgColor: '#E0F2F1', hasNotification: false, onPress: () => navigation.navigate('PaymentRequestReport') },
+    { name: 'Expense', icon: null, iconSvg: ExpenseIcon, bgColor: '#F5F5F5', hasNotification: false, onPress: () => navigation.navigate('ExpenseRequestReport') },
+    { name: 'Asset', icon: null, iconSvg: AssetIcon, bgColor: '#FFF9C4', hasNotification: false, onPress: () => navigation.navigate('AssetsReport') },
+    { name: 'Agreements', icon: null, iconSvg: AgreementsIcon, bgColor: '#E0F7FA', hasNotification: false, onPress: () => navigation.navigate('Agreements') },
+    { name: 'Calender', icon: null, iconSvg: CalenderIcon, bgColor: '#FFF3E0', hasNotification: false, onPress: () => navigation.navigate('Calendar') },
+    { name: 'Resignation', icon: null, iconSvg: ResignationIcon, bgColor: '#E0F7FA', hasNotification: false, onPress: () => navigation.navigate('Resignation') },
+    { name: 'Certificate', icon: null, iconSvg: CertificateIcon, bgColor: '#757575', hasNotification: false },
+    { name: 'ID Card', icon: null, iconSvg: IDCardIcon, bgColor: '#FFF9C4', hasNotification: false, onPress: () => navigation.navigate('IDCard') },
+    { name: 'PF', icon: null, iconSvg: PFIcon, bgColor: '#FFF9C4', hasNotification: false },
+    { name: 'ESI', icon: null, iconSvg: ESIIcon, bgColor: '#FFF9C4', hasNotification: false },
+    { name: 'Add Employee', icon: null, iconSvg: AddEmpIcon, bgColor: '#FFF9C4', hasNotification: false, onPress: () => navigation.navigate('AddEmployeeAccount') },
+    { name: 'Admin', icon: null, iconSvg: AdminIcon, bgColor: '#FFFFFF', hasNotification: false, onPress: () => navigation.navigate('BusinessProfile') },
   ];
 
   const formatDate = (date: Date) => {
@@ -614,14 +631,18 @@ export default function HomeScreen({ navigation }: Props) {
                         elevation: 3,
                         overflow: 'hidden',
                       }}>
-                        <Image 
-                          source={action.icon} 
-                          style={{ 
-                            width: wp(50), 
-                            height: wp(50), 
-                            resizeMode: 'contain' 
-                          }} 
-                        />
+                        {action.iconSvg ? (
+                          <action.iconSvg width={wp(50)} height={wp(50)} />
+                        ) : (
+                          <Image 
+                            source={action.icon} 
+                            style={{ 
+                              width: wp(50), 
+                              height: wp(50), 
+                              resizeMode: 'contain' 
+                            }} 
+                          />
+                        )}
                       </View>
                     ) : action.name === 'Asset' ? (
                       <View style={{
@@ -638,14 +659,18 @@ export default function HomeScreen({ navigation }: Props) {
                         elevation: 3,
                         overflow: 'hidden',
                       }}>
-                        <Image 
-                          source={action.icon} 
-                          style={{ 
-                            width: wp(50), 
-                            height: wp(50), 
-                            resizeMode: 'contain' 
-                          }} 
-                        />
+                        {action.iconSvg ? (
+                          <action.iconSvg width={wp(50)} height={wp(50)} />
+                        ) : (
+                          <Image 
+                            source={action.icon} 
+                            style={{ 
+                              width: wp(50), 
+                              height: wp(50), 
+                              resizeMode: 'contain' 
+                            }} 
+                          />
+                        )}
                       </View>
                     ) : action.name === 'Calender' ? (
                       <View style={{
@@ -662,14 +687,18 @@ export default function HomeScreen({ navigation }: Props) {
                         elevation: 3,
                         overflow: 'hidden',
                       }}>
-                        <Image 
-                          source={action.icon} 
-                          style={{ 
-                            width: wp(50), 
-                            height: wp(50), 
-                            resizeMode: 'contain' 
-                          }} 
-                        />
+                        {action.iconSvg ? (
+                          <action.iconSvg width={wp(50)} height={wp(50)} />
+                        ) : (
+                          <Image 
+                            source={action.icon} 
+                            style={{ 
+                              width: wp(50), 
+                              height: wp(50), 
+                              resizeMode: 'contain' 
+                            }} 
+                          />
+                        )}
                       </View>
                     ) : action.name === 'Resignation' ? (
                       <View style={{
@@ -686,14 +715,18 @@ export default function HomeScreen({ navigation }: Props) {
                         elevation: 3,
                         overflow: 'hidden',
                       }}>
-                        <Image 
-                          source={action.icon} 
-                          style={{ 
-                            width: wp(50), 
-                            height: wp(50),
-                            resizeMode: 'contain'
-                          }} 
-                        />
+                        {action.iconSvg ? (
+                          <action.iconSvg width={wp(50)} height={wp(50)} />
+                        ) : (
+                          <Image 
+                            source={action.icon} 
+                            style={{ 
+                              width: wp(50), 
+                              height: wp(50),
+                              resizeMode: 'contain'
+                            }} 
+                          />
+                        )}
                       </View>
                     ) : action.name === 'Certificate' ? (
                       <View style={{
@@ -710,14 +743,18 @@ export default function HomeScreen({ navigation }: Props) {
                         elevation: 3,
                         overflow: 'hidden',
                       }}>
-                        <Image 
-                          source={action.icon} 
-                          style={{ 
-                            width: wp(50), 
-                            height: wp(50), 
-                            resizeMode: 'contain' 
-                          }} 
-                        />
+                        {action.iconSvg ? (
+                          <action.iconSvg width={wp(50)} height={wp(50)} />
+                        ) : (
+                          <Image 
+                            source={action.icon} 
+                            style={{ 
+                              width: wp(50), 
+                              height: wp(50), 
+                              resizeMode: 'contain' 
+                            }} 
+                          />
+                        )}
                       </View>
                     ) : action.name === 'ID Card' ? (
                       <View style={{
@@ -734,14 +771,18 @@ export default function HomeScreen({ navigation }: Props) {
                         elevation: 3,
                         overflow: 'hidden',
                       }}>
-                        <Image 
-                          source={action.icon} 
-                          style={{ 
-                            width: wp(50), 
-                            height: wp(50), 
-                            resizeMode: 'contain' 
-                          }} 
-                        />
+                        {action.iconSvg ? (
+                          <action.iconSvg width={wp(50)} height={wp(50)} />
+                        ) : (
+                          <Image 
+                            source={action.icon} 
+                            style={{ 
+                              width: wp(50), 
+                              height: wp(50), 
+                              resizeMode: 'contain' 
+                            }} 
+                          />
+                        )}
                       </View>
                     ) : action.name === 'PF' ? (
                       <View style={{
@@ -758,14 +799,18 @@ export default function HomeScreen({ navigation }: Props) {
                         elevation: 3,
                         overflow: 'hidden',
                       }}>
-                        <Image 
-                          source={action.icon} 
-                          style={{ 
-                            width: wp(50), 
-                            height: wp(50), 
-                            resizeMode: 'contain' 
-                          }} 
-                        />
+                        {action.iconSvg ? (
+                          <action.iconSvg width={wp(50)} height={wp(50)} />
+                        ) : (
+                          <Image 
+                            source={action.icon} 
+                            style={{ 
+                              width: wp(50), 
+                              height: wp(50), 
+                              resizeMode: 'contain' 
+                            }} 
+                          />
+                        )}
                       </View>
                     ) : action.name === 'ESI' ? (
                       <View style={{
@@ -782,14 +827,18 @@ export default function HomeScreen({ navigation }: Props) {
                         elevation: 3,
                         overflow: 'hidden',
                       }}>
-                        <Image 
-                          source={action.icon} 
-                          style={{ 
-                            width: wp(50), 
-                            height: wp(50), 
-                            resizeMode: 'contain' 
-                          }} 
-                        />
+                        {action.iconSvg ? (
+                          <action.iconSvg width={wp(50)} height={wp(50)} />
+                        ) : (
+                          <Image 
+                            source={action.icon} 
+                            style={{ 
+                              width: wp(50), 
+                              height: wp(50), 
+                              resizeMode: 'contain' 
+                            }} 
+                          />
+                        )}
                       </View>
                     ) : action.name === 'Add Employee' ? (
                       <View style={{
@@ -806,14 +855,18 @@ export default function HomeScreen({ navigation }: Props) {
                         elevation: 3,
                         overflow: 'hidden',
                       }}>
-                        <Image 
-                          source={action.icon} 
-                          style={{ 
-                            width: wp(50), 
-                            height: wp(50), 
-                            resizeMode: 'contain' 
-                          }} 
-                        />
+                        {action.iconSvg ? (
+                          <action.iconSvg width={wp(50)} height={wp(50)} />
+                        ) : (
+                          <Image 
+                            source={action.icon} 
+                            style={{ 
+                              width: wp(50), 
+                              height: wp(50), 
+                              resizeMode: 'contain' 
+                            }} 
+                          />
+                        )}
                       </View>
                     ) : action.name === 'Admin' ? (
                       <View style={{
@@ -830,14 +883,18 @@ export default function HomeScreen({ navigation }: Props) {
                         elevation: 3,
                         overflow: 'hidden',
                       }}>
-                        <Image 
-                          source={action.icon} 
-                          style={{ 
-                            width: wp(50), 
-                            height: wp(50), 
-                            resizeMode: 'contain' 
-                          }} 
-                        />
+                        {action.iconSvg ? (
+                          <action.iconSvg width={wp(50)} height={wp(50)} />
+                        ) : (
+                          <Image 
+                            source={action.icon} 
+                            style={{ 
+                              width: wp(50), 
+                              height: wp(50), 
+                              resizeMode: 'contain' 
+                            }} 
+                          />
+                        )}
                       </View>
                     ) : (
                       <View style={{
@@ -848,14 +905,18 @@ export default function HomeScreen({ navigation }: Props) {
                         elevation: 3,
                         overflow: 'hidden',
                       }}>
-                        <Image 
-                          source={action.icon} 
-                          style={{ 
-                            width: wp(64), 
-                            height: wp(64), 
-                            resizeMode: 'contain' 
-                          }} 
-                        />
+                        {action.iconSvg ? (
+                          <action.iconSvg width={wp(50)} height={wp(50)} />
+                        ) : (
+                          <Image 
+                            source={action.icon} 
+                            style={{ 
+                              width: wp(50), 
+                              height: wp(50), 
+                              resizeMode: 'contain' 
+                            }} 
+                          />
+                        )}
                       </View>
                     )}
                   </View>

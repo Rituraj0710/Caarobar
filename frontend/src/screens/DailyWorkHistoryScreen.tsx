@@ -190,10 +190,21 @@ export default function DailyWorkHistoryScreen({ navigation, route }: Props) {
 
         {/* Daily Work History Table */}
         <View style={{ marginBottom: spacing(20) }}>
-          <View style={{ borderWidth: wp(1), borderColor: '#CCCCCC', backgroundColor: '#FFFFFF', borderRadius: hp(8) }}>
-            {/* Table Header */}
-            <View style={{ flexDirection: 'row', backgroundColor: '#F5F5F5', borderTopLeftRadius: hp(8), borderTopRightRadius: hp(8), borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC' }}>
-              <View style={{ flex: 2, paddingVertical: hp(10), paddingHorizontal: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', minHeight: hp(40) }}>
+          {/* Separated Table Header */}
+          <View style={{ 
+            borderWidth: wp(1), 
+            borderColor: '#CCCCCC', 
+            backgroundColor: '#F5F5F5', 
+            borderRadius: hp(8),
+            marginBottom: spacing(8),
+            overflow: 'hidden'
+          }}>
+            <View style={{ flexDirection: 'row' }}>
+              <View style={{ flex: 2, flexDirection: 'row', alignItems: 'center', paddingVertical: hp(10), paddingHorizontal: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', minHeight: hp(40) }}>
+                <Image 
+                  source={require('../../assets/calender_WorkHistory.png')} 
+                  style={{ width: wp(16), height: hp(16), marginRight: spacing(6), resizeMode: 'contain' }} 
+                />
                 <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>{year}</Text>
               </View>
               <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', minHeight: hp(40) }}>
@@ -212,53 +223,61 @@ export default function DailyWorkHistoryScreen({ navigation, route }: Props) {
                 <Text style={{ fontSize: fontSize(12), color: '#000000', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>KM</Text>
               </View>
             </View>
+          </View>
 
+          {/* Table Body - Separate Container */}
+          <View style={{ borderWidth: wp(1), borderColor: '#CCCCCC', backgroundColor: '#FFFFFF', borderRadius: hp(8), overflow: 'hidden' }}>
             {/* Table Rows */}
-            {dailyEntries.map((entry, index) => (
-              <TouchableOpacity 
-                key={index}
-                style={{ flexDirection: 'row', backgroundColor: '#FFFFFF' }}
-                activeOpacity={0.7}
-                onPress={() => {
-                  navigation.navigate('DailyWorkHistoryInDetail', {
-                    month: month,
-                    monthNumber: monthNumber,
-                    year: year
-                  });
-                }}
-              >
-                <View style={{ flex: 2, paddingVertical: hp(10), paddingHorizontal: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC', minHeight: hp(40), justifyContent: 'center' }}>
-                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
-                    {entry.date} <Text style={{ color: '#666666' }}>{entry.dayShort}</Text>
-                  </Text>
-                </View>
-                <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC', minHeight: hp(40) }}>
-                  <Text style={{ fontSize: fontSize(13), color: '#4CAF50', fontFamily: 'Poppins', fontWeight: '600', textTransform: 'none' }} allowFontScaling={false}>
-                    {entry.inTime}
-                  </Text>
-                </View>
-                <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC', minHeight: hp(40) }}>
-                  <Text style={{ fontSize: fontSize(13), color: '#E53935', fontFamily: 'Poppins', fontWeight: '600', textTransform: 'none' }} allowFontScaling={false}>
-                    {entry.outTime}
-                  </Text>
-                </View>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC', minHeight: hp(40) }}>
-                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
-                    {entry.totalHours}
-                  </Text>
-                </View>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC', minHeight: hp(40) }}>
-                  <Text style={{ fontSize: fontSize(13), color: '#E53935', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>
-                    {entry.overtime}
-                  </Text>
-                </View>
-                <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderBottomWidth: wp(1), borderBottomColor: '#CCCCCC', minHeight: hp(40) }}>
-                  <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
-                    {entry.kilometers}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            ))}
+            {dailyEntries.map((entry, index) => {
+              const isLastRow = index === dailyEntries.length - 1;
+              const rowBackgroundColor = index % 2 === 0 ? '#FFFFFF' : '#F8F9FA';
+              
+              return (
+                <TouchableOpacity 
+                  key={index}
+                  style={{ flexDirection: 'row', backgroundColor: rowBackgroundColor }}
+                  activeOpacity={0.7}
+                  onPress={() => {
+                    navigation.navigate('DailyWorkHistoryInDetail', {
+                      month: month,
+                      monthNumber: monthNumber,
+                      year: year
+                    });
+                  }}
+                >
+                  <View style={{ flex: 2, paddingVertical: hp(10), paddingHorizontal: spacing(12), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: isLastRow ? 0 : wp(1), borderBottomColor: '#CCCCCC', minHeight: hp(40), justifyContent: 'center' }}>
+                    <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                      {entry.date} <Text style={{ color: '#666666' }}>{entry.dayShort}</Text>
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: isLastRow ? 0 : wp(1), borderBottomColor: '#CCCCCC', minHeight: hp(40) }}>
+                    <Text style={{ fontSize: fontSize(13), color: '#4CAF50', fontFamily: 'Poppins', fontWeight: '600', textTransform: 'none' }} allowFontScaling={false}>
+                      {entry.inTime}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: isLastRow ? 0 : wp(1), borderBottomColor: '#CCCCCC', minHeight: hp(40) }}>
+                    <Text style={{ fontSize: fontSize(13), color: '#E53935', fontFamily: 'Poppins', fontWeight: '600', textTransform: 'none' }} allowFontScaling={false}>
+                      {entry.outTime}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: isLastRow ? 0 : wp(1), borderBottomColor: '#CCCCCC', minHeight: hp(40) }}>
+                    <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                      {entry.totalHours}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderRightWidth: wp(1), borderRightColor: '#CCCCCC', borderBottomWidth: isLastRow ? 0 : wp(1), borderBottomColor: '#CCCCCC', minHeight: hp(40) }}>
+                    <Text style={{ fontSize: fontSize(13), color: '#E53935', fontFamily: 'Poppins-SemiBold', fontWeight: '600' }} allowFontScaling={false}>
+                      {entry.overtime}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1.2, alignItems: 'center', justifyContent: 'center', paddingVertical: hp(10), borderBottomWidth: isLastRow ? 0 : wp(1), borderBottomColor: '#CCCCCC', minHeight: hp(40) }}>
+                    <Text style={{ fontSize: fontSize(13), color: '#000000', fontFamily: 'Poppins' }} allowFontScaling={false}>
+                      {entry.kilometers}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
           </View>
         </View>
 

@@ -9,6 +9,8 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import BackButton from '@/components/BackButton';
 import { wp, hp, fontSize, spacing, SCREEN_WIDTH, useSafeArea } from '../utils/responsive';
+import Logos from '../../assets/icons/Logo- Role selection.svg';
+import GoogleIcon from '../../assets/icons/googleicon.svg';
 
 type RootStackParamList = {
   RoleSelection: undefined;
@@ -71,11 +73,12 @@ export default function SignInScreen({ navigation, route }: Props) {
       <View style={{ flex: 1, alignItems: 'center', width: '100%' }}>
         {/* Logo + Tagline block */}
         <View style={{ alignItems: 'center', marginTop: hp(20), marginBottom: spacing(18), width: Math.min(wp(400), SCREEN_WIDTH - spacing(32)), alignSelf: 'center' }}>
-          <Image
+          <Logos width={wp(130.81)} height={hp(62)} />
+          {/* <Image
             source={require('../../assets/caarobar (2) 1.png')}
             style={{ width: wp(130.81), height: hp(62), resizeMode: 'contain' }}
-          />
-          <Text style={{ width: wp(285), marginTop: spacing(8), fontFamily: 'Inter', fontWeight: '300', fontSize: fontSize(13), color: '#12110D', lineHeight: 19.5, textAlign: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }} allowFontScaling={false}>
+          /> */}
+          <Text style={{ width: wp(285), marginTop: spacing(8), fontFamily: 'Inter', fontWeight: '300', fontSize: fontSize(13), color: '#4A5568', lineHeight: 19.5, textAlign: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }} allowFontScaling={false}>
             Get Control of your staff management with us.
           </Text>
         </View>
@@ -115,8 +118,11 @@ export default function SignInScreen({ navigation, route }: Props) {
               </View>
               <View style={{ flex: 1, backgroundColor: '#138808' }} />
             </View>
-            <Text style={{ fontFamily: 'Inter', fontWeight: '400', fontSize: fontSize(14), color: '#999999', marginRight: spacing(6) }} allowFontScaling={false}>INDIA</Text>
-            <Text style={{ fontSize: fontSize(10), color: '#666666' }} allowFontScaling={false}>▼</Text>
+            <Text style={{ fontFamily: 'Inter', fontWeight: '400', fontSize: fontSize(14), color: '#000000', marginRight: spacing(6) }} allowFontScaling={false}>INDIA</Text>
+            <Image 
+              source={require('../../assets/Sign-in dropdown.png')} 
+              style={{ width: wp(12), height: hp(12), resizeMode: 'contain' }} 
+            />
           </TouchableOpacity>
           
           {/* Phone Number Input - Right */}
@@ -134,7 +140,7 @@ export default function SignInScreen({ navigation, route }: Props) {
             <Text style={{ fontSize: fontSize(14), color: '#000000', marginRight: spacing(4), fontWeight: '700' }} allowFontScaling={false}>+91</Text>
           <TextInput
               placeholder="Enter Phone Number"
-              placeholderTextColor="#999999"
+              placeholderTextColor="#000000"
             value={identifier}
             onChangeText={setIdentifier}
             keyboardType="phone-pad"
@@ -169,10 +175,10 @@ export default function SignInScreen({ navigation, route }: Props) {
           </Text>
         </TouchableOpacity>
         {/* Separator */}
-        <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), alignSelf: 'center', marginBottom: spacing(20), flexDirection: 'row', alignItems: 'center' }}>
-          <View style={{ flex: 1, height: 1, backgroundColor: '#828282' }} />
+        <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), alignSelf: 'center', marginBottom: spacing(20), flexDirection: 'row', alignItems: 'center', paddingHorizontal: hp(25) }}>
+          <View style={{ flex: 1, height: 1, backgroundColor: '#000080' }} />
           <Text style={{ marginHorizontal: spacing(10), color: '#828282', fontSize: fontSize(12), fontFamily: 'Poppins' }} allowFontScaling={false}>or</Text>
-          <View style={{ flex: 1, height: 1, backgroundColor: '#828282' }} />
+          <View style={{ flex: 1, height: 1, backgroundColor: '#000080' }} />
         </View>
         {/* Google and Email Icons - Circular */}
         <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), alignSelf: 'center', marginBottom: spacing(40), flexDirection: 'row', justifyContent: 'center' }}>
@@ -190,10 +196,7 @@ export default function SignInScreen({ navigation, route }: Props) {
               marginRight: spacing(20),
             }}
           >
-            <Image 
-              source={require('../../assets/Google.png')} 
-              style={{ width: wp(28), height: hp(28), resizeMode: 'contain' }} 
-            />
+            <GoogleIcon width={wp(28)} height={hp(28)} />
           </TouchableOpacity>
           
           {/* Email Icon */}
@@ -220,20 +223,20 @@ export default function SignInScreen({ navigation, route }: Props) {
         
         {/* Footer - Terms and Privacy */}
         <View style={{ width: Math.min(wp(392), SCREEN_WIDTH - spacing(32)), alignSelf: 'center', marginBottom: spacing(20) + insets.bottom, alignItems: 'center', paddingHorizontal: spacing(16) }}>
-          <Text style={{ fontSize: fontSize(12), color: '#999999', fontFamily: 'Poppins', marginBottom: spacing(4), textAlign: 'center', lineHeight: fontSize(18) }} allowFontScaling={false}>
+          <Text style={{ fontSize: fontSize(12), color: '#4A5568', fontFamily: 'Poppins', marginBottom: spacing(4), textAlign: 'center', lineHeight: fontSize(18) }} allowFontScaling={false}>
             By continuing, you agree to our
           </Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#4A5568', paddingBottom: 2 }}>
             <TouchableOpacity>
-              <Text style={{ fontSize: fontSize(12), color: '#666666', fontFamily: 'Poppins', textDecorationLine: 'underline', lineHeight: fontSize(18) }} allowFontScaling={false}>Terms of Service</Text>
+              <Text style={{ fontSize: fontSize(12), color: '#4A5568', fontFamily: 'Poppins', lineHeight: fontSize(18) }} allowFontScaling={false}>Terms of Service</Text>
             </TouchableOpacity>
             <Text style={{ fontSize: fontSize(12), color: '#999999', marginHorizontal: spacing(3) }} allowFontScaling={false}> </Text>
             <TouchableOpacity>
-              <Text style={{ fontSize: fontSize(12), color: '#666666', fontFamily: 'Poppins', textDecorationLine: 'underline', lineHeight: fontSize(18) }} allowFontScaling={false}>Privacy Policy</Text>
+              <Text style={{ fontSize: fontSize(12), color: '#4A5568', fontFamily: 'Poppins', lineHeight: fontSize(18) }} allowFontScaling={false}>Privacy Policy</Text>
             </TouchableOpacity>
             <Text style={{ fontSize: fontSize(12), color: '#999999', marginHorizontal: spacing(3) }} allowFontScaling={false}> </Text>
             <TouchableOpacity>
-              <Text style={{ fontSize: fontSize(12), color: '#666666', fontFamily: 'Poppins', textDecorationLine: 'underline', lineHeight: fontSize(18) }} allowFontScaling={false}>Content Policy</Text>
+              <Text style={{ fontSize: fontSize(12), color: '#4A5568', fontFamily: 'Poppins', lineHeight: fontSize(18) }} allowFontScaling={false}>Content Policy</Text>
             </TouchableOpacity>
           </View>
         </View>

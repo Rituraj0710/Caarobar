@@ -5,6 +5,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialIcons } from '@expo/vector-icons';
 import { wp, hp, fontSize, spacing, SCREEN_WIDTH, useSafeArea } from '../utils/responsive';
+import Logo from '../../assets/icons/Logo- Role selection.svg';
 
 type RootStackParamList = {
   RoleSelection: undefined;
@@ -35,12 +36,13 @@ export default function RoleSelectionScreen({ navigation }: Props) {
       <View style={styles.centeredContent}>
         {/* Logo Section */}
         <View style={styles.logoContainer}>
-          <Image
+          <Logo width={wp(280)} height={hp(133)} />
+          {/* <Image
             source={require('../../assets/caarobar (2) 1.png')}
             style={styles.logo}
             resizeMode="contain"
             fadeDuration={0}
-          />
+          /> */}
         </View>
 
         {/* Admin Button */}
@@ -207,7 +209,7 @@ const styles = StyleSheet.create({
   },
   registerContainer: {
     position: 'absolute',
-    bottom: hp(10),
+    bottom: hp(15),
     alignSelf: 'center',
     flexDirection: 'row',
     alignItems: 'center',
